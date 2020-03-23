@@ -1,0 +1,24 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+WebExamAppFrontend/exam-frontend/node_modules
+WebExamAppFrontend/exam-frontend/.pnp
+.pnp.js
+
+# testing
+WebExamAppFrontend/exam-frontend/coverage
+
+# production
+WebExamAppFrontend/exam-frontend/build
+WebExamAppBackend/.vs
+WebExamAppBackend/packages
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
