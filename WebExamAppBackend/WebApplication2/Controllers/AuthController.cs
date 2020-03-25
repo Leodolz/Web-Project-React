@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
@@ -12,10 +13,13 @@ namespace WebApplication2.Controllers
     public class AuthController : ApiController
     {
         public static bool WebAuth = false;
+        public static User currentUser = null;
         // GET: api/Auth/5
-        public bool Get()
+        public IHttpActionResult Get()
         {
-            return WebAuth;
+            if (WebAuth)
+                return Ok(currentUser);
+            else return NotFound();
         }
 
         // POST: api/Auth

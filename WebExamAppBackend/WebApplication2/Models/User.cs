@@ -12,5 +12,6 @@ namespace WebApplication2.Models
         public string email { get; set; }
         public string phone { get; set; }
         public int role { get; set; }
+        public string shaName { get; set; }
     }
 }

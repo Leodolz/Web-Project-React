@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import userImg from '../images/userImage.png';
 
 class LoginForm extends Component {
-    state = { contacts: [], username: '', display:null }
+    state = { contact: {}, username: '', display:null }
     render() { 
         return (
             <React.Fragment>
@@ -36,15 +36,36 @@ class LoginForm extends Component {
     {
         event.preventDefault();
         let name = event.target.uname.value;
-        fetch('http://localhost:51061/api/Users/'+name)
-        .then(result=>result.json())
-        .then((data)=>{
-            this.setState({contacts: data})
-            console.log(this.state.contacts.id);
-            window.location.assign('/main');
-        })
-        .catch(this.handleCatch);
+        let encrypted = '';
+        let context = this;
+        Promise.resolve(this.sha256(name)).then(function(value)
+        {
+            encrypted = value;
+            fetch('http://localhost:51061/api/Users/'+encrypted)
+            .then(result=>result.json())
+            .then((data)=>{
+                context.setState({contacts: data});
+                console.log(context.state.contacts.id);
+                window.location.assign('/main');
+            })
+           .catch((e)=>{
+            alert("Incorrect username");
+            console.log(e);
+            document.getElementById("StudentForm").reset();
+            });
+        });
+        
     }
+
+    async sha256(message) {
+        const msgBuffer = new TextEncoder('utf-8').encode(message);                    
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));                
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        console.log(hashHex);
+        return hashHex;
+    }
+
     handleCatch = ()=>
     {
         alert("Incorrect username");
