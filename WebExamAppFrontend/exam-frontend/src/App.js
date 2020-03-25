@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import LoginForm from './components/loginForm';
-import Menu from './components/responsiveBar';
+import Menu from './components/MainPage';
 
 class App extends Component{
   render()
