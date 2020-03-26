@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './styles/loginFormStyle.css'
 import './styles/navBarStyle.css'
+import './styles/accordionStyle.css'
+import './styles/tableStyle.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

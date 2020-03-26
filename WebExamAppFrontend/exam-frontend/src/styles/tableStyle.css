@@ -1,0 +1,19 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  .tDetails{
+      color: blue;
+  }
+  .tDetails:hover{
+    cursor: pointer;
+  }
+  
+  tr:nth-child(even){background-color: #c2e4e9}
