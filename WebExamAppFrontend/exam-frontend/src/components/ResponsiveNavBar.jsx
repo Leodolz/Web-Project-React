@@ -9,7 +9,7 @@ class ResponsiveNavBar extends Component {
             <div id = "UserInfo">
             <a >User: {this.props.username}</a>
             <a>Role: {this.props.role}</a>
-            <a  className="active" href="/passchange">Settings</a>
+            <a  className="active" href="/settings">Settings</a>
             <a href="/" className="active" onClick={this.props.onLogout}>Logout</a>
             </div>
         </div> 

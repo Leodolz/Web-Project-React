@@ -7,9 +7,9 @@ import ResponsiveNavBar from './ResponsiveNavBar';
         user:
         {
             id: 0,
-            name: "Visitor",
+            name: "Visitor2",
             password: 'testPassword',
-            role: "Student",
+            role: "Admin",
             area: "Math"
         }};
   constructor(props)
@@ -25,6 +25,7 @@ import ResponsiveNavBar from './ResponsiveNavBar';
         })
         .catch(console.log);*/
     }
+
 
     logOff = () =>
     {

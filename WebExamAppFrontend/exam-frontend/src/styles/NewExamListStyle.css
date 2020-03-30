@@ -1,0 +1,191 @@
+.myUL {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Style the list items */
+.myUL li  {
+    cursor: pointer;
+    position: relative;
+    padding: 10px 8px 10px 10px;
+    list-style-type: none;
+    background: rgb(198, 223, 235);
+    width: 100%;
+    font-size: 18px;
+    margin: 0;
+    transition: 0.2s;
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+.myUL li *{
+  display: inline;
+}
+
+  
+  /* Set all odd list items to a different color (zebra-stripes) */
+.myUL li:nth-child(odd) {
+    background: rgb(210, 236, 248);
+  }
+  
+  /* Darker background-color on hover */
+.myUL li:hover {
+    background: rgb(160, 180, 189);
+  }
+
+#ExamEditor{
+  padding: 20px 0px 20px 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background: rgb(171, 211, 228);
+}
+  
+
+  
+  /* Style the close button */
+.close {
+    float: right;
+    padding: 10px 12px 10px 12px;
+    margin-top: 0%;
+    background-color: rgb(165, 40, 65);
+    width: 5%;
+  }
+  
+  .close:hover {
+    background-color: rgb(122, 44, 60);
+    color: white;
+  }
+
+  .edit {
+    padding: 10px 0px 10px 0px;
+    margin-top: 0%;
+    margin-left: 2px;
+    background-color: rgb(49, 127, 141);
+    width: 6%;
+    float: right;
+  }
+  
+  .edit:hover {
+    background-color: rgb(30, 90, 100);
+    color: white;
+  }
+  
+  /* Style the header */
+  .Examheader {
+    background-color: #2f829b;
+    padding: 30px 10px;
+    color: white;
+    text-align: left;
+    margin: 0;
+  }
+  
+  /* Clear floats after the header */
+  .Examheader:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Style the input */
+  .myInput {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    font-family: sans-serif;
+    padding: 5px;
+    width: 75%;
+    float: left;
+    font-size: 16px;
+  }
+  textarea{
+    resize: none;
+  }
+  #admExmForm{
+    width: 98%;
+  }
+  
+  /* Style the "Add" button */
+  .addBtn {
+    padding: 20px 0px 20px 0px;
+    width: 20%;
+    background: #d9d9d9;
+    color: #555;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+    margin-top: -40px;
+    float: right;
+  }
+  
+  .addBtn:hover {
+    background-color: #bbb;
+  }
+  #breakAnswer{
+    height: 4rem;
+  }
+  #inputsDiv {
+    width: inherit;
+  }
+  .myUL textarea {
+    width: 85%;
+    cursor: pointer;
+    padding: 0px;
+    list-style-type: none;
+    background: rgb(210, 237, 250);
+    font-size: 18px;
+    margin-right: 0px;
+    float: left;
+    text-align: left;
+    transition: 0.2s;
+    margin: 0px;
+    
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Set all odd list items to a different color (zebra-stripes) */
+.myUL textarea:nth-child(odd) {
+    background: rgb(214, 230, 238);
+  }
+  
+  /* Darker background-color on hover */
+.myUL textarea:hover {
+    background: rgb(160, 180, 189);
+  }
+  /* When clicked on, add a background color and strike out text */
+.inListForm{
+  margin-right: 0px;
+  margin: 0px;
+  text-align: left;
+  border: none;
+}
+.etag{
+  margin-right: 5px;
+  font-weight: bold;
+}
+.overlayed{
+  width: 100%;
+  height: 100%;            
+  position: absolute;
+  background: gray;
+  top: -20px;
+  left: 0;
+  opacity: 0.97;  
+}
+.elementEditForm{
+  position: relative;
+  top: 20%;
+  border: none;
+  background-color: white;
+}
+.putLeft{
+  font-weight: bold;
+  margin-right: 10px;
+  float: left;
+}

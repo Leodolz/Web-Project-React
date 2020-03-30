@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ResponsiveTable from './ExamTable'
 
 class Accordion extends Component {
     handleAccordion = (event) =>
@@ -18,59 +17,104 @@ class Accordion extends Component {
             contentPane.style.maxHeight = contentPane.scrollHeight+"px";
         }
         let parentPane = event.target.parentElement;
-        parentPane.style.maxHeight =  (contentPane.scrollHeight+parentPane.scrollHeight+5)+"px";
-       
+        while(parentPane.parentElement)
+        {
+            parentPane.style.maxHeight = (contentPane.scrollHeight+parentPane.scrollHeight)+"px";
+            contentPane = parentPane;
+            parentPane = parentPane.parentElement;
+        }
+        
     }
-    GetAdminAccordion = ()=>
+    GetGenericAccordion = (title, body) =>
     {
-        return (
-            <React.Fragment>
-                <button onClick={this.handleAccordion} className="accordion">Exams</button>
+        return(
+            <React.Fragment key={title}>
+                <button onClick={this.handleAccordion} className="accordion">{title}</button>
                 <div className = "panelAcc">
-                    <p>This section displays every exam <button>Edit</button></p>
-                    <button>Add new Exam</button>
-                </div>
-                <button onClick={this.handleAccordion} className="accordion">Students</button>
-                <div className = "panelAcc">
-                    <p>This section displays every student <button>Edit</button> </p>
-                    <button>Add new Student</button>
-                </div>
-                <button onClick={this.handleAccordion} className="accordion">Areas</button>
-                <div className = "panelAcc">
-                    <p>This section displays every area <button>Edit</button></p>
-                    <button onClick={this.handleAccordion} className="accordion">SubAreas</button>
-                    <div className = "panelAcc">
-                       <p>EverySubArea <button>Edit</button></p>
-                    </div>
-                    <button>Add Area</button>
+                 {body}
                 </div>
             </React.Fragment>
-           );
+        );
     }
-    GetStudentAccordion = ()=>
+    renderAccordions(entries)
     {
+        let accordions = [];
+        for(let i=0;i<entries.length;i++)
+        {
+            let accordion;
+            if(entries[i].body.title)  
+            { 
+                let children = entries[i].body;
+                accordion= this.renderNested(entries[i],children);
+            }
+            else if(entries[i].body.multi)
+            {
+                let nestedEntries = entries[i].body.multi;
+                accordion = this.renderNested(entries[i],nestedEntries)
+            }
+            else
+            {
+                accordion= this.GetGenericAccordion(entries[i].title,entries[i].body);
+            } 
+            accordions.push(accordion);
+        }
+        return accordions;
+    }
+    renderNested = (entry, children) =>
+    {
+        let accordionchildren;
+        if(children instanceof Array)
+            accordionchildren = this.renderAccordions(children);
+        else accordionchildren = this.renderAccordions([children]);
         return (
-            <React.Fragment>
-                <button onClick={this.handleAccordion} className="accordion">Past Exams</button>
-                <div className = "panelAcc">
-                 <ResponsiveTable/> 
-                </div>
-                <button onClick={this.handleAccordion} className="accordion">Comming Exams</button>
-                <div className = "panelAcc">
-                    <ResponsiveTable/>
-                </div>
-            </React.Fragment>
-           );
+            this.GetGenericAccordion(
+                entry.title,
+                (
+                    <React.Fragment>
+                        {entry.body.before}
+                        {accordionchildren}
+                        {entry.body.after}
+                    </React.Fragment>
+                ))
+        )
+    }
+    renderArray = (parent, children) =>
+    {
+        let childrenArray = [];
+        for(let i=0;i<children.length;i++)
+        {
+            let accordionchildren = this.renderAccordions([children[i]]);
+            let arrayElement =  ( this.GetGenericAccordion
+                (
+                    <React.Fragment>
+                        {accordionchildren}
+                    </React.Fragment>
+                )
+            );
+            childrenArray.push(arrayElement);
+            console.log(arrayElement);
+        }
+        return (
+            this.GetGenericAccordion(
+                parent.title,
+                (
+                    <React.Fragment>
+                        {parent.body.before}
+                        {childrenArray}
+                        {parent.body.after}
+                    </React.Fragment>
+                )
+            )
+        );
+
     }
     render() { 
-        let shownAccordion = null;
-        if(this.props.admin)
-            shownAccordion = this.GetAdminAccordion();
-        else shownAccordion = this.GetStudentAccordion();
+        
+        let accordionsFromTop = this.renderAccordions(this.props.accordions);
         return (
             <React.Fragment>
                 <br/>
-            {shownAccordion}
+            {accordionsFromTop}
             </React.Fragment>
         );
     }

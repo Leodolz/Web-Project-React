@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-class ResponsiveTable extends Component {
+class AdminExamTable extends Component {
     state = {  }
     clickDetailsHandler = (event) =>
     {
-        console.log(event.target.id);
+        console.log(event.target.title);
     }
     renderTable(entries)
     {
@@ -14,30 +14,17 @@ class ResponsiveTable extends Component {
             let children = [];
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
             children.push(<td key={"date"+i}>{entries[i].date}</td>)
-            children.push(<td key={"score"+i}>{entries[i].score}</td>)
-            children.push(<td key={"details"+i}>
-                <p id={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}> View Details</p>
+            children.push(<td key={"area"+i}>{entries[i].area}</td>)
+            children.push(<td key={"subarea"+i}>{entries[i].subarea}</td>)
+            children.push(<td key={"Edit"+i}>
+                <p title={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }
         return table;
     }
     render() { 
-        let tableBody = this.renderTable
-        (
-            [
-                {
-                    title: "Algebra",
-                    date: "3/26/2020",
-                    score: "50/100"
-                },
-                {
-                    title: "Geometry",
-                    date: "3/27/2020",
-                    score: "undefined"
-                }
-            ]
-        );
+        let tableBody = this.renderTable(this.props.table);
         return ( 
             <div className="overflow-x:auto">
                 <table>
@@ -45,8 +32,9 @@ class ResponsiveTable extends Component {
                     <tr>
                         <th>Title</th>
                         <th>Date</th>
-                        <th>Score</th>
-                        <th>Details</th>
+                        <th>Area</th>
+                        <th>Sub-Area</th>
+                        <th>Edit Exam</th>
                     </tr>
                     {tableBody}
                     </tbody>
@@ -56,4 +44,4 @@ class ResponsiveTable extends Component {
     }
 }
  
-export default ResponsiveTable;
+export default AdminExamTable;
