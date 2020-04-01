@@ -5,6 +5,7 @@ class AdminStudentTable extends Component {
     clickDetailsHandler = (event) =>
     {
         console.log(event.target.title);
+        window.location.assign('/admStudent');
     }
     renderTable(entries)
     {

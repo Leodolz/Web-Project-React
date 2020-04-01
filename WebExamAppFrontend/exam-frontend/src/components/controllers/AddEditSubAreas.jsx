@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
-import SubAreaEditor from '../SubAreaEditor';
+import SubAreaEditor from '../adminUIs/SubAreaEditor';
 
 class AddEditSubAreas extends Component {
     state={

@@ -1,16 +1,43 @@
 import React, { Component } from 'react';
 import MainPage from './controllers/UserController';
 import Accordion from './Accordion';
-import ResponsiveTable from './tables/StudentExamTable'
+import StudentTable from './tables/StudentExamTable'
 import AdminExamTable from './tables/AdminExamTable'
 import AdminStudentTable from './tables/AdminStudentTable'
-import AreasTable from './tables/AreasTable'
+import AreasTable from './tables/SubAreasTable'
 
 class Home extends Component {
-    state={user:null}
+    state=
+    {
+        user:null,
+        overlayed : 
+        {
+            overlay: false,
+            body : null,
+        },
+    }
+    cancelEdit = (event) =>
+    {
+        this.setState({overlayed: {
+            overlay: false,
+            body:null
+        }})
+    }
+    GetOverlayForm = () =>
+    {
+        if(this.state.overlayed.overlay)
+            return (
+                <div className="overlayedHome">
+                    {this.state.overlayed.body}
+                <button type="button" onClick= {this.cancelEdit}>OK</button>
+                </div>
+            );
+        else return null;
+    }
     render() {
         let body = null;
         let role = '';
+        let overlay = this.GetOverlayForm();
         if(this.state.user)
         {
             console.log(this.state.user);
@@ -21,9 +48,11 @@ class Home extends Component {
                 <React.Fragment>
                 <h1>Welcome {this.state.user.name}</h1>
                 <Accordion accordions= {accordions}/>
+                {overlay}
                 </React.Fragment>
             );
         }
+        
         return (
             <React.Fragment>
             <MainPage 
@@ -151,18 +180,64 @@ class Home extends Component {
             {
                 title: "Past Exams",
                 body: (
-                    <ResponsiveTable table={this.GetStudentExamsTable()} /> 
+                    <StudentTable table={this.GetStudentExamsTable()} /> 
                 )
             },
             {
                 title: "Comming Exams",
                 body: (
-                    <ResponsiveTable table={this.GetStudentExamsTable()}/>
+                    <StudentTable table={this.GetStudentExamsTable()}/>
                 )
             }
         ];
     }
+    AddSubArea = () =>
+    {
+        //Fetch for null Area
+        console.log("Add new Area");
+        window.location.assign("/admSubAreas");
+    }
 
+    GoEditArea = (event) =>
+    {
+        let areaName = event.target.parentElement.title;
+        console.log(areaName);
+        //Fetch Area
+        window.location.assign("/admAreas");
+    }
+
+    RenderStudentList = (studentArray) =>
+    {
+        let renderedList = [];
+        for(let i=0;i<studentArray.length;i++)
+        {
+            let student = studentArray[i];
+            let studentItem = <li key={"student"+i} id={"Student"+i} title={student}><span className="etag">{(i+1)+". "}</span> {student}</li>;
+            renderedList.push(studentItem);
+        }
+        return renderedList;
+    }
+
+    showStudentsArea = (event) =>
+    {
+        //Fetch Students for area
+        //Delete the line below:
+        let students = ["Leandro Hurtado","Other Student","More Students"];
+        let name = event.target.parentElement.title;
+        let renderedStudents = (
+            <React.Fragment key={"Student"}>
+            <h1 className="overlayHeader">Students of: {name}</h1>
+            <ul id="HomeStudentsUL" className="myUL">
+                {this.RenderStudentList(students)}
+            </ul>
+            </React.Fragment> 
+        );
+        let overlayed = {
+            overlay: true,
+            body: renderedStudents
+        }
+        this.setState({overlayed:overlayed});
+    }
     GetAdminBody = () =>
     {
         let areasBody = [];
@@ -174,9 +249,9 @@ class Home extends Component {
                 title: areasTable[i].name,
                 body: (
                     <React.Fragment>
-                    <p>Created at {areasTable[i].created} <button>View Students</button><button className="neighboorOptions">Edit Area</button></p>
+                    <p title={areasTable[i].name}>Created at {areasTable[i].created} <button className="neighboorOptions" onClick={this.showStudentsArea}>View Students</button><button onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button></p>
                     <AreasTable table = {areasTable[i].subareas}/>
-                    <button>Add Sub-Area</button>
+                    <button onClick={this.AddSubArea}>Add Sub-Area</button>
                     </React.Fragment>
                 )
             }

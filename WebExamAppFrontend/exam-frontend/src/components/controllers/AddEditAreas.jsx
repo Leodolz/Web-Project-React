@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
-import AreaEditor from '../AreaEditor';
+import AreaEditor from '../adminUIs/AreaEditor';
 class AddEditAreas extends Component {
     state={
         user:null,

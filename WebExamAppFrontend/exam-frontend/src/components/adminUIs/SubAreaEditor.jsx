@@ -182,12 +182,12 @@ class SubAreaEditor extends Component {
         let checkBoxInputs = this.GetAreasCheckBoxes(currentAreas,generalAreas);
         return (
             <div className="overlayed">
-            <form className = "elementEditForm" onSubmit={this.editAreas} >
-                <h3>{this.state.overlayed.extras.placeholder+": "}</h3>
-                <hr/>
-                {checkBoxInputs}
-                <button type="button" onClick= {this.cancelEdit}>Finish</button>
-            </form>
+                <form className = "elementEditForm" onSubmit={this.editAreas} >
+                    <h3>{this.state.overlayed.extras.placeholder+": "}</h3>
+                    <hr/>
+                    {checkBoxInputs}
+                    <button type="button" onClick= {this.cancelEdit}>Finish</button>
+                </form>
             </div>
         );
     }

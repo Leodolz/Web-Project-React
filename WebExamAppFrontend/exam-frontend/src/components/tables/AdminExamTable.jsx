@@ -4,7 +4,9 @@ class AdminExamTable extends Component {
     state = {  }
     clickDetailsHandler = (event) =>
     {
+        //Fetch data by name
         console.log(event.target.title);
+        window.location.assign('/admExam');
     }
     renderTable(entries)
     {

@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 
-class ResponsiveTable extends Component {
+class StudentTable extends Component {
     state = {  }
     clickDetailsHandler = (event) =>
     {
-        console.log(event.target.title);
+        this.GetExamByName(event.target.title);
+    }
+    GetExamByName = (name) =>
+    {
+        //FETCH 
+        console.log(name);
     }
     renderTable(entries)
     {
@@ -42,4 +47,4 @@ class ResponsiveTable extends Component {
     }
 }
  
-export default ResponsiveTable;
+export default StudentTable;

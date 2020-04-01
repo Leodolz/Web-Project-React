@@ -4,6 +4,8 @@ class AreasTable extends Component {
     state = {  }
     clickDetailsHandler = (event) =>
     {
+        //Fetch by name
+        window.location.assign("/admSubAreas")
         console.log(event.target.title);
     }
     renderTable(entries)

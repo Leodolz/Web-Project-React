@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
-import StudentEditor from '../StudentEditor'
+import StudentEditor from '../adminUIs/StudentEditor'
 
 class AddEditStudents extends Component {
     state={

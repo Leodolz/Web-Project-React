@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NewExamList from '../ExamEditor';
+import NewExamList from '../adminUIs/ExamEditor';
 import MainPage from './UserController';
 
 class ExamEdit extends Component {

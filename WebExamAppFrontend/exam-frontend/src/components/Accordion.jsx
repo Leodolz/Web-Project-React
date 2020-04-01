@@ -22,7 +22,7 @@ class Accordion extends Component {
             parentPane.style.maxHeight = (contentPane.scrollHeight+parentPane.scrollHeight)+"px";
             contentPane = parentPane;
             parentPane = parentPane.parentElement;
-        }
+        }  
         
     }
     GetGenericAccordion = (title, body) =>

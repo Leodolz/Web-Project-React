@@ -7,7 +7,8 @@ class AreaEditor extends Component {
                 name: "Math",
                 subareas: ["Algebra","Geometry"],
             },
-        overlayed : {
+        overlayed : 
+        {
             overlay: false,
             extras : null,
             formType: "Text",
