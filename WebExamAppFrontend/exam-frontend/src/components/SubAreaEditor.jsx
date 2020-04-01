@@ -67,7 +67,7 @@ class SubAreaEditor extends Component {
         let studentAttributes = (
         <React.Fragment key={"Student"}>
             <li id="Sname" title={subArea.name}><span className="etag">Name:</span> {subArea.name}{editButton}</li> 
-            <h3>Sub-Areas: </h3>
+            <h3>Students: </h3>
             <ul className="myUL">
                 {this.renderStudents()}
                 <button onClick={this.handleAddStudent}>Manage Existing</button>
