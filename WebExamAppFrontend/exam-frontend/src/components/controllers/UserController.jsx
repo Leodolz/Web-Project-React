@@ -9,7 +9,7 @@ import ResponsiveNavBar from '../ResponsiveNavBar';
             id: 0,
             name: "Visitor2",
             password: 'testPassword',
-            role: "Admin",
+            role: "Student",
             area: "Math"
         }};
   constructor(props)

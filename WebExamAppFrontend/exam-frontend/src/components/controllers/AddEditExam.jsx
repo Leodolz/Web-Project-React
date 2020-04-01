@@ -7,8 +7,11 @@ class ExamEdit extends Component {
         user:null,
         exam: {
             title: '',
-            questions: [],
-            answers: [],
+            listElements : [
+                {}
+            ],
+            date: null,
+            subarea: null
         }
     }
 
