@@ -8,7 +8,8 @@ class NewExamList extends Component {
             overlay: false,
             extras : null
         },
-        date: null
+        date: null,
+        subarea: null,
       }
     constructor(props)
     {
@@ -55,10 +56,14 @@ class NewExamList extends Component {
             extras:null
         }})
     }
-    render() {  
-        let overlay = null;
+    GetOverlayedForm = () =>
+    {
         if(this.state.overlayed.overlay)
-            overlay = (
+        {
+            if(this.state.overlayed.extras.placeholder == "Sub-Area")
+                return this.GetSubAreasOverlayForm();
+            else
+            return (
                 <div className="overlayed">
                 <form className = "elementEditForm" onSubmit={this.editAction} >
                     <span className="putLeft">{this.state.overlayed.extras.placeholder+": "}</span>
@@ -68,9 +73,16 @@ class NewExamList extends Component {
                 </form>
                 </div>
             );
+        }
+        else return null;
+    }
+    render() {  
+        let overlay = this.GetOverlayedForm();
+       
         return (
             <React.Fragment>
-                <h2 title={this.state.date}>Exam Date: {this.state.date} <button  onClick= {this.handleEdit}>Edit</button></h2>
+                <h3 title={this.state.date}>Exam Date: {this.state.date} <button  onClick= {this.handleEdit}>Edit</button></h3>
+                <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
                 <form id="admExmForm" onSubmit={this.newElement} className="Examheader">
                     <div id="inputsDiv" >
                     <textarea rows="2" name="question" type="text" className="myInput" placeholder="Title..." required/>
@@ -127,6 +139,14 @@ class NewExamList extends Component {
                 question: false
             }
         }
+        else if(element.className == "SubAreaEdit")
+        {
+            extras = 
+            {
+                placeholder: "Sub-Area",
+                value: element.title
+            }
+        }
         else extras = {
             placeholder: "Date",
             value: element.title
@@ -155,6 +175,39 @@ class NewExamList extends Component {
             extras:null}
         });
     }
+    
+    PopulateSubAreaOptions = () =>
+    {
+        let areasBody = [];
+        //I will change this
+        areasBody.push(<option key="1" value="Calculus I">Calculus I</option>);
+        areasBody.push(<option key="2" value="Geometry">Geometry</option>);
+        areasBody.push(<option key="3" value="World History">World History</option>);
+        return areasBody;
+    }
+    handleSelect = (event) =>
+    {
+        event.preventDefault();
+        this.setState({subarea:event.target.value});
+    }
+    GetSubAreasOverlayForm = () =>
+    {
+        let areasBox = this.PopulateSubAreaOptions();
+        return (
+            <div className="overlayed">
+            <form className = "elementEditForm" >
+                <span className="etag">{this.state.overlayed.extras.placeholder+": "}</span>
+                <br/>
+                <select name="newValue" defaultValue={this.state.subarea} onChange={this.handleSelect} className="SelectOption">
+                    {areasBox}
+                </select>
+                <br/>
+                <button type="button" onClick= {this.cancelEdit}>OK</button>
+            </form>
+            </div>
+        );
+    }
+    
 }
  
 export default NewExamList;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ResponsiveNavBar from './ResponsiveNavBar';
+import ResponsiveNavBar from '../ResponsiveNavBar';
 
  class MainPage extends Component{
 

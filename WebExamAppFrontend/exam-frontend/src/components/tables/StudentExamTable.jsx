@@ -4,7 +4,7 @@ class ResponsiveTable extends Component {
     state = {  }
     clickDetailsHandler = (event) =>
     {
-        console.log(event.target.id);
+        console.log(event.target.title);
     }
     renderTable(entries)
     {
@@ -16,7 +16,7 @@ class ResponsiveTable extends Component {
             children.push(<td key={"date"+i}>{entries[i].date}</td>)
             children.push(<td key={"score"+i}>{entries[i].score}</td>)
             children.push(<td key={"details"+i}>
-                <p id={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}> View Details</p>
+                <p title={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}> View Details</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }

@@ -18,7 +18,7 @@ class AdminStudentTable extends Component {
             children.push(<td key={"areas"+i}>{entries[i].areas}</td>)
             children.push(<td key={"subareas"+i}>{entries[i].subareas}</td>)
             children.push(<td key={"Edit"+i}>
-                <p title={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                <p title={entries[i].email} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }

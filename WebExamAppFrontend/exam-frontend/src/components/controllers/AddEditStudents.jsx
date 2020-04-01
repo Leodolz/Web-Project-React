@@ -1,20 +1,39 @@
 import React, { Component } from 'react';
-import NewExamList from './NewExamList';
 import MainPage from './UserController';
+import StudentEditor from '../StudentEditor'
 
-class ExamEdit extends Component {
+class AddEditStudents extends Component {
     state={
         user:null,
         exam: {
-            title: '',
-            questions: [],
-            answers: [],
+            studentList: []
         }
+    }
+    GetStudent = () =>
+    {
+        return {
+            name: "Leandro",
+            username: "leodolz",
+            email: "Leo123@somemail.com",
+            areas: ["Math", "History"],
+            subareas: ["Geometry","Algebra","World History"]
+        };
+    }
+    GetEmptyStudent =() =>
+    {
+        return {
+            name: null,
+            username: null,
+            email: null,
+            areas: [],
+            subareas: []
+        };
     }
 
     render() {
         let body = null;
         let role = '';
+        let student= this.GetStudent();
         if(this.state.user)
         {
             role = this.state.user.role;
@@ -24,11 +43,12 @@ class ExamEdit extends Component {
             else
             body = (
                 <React.Fragment >
-                <h1 id="ExamEditor">Exam editor</h1>
-                <NewExamList/>
+                <h1 className="Editor">Student editor</h1>
+                <StudentEditor student={student}/>
                 </React.Fragment>
             );
         }
+
         return (
             <React.Fragment>
             <MainPage role={role} body={body} home="active" GetUser={this.GetUser}/>
@@ -41,4 +61,4 @@ class ExamEdit extends Component {
     }
 }
  
-export default ExamEdit;
+export default AddEditStudents;

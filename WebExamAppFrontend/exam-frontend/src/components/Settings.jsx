@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MainPage from './UserController';
+import MainPage from './controllers/UserController';
 import Accordion from './Accordion';
 
 class UserSettings extends Component {

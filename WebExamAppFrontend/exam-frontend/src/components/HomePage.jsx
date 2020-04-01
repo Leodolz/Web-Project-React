@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import MainPage from './UserController';
+import MainPage from './controllers/UserController';
 import Accordion from './Accordion';
-import ResponsiveTable from './StudentExamTable'
-import AdminExamTable from './AdminExamTable'
-import AdminStudentTable from './AdminStudentTable'
-import AreasTable from './AreasTable'
+import ResponsiveTable from './tables/StudentExamTable'
+import AdminExamTable from './tables/AdminExamTable'
+import AdminStudentTable from './tables/AdminStudentTable'
+import AreasTable from './tables/AreasTable'
 
 class Home extends Component {
     state={user:null}
@@ -177,7 +177,6 @@ class Home extends Component {
                     <p>Created at {areasTable[i].created} <button>View Students</button><button className="neighboorOptions">Edit Area</button></p>
                     <AreasTable table = {areasTable[i].subareas}/>
                     <button>Add Sub-Area</button>
-
                     </React.Fragment>
                 )
             }
@@ -199,7 +198,7 @@ class Home extends Component {
                 body : (
                     <React.Fragment>
                      <AdminStudentTable table = {this.GetAdminStudentsTable()}/>
-                     <button>Add new Student</button>
+                     <button onClick={()=>window.location.assign('/admStudent')}>Add new Student</button>
                     </React.Fragment>
                 )
             },
@@ -207,6 +206,11 @@ class Home extends Component {
                 title:"Areas",
                 body:
                 {
+                    after:(
+                        <React.Fragment> 
+                        <hr/>
+                        <button onClick={()=>window.location.assign('/admAreas')}>Add Area</button>
+                        </React.Fragment>),
                     multi: areasBody
                 },
             },

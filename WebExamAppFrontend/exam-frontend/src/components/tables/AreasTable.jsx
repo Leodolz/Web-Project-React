@@ -16,7 +16,7 @@ class AreasTable extends Component {
             children.push(<td key={"created"+i}>{entries[i].created}</td>)
             children.push(<td key={"students"+i}>{entries[i].students}</td>)
             children.push(<td key={"Edit"+i}>
-                <p title={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                <p title={entries[i].name} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }

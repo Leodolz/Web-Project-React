@@ -7,6 +7,7 @@ import './styles/accordionStyle.css'
 import './styles/tableStyle.css'
 import './styles/NewExamListStyle.css'
 import './styles/homeStyle.css'
+import './styles/checkBoxStyle.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

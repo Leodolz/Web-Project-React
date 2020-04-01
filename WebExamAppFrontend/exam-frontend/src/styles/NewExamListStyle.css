@@ -35,7 +35,7 @@
     background: rgb(160, 180, 189);
   }
 
-#ExamEditor{
+.Editor{
   padding: 20px 0px 20px 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -188,4 +188,14 @@
   font-weight: bold;
   margin-right: 10px;
   float: left;
+}
+.SelectOption{
+  width: 60%;
+  padding: 12px 20px;
+  margin: auto;
+  text-align: center;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }

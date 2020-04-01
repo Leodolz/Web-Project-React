@@ -78,36 +78,6 @@ class Accordion extends Component {
                 ))
         )
     }
-    renderArray = (parent, children) =>
-    {
-        let childrenArray = [];
-        for(let i=0;i<children.length;i++)
-        {
-            let accordionchildren = this.renderAccordions([children[i]]);
-            let arrayElement =  ( this.GetGenericAccordion
-                (
-                    <React.Fragment>
-                        {accordionchildren}
-                    </React.Fragment>
-                )
-            );
-            childrenArray.push(arrayElement);
-            console.log(arrayElement);
-        }
-        return (
-            this.GetGenericAccordion(
-                parent.title,
-                (
-                    <React.Fragment>
-                        {parent.body.before}
-                        {childrenArray}
-                        {parent.body.after}
-                    </React.Fragment>
-                )
-            )
-        );
-
-    }
     render() { 
         
         let accordionsFromTop = this.renderAccordions(this.props.accordions);
