@@ -33,7 +33,7 @@ class StudentHome extends Component {
     }
     render() {
         let overlay = this.GetOverlayForm();
-        let accordions = this.GetStudentBody()
+        let accordions = this.GetNewStudentBody();
         return (
             <React.Fragment>
             <h1>Welcome Student: {this.state.user.name}</h1>
@@ -47,19 +47,136 @@ class StudentHome extends Component {
         this.setState({user:user});
     }
 
-    GetStudentExamsTable = ()=>
+    GetStudentPastExamsTable = ()=>
+    {
+        //Replace by a fetch IT HAS TO HAVE THIS ATTRIBUTES
+        return(
+            [
+                {
+                    title: "Algebra-1-Apr",
+                    date: "3/26/2020",
+                    area: "Math",
+                    subarea: "Algebra",
+                    score: "50/100"
+                },
+                {
+                    title: "Geometry-mod-2",
+                    date: "3/27/2020",
+                    area: "Math",
+                    subarea: "Geometry",
+                    score: "not available"
+                },
+                {
+                    title: "World-History-mod-1",
+                    date: "4/1/2020",
+                    area: "History",
+                    subarea: "World History",
+                    score: "70/100"
+                },
+                {
+                    title: "Ad-Geometry-mod-2",
+                    date: "3/15/2020",
+                    area: "Math",
+                    subarea: "Advanced Geomtry",
+                    score: "not available"
+                },
+                {
+                    title: "Extra-1",
+                    date: "4/25/2020",
+                    area: "Extra",
+                    subarea: "Miscellanous",
+                    score: "100/100"
+                },
+            ]
+        );
+    }
+    GetStudentNextExamsTable = ()=>
+    {
+         //Replace by a fetch IT HAS TO HAVE THIS ATTRIBUTES
+        return(
+            [
+                {
+                    title: "Algebra-2-Apr",
+                    date: "5/26/2020",
+                    area: "Math",
+                    subarea: "Algebra",
+                    score: "not available"
+                },
+                {
+                    title: "Geometry-mod-3",
+                    date: "5/10/2020",
+                    area: "Math",
+                    subarea: "Geometry",
+                    score: "not available"
+                },
+                {
+                    title: "World-History-mod-2",
+                    date: "5/1/2020",
+                    area: "History",
+                    subarea: "World History",
+                    score: "not available"
+                },
+                {
+                    title: "Ad-Geometry-mod-3",
+                    date: "5/15/2020",
+                    area: "Math",
+                    subarea: "Advanced Geometry",
+                    score: "not available"
+                },
+                {
+                    title: "Extra-2",
+                    date: "6/25/2020",
+                    area: "Extra",
+                    subarea: "Miscellanous",
+                    score: "not available"
+                },
+            ]
+        );
+    }
+
+    SortByArea = (examsTable) =>
+    {
+        let sortedAreas = [];
+        for(let i=0;i<examsTable.length;i++)
+        {
+            let examItem = examsTable[i];
+            if(sortedAreas.find(areaItem => areaItem.name==examItem.area)==null)
+            {
+                let areaItem = {name:examItem.area,exams:[]}
+                for(let j=0;j<examsTable.length;j++)
+                {
+                    if(examsTable[j].area == areaItem.name)
+                        areaItem.exams.push(examsTable[j]);
+                }
+                sortedAreas.push(areaItem);
+            }
+        }
+        return sortedAreas;
+    }
+
+    GetAdminExamsTable = ()=>
     {
         return(
             [
                 {
-                    title: "Algebra",
-                    date: "3/26/2020",
-                    score: "50/100"
+                    title: "Algebra-1-Apr",
+                    date: "4/16/2020",
+                    area: "Math",
+                    subarea: "Algebra",
                 },
                 {
-                    title: "Geometry",
-                    date: "3/27/2020",
-                    score: "undefined"
+                    
+                    title: "Gemoetry-2-Apr",
+                    date: "4/18/2020",
+                    area: "Math",
+                    subarea: "Geometry",
+                },
+                {
+                    
+                    title: "History-1-March",
+                    date: "3/30/2020",
+                    area: "History",
+                    subarea: "World History",
                 }
             ]
         );
@@ -103,23 +220,66 @@ class StudentHome extends Component {
         );
     }
     */
-
-    GetStudentBody = () =>
+   GetStudentBody = () =>
     {
         return [
             {
                 title: "Past Exams",
                 body: (
-                    <StudentTable table={this.GetStudentExamsTable()} /> 
+                    <StudentTable table={this.GetStudentPastExamsTable()} /> 
                 )
             },
             {
                 title: "Comming Exams",
                 body: (
-                    <StudentTable table={this.GetStudentExamsTable()}/>
+                    <StudentTable table={this.GetStudentPastExamsTable()}/>
                 )
             }
         ];
+    }
+    GetExamsBody = (examsTable) => 
+    {
+        let pastExamsBody = [];
+        for(let i=0;i<examsTable.length;i++)
+        {
+            let container = 
+            {
+                title: examsTable[i].name,
+                body: (
+                    <React.Fragment>
+                        <StudentTable table={examsTable[i].exams}/>
+                    </React.Fragment>
+                )
+            }
+            pastExamsBody.push(container);
+        }
+        return pastExamsBody;
+    }
+
+    GetNewStudentBody = () =>
+    {
+        let pastExamsTable = this.SortByArea(this.GetStudentPastExamsTable());
+        let pastExamsBody = this.GetExamsBody(pastExamsTable);
+        let commingExamsTable = this.SortByArea(this.GetStudentNextExamsTable());
+        let commingExamsBody = this.GetExamsBody(commingExamsTable);
+        
+        return [
+            {
+                title:"Past Exams",
+                body:
+                {
+                    multi: pastExamsBody
+                },
+            },
+            {
+                title:"Comming Exams",
+                body:
+                {
+                    multi: commingExamsBody
+                },
+            },
+        ];
+
     }
 
     RenderSubAreasList = (studentArray) =>

@@ -9,6 +9,7 @@ class StudentTable extends Component {
     GetExamByName = (name) =>
     {
         //FETCH 
+        window.location.assign("/studentExm");
         console.log(name);
     }
     renderTable(entries)

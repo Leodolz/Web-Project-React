@@ -65,7 +65,7 @@ class ViewExam extends Component {
             ],
             date: "4/1/2020",
             subarea: "Geometry",
-            generalScore: 83
+            score: 83
         }
         return exam;
     }

@@ -29,7 +29,7 @@ class StudentExamViewer extends Component {
             let listElement = (
             <React.Fragment key={"QA"+i}>
                 <li className="ExamQuestion" title={this.state.listElements[i].title} key={"Q"+i}><span className="etag">{(i+1)+". "}</span>{this.state.listElements[i].title}</li> 
-                <li className="StudentAnswer" title={this.state.listElements[i].studentAnswer} key={"Q"+i}><span className="etag">Your Answer: </span>{this.state.listElements[i].studentAnswer}Score: {this.state.listElements[i].score}</li> 
+                <li className="StudentAnswer" title={this.state.listElements[i].studentAnswer} key={"Q"+i}><span className="etag">Your Answer: </span>{this.state.listElements[i].studentAnswer}<br/><span className="etag"> Score: </span>{this.state.listElements[i].score}</li> 
                 <li className="ExamAnswer" title = {this.state.listElements[i].answer} key={"A"+i}><span className="etag">Answer: </span>{this.state.listElements[i].answer}</li>
             </React.Fragment> 
             )
@@ -42,12 +42,14 @@ class StudentExamViewer extends Component {
        
         return (
             <React.Fragment>
+                <h2>Final Score: {this.state.score}</h2>
                 <h3 title={this.state.date}>Exam Date: {this.state.date}</h3>
                 <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} </h3>
                 <ul className="myUL">
                     {this.renderList()}
                     <br/>
                 </ul>
+
             </React.Fragment>
           );
     }
