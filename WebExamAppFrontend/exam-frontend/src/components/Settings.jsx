@@ -9,6 +9,18 @@ class UserSettings extends Component {
     {
         this.setState({user:user});
     }
+    handleSubmit=(event) =>
+    {
+        event.preventDefault();
+        if(event.target.newpass.value != event.target.newpassconf.value)
+        {
+            alert("Password confirmation does not match with new password");
+            return;
+        }
+        console.log(event.target.oldpass.value);
+        //fetch with old password as starting session and then 
+        //Change password
+    }
     render() { 
         let body = 
         (
