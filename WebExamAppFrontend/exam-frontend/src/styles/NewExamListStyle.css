@@ -185,6 +185,12 @@
   border: none;
   background-color: white;
 }
+.elementEditFormBorder{
+  position: relative;
+  top: 20%;
+  border: black;
+  background-color: rgb(131, 200, 228);
+}
 .putLeft{
   font-weight: bold;
   margin-right: 10px;
@@ -199,4 +205,22 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+#submitAnswer{
+  display: block;
+  padding-bottom: 2%;
+}
+.editAnswerStudent
+{
+  margin-top: -0.7em;
+  margin-right: 2%;
+  background-color: rgb(49, 127, 141);
+  width: 10%;
+  height: 10%;
+  float: right;
+}
+.editAnswerStudent:hover
+{
+  background-color: rgb(30, 90, 100);
+  color: white;
 }

@@ -37,6 +37,7 @@ class StudentHome extends Component {
         return (
             <React.Fragment>
             <h1>Welcome Student: {this.state.user.name}</h1>
+            <button onClick={()=>window.location.assign('./ExamStudent')}>Take Exam</button>
             <Accordion accordions= {accordions}/>
             {overlay}
             </React.Fragment>
@@ -154,72 +155,6 @@ class StudentHome extends Component {
         return sortedAreas;
     }
 
-    GetAdminExamsTable = ()=>
-    {
-        return(
-            [
-                {
-                    title: "Algebra-1-Apr",
-                    date: "4/16/2020",
-                    area: "Math",
-                    subarea: "Algebra",
-                },
-                {
-                    
-                    title: "Gemoetry-2-Apr",
-                    date: "4/18/2020",
-                    area: "Math",
-                    subarea: "Geometry",
-                },
-                {
-                    
-                    title: "History-1-March",
-                    date: "3/30/2020",
-                    area: "History",
-                    subarea: "World History",
-                }
-            ]
-        );
-    }
-
-    /*
-    GetAdminAreasTable = ()=>
-    {
-        return(
-            [
-                {
-                    name: "Math",
-                    created: "4/16/2020",
-                    students: "Leandro Hurtado, Another Student",
-                    subareas: [
-                        {
-                            name: "Geometry",
-                            created: "2/16/2020",
-                            students: "Leandro Hurtado, Another Student",
-                        },
-                        {
-                            name: "Algebra",
-                            created: "3/11/2020",
-                            students: "Leandro Hurtado, Another Student",
-                        },
-                    ]
-                },
-                {
-                    name: "History",
-                    created: "4/27/2020",
-                    students: "Leandro Hurtado",
-                    subareas: [
-                        {
-                            name: "World History",
-                            created: "2/8/2020",
-                            students: "Leandro Hurtado",
-                        }
-                    ]
-                },
-            ]
-        );
-    }
-    */
    GetStudentBody = () =>
     {
         return [
@@ -314,52 +249,7 @@ class StudentHome extends Component {
         }
         this.setState({overlayed:overlayed});
     }
-    /*
-    GetAdminBody = () =>
-    { 
-        let areasBody = [];
-        let areasTable = this.GetAdminAreasTable();
-        for(let i=0;i<areasTable.length;i++)
-        {
-            let container = 
-            {
-                title: areasTable[i].name,
-                body: (
-                    <React.Fragment>
-                    <p title={areasTable[i].name}>Created at {areasTable[i].created} <button className="neighboorOptions" onClick={this.showStudentsAreas}>View Students</button><button onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button></p>
-                    <AreasTable table = {areasTable[i].subareas}/>
-                    <button onClick={this.AddSubArea}>Add Sub-Area</button>
-                    </React.Fragment>
-                )
-            }
-            areasBody.push(container);
-        }
-        console.log(areasBody);
-        return [
-            {
-                title:"Areas",
-                body:
-                {
-                    after:(
-                        <React.Fragment> 
-                        <hr/>
-                        <button onClick={()=>window.location.assign('/admAreas')}>Add Area</button>
-                        </React.Fragment>),
-                    multi: areasBody
-                },
-            },
-        ];
-    }*/
 }
 
-/*Nested accordion example
-body:
-    {
-    before: <p>EverySubArea <button>Edit</button></p>,
-    title:("SubSubAreas"),
-    body:(<p>This is a super nested area</p>),
-    after:(<button>Add SubArea</button>)
-    }
-*/
  
 export default StudentHome;
