@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import TextOverlayForm from '../smallComponents/TextOverlayForm';
+import CustomCheckBoxes from '../smallComponents/CustomCheckBoxes';
+import CustomRadioButtons from '../smallComponents/CustomRadioButtons';
+import SelectBox from '../smallComponents/SelectBox';
+import QuestionEditor from '../smallComponents/QuestionEditor';
 
 class NewExamList extends Component {
     state = {
@@ -21,44 +26,48 @@ class NewExamList extends Component {
             mutiple: false,
         }
       }
-    hideComponent = (event)=>
+    DeleteComponentInArray = (event,array)=>
     {
         let elementId = event.target.parentElement.id;
-        let newarray = this.state.listElements.slice();
-        newarray = newarray.filter((value,index)=>{ return index!=elementId});
-        this.setState({listElements:newarray});
+        let newarray = array.slice();
+        return newarray.filter((value,index)=>{ return index!=elementId});
+    }
+    hideComponent = (event)=>
+    {
+        let newArray = this.DeleteComponentInArray(event,this.state.listElements)
+        this.setState({listElements:newArray});
     }
     findItemsInArray = (currentArray,generalArray) =>
     {
-        let found = false;
         for(let i=0;i<currentArray.length;i++)
         {
             if(generalArray.find(item=>item==currentArray[i])!=null)
             {
-                found = true;
-                break;
+                console.log("Found");
+                return true;
             }
         }
-        return found;
+        return false;
     }
 
     deleteOption = (event) =>
     {
-        let elementId = event.target.parentElement.id;
-        let newarray = this.state.tempOptions.options.slice();
-        let answer = this.state.tempOptions.answer;
-        newarray = newarray.filter((value,index)=>{ return index!=elementId});
+        let newArray = this.DeleteComponentInArray(event,this.state.tempOptions.options);
+        let answer = this.state.tempOptions.answer.slice();
+        if(!this.findItemsInArray(answer,newArray))
+            answer = [];
         this.setState({tempOptions:
             {   
-                options: newarray,
+                options: newArray,
                 answer: answer,
                 mutiple: this.state.tempOptions.mutiple,
             }
         });
+
+       
     }
     renderList = () => 
     {
-        
         let list = [];
         let closeButton = <button type="button" onClick={this.hideComponent} className="close">x</button>;
         let editButton = <button  onClick= {this.handleEdit} className="edit">Edit</button>;
@@ -117,33 +126,28 @@ class NewExamList extends Component {
             extras:null
         }})
     }
+    //TODO: MAKE ALL OF THIS METHODS INTO REACT COMPONENTS (JSX) 
     GetOverlayedForm = () =>
     {
         if(this.state.overlayed.overlay)
         {
-            if(this.state.overlayed.extras.type == "Sub-Area")
-                return this.GetSubAreasOverlayForm();
-            else if(this.state.overlayed.extras.type == "Date")
-                return this.GetDateOverlayForm();
-            else if(this.state.overlayed.extras.type == "Options")
-                return this.GetOptionsOverlayedForm();
-            else
-                return this.GetAnswerOverlayForm();
+            switch(this.state.overlayed.extras.type)
+            {
+                case "Sub-Area":
+                    return this.GetSubAreasOverlayForm();
+                case "Date":
+                    return this.GetDateOverlayForm();
+                case "Options":
+                    return this.GetOptionsOverlayedForm();
+                default:
+                    return this.GetAnswerOverlayForm();
+            }   
         }
         else return null;
     }
     GetDateOverlayForm = () =>
     {
-        return (
-            <div className="overlayed">
-            <form className = "elementEditForm" onSubmit={this.editAction} >
-                <span className="putLeft">{this.state.overlayed.extras.placeholder+": "}</span>
-                <textarea rows="2" name="newValue" defaultValue={this.state.overlayed.extras.value} type="text" className="myInput" placeholder={this.state.overlayed.extras.placeholder +"..."} required/>
-                <button type="submit">Save changes</button>
-                <button type="button" onClick= {this.cancelEdit}>Cancel</button>
-            </form>
-            </div>
-        );
+        return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit} />;
     }
     addOption = (event) =>
     {
@@ -159,58 +163,40 @@ class NewExamList extends Component {
     }
     handleCheckAnswer = (event) =>
     {
+        this.registerNewAnswer(event,true);
+    }
+    handleChangeRadioAnswer = (event) =>
+    {
+        this.registerNewAnswer(event,false);
+    }
+    registerNewAnswer = (event,multiple) =>
+    {
         let newAnswers = this.state.tempOptions.answer;
-        if(event.target.checked)
+        if(multiple)
         {
-            let answer = event.target.value;
-            newAnswers.push(answer);
+            if(event.target.checked)
+            {
+                let answer = event.target.value;
+                newAnswers.push(answer);
+            }
+            else
+            {
+                newAnswers = newAnswers.filter((value,index,arr)=>value!=event.target.value);
+            }
         }
         else
         {
-            newAnswers = newAnswers.filter((value,index,arr)=>value!=event.target.value);
+            if(event.target.checked)
+            {
+                newAnswers = [event.target.value];
+            }
         }
         let newTempOptions = this.state.tempOptions;
         newTempOptions["answer"] = newAnswers;
         this.setState({tempOptions:newTempOptions});
     }
-    //MODIFICAR ESTO TAMBIEN SE PODRA ESCOGER MULTIPLE SO ES TYPE MULTIPLE
-    GetOptionsCheckBoxes(answers, generalArray)
-    {
-        let checkboxes = [];
-        for(let i=0; i<generalArray.length; i++)
-        {
-            let isChecked = answers.find((answer)=>answer==generalArray[i])!=null;
-            checkboxes.push(<label key={i+"Chk"} className="checkContainer"><input type="checkbox" defaultChecked={isChecked}
-            value ={generalArray[i]} onChange={this.handleCheckAnswer} /><div className="TagContainer" key={"Div"+i}><span className="CheckBoxTag">{generalArray[i]}</span></div><span className="checkmark"></span><br/></label>)
-        }
-        return checkboxes;
-    }
-    handleChangeRadioAnswer = (event) =>
-    {
-        let newAnswer = this.state.tempOptions.answer;
-        if(event.target.checked)
-        {
-            newAnswer = [event.target.value];
-        }
-        let newTempOptions = this.state.tempOptions;
-        newTempOptions["answer"] = newAnswer;
-        this.setState({tempOptions:newTempOptions});
-    }
-    GetOptionsRadioButtons(answer, generalArray)
-    {
-        let radioButtons = [];
-        for(let i=0; i<generalArray.length; i++)
-        {
-            let isChecked = (answer == generalArray[i]);
-            let radioButton = (<React.Fragment>
-                <input key={i+"Rd"} type="radio" onChange={this.handleChangeRadioAnswer} id={i+"Rd"} name="answer" value={generalArray[i]} defaultChecked={isChecked}/>
-                <label className="radioLabel">{generalArray[i]}</label>
-                <br/>
-            </React.Fragment>);
-            radioButtons.push(radioButton);
-        }
-        return radioButtons;
-    }
+   
+    //TODO: REFACTOR THIS INTO A JSX COMPONENT
     GetAnswerOverlayForm = () =>
     {
         let currentOptions = this.state.tempOptions.options;
@@ -218,12 +204,12 @@ class NewExamList extends Component {
         if(this.state.tempOptions.mutiple)
         {
             let currentAnswers  = this.state.tempOptions.answer;
-            checkBoxInputs = this.GetOptionsCheckBoxes(currentAnswers,currentOptions);
+            checkBoxInputs = (<CustomCheckBoxes handleCheckAnswer = {this.handleCheckAnswer} answers ={currentAnswers} generalArray={currentOptions}/>);
         }
         else
         {
             let currentAnswer  = this.state.tempOptions.answer[0];
-            checkBoxInputs = this.GetOptionsRadioButtons(currentAnswer,currentOptions);
+            checkBoxInputs = (<CustomRadioButtons handleChangeRadioAnswer = {this.handleChangeRadioAnswer} answer = {currentAnswer} generalArray={currentOptions} />);
         }
         return (
             <div className="overlayed">
@@ -242,14 +228,7 @@ class NewExamList extends Component {
         if(overlayed.overlay)
         {
             return (
-                <div className="overlayed">
-                <form className = "elementEditForm" onSubmit={this.editAction} >
-                <span className="putLeft">{overlayed.extras.placeholder+": "}</span>
-                <textarea rows="2" name="newValue" defaultValue={overlayed.extras.value} type="text" className="myInput" placeholder={overlayed.extras.placeholder +"..."} required/>
-                <button type="submit">Save changes</button>
-                <button type="button" onClick= {this.cancelNestedEdit}>Cancel</button>
-            </form>
-            </div>
+                <TextOverlayForm editAction={this.editAction} overlayed={overlayed} cancelEdit={this.cancelEdit}/>
             );
         }
         return null;
@@ -258,23 +237,13 @@ class NewExamList extends Component {
     {
         let options = this.renderOptionsList(this.state.overlayed.extras.id);
         let nestedOverlay = this.GetNestedOverlayForm();
-        return (
-            <div className="overlayed">
-            <div className="elementEditForm">
-            <form className = "elementEditForm" onSubmit={this.addOption} >
-                <span className="putLeft">{this.state.overlayed.extras.placeholder+": "}</span>
-                <input name="newValue" type="text" className="myInput" placeholder={this.state.overlayed.extras.placeholder +"..."} required/>
-                <button type="submit">Add</button>
-            </form>
-            <ul className="myUL">
-                {options}
-                <br/>
-            </ul>
-            <button type="button" onClick= {this.cancelEdit}>OK</button>
-            </div>
-            {nestedOverlay}
-            </div>
-        );
+        
+        return(<TextOverlayForm editAction={this.editAction}
+            overlayed={this.state.overlayed} 
+            body={nestedOverlay}
+            addOption = {this.addOption} 
+            cancelEdit={this.cancelEdit}
+            list = {options}/>)
     }
     handleManageOptions = (event) =>
     {
@@ -311,37 +280,9 @@ class NewExamList extends Component {
     } 
     render() {  
         let overlay = this.GetOverlayedForm();
-        return (
-            <React.Fragment>
-                <h3 className="Date" title={this.state.date}>Exam Date: {this.state.date} <button  onClick= {this.handleEdit}>Edit</button></h3>
-                <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
-                <form id="admExmForm" onSubmit={this.newElement} className="Examheader">
-                    <div id="inputsDiv" >
-                        <span className="qtag"> Question:</span>
-                        <textarea rows="2" name="question" type="text" className="myInput" placeholder="Title..." required/>
-                        <div id="breakAnswer"/>
-                        <span className="qtag"> Options:</span><button onClick={this.handleManageOptions} type="button" className="AddAnswerBtn">Manage Options</button>
-                        <span className="Atag">Answer:</span><button onClick={this.handleManageAnswer} type="button" className="AddAnswerBtn">Manage Answer</button>
-                        <br/>
-                        <span className="qtag"> Type:</span>
-                        <div className="RadioContainer">
-                            <input type="radio" onChange={this.handleChangeType} id="single" name="type" value="single" defaultChecked={true}/>
-                            <label className="radioLabel" >Single</label>
-                            <input type="radio" onChange={this.handleChangeType} id="multiple" name="type" value="multiple" defaultChecked={false}/>
-                            <label className="radioLabel" >Multiple</label>
-                            <label className="Stag">Score: </label>
-                            <input className="NumberInput" type="number" id="score" name="score" min="1" max="100" placeholder="1 to 100" required/>
-                        </div>
-                        <button type="submit" className="addBtn">Add Question</button>
-                    </div>
-                </form>
-                <ul className="myUL">
-                    {this.renderList()}
-                    <br/>
-                    <button onClick={this.showActive}>Upload Exam</button>
-                </ul>
-                {overlay}
-            </React.Fragment>
+        return (<QuestionEditor date={this.state.date} handleEdit= {this.handleEdit} subarea={this.state.subarea}
+            newElement = {this.newElement} handleManageOptions={this.handleManageOptions} handleManageAnswer={this.handleManageAnswer}
+            handleChangeType={this.handleChangeType} showActive={this.showActive} renderedList={this.renderList()} overlay={overlay} />
           );
     }
     getCloseButton()
@@ -371,6 +312,7 @@ class NewExamList extends Component {
             answer: [],
             mutiple: false,
         }})
+        //TODO: FINISH REFACTORING INTRODUCING ALL FUNCTIONS THAT DON'T SHARE WITH OTHER COMPONENTS
     }
     handleEdit = (event) =>
     {
@@ -462,33 +404,23 @@ class NewExamList extends Component {
     PopulateSubAreaOptions = () =>
     {
         let areasBody = [];
-        //I will change this
+        //I will change this When backend is done
         areasBody.push(<option key="1" value="Calculus I">Calculus I</option>);
         areasBody.push(<option key="2" value="Geometry">Geometry</option>);
         areasBody.push(<option key="3" value="World History">World History</option>);
         return areasBody;
     }
-    handleSelect = (event) =>
+    handleSelectSubArea = (event) =>
     {
         event.preventDefault();
         this.setState({subarea:event.target.value});
     }
+
     GetSubAreasOverlayForm = () =>
     {
         let areasBox = this.PopulateSubAreaOptions();
-        return (
-            <div className="overlayed">
-            <form className = "elementEditForm" >
-                <span className="etag">{this.state.overlayed.extras.placeholder+": "}</span>
-                <br/>
-                <select name="newValue" defaultValue={this.state.subarea} onChange={this.handleSelect} className="SelectOption">
-                    {areasBox}
-                </select>
-                <br/>
-                <button type="button" onClick= {this.cancelEdit}>OK</button>
-            </form>
-            </div>
-        );
+        return <SelectBox overlayed={this.state.overlayed} element={this.state.subarea} 
+        cancelEdit={this.cancelEdit} handleSelectOption = {this.handleSelectSubArea} optionsBox = {areasBox}/>
     }
     
 }
