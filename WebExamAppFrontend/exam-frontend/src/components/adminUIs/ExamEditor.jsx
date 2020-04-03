@@ -73,7 +73,7 @@ class NewExamList extends Component {
             let listElement = (
             <React.Fragment key={"QA"+i}>
                 <li className="ExamQuestion" title={this.state.listElements[i].question} id={i} key={"Q"+i}><span className="etag">{(i+1)+". "}</span>{this.state.listElements[i].question}{closeButton}{editButton}</li> 
-                <li className="ExamAnswer" title = {options} key={"A"+i}><span className="etag">Options: </span>{options}</li>
+                <li className="ExamAnswer" title = {options} key={"O"+i}><span className="etag">Options: </span>{options}</li>
             <li className="ExamAnswer" title = {answers} key={"A"+i}><span className="etag">{answerTag}</span>{answers} <span className="etag">Score: </span>{this.state.listElements[i].score}</li>
             </React.Fragment> 
             )
@@ -110,6 +110,13 @@ class NewExamList extends Component {
             extras:null
         }})
     }
+    cancelNestedEdit = (event) =>
+    {
+        this.setState({nestedOverlayed: {
+            overlay: false,
+            extras:null
+        }})
+    }
     GetOverlayedForm = () =>
     {
         if(this.state.overlayed.overlay)
@@ -141,7 +148,6 @@ class NewExamList extends Component {
     addOption = (event) =>
     {
         event.preventDefault();
-        let element = event.target;
         let newOptions  = this.state.tempOptions.options.slice();
         newOptions.push(event.target.newValue.value);
         let answer = this.state.tempOptions.answer;
@@ -150,7 +156,6 @@ class NewExamList extends Component {
             answer: answer,
             mutiple: this.state.tempOptions.mutiple,
         }});
-        console.log(element.newValue.value);
     }
     handleCheckAnswer = (event) =>
     {
@@ -210,7 +215,6 @@ class NewExamList extends Component {
     {
         let currentOptions = this.state.tempOptions.options;
         let checkBoxInputs = null;
-        console.log(this.state.tempOptions.mutiple);
         if(this.state.tempOptions.mutiple)
         {
             let currentAnswers  = this.state.tempOptions.answer;
@@ -232,9 +236,28 @@ class NewExamList extends Component {
             </div>
         );
     }
+    GetNestedOverlayForm = () =>
+    {
+        let overlayed = this.state.nestedOverlayed;
+        if(overlayed.overlay)
+        {
+            return (
+                <div className="overlayed">
+                <form className = "elementEditForm" onSubmit={this.editAction} >
+                <span className="putLeft">{overlayed.extras.placeholder+": "}</span>
+                <textarea rows="2" name="newValue" defaultValue={overlayed.extras.value} type="text" className="myInput" placeholder={overlayed.extras.placeholder +"..."} required/>
+                <button type="submit">Save changes</button>
+                <button type="button" onClick= {this.cancelNestedEdit}>Cancel</button>
+            </form>
+            </div>
+            );
+        }
+        return null;
+    }
     GetOptionsOverlayedForm = () =>
     {
         let options = this.renderOptionsList(this.state.overlayed.extras.id);
+        let nestedOverlay = this.GetNestedOverlayForm();
         return (
             <div className="overlayed">
             <div className="elementEditForm">
@@ -249,6 +272,7 @@ class NewExamList extends Component {
             </ul>
             <button type="button" onClick= {this.cancelEdit}>OK</button>
             </div>
+            {nestedOverlay}
             </div>
         );
     }
@@ -287,10 +311,9 @@ class NewExamList extends Component {
     } 
     render() {  
         let overlay = this.GetOverlayedForm();
-        console.log(this.state.tempOptions.answer);
         return (
             <React.Fragment>
-                <h3 title={this.state.date}>Exam Date: {this.state.date} <button  onClick= {this.handleEdit}>Edit</button></h3>
+                <h3 className="Date" title={this.state.date}>Exam Date: {this.state.date} <button  onClick= {this.handleEdit}>Edit</button></h3>
                 <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
                 <form id="admExmForm" onSubmit={this.newElement} className="Examheader">
                     <div id="inputsDiv" >
@@ -303,10 +326,10 @@ class NewExamList extends Component {
                         <span className="qtag"> Type:</span>
                         <div className="RadioContainer">
                             <input type="radio" onChange={this.handleChangeType} id="single" name="type" value="single" defaultChecked={true}/>
-                            <label className="radioLabel" for="single">Single</label>
+                            <label className="radioLabel" >Single</label>
                             <input type="radio" onChange={this.handleChangeType} id="multiple" name="type" value="multiple" defaultChecked={false}/>
-                            <label className="radioLabel" for="multiple">Multiple</label>
-                            <label className="Stag" for="score">Score: </label>
+                            <label className="radioLabel" >Multiple</label>
+                            <label className="Stag">Score: </label>
                             <input className="NumberInput" type="number" id="score" name="score" min="1" max="100" placeholder="1 to 100" required/>
                         </div>
                         <button type="submit" className="addBtn">Add Question</button>
@@ -328,7 +351,11 @@ class NewExamList extends Component {
     newElement = (event) =>
     {
         event.preventDefault();
-        console.log(event.target.question.value);
+        if(this.state.tempOptions.answer[0] == null)
+        {
+            alert("You need to provide a valid answer!");
+            return;
+        }
         let newQuestion =
         {
             optionElement: this.state.tempOptions,
@@ -339,12 +366,16 @@ class NewExamList extends Component {
         newList.push(newQuestion);
         document.getElementById("admExmForm").reset();
         this.setState({listElements:newList});
+        this.setState({tempOptions: {
+            options: [],
+            answer: [],
+            mutiple: false,
+        }})
     }
     handleEdit = (event) =>
     {
         event.preventDefault();
         let element = event.target.parentElement;
-        console.log("This is an edit with "+element.title)
         let extras = {};
 
         if(element.className == "ExamQuestion")
@@ -366,10 +397,28 @@ class NewExamList extends Component {
                 type: "Sub-Area",
             }
         }
-        else extras = {
-            placeholder: "Date",
-            value: element.title,
-            type: "Date",
+        else if (element.className == "Date")
+        {
+            extras  =
+            {
+                placeholder: "Date",
+                value: element.title,
+                type: "Date",
+            }
+        }
+        else 
+        {
+            extras =
+            {
+                id: element.id,
+                placeholder: "Option",
+                value: element.title,
+            }
+            this.setState({nestedOverlayed: {
+                overlay: true,
+                extras:extras
+            }});
+            return;
         }
         this.setState({overlayed: {
             overlay: true,
@@ -388,6 +437,20 @@ class NewExamList extends Component {
                 newArray[extras.id].title = event.target.newValue.value;
             else newArray[extras.id].answer = event.target.newValue.value;
             this.setState({listElements:newArray});
+        }
+        else if(this.state.nestedOverlayed.extras)
+        {
+            let nestedExtras = this.state.nestedOverlayed.extras;
+            let newOptions = this.state.tempOptions.options.slice();
+            newOptions[nestedExtras.id] = event.target.newValue.value;
+            let newTempOptions = this.state.tempOptions;
+            newTempOptions.options = newOptions;
+            this.setState({tempOptions:newTempOptions});
+            this.setState({nestedOverlayed: {
+                overlay: false,
+                extras:null}
+            });
+            return;
         }
         else this.setState({date:event.target.newValue.value})
         this.setState({overlayed: {
