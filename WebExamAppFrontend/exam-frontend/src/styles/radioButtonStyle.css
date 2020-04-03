@@ -1,0 +1,56 @@
+input[type='radio'] {
+  --active: rgb(49, 127, 141);
+  height: 20px;
+  outline: none;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  margin-left: 10px;
+  cursor: pointer;
+  border: 1px solid var(--bc, var(--border));
+  background: var(--b, var(--background));
+  transition: .3s, border-color .3s, box-shadow .2s;}
+  input[type='radio']:after {
+    content: '';
+    display: block;
+    left: 0;
+    top: 0;
+    position: absolute;
+    transition: transform var(--d-t, .3s) var(--d-t-e, ease), opacity var(--d-o, .2s);
+  }
+  input[type='radio']:checked {
+    --b: var(--active);
+    --bc: var(--active);
+    --d-o: .3s;
+    --d-t: .6s;
+    --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+  }
+  input[type='radio']:disabled {
+    --b: var(--disabled);
+    cursor: not-allowed;
+    opacity: .9;
+  }
+  input[type='radio']:hover {
+     --bc: var(--border-hover);
+  }
+  input[type='radio']:focus {
+    box-shadow: 0 0 0 var(--focus);
+  }
+  input[type='radio']:not(.switch) {
+    width: 21px;
+
+  }
+  .radioLabel {
+    font-size: 16px;
+    line-height: 21px;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  .RadioContainer{
+    text-align: left;
+    position: relative;
+    left: 4%;
+  }

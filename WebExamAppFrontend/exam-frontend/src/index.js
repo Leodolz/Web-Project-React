@@ -9,6 +9,7 @@ import './styles/NewExamListStyle.css'
 import './styles/homeStyle.css'
 import './styles/checkBoxStyle.css'
 import './styles/settingsStyle.css'
+import './styles/radioButtonStyle.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

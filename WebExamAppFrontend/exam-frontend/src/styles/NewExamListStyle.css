@@ -109,18 +109,24 @@
   
   /* Style the "Add" button */
   .addBtn {
-    padding: 20px 0px 20px 0px;
-    width: 20%;
-    background: #d9d9d9;
+    padding: 15px 0px 15px 0px;
+    width: 50%;
+    background: #ecebeb;
     color: #555;
-    font-size: 30px;
+    margin: auto;
+    margin-top: 1%;
+    margin-left: 25%;
+    font-size: 25px;
+    font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
     border-radius: 0;
-    margin-top: -40px;
-    float: right;
   }
-  
+  .qtag{
+    font-weight: bold;
+    float: left;
+    margin-right: 15px;
+  }
   .addBtn:hover {
     background-color: #bbb;
   }
@@ -128,7 +134,7 @@
     height: 4rem;
   }
   #inputsDiv {
-    width: inherit;
+    margin-left: 5%;
   }
   .myUL textarea {
     width: 85%;
@@ -223,4 +229,25 @@
 {
   background-color: rgb(30, 90, 100);
   color: white;
+}
+.NumberInput
+{
+  width: 100px;
+}
+.Stag
+{
+  font-weight: bold;
+  margin-left: 50px;
+}
+.Atag
+{
+  font-weight: bold;
+  margin-left: 20px;
+}
+.AddAnswerBtn
+{
+    padding: 10px 0px 10px 0px;
+    width: 12em;
+    margin-top: -10px;
+    margin-left: 10px;
 }

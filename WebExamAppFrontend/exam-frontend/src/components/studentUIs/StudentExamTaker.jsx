@@ -18,18 +18,17 @@ class StudentExamTaker extends Component {
     {
         
         let list = [];
-
         for(let i=0;i<this.state.questions.length;i++)
         {
             let listElement = (
-            <React.Fragment key={"QA"+i}>
+            <div>
                 <li className="ExamQuestion" title={this.state.questions[i]} key={"Q"+i}><span className="etag">{(i+1)+". "}</span>{this.state.questions[i]}</li> 
                 <li id={i} title={this.state.answers[i]} className="StudentAnswer" key={"SA"+i}>
                 <span className="etag">Your Answer: </span> 
                 {this.state.answers[i]}
                 <button  onClick= {this.handleEdit} className="editAnswerStudent">Edit</button>
                 </li> 
-            </React.Fragment> 
+            </div> 
             )
             list.push(listElement);
         }
@@ -104,8 +103,7 @@ class StudentExamTaker extends Component {
         let overlay = this.GetOverlayForm();
         return (
             <React.Fragment>
-                <h2>Final Score: {this.state.score}</h2>
-                <h3 title={this.state.date}>Exam Date: {this.state.date}</h3>
+                <h3 title={this.state.date}>Date: {this.state.date}</h3>
                 <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} </h3>
                 <ul className="myUL">
                     {this.renderList()}
