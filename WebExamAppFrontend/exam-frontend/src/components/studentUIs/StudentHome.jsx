@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Accordion from '../Accordion';
 import StudentTable from '../tables/StudentExamTable'
-import AreasTable from '../tables/SubAreasTable'
 
 class StudentHome extends Component {
     state=
@@ -155,24 +154,7 @@ class StudentHome extends Component {
         return sortedAreas;
     }
 
-   GetStudentBody = () =>
-    {
-        return [
-            {
-                title: "Past Exams",
-                body: (
-                    <StudentTable table={this.GetStudentPastExamsTable()} /> 
-                )
-            },
-            {
-                title: "Comming Exams",
-                body: (
-                    <StudentTable table={this.GetStudentPastExamsTable()}/>
-                )
-            }
-        ];
-    }
-    GetExamsBody = (examsTable) => 
+    GetExamsBody = (examsTable,future) => 
     {
         let pastExamsBody = [];
         for(let i=0;i<examsTable.length;i++)
@@ -182,7 +164,7 @@ class StudentHome extends Component {
                 title: examsTable[i].name,
                 body: (
                     <React.Fragment>
-                        <StudentTable table={examsTable[i].exams}/>
+                        <StudentTable commingExam={future} table={examsTable[i].exams}/>
                     </React.Fragment>
                 )
             }
@@ -194,9 +176,9 @@ class StudentHome extends Component {
     GetNewStudentBody = () =>
     {
         let pastExamsTable = this.SortByArea(this.GetStudentPastExamsTable());
-        let pastExamsBody = this.GetExamsBody(pastExamsTable);
+        let pastExamsBody = this.GetExamsBody(pastExamsTable,false);
         let commingExamsTable = this.SortByArea(this.GetStudentNextExamsTable());
-        let commingExamsBody = this.GetExamsBody(commingExamsTable);
+        let commingExamsBody = this.GetExamsBody(commingExamsTable,true);
         
         return [
             {

@@ -69,7 +69,7 @@ class TakeExam extends Component {
                 },
                 {
                     title: "Third Question",
-                    options: ["x=5","x=18","x=|5|","None"],
+                    options: ["x=5","x=18","x=11","None"],
                     answer: [],
                     multiple: false
                 }

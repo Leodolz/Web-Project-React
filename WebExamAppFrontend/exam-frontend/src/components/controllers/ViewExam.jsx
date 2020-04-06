@@ -44,6 +44,7 @@ class ViewExam extends Component {
     {
         this.setState({user:user});
     }
+
     GetExam = ()=>
     {
         //Fetch for exam
@@ -52,20 +53,29 @@ class ViewExam extends Component {
             listElements: [
                 {
                     title: "First Question",
-                    studentAnswer: "Almost First",
-                    answer: "First Answer",
-                    score: 23
+                    studentAnswer: ["A","B"],
+                    answer: ["A","C"],
+                    studentScore: 20,
+                    score: 40
                 },
                 {
                     title: "Second Question",
-                    studentAnswer: "Second Answer",
-                    answer: "Second Answer",
-                    score: 60
+                    studentAnswer: ["True"],
+                    answer: ["True"],
+                    studentScore: 30,
+                    score: 30
+                },
+                {
+                    title: "Third Question",
+                    studentAnswer: ["None"],
+                    answer: ["x=11"],
+                    studentScore: 0,
+                    score: 30
                 },
             ],
             date: "4/1/2020",
             subarea: "Geometry",
-            score: 83
+            score: 50
         }
         return exam;
     }
