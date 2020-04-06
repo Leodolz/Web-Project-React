@@ -8,7 +8,7 @@ class CustomRadioButtons extends Component {
         for(let i=0; i<generalArray.length; i++)
         {
             let isChecked = (answer == generalArray[i]);
-            let radioButton = (<React.Fragment>
+            let radioButton = (<React.Fragment key={"FR"+i}>
                 <input key={i+"Rd"} type="radio" onChange={this.props.handleChangeRadioAnswer} id={i+"Rd"} name="answer" value={generalArray[i]} defaultChecked={isChecked}/>
                 <label className="radioLabel">{generalArray[i]}{extras}</label>
                 <br/>

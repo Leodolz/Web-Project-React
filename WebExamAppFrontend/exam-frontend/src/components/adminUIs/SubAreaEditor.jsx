@@ -151,8 +151,16 @@ class SubAreaEditor extends Component {
         for(let i=0; i<generalArray.length; i++)
         {
             let isChecked = currentArray.find((student)=>student.email==generalArray[i].email) != null;
-            checkboxes.push(<label key={i+"Chk"} className="checkContainer"><input type="checkbox" defaultChecked={isChecked}
-            value ={generalArray[i].username} onClick={this.handleCheckClick} onChange={this.handleCheckArea} /><div className="TagContainer" key={"Div"+i}><span className="CheckBoxTag">{generalArray[i].username}({generalArray[i].name})</span></div><span className="checkmark"></span><br/></label>)
+            checkboxes.push(
+            <label key={i+"Chk"} className="checkContainer">
+            <input type="checkbox" defaultChecked={isChecked}
+                value ={generalArray[i].username} onClick={this.handleCheckClick} onChange={this.handleCheckArea} />
+            <div className="TagContainer" key={"Div"+i}>
+                <span className="CheckBoxTag">{generalArray[i].name}({generalArray[i].username})</span>
+            </div>
+            <span className="checkmark"></span>
+            <br/>
+            </label>)
         }
         return checkboxes;
     }

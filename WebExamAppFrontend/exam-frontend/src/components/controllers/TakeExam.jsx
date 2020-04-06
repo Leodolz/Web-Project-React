@@ -45,17 +45,34 @@ class TakeExam extends Component {
     GetExam = ()=>
     {
         //Fetch for exam
+         /*
+    questions = {
+        options: [],
+        answers: [],
+        multiple: true,false
+    }
+    */
         let exam= {
             title: 'Generic Exam',
             questions: [
-                "First Question",
-                "Second Question",
-                "Extra Question"
-            ],
-            answers: [
-                null,
-                null,
-                null
+                {
+                    title: "First Question",
+                    options: ["A","B","C","D"],
+                    answer: [],
+                    multiple: true
+                },
+                {
+                    title: "Second Question",
+                    options: ["True","False"],
+                    answer: [],
+                    multiple: false
+                },
+                {
+                    title: "Third Question",
+                    options: ["x=5","x=18","x=|5|","None"],
+                    answer: [],
+                    multiple: false
+                }
             ],
             date: "4/2/2020",
             subarea: "Geometry",
