@@ -7,7 +7,7 @@
   /* Style the list items */
 .myUL li  {
     cursor: pointer;
-    position: relative;
+
     padding: 10px 8px 10px 10px;
     list-style-type: none;
     background: rgb(198, 223, 235);
