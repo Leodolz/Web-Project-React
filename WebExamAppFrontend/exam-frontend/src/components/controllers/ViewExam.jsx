@@ -73,7 +73,7 @@ class ViewExam extends Component {
                     score: 30
                 },
             ],
-            date: "4/1/2020",
+            date: "4/7/2020",
             subarea: "Geometry",
             score: 50
         }

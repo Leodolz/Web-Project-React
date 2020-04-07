@@ -66,7 +66,8 @@ class StudentEditor extends Component {
             "World History",
             "Geometry",
             "US Civil War",
-            "Calculus I"
+            "Calculus I",
+            "Sub-Extra"
         ];
     }
     GetOverlayForm = () =>

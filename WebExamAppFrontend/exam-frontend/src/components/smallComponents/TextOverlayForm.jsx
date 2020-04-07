@@ -28,13 +28,19 @@ class TextOverlayForm extends Component {
         {
             body=this.props.body;
         }
+        let input = <textarea rows="2" name="newValue" defaultValue={this.props.overlayed.extras.value} type="text" className="myInput" 
+        placeholder={this.props.overlayed.extras.placeholder +"..."} required/>;
+        if(this.props.date)
+        {
+            input = <input name="newValue" defaultValue={this.props.overlayed.extras.value} type="date" className="myInput" 
+            placeholder={this.props.overlayed.extras.placeholder +"..."} required/>;
+        }
         return (
             <div className="overlayed">
                 <div className="elementEditForm">
-                    <form className = "elementEditForm" onSubmit={submitAction} >
+                    <form id="optionsAdder" className = "elementEditForm" onSubmit={submitAction} >
                         <span className="putLeft">{this.props.overlayed.extras.placeholder+": "}</span>
-                        <textarea rows="2" name="newValue" defaultValue={this.props.overlayed.extras.value} type="text" className="myInput" 
-                        placeholder={this.props.overlayed.extras.placeholder +"..."} required/>
+                        {input}
                         {saveOrAdd}
                     </form>
                     <ul className="myUL">

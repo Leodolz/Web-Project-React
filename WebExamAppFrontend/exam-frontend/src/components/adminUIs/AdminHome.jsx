@@ -130,6 +130,18 @@ class AdminHome extends Component {
                         }
                     ]
                 },
+                {
+                    name: "Extra",
+                    created: "4/7/2020",
+                    students: "Leandro Hurtado, Joaquin",
+                    subareas: [
+                        {
+                            name: "Sub-Extra",
+                            created: "4/7/2020",
+                            students:  "Leandro Hurtado, Joaquin"
+                        }
+                    ]
+                },
             ]
         );
     }

@@ -7,9 +7,9 @@ import ResponsiveNavBar from '../ResponsiveNavBar';
         user:
         {
             id: 0,
-            name: "Visitor2",
+            name: "Leandro Hurtado",
             password: 'testPassword',
-            role: "Student",
+            role: "Student", //This will change when we fetch a real user at backend
             area: "Math"
         }};
   constructor(props)

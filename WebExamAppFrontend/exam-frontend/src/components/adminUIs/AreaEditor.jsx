@@ -141,7 +141,7 @@ class AreaEditor extends Component {
         return (
             <div className="overlayed">
             <form className = "elementEditForm" onSubmit={this.editAction} >
-                <span className="putLeft">{this.state.overlayed.extras.id+": "}</span>
+                <span className="putLeft">{this.state.overlayed.extras.placeholder+": "}</span>
                 <textarea rows="1" name="newValue" defaultValue={this.state.overlayed.extras.value} type="text" className="myInput" placeholder={this.state.overlayed.extras.placeholder +"..."} required/>
                 <button type="submit">Save changes</button>
                 <button type="button" onClick= {this.cancelEdit}>Cancel</button>
@@ -180,10 +180,10 @@ class AreaEditor extends Component {
     {
         event.preventDefault();
         let element = event.target.parentElement;
-        let placeholder = element.title;
+        let placeholder = element.id.slice(1);
         placeholder= this.getFirstCapitalized(placeholder);
         let id = element.id.slice(1);
-        id =  this.getFirstCapitalized(id);
+        
         let extras = {
             placeholder: placeholder,
             id: id,

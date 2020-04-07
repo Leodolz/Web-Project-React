@@ -75,7 +75,7 @@ class StudentExamTaker extends Component {
     GetAnswerOverlayForm = () =>
     {
         return <AnswerManager cancelEdit={this.cancelEdit} getAnswer={this.GetAnswer}
-        placeholder= {this.state.overlayed.extras.question+"\n"+this.state.overlayed.extras.placeholder} tempOptions={this.state.questions[this.state.overlayed.extras.id]}/>;
+        placeholder= {this.state.overlayed.extras.question} tempOptions={this.state.questions[this.state.overlayed.extras.id]}/>;
     }
     SetAnswer = (id,answer) =>
     {

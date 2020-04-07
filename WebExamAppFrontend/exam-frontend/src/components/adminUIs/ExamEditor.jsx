@@ -16,6 +16,7 @@ class NewExamList extends Component {
         editingId: 0,
         date: null,
         subarea: null,
+        title: null,
       }
     showActive = (event)=>
     {
@@ -134,7 +135,11 @@ class NewExamList extends Component {
     }
     GetDateOverlayForm = () =>
     {
-        return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit} />;
+        return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit} date={true}/>;
+    }
+    GetTitleOverlayForm = () =>
+    {
+        return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit}/>;
     }
     GetQuestionOverlayForm = () =>
     {
@@ -163,6 +168,8 @@ class NewExamList extends Component {
                     return this.GetSubAreasOverlayForm();
                 case "Date":
                     return this.GetDateOverlayForm();
+                case "Title":
+                    return this.GetTitleOverlayForm();
                 default:
                     return this.GetQuestionOverlayForm();
             }   
@@ -175,6 +182,7 @@ class NewExamList extends Component {
         let overlay = this.GetOverlayedForm();
         return (
             <React.Fragment>
+                <h3 className="Title" title= {this.state.title}>Exam Title: {this.state.title} <button  onClick= {this.handleEdit}>Edit</button></h3>
                 <h3 className="Date" title={this.state.date}>Exam Date: {this.state.date} <button  onClick= {this.handleEdit}>Edit</button></h3>
                 <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
                 <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}/>
@@ -212,6 +220,15 @@ class NewExamList extends Component {
                 type: "Date",
             }
         }
+        else if (element.className == "Title")
+        {
+            extras  =
+            {
+                placeholder: "Title",
+                value: element.title,
+                type: "Title",
+            }
+        }
         this.setState({overlayed: {
             overlay: true,
             extras:extras
@@ -221,21 +238,10 @@ class NewExamList extends Component {
     editAction = (event) =>
     {
         event.preventDefault();
-        if(this.state.nestedOverlayed.extras)
-        {
-            let nestedExtras = this.state.nestedOverlayed.extras;
-            let newOptions = this.state.tempOptions.options.slice();
-            newOptions[nestedExtras.id] = event.target.newValue.value;
-            let newTempOptions = this.state.tempOptions;
-            newTempOptions.options = newOptions;
-            this.setState({tempOptions:newTempOptions});
-            this.setState({nestedOverlayed: {
-                overlay: false,
-                extras:null}
-            });
-            return;
-        }
-        else this.setState({date:event.target.newValue.value})
+        if(this.state.overlayed.extras.placeholder == "Title")
+            this.setState({title:event.target.newValue.value})
+        else
+            this.setState({date:event.target.newValue.value})
         this.setState({overlayed: {
             overlay: false,
             extras:null}

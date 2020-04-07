@@ -134,6 +134,7 @@ class QuestionEditor extends Component {
             answer: answer,
             multiple: this.state.tempOptions.multiple,
         }});
+        document.getElementById("optionsAdder").reset();
     }
     GetAnswerOverlayForm = () =>
     {
@@ -168,7 +169,7 @@ class QuestionEditor extends Component {
     {
         event.preventDefault();
         let extras = {
-            placeholder: "Add Extra",
+            placeholder: "Add Option",
             type: "Options",
         }
         this.setState({overlayed:{

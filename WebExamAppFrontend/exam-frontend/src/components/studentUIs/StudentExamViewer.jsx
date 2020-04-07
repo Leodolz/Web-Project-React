@@ -13,10 +13,10 @@ class StudentExamViewer extends Component {
         if(this.props.exam)
         {
             console.log(this.props.exam);
-            this.setState({listElements:this.props.exam.listElements});
-            this.setState({date: this.props.exam.date});
-            this.setState({subarea: this.props.exam.subarea});
-            this.setState({score: this.props.exam.score});
+            this.state.listElements = this.props.exam.listElements;
+            this.state.date= this.props.exam.date;
+            this.state.subarea= this.props.exam.subarea;
+            this.state.score= this.props.exam.score;
         }
     }
     

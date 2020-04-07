@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import MainPage from './controllers/UserController';
-import Accordion from './Accordion';
-import StudentTable from './tables/StudentExamTable'
-import AdminExamTable from './tables/AdminExamTable'
-import AdminStudentTable from './tables/AdminStudentTable'
-import AreasTable from './tables/SubAreasTable'
 import AdminHome from './adminUIs/AdminHome'
 import StudentHome from './studentUIs/StudentHome'
 

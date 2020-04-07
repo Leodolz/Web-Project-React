@@ -74,7 +74,7 @@ class TakeExam extends Component {
                     multiple: false
                 }
             ],
-            date: "4/2/2020",
+            date: "4/7/2020",
             subarea: "Geometry",
             score: 0
         }

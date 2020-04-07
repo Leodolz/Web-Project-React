@@ -36,7 +36,6 @@ class StudentHome extends Component {
         return (
             <React.Fragment>
             <h1>Welcome Student: {this.state.user.name}</h1>
-            <button onClick={()=>window.location.assign('./ExamStudent')}>Take Exam</button>
             <Accordion accordions= {accordions}/>
             {overlay}
             </React.Fragment>
@@ -49,7 +48,7 @@ class StudentHome extends Component {
 
     GetStudentPastExamsTable = ()=>
     {
-        //Replace by a fetch IT HAS TO HAVE THIS ATTRIBUTES
+        //Replace by a fetch IT HAS TO HAVE THESE ATTRIBUTES
         return(
             [
                 {
@@ -103,8 +102,8 @@ class StudentHome extends Component {
                     score: "not available"
                 },
                 {
-                    title: "Geometry-mod-3",
-                    date: "5/10/2020",
+                    title: "Generic Exam",
+                    date: "4/7/2020",
                     area: "Math",
                     subarea: "Geometry",
                     score: "not available"
@@ -189,7 +188,7 @@ class StudentHome extends Component {
                 },
             },
             {
-                title:"Comming Exams",
+                title:"Coming Exams",
                 body:
                 {
                     multi: commingExamsBody
