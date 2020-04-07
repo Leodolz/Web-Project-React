@@ -10,21 +10,28 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using WebApplication2.Models;
+using WebApplication2.DBControllers;
+using WebApplication2.DAL;
 
 namespace WebApplication2.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UsersController : ApiController
     {
-        public static List<User> DefaultUsers = new List<User>
+        public static List<StaticUser> DefaultUsers = new List<StaticUser>
         {
-            new User {id = 1, name = "Me", email= "email1", phone="1", role=1, shaName=StringToSha("Me")},
-            new User {id = 2, name = "OtherMe", email= "email2", phone="2", role=2, shaName = StringToSha("OtherMe")}
+            new StaticUser {id = 1, name = "Me", email= "email1", phone="1", role=1, shaName=StringToSha("Me")},
+            new StaticUser {id = 2, name = "OtherMe", email= "email2", phone="2", role=2, shaName = StringToSha("OtherMe")}
+        };
+        public static List<User> CurrentUsers = new List<User>
+        {
+            new User{Id = 1, email="leodolz14@gmail.com", password=StringToSha("12345"), role="Admin", username="Lean7"}
         };
         
         // GET: api/Users
-        public IEnumerable<User> Get()
+        public IEnumerable<StaticUser> Get()
         {
+            
             return DefaultUsers;
         }
 
@@ -32,23 +39,41 @@ namespace WebApplication2.Controllers
         public IHttpActionResult Get(string id)
         {
             System.Diagnostics.Debug.WriteLine("Recieved GET with value = "+id);
-            var product = DefaultUsers.Find((user) => user.shaName == id);
-            if (product == null)
+
+            var result = CurrentUsers.Find((user) => user.password == id);
+            if (result == null)
             {
                 AuthController.currentUser = null;
                 AuthController.WebAuth = false;
                 return NotFound();
             }
-            AuthController.currentUser = product;
+            AuthController.currentUser = result;
             AuthController.WebAuth = true;
-            return Ok(product);
+            return Ok(result);
+        }
+
+        public IHttpActionResult Get(string username, string password)
+        {
+            System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + username);
+
+            var result = CurrentUsers.Find((user) => user.username == username);
+            
+            if (result == null || result.password!=password)
+            {
+                AuthController.currentUser = null;
+                AuthController.WebAuth = false;
+                return NotFound();
+            }
+            AuthController.currentUser = result;
+            AuthController.WebAuth = true;
+            return Ok(result);
         }
 
         // POST: api/Users
         public void Post(object user)
         {
             JObject juser = user as JObject;
-            User realUser = juser.ToObject<User>();
+            StaticUser realUser = juser.ToObject<StaticUser>();
             System.Diagnostics.Debug.WriteLine("Recieved User: "+realUser.name);
             realUser.id = DefaultUsers.Count + 1;
             realUser.shaName = StringToSha(realUser.name);

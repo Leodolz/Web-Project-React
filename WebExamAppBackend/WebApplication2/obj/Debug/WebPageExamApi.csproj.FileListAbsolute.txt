@@ -168,3 +168,7 @@ D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\obj
 D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\obj\Debug\WebPageExamApi.csproj.CopyComplete
 D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\obj\Debug\WebApplication2.dll
 D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\obj\Debug\WebApplication2.pdb
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\bin\EntityFramework.dll
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\bin\EntityFramework.SqlServer.dll
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\bin\EntityFramework.xml
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamAppBackend\WebApplication2\bin\EntityFramework.SqlServer.xml

@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using WebApplication2.Models;
+using WebApplication2.DAL;
 
 namespace WebApplication2.Controllers
 {
