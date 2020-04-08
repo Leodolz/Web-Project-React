@@ -10,6 +10,7 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using WebApplication2.Models;
+using WebApplication2.Proxies;
 using WebApplication2.DBControllers;
 using WebApplication2.DAL;
 
@@ -27,6 +28,7 @@ namespace WebApplication2.Controllers
         {
             new User{Id = 1, email="leodolz14@gmail.com", password=StringToSha("12345"), role="Admin", username="Lean7"}
         };
+        private static UserProxy userProxy = new UserProxy(new UserController());
         
         // GET: api/Users
         public IEnumerable<StaticUser> Get()
@@ -55,11 +57,13 @@ namespace WebApplication2.Controllers
         public IHttpActionResult Get(string username, string password)
         {
             System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + username);
-
-            var result = CurrentUsers.Find((user) => user.username == username);
+            var result = userProxy.GetUser(username);
+            //var result = CurrentUsers.Find((user) => user.username == username);
             
-            if (result == null || result.password!=password)
+            if (result == null || result.password.Trim()!=password.Trim())
             {
+                System.Diagnostics.Debug.WriteLine("User is: "+result.password);
+                System.Diagnostics.Debug.WriteLine("Real password is: " + password);
                 AuthController.currentUser = null;
                 AuthController.WebAuth = false;
                 return NotFound();

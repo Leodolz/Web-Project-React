@@ -212,10 +212,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Proxies\IUserProxy.cs" />
+    <Compile Include="Proxies\UserProxy.cs" />
     <Compile Include="Repository\IGenericRepository.cs" />
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Models\StaticUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Exam_Database.mdf" />

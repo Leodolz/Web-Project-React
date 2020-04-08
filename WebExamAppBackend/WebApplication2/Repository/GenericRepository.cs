@@ -9,8 +9,8 @@ namespace WebApplication2.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private DbContext context = null;
-        private DbSet<T> table = null;
+        protected DbContext context = null;
+        protected DbSet<T> table = null;
         public GenericRepository(DbContext context)
         {
             this.context = context;
@@ -20,6 +20,7 @@ namespace WebApplication2.Repository
         {
             T existing = table.Find(id);
             table.Remove(existing);
+            
         }
 
         public IList<T> GetAll()

@@ -9,16 +9,17 @@ namespace WebApplication2.DBControllers
 {
     public class UserController 
     {
-        private IGenericRepository<User> userRepository = null;
+        private UserRepository userRepository = null;
 
         public UserController()
         {
-            userRepository = new GenericRepository<User>(new Exam_DatabaseContext());
+            userRepository = new UserRepository(new Exam_DatabaseContext());
         }
+        /*
         public UserController(IGenericRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-        }
+        }*/
         private void AddUser(User model)
         {
             var allUsers = userRepository.GetAll();
@@ -50,6 +51,10 @@ namespace WebApplication2.DBControllers
         {
             userRepository.Delete(studentID);
             userRepository.Save();
+        }
+        public User GetByUsername(string username)
+        {
+            return userRepository.GetByUsername(username);
         }
     }
 }
