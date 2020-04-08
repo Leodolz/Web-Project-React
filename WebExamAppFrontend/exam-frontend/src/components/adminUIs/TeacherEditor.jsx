@@ -1,7 +1,6 @@
 import React, { Component } from 'react'; 
-import CustomCheckBoxes from '../smallComponents/CustomCheckBoxes';
-import TextOverlayForm from '../smallComponents/TextOverlayForm';
-class StudentEditor extends Component {
+
+class TeacherEditor extends Component {
     state = {
         student: this.props.student,
         overlayed : {
@@ -9,6 +8,13 @@ class StudentEditor extends Component {
             extras : null,
             formType: "Text",
         },
+    }
+    hideComponent = (event)=>
+    {
+        let elementId = event.target.parentElement.id;
+        let newarray = this.state.listElements.slice();
+        newarray = newarray.filter((value,index)=>{ return index!=elementId});
+        this.setState({listElements:newarray});
     }
     renderStudent = () => 
     {
@@ -47,7 +53,6 @@ class StudentEditor extends Component {
     }
     GetAllAreas = () =>
     {
-        //Fetch for all areas
         return [
             "Math",
             "History",
@@ -56,7 +61,6 @@ class StudentEditor extends Component {
     }
     GetStudentSubAreas = () =>
     {
-        //Fetch for subAreas inside areas
         return [
             "Algebra",
             "World History",
@@ -80,8 +84,14 @@ class StudentEditor extends Component {
     }
     GetAreasCheckBoxes(currentArray, generalArray)
     {
-       return <CustomCheckBoxes answers = {currentArray} 
-       generalArray = {generalArray} handleCheckAnswer={this.handleCheckArea}/>;
+        let checkboxes = [];
+        for(let i=0; i<generalArray.length; i++)
+        {
+            let isChecked = currentArray.find((area)=>area==generalArray[i]) != null;
+            checkboxes.push(<label key={i+"Chk"} className="checkContainer"><input type="checkbox" defaultChecked={isChecked}
+            value ={generalArray[i]} onClick={this.handleCheckClick} onChange={this.handleCheckArea} />{generalArray[i]}<span className="checkmark"></span><br/></label>)
+        }
+        return checkboxes;
     }
     handleCheckArea = (event) =>
     {
@@ -119,7 +129,42 @@ class StudentEditor extends Component {
     }
     GetTextOverlayForm = () =>
     {
-        return (<TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit}/>);
+        return (
+            <div className="overlayed">
+            <form className = "elementEditForm" onSubmit={this.editAction} >
+                <span className="putLeft">{this.state.overlayed.extras.placeholder+": "}</span>
+                <textarea rows="2" name="newValue" defaultValue={this.state.overlayed.extras.value} type="text" className="myInput" placeholder={this.state.overlayed.extras.placeholder +"..."} required/>
+                <button type="submit">Save changes</button>
+                <button type="button" onClick= {this.cancelEdit}>Cancel</button>
+            </form>
+            </div>
+        );
+    }
+    PopulateSubAreaOptions = () =>
+    {
+        let areasBody = [];
+        areasBody.push(<option value="Math">Math</option>);
+        areasBody.push(<option value="History">History</option>);
+        areasBody.push(<option value="Biology">Biology</option>);
+        return areasBody;
+    }
+    GetSubAreasOverlayForm = () =>
+    {
+        let areasBox = this.PopulateSubAreaOptions();
+        return (
+            <div className="overlayed">
+            <form className = "elementEditForm" onSubmit={this.editAction} >
+                <span className="etag">{this.state.overlayed.extras.placeholder+": "}</span>
+                <br/>
+                <select className="SelectOption">
+                    {areasBox}
+                </select>
+                <br/>
+                <button type="submit">Save changes</button>
+                <button type="button" onClick= {this.cancelEdit}>Cancel</button>
+            </form>
+            </div>
+        );
     }
 
     render() {  
@@ -170,4 +215,4 @@ class StudentEditor extends Component {
     }
 }
  
-export default StudentEditor;
+export default TeacherEditor;

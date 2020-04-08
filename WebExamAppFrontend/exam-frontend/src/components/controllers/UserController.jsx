@@ -22,7 +22,7 @@ import ResponsiveNavBar from '../ResponsiveNavBar';
 
     logOff = () =>
     {
-        fetch('http://localhost:51061/api/Users/~c')
+        fetch('http://localhost:51061/api/Logout')
         .then(result=>result.json())
         .then((data)=>{
             this.forceUpdate();

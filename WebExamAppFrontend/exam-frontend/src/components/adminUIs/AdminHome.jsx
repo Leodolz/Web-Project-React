@@ -13,6 +13,7 @@ class AdminHome extends Component {
             overlay: false,
             body : null,
         },
+        students : []
     }
     cancelEdit = (event) =>
     {
@@ -38,6 +39,10 @@ class AdminHome extends Component {
         return (
             <React.Fragment>
             <h1>Welcome Admin {this.state.user.username}</h1>
+            <br/>
+            <button>Add User</button>
+            <button>View Users</button>
+            <br/>
             <Accordion accordions= {accordions}/>
             {overlay}
             </React.Fragment>
@@ -75,27 +80,33 @@ class AdminHome extends Component {
             ]
         );
     }
-    GetAdminStudentsTable = ()=>
+   FetchAdminAreasTable = () => 
+   {
+    let context = this;
+    fetch('http://localhost:51061/api/Areas')
+    .then(result=>result.json())
+    .then((data)=>{
+        context.setState({students: data});
+        console.log(data);
+    })
+   .catch((e)=>{
+    alert("No students found");
+    console.log(e);
+    });
+   }
+    FetchAdminStudentsTable = ()=>
     {
-        return(
-            [
-                {
-                    name: "Leandro Hurtado",
-                    username: "leodolz",
-                    email: "leo123f@somemail.com",
-                    areas: "Math, History",
-                    subareas: "Algebra, World History, Geometry",
-                },
-                
-                {
-                    name: "Another Student",
-                    username: "genericStudent",
-                    email: "gen324@somemail.com",
-                    areas: "Math",
-                    subareas: "Algebra, Geometry",
-                },
-            ]
-        );
+        let context = this;
+        fetch('http://localhost:51061/api/Students')
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({students: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No students found");
+        console.log(e);
+        });
     }
     GetAdminAreasTable = ()=>
     {
@@ -213,6 +224,8 @@ class AdminHome extends Component {
             areasBody.push(container);
         }
         console.log(areasBody);
+        if(this.state.students[0]== null)
+            this.FetchAdminStudentsTable();
         return [
             {
                 title:"Exams",
@@ -227,7 +240,7 @@ class AdminHome extends Component {
                 title:"Students",
                 body : (
                     <React.Fragment>
-                     <AdminStudentTable table = {this.GetAdminStudentsTable()}/>
+                     <AdminStudentTable table = {this.state.students}/>
                      <button onClick={()=>window.location.assign('/admStudent')}>Add new Student</button>
                     </React.Fragment>
                 )

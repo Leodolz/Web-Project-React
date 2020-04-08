@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import MainPage from './UserController';
 import StudentEditor from '../adminUIs/StudentEditor'
 
-class AddEditStudents extends Component {
+class AddEditTeachers extends Component {
     state={
         user:null,
     }
-    GetStudent = () =>
+    GetTeacher = () =>
     {
         return {
-            name: "Leandro",
-            username: "leodolz",
-            email: "Leo123@somemail.com",
+            name: "John Monei",
+            username: "Johnny_23",
+            email: "JM23@gmail.com",
             areas: ["Math", "History"],
             subareas: ["Geometry","Algebra","World History"]
         };
     }
-    GetEmptyStudent =() =>
+    GetEmptyTeacher =() =>
     {
         return {
             name: null,
@@ -30,7 +30,7 @@ class AddEditStudents extends Component {
     render() {
         let body = null;
         let role = '';
-        let student= this.GetStudent();
+        let teacher= this.GetTeacher();
         if(this.state.user)
         {
             role = this.state.user.role;
@@ -40,8 +40,8 @@ class AddEditStudents extends Component {
             else
             body = (
                 <React.Fragment >
-                <h1 className="Editor">Student editor</h1>
-                <StudentEditor student={student}/>
+                <h1 className="Editor">Teacher editor</h1>
+                <TeacherEditor teacher={teacher}/>
                 </React.Fragment>
             );
         }
@@ -58,4 +58,4 @@ class AddEditStudents extends Component {
     }
 }
  
-export default AddEditStudents;
+export default AddEditTeachers;

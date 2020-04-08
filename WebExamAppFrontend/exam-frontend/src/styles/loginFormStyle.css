@@ -19,6 +19,7 @@ form {
     border: none;
     cursor: pointer;
     width: 20%;
+    margin-left: 5px;
   }
   
   button:hover {
