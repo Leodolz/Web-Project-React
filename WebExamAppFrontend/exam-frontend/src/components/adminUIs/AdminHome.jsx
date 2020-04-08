@@ -37,7 +37,7 @@ class AdminHome extends Component {
         let accordions = this.GetAdminBody()
         return (
             <React.Fragment>
-            <h1>Welcome Admin {this.state.user.name}</h1>
+            <h1>Welcome Admin {this.state.user.username}</h1>
             <Accordion accordions= {accordions}/>
             {overlay}
             </React.Fragment>

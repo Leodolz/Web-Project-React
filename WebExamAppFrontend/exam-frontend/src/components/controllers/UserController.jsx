@@ -4,26 +4,19 @@ import ResponsiveNavBar from '../ResponsiveNavBar';
  class MainPage extends Component{
 
     state = {
-        user:
-        {
-            id: 0,
-            name: "Leandro Hurtado",
-            password: 'testPassword',
-            role: "Student", //This will change when we fetch a real user at backend
-            area: "Math"
-        }};
+        user: null,
+       };
   constructor(props)
     {
         super(props);
         this.props.GetUser(this.state.user);
-        /*
         fetch('http://localhost:51061/api/Auth/')
         .then(result=>result.json())
         .then((data)=>{
             this.setState({user: data})
             this.props.GetUser(data);
         })
-        .catch(console.log);*/
+        .catch(console.log);
     }
 
 
@@ -50,7 +43,7 @@ import ResponsiveNavBar from '../ResponsiveNavBar';
               news= {this.props.news}
               contact= {this.props.contact}
               about= {this.props.about}
-              username={this.state.user.name} />
+              username={this.state.user.username} />
             {this.props.body}
             </React.Fragment>
             );

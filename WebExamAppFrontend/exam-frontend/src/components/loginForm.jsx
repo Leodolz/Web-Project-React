@@ -35,18 +35,20 @@ class LoginForm extends Component {
     handleSubmit =(event) =>
     {
         event.preventDefault();
-        let name = event.target.uname.value;
+        let username = event.target.uname.value;
+        let password = event.target.pass.value;
         let encrypted = '';
         let context = this;
-        Promise.resolve(this.sha256(name)).then(function(value)
+        Promise.resolve(this.sha256(password)).then(function(value)
         {
             encrypted = value;
-            fetch('http://localhost:51061/api/Users/'+encrypted)
+            fetch('http://localhost:51061/api/Users?username='
+            +username+'&password='+encrypted)
             .then(result=>result.json())
             .then((data)=>{
                 context.setState({contacts: data});
                 console.log(context.state.contacts.id);
-                window.location.assign('/main');
+                window.location.assign('/home');
             })
            .catch((e)=>{
             alert("Incorrect username");
