@@ -170,6 +170,10 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="DBControllers\StudentController.cs" />
+    <Compile Include="DBControllers\TeacherController.cs" />
     <Compile Include="DBControllers\UserController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -213,6 +217,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Proxies\IUserProxy.cs" />
+    <Compile Include="Proxies\StudentProxy.cs" />
     <Compile Include="Proxies\UserProxy.cs" />
     <Compile Include="Repository\IGenericRepository.cs" />
     <Compile Include="Repository\GenericRepository.cs" />

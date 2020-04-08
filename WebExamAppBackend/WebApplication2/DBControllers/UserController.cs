@@ -15,12 +15,16 @@ namespace WebApplication2.DBControllers
         {
             userRepository = new UserRepository(new Exam_DatabaseContext());
         }
+        public List<User> GetAllUsers()
+        {
+            return userRepository.GetAll().ToList();
+        }
         /*
         public UserController(IGenericRepository<User> userRepository)
         {
             this.userRepository = userRepository;
         }*/
-        private void AddUser(User model)
+        public void AddUser(User model)
         {
             var allUsers = userRepository.GetAll();
             int lastId = allUsers[allUsers.Count() - 1].Id;
@@ -54,7 +58,8 @@ namespace WebApplication2.DBControllers
         }
         public User GetByUsername(string username)
         {
-            return userRepository.GetByUsername(username);
+            return userRepository.GetAllWithSameName(username);
         }
+        
     }
 }
