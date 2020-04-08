@@ -13,7 +13,6 @@ namespace SimpleLoginRegisterBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class StudentController : ApiController
     {
-
         public static List<Student> SavedStudents = new List<Student>
         {
             new Student{ID=1,name="John", age=20},
