@@ -16,7 +16,7 @@ namespace WebApplication2.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class StudentsController : ApiController
     {
-        private static UserProxy userProxy = new UserProxy(new UserController());
+        private static StudentTeacherProxy studentTeacherProxy = new StudentTeacherProxy(new UserController());
         // GET: api/Students
         public RealStudent[] Get()
         {
@@ -25,9 +25,20 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Students/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
+            var result = studentTeacherProxy.GetStudent(id);
+            if (result == null )
+            {
+                System.Diagnostics.Debug.WriteLine("Couldn't return student");
+                EditStudentController.currentStudent = null;
+                EditStudentController.Editing = false;
+                return NotFound();
+            }
+            EditStudentController.currentStudent = result;
+            EditStudentController.Editing = true;
+            return Ok(result);
         }
 
         // POST: api/Students

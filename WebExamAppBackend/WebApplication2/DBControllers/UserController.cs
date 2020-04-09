@@ -64,6 +64,9 @@ namespace WebApplication2.DBControllers
         {
             return userRepository.GetGroupByRole(role);
         }
-        
+        public User GetById(int id)
+        {
+            return userRepository.GetById(id);
+        }
     }
 }
