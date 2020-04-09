@@ -5,6 +5,7 @@ import StudentEditor from '../adminUIs/StudentEditor'
 class AddEditStudents extends Component {
     state={
         user:null,
+        student:null
     }
     GetStudent = () =>
     {
@@ -15,6 +16,16 @@ class AddEditStudents extends Component {
             areas: ["Math", "History"],
             subareas: ["Geometry","Algebra","World History"]
         };
+    }
+    FetchStudent = () =>
+    {
+        fetch('http://localhost:51061/api/EditStudent')
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({student: data})
+            this.forceUpdate();
+        })
+        .catch(console.log);
     }
     GetEmptyStudent =() =>
     {
@@ -30,7 +41,10 @@ class AddEditStudents extends Component {
     render() {
         let body = null;
         let role = '';
-        let student= this.GetStudent();
+        let student= null;
+        if(this.state.student==null)
+            this.FetchStudent();
+        student = this.state.student;
         if(this.state.user)
         {
             role = this.state.user.role;

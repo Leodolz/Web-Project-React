@@ -5,7 +5,17 @@ class AdminStudentTable extends Component {
     clickDetailsHandler = (event) =>
     {
         console.log(event.target.title);
+        this.fetchStudentById(event.target.title)
         window.location.assign('/admStudent');
+    }
+    fetchStudentById(id)
+    {
+        fetch('http://localhost:51061/api/Students/'+id)
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
     }
     renderTable(entries)
     {

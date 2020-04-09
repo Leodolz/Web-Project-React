@@ -12,9 +12,9 @@ class StudentEditor extends Component {
     }
     renderStudent = () => 
     {
-        let student = this.state.student;
-        if(student === null)
-            return this.GetStudentForm();
+        let student = this.props.student;
+        if(student == null)
+            return <p>Loading student...</p>;
         let areas = student.areas.join(', ');
         let subAreas = student.subareas.join(', ');
         let editButton = <button onClick= {this.handleEdit} className="edit">Edit</button>;
