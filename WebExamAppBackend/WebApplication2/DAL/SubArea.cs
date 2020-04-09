@@ -16,7 +16,7 @@ namespace WebApplication2.DAL
     {
         public int Id { get; set; }
         public string name { get; set; }
-        public Nullable<System.DateTime> created { get; set; }
-        public string students { get; set; }
+        public System.DateTime created { get; set; }
+        public int parentAreaId { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace WebApplication2.DBControllers
 
         public UserController()
         {
-            userRepository = new UserRepository(new Exam_DatabaseContext());
+            userRepository = new UserRepository(new Exam_DBContext());
         }
         public List<User> GetAllUsers()
         {
@@ -59,6 +59,10 @@ namespace WebApplication2.DBControllers
         public User GetByUsername(string username)
         {
             return userRepository.GetAllWithSameName(username);
+        }
+        public List<User> GetGroupByRole(string role)
+        {
+            return userRepository.GetGroupByRole(role);
         }
         
     }

@@ -16,13 +16,9 @@ namespace WebApplication2.DAL
     {
         public int Id { get; set; }
         public string title { get; set; }
-        public Nullable<System.DateTime> date { get; set; }
-        public string subarea { get; set; }
-        public string questions { get; set; }
-        public string options { get; set; }
-        public string answers { get; set; }
-        public string scores { get; set; }
-        public Nullable<int> totalScore { get; set; }
-        public string type { get; set; }
+        public System.DateTime fromDate { get; set; }
+        public int subAreaId { get; set; }
+        public int totalScore { get; set; }
+        public System.DateTime untilDate { get; set; }
     }
 }

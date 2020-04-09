@@ -23,5 +23,11 @@ namespace WebApplication2.Repository
             return table.Where(user => user.username == (string)username)
                 .Select(user => user).ToList()[0];
         }
+        public List<User> GetGroupByRole(object role)
+        {
+            return table.Where(user => user.role.Trim() == (string)role)
+               .Select(user => user).ToList();
+        }
+        
     }
 }

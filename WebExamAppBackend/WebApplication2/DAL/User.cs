@@ -19,5 +19,11 @@ namespace WebApplication2.DAL
         public string username { get; set; }
         public string role { get; set; }
         public string password { get; set; }
+        public System.DateTime created { get; set; }
+        public System.DateTime until { get; set; }
+        public byte[] active { get; set; }
+        public string full_name { get; set; }
+        public System.DateTime birth { get; set; }
+        public string contact { get; set; }
     }
 }

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBContext">
+    <EntitySetMapping Name="Areas">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
+        <MappingFragment StoreEntitySet="Areas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="created" ColumnName="created" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Exams">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.Exam">
+        <MappingFragment StoreEntitySet="Exams">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="fromDate" ColumnName="fromDate" />
+          <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
+          <ScalarProperty Name="totalScore" ColumnName="totalScore" />
+          <ScalarProperty Name="untilDate" ColumnName="untilDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OptionAssigns">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.OptionAssign">
+        <MappingFragment StoreEntitySet="OptionAssign">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="questionId" ColumnName="questionId" />
+          <ScalarProperty Name="optionTitle" ColumnName="optionTitle" />
+          <ScalarProperty Name="answer" ColumnName="answer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="questionAssigns">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.questionAssign">
+        <MappingFragment StoreEntitySet="questionAssign">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="examId" ColumnName="examId" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubAreaAssigns">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.SubAreaAssign">
+        <MappingFragment StoreEntitySet="SubAreaAssign">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="created" ColumnName="created" />
+          <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubAreas">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.SubArea">
+        <MappingFragment StoreEntitySet="SubAreas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="created" ColumnName="created" />
+          <ScalarProperty Name="parentAreaId" ColumnName="parentAreaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="created" ColumnName="created" />
+          <ScalarProperty Name="until" ColumnName="until" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="full_name" ColumnName="full name" />
+          <ScalarProperty Name="birth" ColumnName="birth" />
+          <ScalarProperty Name="contact" ColumnName="contact" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

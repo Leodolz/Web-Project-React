@@ -18,10 +18,10 @@ namespace WebApplication2.Controllers
     {
         private static UserProxy userProxy = new UserProxy(new UserController());
         // GET: api/Students
-        public Student[] Get()
+        public RealStudent[] Get()
         {
-            StudentController studentController = new StudentController();
-            return studentController.GetAllUsers().ToArray();
+            RealStudentController studentController = new RealStudentController();
+            return studentController.GetAllStudents().ToArray();
         }
 
         // GET: api/Students/5

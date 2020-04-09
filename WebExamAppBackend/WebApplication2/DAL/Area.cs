@@ -17,7 +17,5 @@ namespace WebApplication2.DAL
         public int Id { get; set; }
         public string name { get; set; }
         public System.DateTime created { get; set; }
-        public string students { get; set; }
-        public string subareas { get; set; }
     }
 }
