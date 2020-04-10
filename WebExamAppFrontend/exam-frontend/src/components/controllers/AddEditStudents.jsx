@@ -7,25 +7,16 @@ class AddEditStudents extends Component {
         user:null,
         student:null
     }
-    GetStudent = () =>
-    {
-        return {
-            name: "Leandro",
-            username: "leodolz",
-            email: "Leo123@somemail.com",
-            areas: ["Math", "History"],
-            subareas: ["Geometry","Algebra","World History"]
-        };
-    }
     FetchStudent = () =>
     {
         fetch('http://localhost:51061/api/EditStudent')
         .then(result=>result.json())
         .then((data)=>{
-            this.setState({student: data})
-            this.forceUpdate();
+            this.setState({student: data});
         })
-        .catch(console.log);
+        .catch((e)=>{
+            this.setState({student: this.GetEmptyStudent()});
+        });
     }
     GetEmptyStudent =() =>
     {
@@ -49,7 +40,7 @@ class AddEditStudents extends Component {
         {
             role = this.state.user.role;
             let admin = this.state.user.role === "Admin"? true:false; 
-            if(!admin)
+            if(!admin || this.state.student== null)
                 body= (<h1><a href='/'>You need Admin Permisions to be here</a></h1>);
             else
             body = (

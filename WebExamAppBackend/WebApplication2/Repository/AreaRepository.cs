@@ -13,6 +13,10 @@ namespace WebApplication2.Repository
         {
 
         }
+        public Area GetByAreaName(object name)
+        {
+            return table.SingleOrDefault(areaInTable => areaInTable.name == (string)name);
+        }
        // TODO: MAKE MORE INDIVIDYAK ROUTINES
     }
 }

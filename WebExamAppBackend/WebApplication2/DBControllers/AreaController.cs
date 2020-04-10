@@ -56,5 +56,9 @@ namespace WebApplication2.DBControllers
         {
             return areaRepository.GetById(id);
         }
+        public Area getByName(string name)
+        {
+            return areaRepository.GetByAreaName(name);
+        }
     }
 }

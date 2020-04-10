@@ -17,6 +17,7 @@ namespace WebApplication2.Repository
         {
             return table.Where(subarea=> subarea.userId == (int)userId)
                .Select(user => user.subAreaId).ToList();
+            
         }
 
     }

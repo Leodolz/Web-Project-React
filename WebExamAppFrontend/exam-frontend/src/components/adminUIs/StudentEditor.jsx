@@ -4,6 +4,10 @@ import TextOverlayForm from '../smallComponents/TextOverlayForm';
 class StudentEditor extends Component {
     state = {
         student: this.props.student,
+        allAreas: [],
+        loadingAreas: false,
+        studentSubAreas: [],
+        loadingSubAreas: false,
         overlayed : {
             overlay: false,
             extras : null,
@@ -12,9 +16,7 @@ class StudentEditor extends Component {
     }
     renderStudent = () => 
     {
-        let student = this.props.student;
-        if(student == null)
-            return <p>Loading student...</p>;
+        let student = this.state.student;
         let areas = student.areas.join(', ');
         let subAreas = student.subareas.join(', ');
         let editButton = <button onClick= {this.handleEdit} className="edit">Edit</button>;
@@ -36,7 +38,25 @@ class StudentEditor extends Component {
             student.areas.length<1 || student.subareas.length<1)
             alert("You need to fill all fields");
         else
-           console.log(this.state.student);
+        {
+            fetch('http://localhost:51061/api/EditStudent/',
+            {
+                method: 'POST',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Id: student.Id,
+                    name: student.name,
+                    email: student.email,
+                    username: student.username,
+                    active: student.active,
+                    areas: student.areas,
+                    subareas: student.subareas
+                })
+            });
+        }
     }
     cancelEdit = (event) =>
     {
@@ -53,6 +73,28 @@ class StudentEditor extends Component {
             "History",
             "Extra",
         ];
+    }
+    FetchAllAreas = () => 
+    {
+        fetch('http://localhost:51061/api/Areas?strings=true')
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({allAreas: data});
+        })
+        .catch((e)=>{
+            console.log(e)});
+        this.setState({loadingAreas: true});
+    }
+    FetchStudentSubAreas = ()=>
+    {
+        fetch('http://localhost:51061/api/SubAreas?studentAreas='+this.state.student.areas.join(","))
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({studentSubAreas: data});
+        })
+        .catch((e)=>{
+            console.log(e)});
+        this.setState({loadingSubAreas: true});
     }
     GetStudentSubAreas = () =>
     {
@@ -104,7 +146,12 @@ class StudentEditor extends Component {
     {
         let type = this.state.overlayed.formType;
         let currentAreas = this.state.student[type];
-        let generalAreas = type=="areas"?this.GetAllAreas():this.GetStudentSubAreas();
+        let generalAreas;
+        if (type=="areas")
+        {
+            generalAreas = this.state.allAreas;
+        }
+        else generalAreas = this.state.studentSubAreas;
         let checkBoxInputs = this.GetAreasCheckBoxes(currentAreas,generalAreas);
         return (
             <div className="overlayed">
@@ -123,6 +170,14 @@ class StudentEditor extends Component {
     }
 
     render() {  
+        if(this.state.allAreas[0] == null && !this.state.loadingAreas)
+        {
+            this.FetchAllAreas();
+        }
+        if(this.state.studentSubAreas[0] == null && !this.state.loadingSubAreas)
+        {
+            this.FetchStudentSubAreas();
+        }
         let overlay = this.GetOverlayForm();
         return (
             <React.Fragment>

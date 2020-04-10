@@ -21,6 +21,7 @@ namespace WebApplication2.Controllers
         public RealStudent[] Get()
         {
             RealStudentController studentController = new RealStudentController();
+            EditStudentController.Editing = false;
             return studentController.GetAllStudents().ToArray();
         }
 

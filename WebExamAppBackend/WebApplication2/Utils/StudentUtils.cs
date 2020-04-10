@@ -20,7 +20,7 @@ namespace WebApplication2.Utils
                 username= user.username,
                 active= user.active,
                 name = user.full_name,
-                subareas = getSubAreas(userSubAreas),
+                subareas = SubAreaUtils.getSubAreasStrings(userSubAreas),
                 areas = getAreas(userSubAreas, areaController) //This is not working 
             };
         }
@@ -30,19 +30,12 @@ namespace WebApplication2.Utils
             List<string> areas = new List<string>();
             foreach (SubArea subarea in subAreas)
             {
-                areas.Add(areaController.getById(subarea.parentAreaId).name);
+                string areaName = areaController.getById(subarea.parentAreaId).name;
+                if(areas.Find(name=>name==areaName)==null)
+                    areas.Add(areaName);
             }
             return areas.ToArray();
         }
-        private static string[] getSubAreas(List<SubArea> subAreas)
-        {
-
-            List<string> areas = new List<string>();
-            foreach (SubArea subarea in subAreas)
-            {
-                areas.Add(subarea.name);
-            }
-            return areas.ToArray();
-        }
+        
     }
 }
