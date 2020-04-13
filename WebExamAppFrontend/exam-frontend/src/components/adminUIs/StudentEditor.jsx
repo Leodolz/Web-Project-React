@@ -23,8 +23,10 @@ class StudentEditor extends Component {
         let studentAttributes = (
         <React.Fragment key={"Student"}>
             <li id="Sname" title={student.name}><span className="etag">Name:</span> {student.name}{editButton}</li> 
-            <li id="Susername" title={student.username}><span className="etag">Username:</span> {student.username}{editButton}</li>  
+            <li id="Susername" title={student.username}><span className="etag">Username:</span> {student.username}{editButton}</li>
+            <li id="Sbirth" title={student.birth}><span className="etag">Birth:</span> {student.birth}{editButton}</li>  
             <li id="Semail" title={student.email}><span className="etag">Email:</span>{student.email}{editButton}</li> 
+            <li id="Scontact" title={student.contact}><span className="etag">Contact number:</span>{student.contact}{editButton}</li> 
             <li id="Sareas" title={areas}><span className="etag">Areas:</span> {areas}{editButton}</li> 
             <li id="Ssubareas" title={subAreas}><span className="etag">Sub-Areas:</span> {subAreas}{editButton}</li> 
         </React.Fragment> 
@@ -39,7 +41,10 @@ class StudentEditor extends Component {
             alert("You need to fill all fields");
         else
         {
-            fetch('http://localhost:51061/api/EditStudent/',
+            let edit = 'true';
+            if(this.props.new)
+                edit='false';
+            fetch('http://localhost:51061/api/EditStudent?edit='+edit,
             {
                 method: 'POST',
                 headers:{
@@ -51,7 +56,9 @@ class StudentEditor extends Component {
                     name: student.name,
                     email: student.email,
                     username: student.username,
+                    birth: student.birth,
                     active: student.active,
+                    contact: student.contact,
                     areas: student.areas,
                     subareas: student.subareas
                 })
@@ -97,6 +104,8 @@ class StudentEditor extends Component {
             if(this.state.overlayed.formType == "areas" ||
             this.state.overlayed.formType == "subareas")
                 return this.GetAreasOverlayForm();
+            else if(this.state.overlayed.formType == "birth")
+                return this.GetDateOverlayForm();
             else
                 return this.GetTextOverlayForm();
         }
@@ -153,6 +162,10 @@ class StudentEditor extends Component {
     GetTextOverlayForm = () =>
     {
         return (<TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit}/>);
+    }
+    GetDateOverlayForm = () =>
+    {
+        return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit} date={true}/>;
     }
 
     render() {  

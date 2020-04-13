@@ -6,6 +6,7 @@ using WebApplication2.Repository;
 using WebApplication2.DAL;
 using WebApplication2.Utils;
 using WebApplication2.Models;
+using WebApplication2.Proxies;
 
 namespace WebApplication2.DBControllers
 {
@@ -14,17 +15,13 @@ namespace WebApplication2.DBControllers
         private UserController userController = new UserController();
         private AreaController areaController = new AreaController();
         private SubAreaController subAreaController = new SubAreaController();
-        public List<RealStudent> GetAllStudents()
+        public List<RealStudent> GetAllStudents(StudentTeacherProxy studentTeacherProxy)
         {
             List<User> allStudents = userController.GetGroupByRole("Student");
             List<RealStudent> allRealStudents = new List<RealStudent>();
-            foreach(User user in allStudents)
-            {
-                System.Diagnostics.Debug.WriteLine("User is: " + user.full_name);
-            }
             foreach(User student in allStudents)
             {
-                allRealStudents.Add(StudentUtils.UserToStudent(student,subAreaController, areaController));
+                allRealStudents.Add(studentTeacherProxy.GetStudent(student.Id));
             }
             return allRealStudents;
         }
@@ -34,16 +31,30 @@ namespace WebApplication2.DBControllers
             int userId = userController.AddUser(model);
             SubAreaUtils.AssignSubAreasToUser(userId, subAreaController, subareas);
         }
-        public void EditStudent(int userId, User newUser) //change subarea assignations?
+        public void EditStudent(User newUser, string[] subareas) //change subarea assignations?
         {
-            userController.EditUser(userId, newUser);
-            //Edit assignations for subareas
+            newUser.password = userController.GetById(newUser.Id).password;
+            userController.EditUser(newUser.Id, newUser);
+            ChangeUserSubAreas(newUser.Id, subareas.ToList());
         }
 
         public void DeleteStudent(int userId)
         {
             userController.DeleteStudent(userId);
             //Delete assignations for subareas
+        }
+        private void ChangeUserSubAreas(int userId, List<string> newSubAreas)
+        {
+            List<SubArea> UserSubAreas = subAreaController.GetUserSubAreas(userId);
+            List<string> oldSubAreas = SubAreaUtils.GetSubAreasStrings(UserSubAreas).ToList();
+            List<string> subAreasToAssign = SubAreaUtils.OneWayCompareSubAreas(newSubAreas, oldSubAreas);
+            List<string> subAreasToDelete = SubAreaUtils.OneWayCompareSubAreas(oldSubAreas, newSubAreas);
+            SubAreaUtils.AssignSubAreasToUser(userId, subAreaController, subAreasToAssign.ToArray());
+            SubAreaUtils.UnAssignSubAreasToUser(userId, subAreaController, subAreasToDelete.ToArray());
+        }
+        public UserController GetUserController()
+        {
+            return userController;
         }
 
     }

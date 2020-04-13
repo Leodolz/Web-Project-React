@@ -5,7 +5,8 @@ import StudentEditor from '../adminUIs/StudentEditor'
 class AddEditStudents extends Component {
     state={
         user:null,
-        student:null
+        student:null,
+        new: false,
     }
     FetchStudent = () =>
     {
@@ -16,6 +17,7 @@ class AddEditStudents extends Component {
         })
         .catch((e)=>{
             this.setState({student: this.GetEmptyStudent()});
+            this.setState({new:true});
         });
     }
     GetEmptyStudent =() =>
@@ -46,7 +48,7 @@ class AddEditStudents extends Component {
             body = (
                 <React.Fragment >
                 <h1 className="Editor">Student editor</h1>
-                <StudentEditor student={student}/>
+                <StudentEditor student={student} new={this.state.new}/>
                 </React.Fragment>
             );
         }

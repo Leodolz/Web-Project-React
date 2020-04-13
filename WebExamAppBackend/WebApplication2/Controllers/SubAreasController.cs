@@ -31,9 +31,9 @@ namespace WebApplication2.Controllers
             {
                 userAreas.Add(areaController.getByName(areaName));
             }
-            List<SubArea> finalSubAreas = SubAreaUtils.getAvailableSubAreasInAreas(userAreas, subAreaController);
-            System.Diagnostics.Debug.WriteLine("Fetched subAreas: " + string.Join(", ", SubAreaUtils.getSubAreasStrings(finalSubAreas)));
-            return SubAreaUtils.getSubAreasStrings(finalSubAreas);
+            List<SubArea> finalSubAreas = SubAreaUtils.GetAvailableSubAreasInAreas(userAreas, subAreaController);
+      
+            return SubAreaUtils.GetSubAreasStrings(finalSubAreas);
         }
 
         // GET: api/SubAreas/5

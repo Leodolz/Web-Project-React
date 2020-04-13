@@ -19,7 +19,11 @@ namespace WebApplication2.Repository
                .Select(user => user.subAreaId).ToList();
             
         }
-       
 
+        public int GetSubAreaAssignId(int subAreaId, int userId)
+        {
+            return table.SingleOrDefault(assignment => assignment.subAreaId == subAreaId
+                && assignment.userId == userId).Id;
+        }
     }
 }

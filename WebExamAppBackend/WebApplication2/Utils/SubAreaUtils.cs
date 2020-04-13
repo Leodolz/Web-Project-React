@@ -11,7 +11,7 @@ namespace WebApplication2.Utils
 {
     public static class SubAreaUtils
     {
-        public static List<SubArea> getAvailableSubAreasInAreas(List<Area> areas, SubAreaController subAreaController)
+        public static List<SubArea> GetAvailableSubAreasInAreas(List<Area> areas, SubAreaController subAreaController)
         {
             List<SubArea> allSubAreas = subAreaController.GetAllSubAreas();
             List<SubArea> filteredSubAreas = new List<SubArea>();
@@ -25,7 +25,7 @@ namespace WebApplication2.Utils
             }
             return filteredSubAreas;
         }
-        public static string[] getSubAreasStrings(List<SubArea> subAreas)
+        public static string[] GetSubAreasStrings(List<SubArea> subAreas)
         {
 
             List<string> areas = new List<string>();
@@ -43,12 +43,33 @@ namespace WebApplication2.Utils
                 SubAreaAssign newAssignment = new SubAreaAssign
                 {
                     userId = userId,
-                    created = DateTime.Today,
+                    created = DateTime.Today, // TODO: Change name to modified
                     subAreaId = subAreaId,
                 };
                 subAreaController.AssignNewSubArea(newAssignment);
             }
+        }
+
+        public static void UnAssignSubAreasToUser(int userId, SubAreaController subAreaController, string[] subareas)
+        {
+            foreach (string subAreaName in subareas)
+            {
+                int subAreaId = subAreaController.GetByName(subAreaName).Id;
+                int subAreaAssignId = subAreaController.GetAssignmentId(subAreaId, userId);
+                subAreaController.DeleteAssignment(subAreaAssignId);
+            }
 
         }
+        public static List<string> OneWayCompareSubAreas(List<string> completeList, List<string> containingList)
+        {
+            List<string> differentItems = new List<string>();
+            foreach (string listElement in completeList)
+            {
+                if (!containingList.Contains(listElement))
+                    differentItems.Add(listElement);
+            }
+            return differentItems;
+        }
+       
     }
 }

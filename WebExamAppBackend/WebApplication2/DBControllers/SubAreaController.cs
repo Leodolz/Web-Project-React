@@ -71,5 +71,14 @@ namespace WebApplication2.DBControllers
         {
             return subAreaRepository.GetByName(name);
         }
+        public int GetAssignmentId(int subAreaId, int userId)
+        {
+            return subAreaAssignRepository.GetSubAreaAssignId(subAreaId, userId);
+        }
+        public void DeleteAssignment(int assignmentId)
+        {
+            subAreaAssignRepository.Delete(assignmentId);
+            subAreaAssignRepository.Save();
+        }
     }
 }

@@ -19,8 +19,10 @@ namespace WebApplication2.Utils
                 email= user.email,
                 username= user.username,
                 active= user.active,
+                birth = user.birth.ToShortDateString(),
                 name = user.full_name,
-                subareas = SubAreaUtils.getSubAreasStrings(userSubAreas),
+                contact = user.contact,
+                subareas = SubAreaUtils.GetSubAreasStrings(userSubAreas),
                 areas = getAreas(userSubAreas, areaController) //This is not working 
             };
         }
@@ -47,12 +49,22 @@ namespace WebApplication2.Utils
                 role= "Student",
                 password = StringUtils.StringToSha("User_123"),
                 created = DateTime.Today,
-                until = DateTime.Today, //TODO: FIX THIS ISSUE
+                until = DateTime.Today.AddYears(4), //TODO: OBSERVATION CHANGE FOR REAL FORM
                 active = new byte[] {1},
                 full_name = student.name,
-                birth = DateTime.Today, //TODO: FIX THIS ISSUE
-                contact = "00000"
+                birth = DateTime.Parse(student.birth), 
+                contact = student.contact
             };
+        }
+        public static User EditedStudentToUser(RealStudent student, UserController userController)
+        {
+            User editedUser = userController.GetById(student.Id);
+            editedUser.email = student.email;
+            editedUser.username = student.username;
+            editedUser.full_name = student.name;
+            editedUser.birth = DateTime.Parse(student.birth);
+            editedUser.contact = student.contact;
+            return editedUser;
         }
         
     }

@@ -16,13 +16,13 @@ namespace WebApplication2.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class StudentsController : ApiController
     {
-        private static StudentTeacherProxy studentTeacherProxy = new StudentTeacherProxy(new UserController());
+        private StudentTeacherProxy studentTeacherProxy = new StudentTeacherProxy();
         // GET: api/Students
         public RealStudent[] Get()
         {
             RealStudentController studentController = new RealStudentController();
             EditStudentController.Editing = false;
-            return studentController.GetAllStudents().ToArray();
+            return studentController.GetAllStudents(studentTeacherProxy).ToArray();
         }
 
         // GET: api/Students/5
@@ -37,6 +37,7 @@ namespace WebApplication2.Controllers
                 EditStudentController.Editing = false;
                 return NotFound();
             }
+            StudentTeacherProxy.UpdateStudent(result);
             EditStudentController.currentStudent = result;
             EditStudentController.Editing = true;
             return Ok(result);

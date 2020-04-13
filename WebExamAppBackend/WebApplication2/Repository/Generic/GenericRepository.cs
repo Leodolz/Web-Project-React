@@ -62,6 +62,7 @@ namespace WebApplication2.Repository
         public void Update(T obj)
         {
             table.Attach(obj);
+            Console.WriteLine("This is at: "+obj);
             context.Entry(obj).State = EntityState.Modified;
         }
     }

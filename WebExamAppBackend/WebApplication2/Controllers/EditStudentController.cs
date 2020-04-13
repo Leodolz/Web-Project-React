@@ -27,17 +27,22 @@ namespace WebApplication2.Controllers
         }
 
         // POST: api/EditStudent
-        public void Post(object student)
+        public void Post(object student, bool edit)
         {
             JObject juser = student as JObject;
             RealStudent realStudent = juser.ToObject<RealStudent>();
            
-            System.Diagnostics.Debug.WriteLine("With areas: " + string.Join(", ", realStudent.areas));
-            System.Diagnostics.Debug.WriteLine("With subareas: " + string.Join(", ", realStudent.subareas));
-            System.Diagnostics.Debug.WriteLine("With id: " + realStudent.Id);
-
-            DAL.User user = StudentUtils.NewStudentToUser(realStudent);
-            studentController.AddStudent(user, realStudent.subareas);
+            DAL.User user = new DAL.User();
+            if (edit == false)
+            {
+                user = StudentUtils.NewStudentToUser(realStudent);
+                studentController.AddStudent(user, realStudent.subareas);
+            }
+            else
+            {
+                user = StudentUtils.EditedStudentToUser(realStudent,studentController.GetUserController());
+                studentController.EditStudent(user,realStudent.subareas);
+            }
         }
 
         // PUT: api/EditStudent/5

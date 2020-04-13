@@ -11,15 +11,10 @@ namespace WebApplication2.Proxies
 {
     public class StudentTeacherProxy
     {
-        private List<RealStudent> teacherStudentsCache;
-        private UserController userController;
+        private static List<RealStudent> teacherStudentsCache = new List<RealStudent>();
+        private UserController userController = new UserController();
         private SubAreaController subAreaController = new SubAreaController();
         private AreaController areaController = new AreaController();
-        public StudentTeacherProxy(UserController userController)
-        {
-            teacherStudentsCache = new List<RealStudent>();
-            this.userController = userController;
-        }
         public RealStudent GetStudent(int id)
         {
             RealStudent cachedStudent = teacherStudentsCache.Find(student => student.Id == id);
@@ -33,5 +28,10 @@ namespace WebApplication2.Proxies
             System.Diagnostics.Debug.WriteLine("Student cached is:" + cachedStudent.name);
             return cachedStudent;
         }
+        public static void UpdateStudent(RealStudent student)
+        {
+            teacherStudentsCache.Remove(student);
+        }
+        
     }
 }

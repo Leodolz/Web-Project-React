@@ -24,7 +24,6 @@ namespace WebApplication2.Controllers
             {
                 areaNames.Add(area.name);
             }
-            System.Diagnostics.Debug.WriteLine("Fetched areas: " +string.Join(", ", areaNames.ToArray()));
             return areaNames.ToArray();
         }
         // GET: api/Areas
