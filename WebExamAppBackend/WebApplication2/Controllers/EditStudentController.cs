@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using WebApplication2.Models;
+using WebApplication2.DBControllers;
+using WebApplication2.Utils;
 
 namespace WebApplication2.Controllers
 {
@@ -15,7 +17,7 @@ namespace WebApplication2.Controllers
     {
         public static bool Editing = false;
         public static RealStudent currentStudent = null;
-        private static RealStudent newStudent = new RealStudent();
+        private RealStudentController studentController = new RealStudentController();
         // GET: api/EditStudent/5
         public IHttpActionResult Get()
         {
@@ -34,6 +36,8 @@ namespace WebApplication2.Controllers
             System.Diagnostics.Debug.WriteLine("With subareas: " + string.Join(", ", realStudent.subareas));
             System.Diagnostics.Debug.WriteLine("With id: " + realStudent.Id);
 
+            DAL.User user = StudentUtils.NewStudentToUser(realStudent);
+            studentController.AddStudent(user, realStudent.subareas);
         }
 
         // PUT: api/EditStudent/5

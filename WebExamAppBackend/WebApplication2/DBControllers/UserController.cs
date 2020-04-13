@@ -24,13 +24,14 @@ namespace WebApplication2.DBControllers
         {
             this.userRepository = userRepository;
         }*/
-        public void AddUser(User model)
+        public int AddUser(User model)
         {
             var allUsers = userRepository.GetAll();
             int lastId = allUsers[allUsers.Count() - 1].Id;
             model.Id = lastId + 1;
             userRepository.Insert(model);
             userRepository.Save();
+            return model.Id;
         }
         public void EditUser(int userId, User newUser)
         {

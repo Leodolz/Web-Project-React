@@ -55,7 +55,9 @@ class StudentEditor extends Component {
                     areas: student.areas,
                     subareas: student.subareas
                 })
-            });
+            }).catch((e)=>{alert("Error, couldn't add or edit student")});
+            alert("Student succesfully Edited");
+            window.location.assign("/home");
         }
     }
     cancelEdit = (event) =>
@@ -64,15 +66,6 @@ class StudentEditor extends Component {
             overlay: false,
             extras:null
         }})
-    }
-    GetAllAreas = () =>
-    {
-        //Fetch for all areas
-        return [
-            "Math",
-            "History",
-            "Extra",
-        ];
     }
     FetchAllAreas = () => 
     {
@@ -96,18 +89,7 @@ class StudentEditor extends Component {
             console.log(e)});
         this.setState({loadingSubAreas: true});
     }
-    GetStudentSubAreas = () =>
-    {
-        //Fetch for subAreas inside areas
-        return [
-            "Algebra",
-            "World History",
-            "Geometry",
-            "US Civil War",
-            "Calculus I",
-            "Sub-Extra"
-        ];
-    }
+  
     GetOverlayForm = () =>
     {
         if(this.state.overlayed.overlay)
@@ -137,9 +119,13 @@ class StudentEditor extends Component {
         else
         {
             areas = areas.filter((value,index,arr)=>value!=event.target.value);
+            if(type=="areas")
+                newStudent["subareas"] = [];
         }
         newStudent[type]=areas;
         this.setState({student:newStudent});
+        if(type=="areas" && this.state.student.areas[0]!=null)
+            this.FetchStudentSubAreas();
     }
 
     GetAreasOverlayForm = () =>
@@ -174,7 +160,7 @@ class StudentEditor extends Component {
         {
             this.FetchAllAreas();
         }
-        if(this.state.studentSubAreas[0] == null && !this.state.loadingSubAreas)
+        if(this.state.studentSubAreas[0] == null && !this.state.loadingSubAreas && this.state.student.areas[0] != null)
         {
             this.FetchStudentSubAreas();
         }

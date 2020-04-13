@@ -22,5 +22,9 @@ namespace WebApplication2.Repository
             }
             return subareas;
         }
+        public SubArea GetByName(object name)
+        {
+            return table.SingleOrDefault(subarea => subarea.name == (string)name);
+        }
     }
 }

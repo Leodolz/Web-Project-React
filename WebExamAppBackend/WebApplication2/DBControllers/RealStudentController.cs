@@ -29,12 +29,12 @@ namespace WebApplication2.DBControllers
             return allRealStudents;
         }
 
-        public void AddStudent(User model) //subareas assigned?
+        public void AddStudent(User model, string[] subareas) //subareas assigned?
         {
-            userController.AddUser(model);
-            //Add assignations for subareas
+            int userId = userController.AddUser(model);
+            SubAreaUtils.AssignSubAreasToUser(userId, subAreaController, subareas);
         }
-        public void EditUser(int userId, User newUser) //change subarea assignations?
+        public void EditStudent(int userId, User newUser) //change subarea assignations?
         {
             userController.EditUser(userId, newUser);
             //Edit assignations for subareas

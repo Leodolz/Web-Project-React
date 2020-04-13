@@ -35,5 +35,20 @@ namespace WebApplication2.Utils
             }
             return areas.ToArray();
         }
+        public static void AssignSubAreasToUser(int userId, SubAreaController subAreaController, string[] subareas)
+        {
+            foreach (string subAreaName in subareas)
+            {
+                int subAreaId = subAreaController.GetByName(subAreaName).Id;
+                SubAreaAssign newAssignment = new SubAreaAssign
+                {
+                    userId = userId,
+                    created = DateTime.Today,
+                    subAreaId = subAreaId,
+                };
+                subAreaController.AssignNewSubArea(newAssignment);
+            }
+
+        }
     }
 }

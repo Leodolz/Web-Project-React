@@ -19,6 +19,7 @@ namespace WebApplication2.Repository
                .Select(user => user.subAreaId).ToList();
             
         }
+       
 
     }
 }

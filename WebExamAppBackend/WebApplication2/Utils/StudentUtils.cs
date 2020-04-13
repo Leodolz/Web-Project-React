@@ -36,6 +36,24 @@ namespace WebApplication2.Utils
             }
             return areas.ToArray();
         }
+        public static User NewStudentToUser(RealStudent student)
+        {
+            
+            return new User
+            {
+                Id = student.Id,
+                email = student.email,
+                username = student.username,
+                role= "Student",
+                password = StringUtils.StringToSha("User_123"),
+                created = DateTime.Today,
+                until = DateTime.Today, //TODO: FIX THIS ISSUE
+                active = new byte[] {1},
+                full_name = student.name,
+                birth = DateTime.Today, //TODO: FIX THIS ISSUE
+                contact = "00000"
+            };
+        }
         
     }
 }

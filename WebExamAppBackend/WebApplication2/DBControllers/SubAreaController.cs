@@ -59,5 +59,17 @@ namespace WebApplication2.DBControllers
            List<int> ids = subAreaAssignRepository.GetAllSubAreasIds(userId);
            return subAreaRepository.GetSubAreasByIds(ids);
         }
+        public void AssignNewSubArea(SubAreaAssign assignment)
+        {
+            var allSubAreasAssignments = subAreaAssignRepository.GetAll();
+            int lastId = allSubAreasAssignments[allSubAreasAssignments.Count() - 1].Id;
+            assignment.Id = lastId + 1;
+            subAreaAssignRepository.Insert(assignment);
+            subAreaAssignRepository.Save();
+        }
+        public SubArea GetByName(string name)
+        {
+            return subAreaRepository.GetByName(name);
+        }
     }
 }
