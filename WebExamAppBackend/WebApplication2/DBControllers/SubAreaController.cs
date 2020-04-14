@@ -59,6 +59,10 @@ namespace WebApplication2.DBControllers
            List<int> ids = subAreaAssignRepository.GetAllSubAreasIds(userId);
            return subAreaRepository.GetSubAreasByIds(ids);
         }
+        public List<int> GetAllStudentsIds(int subAreaId)
+        {
+            return subAreaAssignRepository.GetAllStudentsIds(subAreaId);
+        }
         public void AssignNewSubArea(SubAreaAssign assignment)
         {
             var allSubAreasAssignments = subAreaAssignRepository.GetAll();

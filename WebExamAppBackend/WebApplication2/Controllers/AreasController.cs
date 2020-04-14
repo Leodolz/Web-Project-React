@@ -7,17 +7,20 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using WebApplication2.DBControllers;
 using WebApplication2.DAL;
+using WebApplication2.Models;
+using WebApplication2.Proxies;
 
 namespace WebApplication2.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AreasController : ApiController
     {
-        // GET: api/Areas
+        private AreaController areaController = new AreaController();
+        private RealAreaProxy areasProxy = new RealAreaProxy();
+        // GET: api/Areas?strings={true/false}
         public string[] Get(bool strings)
         {
            
-            AreaController areaController = new AreaController();
             List<Area> areas = areaController.GetAllAreas();
             List<string> areaNames = new List<string>();
             foreach(Area area in areas)
@@ -27,17 +30,29 @@ namespace WebApplication2.Controllers
             return areaNames.ToArray();
         }
         // GET: api/Areas
-        public List<Area> Get()
+        public RealArea[] Get()
         {
-            AreaController areaController = new AreaController();
-            return areaController.GetAllAreas();
-
+            EditAreaController.Editing = false;
+            RealAreaController realAreaController = new RealAreaController();
+            return realAreaController.GetAllAdminAreas(areasProxy).ToArray();
+            
         }
 
         // GET: api/Areas/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
+            var result = areasProxy.GetArea(id);
+            if (result == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Couldn't return area");
+                EditAreaController.currentArea = null;
+                EditAreaController.Editing = false;
+                return NotFound();
+            }
+            EditAreaController.currentArea = result;
+            EditAreaController.Editing = true;
+            return Ok(result);
         }
 
         // POST: api/Areas

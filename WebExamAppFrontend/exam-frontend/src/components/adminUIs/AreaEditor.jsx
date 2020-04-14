@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 
 class AreaEditor extends Component {
     state = {
-        area: 
-            {
-                name: "Math",
-                subareas: ["Algebra","Geometry"],
-            },
+        area: this.props.area,
+        availableSubAreas: null,
         overlayed : 
         {
             overlay: false,
             extras : null,
             formType: "Text",
         },
+    }
+    constructor(props)
+    {
+        super(props);
+        this.FetchAvailableSubAreas();
     }
     hideComponent = (event)=>
     {
@@ -70,8 +72,20 @@ class AreaEditor extends Component {
             extras:null
         }})
     }
+    FetchAvailableSubAreas = ()=>
+    {
+        fetch('http://localhost:51061/api/SubAreas?studentAreas='+this.state.area.name)
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({availableSubAreas: data});
+        })
+        .catch((e)=>{
+            console.log(e)});
+       // this.setState({loadingSubAreas: true});
+    }
     GetAvailableSubAreas = () =>
     {
+        //TODO: REPLACE BY ABOVE
         return [
             "Algebra",
             "Geometry",
@@ -123,7 +137,9 @@ class AreaEditor extends Component {
     {
         let type = this.state.overlayed.formType;
         let currentAreas = this.state.area[type];
-        let generalAreas = this.GetAvailableSubAreas();
+       
+        let generalAreas = this.state.availableSubAreas;
+        //let generalAreas = this.GetAvailableSubAreas();
         let checkBoxInputs = this.GetAreasCheckBoxes(currentAreas,generalAreas);
         return (
             <div className="overlayed">

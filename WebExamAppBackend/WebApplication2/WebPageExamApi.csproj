@@ -170,6 +170,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\EditAreaController.cs" />
     <Compile Include="Controllers\EditStudentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
@@ -212,6 +213,7 @@
       <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBControllers\AreaController.cs" />
+    <Compile Include="DBControllers\RealAreaController.cs" />
     <Compile Include="DBControllers\RealStudentController.cs" />
     <Compile Include="DBControllers\SubAreaController.cs" />
     <Compile Include="DBControllers\UserController.cs" />
@@ -220,8 +222,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\RealArea.cs" />
     <Compile Include="Models\RealStudent.cs" />
+    <Compile Include="Models\RealSubArea.cs" />
+    <Compile Include="Proxies\RealAreaProxy.cs" />
     <Compile Include="Proxies\IUserProxy.cs" />
+    <Compile Include="Proxies\RealSubAreaProxy.cs" />
     <Compile Include="Proxies\StudentTeacherProxy.cs" />
     <Compile Include="Proxies\UserProxy.cs" />
     <Compile Include="Repository\AreaRepository.cs" />
@@ -232,6 +238,7 @@
     <Compile Include="Repository\SubAreaAssignRepository.cs" />
     <Compile Include="Repository\SubAreaRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Utils\AreaUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\StudentUtils.cs" />
     <Compile Include="Utils\SubAreaUtils.cs" />

@@ -25,5 +25,10 @@ namespace WebApplication2.Repository
             return table.SingleOrDefault(assignment => assignment.subAreaId == subAreaId
                 && assignment.userId == userId).Id;
         }
+        public List<int> GetAllStudentsIds(int subAreaId)
+        {
+            return table.Where(subarea => subarea.subAreaId == subAreaId) //TODO: NO OLVIDARSE PONER UNA CONDICION MAS DONDE EL ROL TIENE QUE SER ESTUDIANTE
+                .Select(subarea => subarea.userId).ToList();
+        }
     }
 }

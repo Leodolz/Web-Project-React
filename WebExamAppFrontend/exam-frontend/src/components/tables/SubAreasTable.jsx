@@ -8,17 +8,26 @@ class AreasTable extends Component {
         window.location.assign("/admSubAreas")
         console.log(event.target.title);
     }
+    clickStudentsHandler = (event) =>
+    {
+        event.preventDefault();
+        this.props.showStudentsArea(event);
+    }
+   
     renderTable(entries)
     {
         let table = [];
         for(let i=0;i<entries.length;i++)
         {
+            //entries[i].students
             let children = [];
             children.push(<td key={"name"+i}>{entries[i].name}</td>)
             children.push(<td key={"created"+i}>{entries[i].created}</td>)
-            children.push(<td key={"students"+i}>{entries[i].students}</td>)
+            children.push(<td title={entries[i].name} key={"students"+i}>
+                <p title={entries[i].students.join(",")} className="tDetails" onClick={this.clickStudentsHandler}>View Students</p>
+            </td>)
             children.push(<td key={"Edit"+i}>
-                <p title={entries[i].name} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }

@@ -13,7 +13,8 @@ class AdminHome extends Component {
             overlay: false,
             body : null,
         },
-        students : []
+        students : [],
+        areas: [],
     }
     cancelEdit = (event) =>
     {
@@ -80,20 +81,7 @@ class AdminHome extends Component {
             ]
         );
     }
-   FetchAdminAreasTable = () => 
-   {
-    let context = this;
-    fetch('http://localhost:51061/api/Areas')
-    .then(result=>result.json())
-    .then((data)=>{
-        context.setState({students: data});
-        console.log(data);
-    })
-   .catch((e)=>{
-    alert("No students found");
-    console.log(e);
-    });
-   }
+
     FetchAdminStudentsTable = ()=>
     {
         let context = this;
@@ -108,6 +96,21 @@ class AdminHome extends Component {
         console.log(e);
         });
     }
+
+    FetchAdminAreasTable = ()=>
+    {
+        let context = this;
+        fetch('http://localhost:51061/api/Areas')
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({areas: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No areas found");
+        console.log(e);
+        });
+    }
     GetAdminAreasTable = ()=>
     {
         return(
@@ -116,6 +119,7 @@ class AdminHome extends Component {
                     name: "Math",
                     created: "4/16/2020",
                     students: "Leandro Hurtado, Another Student",
+                    id: 1,
                     subareas: [
                         {
                             name: "Geometry",
@@ -133,6 +137,7 @@ class AdminHome extends Component {
                     name: "History",
                     created: "4/27/2020",
                     students: "Leandro Hurtado",
+                    id: 2,
                     subareas: [
                         {
                             name: "World History",
@@ -145,6 +150,7 @@ class AdminHome extends Component {
                     name: "Extra",
                     created: "4/7/2020",
                     students: "Leandro Hurtado, Joaquin",
+                    id: 3,
                     subareas: [
                         {
                             name: "Sub-Extra",
@@ -159,16 +165,25 @@ class AdminHome extends Component {
 
     AddSubArea = () =>
     {
-        //Fetch for null Area
+        //Fetch for null Area or generate null SubArea on AddEditSubAreas
         console.log("Add new Area");
         window.location.assign("/admSubAreas");
     }
 
+    fetchAreaById(id)
+    {
+        fetch('http://localhost:51061/api/Areas/'+id)
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
+    }
+
     GoEditArea = (event) =>
     {
-        let areaName = event.target.parentElement.title;
-        console.log(areaName);
-        //Fetch Area
+        let areaId = event.target.title;
+        this.fetchAreaById(areaId);
         window.location.assign("/admAreas");
     }
 
@@ -188,7 +203,7 @@ class AdminHome extends Component {
     {
         //Fetch Students for area
         //Delete the line below:
-        let students = ["Leandro Hurtado","Other Student","More Students"];
+        let students = event.target.title.split(',');
         let name = event.target.parentElement.title;
         let renderedStudents = (
             <React.Fragment key={"Student"}>
@@ -207,7 +222,10 @@ class AdminHome extends Component {
     GetAdminBody = () =>
     {
         let areasBody = [];
-        let areasTable = this.GetAdminAreasTable();
+        //let areasTable = this.GetAdminAreasTable();
+        let areasTable = this.state.areas;
+        if(this.state.areas[0] == null)
+            this.FetchAdminAreasTable();
         for(let i=0;i<areasTable.length;i++)
         {
             let container = 
@@ -215,8 +233,11 @@ class AdminHome extends Component {
                 title: areasTable[i].name,
                 body: (
                     <React.Fragment>
-                    <p title={areasTable[i].name}>Created at {areasTable[i].created} <button className="neighboorOptions" onClick={this.showStudentsArea}>View Students</button><button onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button></p>
-                    <AreasTable table = {areasTable[i].subareas}/>
+                    <p title={areasTable[i].name}>Created at {areasTable[i].created} 
+                        <button title={areasTable[i].students.join(",")} className="neighboorOptions" onClick={this.showStudentsArea}>View Students</button>
+                        <button title={areasTable[i].Id} onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button>
+                    </p>
+                    <AreasTable table = {areasTable[i].subareas} showStudentsArea={this.showStudentsArea}/>
                     <button onClick={this.AddSubArea}>Add Sub-Area</button>
                     </React.Fragment>
                 )
