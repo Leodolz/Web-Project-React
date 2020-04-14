@@ -226,7 +226,7 @@
     <Compile Include="Models\RealArea.cs" />
     <Compile Include="Models\RealStudent.cs" />
     <Compile Include="Models\RealSubArea.cs" />
-    <Compile Include="Models\RecievingArea.cs" />
+    <Compile Include="Models\RefurbishedSubArea.cs" />
     <Compile Include="Proxies\RealAreaProxy.cs" />
     <Compile Include="Proxies\IUserProxy.cs" />
     <Compile Include="Proxies\RealSubAreaProxy.cs" />

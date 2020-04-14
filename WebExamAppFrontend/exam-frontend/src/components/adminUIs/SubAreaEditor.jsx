@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class SubAreaEditor extends Component {
     state = {
         subArea: this.props.subArea,
+        allStudents: null,
             /*{
                 name: "Math",
                 students: 
@@ -37,6 +38,11 @@ class SubAreaEditor extends Component {
             formType: "Text",
         },
     }
+    constructor(props)
+    {
+        super(props);
+        this.FetchAllStudents();
+    }
     hideComponent = (event)=>
     {
         let elementId = event.target.parentElement.id;
@@ -54,7 +60,7 @@ class SubAreaEditor extends Component {
         let students = this.state.subArea.students;
         for(let i=0;i<students.length;i++)
         {
-            let student = (<li key={i} title="students" id={i}><span className="etag">{(i+1)+". "}</span>{students[i]}{editButton}</li>);
+            let student = (<li key={i} title="students" id={i}><span className="etag">{(i+1)+". "}</span>{students[i].full_name}{editButton}</li>);
             studentsList.push(student);
         }
         return studentsList;
@@ -84,7 +90,25 @@ class SubAreaEditor extends Component {
     }
     showActive = (event)=>
     {
-        console.log(this.state.subArea);
+        if(this.state.subArea.name==null)
+        {
+            alert("You need to fill name field!");
+            return;
+        }
+        let edit = 'true';
+        if(this.props.new)
+            edit= 'false';
+        fetch('http://localhost:51061/api/EditSubArea?edit='+edit,
+        {
+            method: 'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.state.subArea)
+        }).catch((e)=>{alert("Error, couldn't add or edit student")});
+        alert("SubArea succesfully Edited");
+        window.location.assign("/home");
     }
     cancelEdit = (event) =>
     {
@@ -93,47 +117,22 @@ class SubAreaEditor extends Component {
             extras:null
         }})
     }
-    GetAvailableStudents = () =>
+    
+    FetchAllStudents =()=>
     {
-        return [
-            {
-                name: "Leandro Hurtado",
-                username: "leodolz",
-                email: "leo123f@somemail.com",
-                areas: "Math, History",
-                subareas: "Algebra, World History, Geometry",
-            },
-            
-            {
-                name: "Another Student",
-                username: "genericStudent",
-                email: "gen324@somemail.com",
-                areas: "Math",
-                subareas: "Algebra, Geometry",
-            },
-            {
-                name: "Bob Doole",
-                username: "genericStudent2",
-                email: "gen12324@somemail.com",
-                areas: "History",
-                subareas: "Algebra, Geometry, Calculus I",
-            },
-            {
-                name: "Joaquin",
-                username: "genericStudent3",
-                email: "gen12222324@somemail.com",
-                areas: "History",
-                subareas: "World History, Geometry, Calculus I",
-            },
-            {
-                name: "John Osmont",
-                username: "genericStudent4",
-                email: "gen1222232224@somemail.com",
-                areas: "History",
-                subareas: "World History, Geometry, Calculus I",
-            }
-        ];
+        let context = this;
+        fetch('http://localhost:51061/api/Students')
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({allStudents: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No students found");
+        console.log(e);
+        });
     }
+   
     GetOverlayForm = () =>
     {
         if(this.state.overlayed.overlay)
@@ -171,7 +170,8 @@ class SubAreaEditor extends Component {
         let students = newSubArea[type];
         if(event.target.checked)
         {
-            let student = this.GetAvailableStudents().find((item)=>item.username==event.target.value)
+            let allStudents = this.state.allStudents.slice();
+            let student = allStudents.find((item)=>item.username==event.target.value)
             students.push(student);
         }
         else
@@ -185,9 +185,9 @@ class SubAreaEditor extends Component {
     GetStudentsOverlayForm = () =>
     {
         let type = this.state.overlayed.formType;
-        let currentAreas = this.state.subArea[type];
-        let generalAreas = this.GetAvailableStudents();
-        let checkBoxInputs = this.GetAreasCheckBoxes(currentAreas,generalAreas);
+        let currentStudents = this.state.subArea[type];
+        let generalStudents = this.state.allStudents;
+        let checkBoxInputs = this.GetAreasCheckBoxes(currentStudents,generalStudents);
         return (
             <div className="overlayed">
                 <form className = "elementEditForm" onSubmit={this.editAreas} >

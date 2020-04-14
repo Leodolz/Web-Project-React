@@ -33,6 +33,7 @@ namespace WebApplication2.Controllers
         public RealArea[] Get()
         {
             EditAreaController.Editing = false;
+            EditSubAreaController.Editing = false;
             RealAreaController realAreaController = new RealAreaController();
             return realAreaController.GetAllAdminAreas(areasProxy).ToArray();
             

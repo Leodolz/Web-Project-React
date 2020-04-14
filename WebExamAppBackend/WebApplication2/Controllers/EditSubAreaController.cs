@@ -8,6 +8,8 @@ using WebApplication2.DBControllers;
 using WebApplication2.DAL;
 using WebApplication2.Models;
 using System.Web.Http.Cors;
+using Newtonsoft.Json.Linq;
+using WebApplication2.Utils;
 
 namespace WebApplication2.Controllers
 {
@@ -15,7 +17,7 @@ namespace WebApplication2.Controllers
     public class EditSubAreaController : ApiController
     {
         public static bool Editing = false;
-        public static RealSubArea currentSubArea = null;
+        public static RefurbishedSubArea currentSubArea = null;
         private SubAreaController subAreaController = new SubAreaController();
 
         // GET: api/EditSubArea
@@ -28,8 +30,21 @@ namespace WebApplication2.Controllers
 
 
         // POST: api/EditSubArea
-        public void Post([FromBody]string value)
+        public void Post(object refurbishedSubArea, bool edit)
         {
+            JObject juser = refurbishedSubArea as JObject;
+            RefurbishedSubArea recievingSubArea = juser.ToObject<RefurbishedSubArea>();
+            SubArea subArea = new SubArea();
+            if (edit == false)
+            {
+                subArea = AreaUtils.NewSubToSubArea(recievingSubArea, subAreaController);
+                subAreaController.AddSubArea(subArea);
+            }
+            else
+            {
+                subArea = AreaUtils.EditedSubToSubArea(recievingSubArea, subAreaController);
+                subAreaController.EditSubArea(recievingSubArea.Id, subArea);
+            }
         }
 
         // PUT: api/EditSubArea/5

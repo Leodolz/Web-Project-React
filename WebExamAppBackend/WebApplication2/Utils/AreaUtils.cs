@@ -33,7 +33,9 @@ namespace WebApplication2.Utils
             List<string> allStudentNames = new List<string>();
             foreach(int studentId in allStudents)
             {
-                allStudentNames.Add(userController.GetById(studentId).full_name); //TAL VEZ AQUI PONER LA OPCION DE FILTRAR LOS QUE SON TEACHERS
+                User user = userController.GetById(studentId);
+                if(user.role=="Student")
+                    allStudentNames.Add(user.full_name); //TAL VEZ AQUI PONER LA OPCION DE FILTRAR LOS QUE SON TEACHERS
             }
             RealSubArea realSubArea = new RealSubArea
             {
@@ -44,6 +46,25 @@ namespace WebApplication2.Utils
                 students = allStudentNames.ToArray()
             };
             return realSubArea;
+        }
+        public static RefurbishedSubArea SubAreaToRefurbished(SubArea subArea, SubAreaController subAreaController, UserController userController)
+        {
+            List<User> allStudents = new List<User>();
+            List<int> allStudentsIds = subAreaController.GetAllStudentsIds(subArea.Id);
+            foreach (int studentId in allStudentsIds)
+            {
+                User user = userController.GetById(studentId);
+                if(user.role=="Student")
+                    allStudents.Add(user); 
+            }
+            return new RefurbishedSubArea
+            {
+                Id = subArea.Id,
+                created = subArea.created.ToShortDateString(),
+                name = subArea.name,
+                students = allStudents.ToArray(),
+                parentId = subArea.parentAreaId
+            };
         }
         private static string[] allNonRepeatedStudents(List<RealSubArea> allrealSubAreas)
         {
@@ -57,6 +78,31 @@ namespace WebApplication2.Utils
                 }
             }
             return allStudents.ToArray();
+        }
+        public static SubArea NewSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
+        {
+            
+            //Assign students to subArea
+            return new SubArea
+            {
+                created = DateTime.Today,
+                Id = refurbishedSubArea.Id,
+                parentAreaId = refurbishedSubArea.parentId,
+                name = refurbishedSubArea.name
+            };
+            SubAreaUtils.AssignUsersToSubAreas(refurbishedSubArea.students, subAreaController, refurbishedSubArea.Id);
+        }
+        public static void AssignUsersToSubAreas()
+        {
+
+        }
+
+        public static SubArea EditedSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
+        {
+            SubArea subArea = subAreaController.GetById(refurbishedSubArea.Id);
+            subArea.name = refurbishedSubArea.name;
+            //TODO: ASSIGN OR UNASSIGN ALL THE STUDENTS THAT WERE BEFORE
+            return subArea;
         }
     }
 }

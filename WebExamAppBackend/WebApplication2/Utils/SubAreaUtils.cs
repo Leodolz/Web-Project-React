@@ -35,6 +35,21 @@ namespace WebApplication2.Utils
             }
             return areas.ToArray();
         }
+        //This should be at Sub Area Assigned Utils
+        public static void AssignUsersToSubAreas(User[] users, SubAreaController subAreaController, int subAreaId)
+        {
+            foreach(User user in users)
+            {
+                SubAreaAssign newAssignment = new SubAreaAssign
+                {
+                    userId = user.Id,
+                    created= DateTime.Today,
+                    subAreaId = subAreaId
+                };
+                subAreaController.AssignNewSubArea(newAssignment);
+            }
+        }
+        //This should be at Sub Area Assigned Utils
         public static void AssignSubAreasToUser(int userId, SubAreaController subAreaController, string[] subareas)
         {
             foreach (string subAreaName in subareas)
@@ -49,7 +64,7 @@ namespace WebApplication2.Utils
                 subAreaController.AssignNewSubArea(newAssignment);
             }
         }
-
+        //This should be at Sub Area Assigned Utils
         public static void UnAssignSubAreasToUser(int userId, SubAreaController subAreaController, string[] subareas)
         {
             foreach (string subAreaName in subareas)

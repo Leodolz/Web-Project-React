@@ -111,57 +111,6 @@ class AdminHome extends Component {
         console.log(e);
         });
     }
-    GetAdminAreasTable = ()=>
-    {
-        return(
-            [
-                {
-                    name: "Math",
-                    created: "4/16/2020",
-                    students: "Leandro Hurtado, Another Student",
-                    id: 1,
-                    subareas: [
-                        {
-                            name: "Geometry",
-                            created: "2/16/2020",
-                            students: "Leandro Hurtado, Another Student",
-                        },
-                        {
-                            name: "Algebra",
-                            created: "3/11/2020",
-                            students: "Leandro Hurtado, Another Student",
-                        },
-                    ]
-                },
-                {
-                    name: "History",
-                    created: "4/27/2020",
-                    students: "Leandro Hurtado",
-                    id: 2,
-                    subareas: [
-                        {
-                            name: "World History",
-                            created: "2/8/2020",
-                            students: "Leandro Hurtado",
-                        }
-                    ]
-                },
-                {
-                    name: "Extra",
-                    created: "4/7/2020",
-                    students: "Leandro Hurtado, Joaquin",
-                    id: 3,
-                    subareas: [
-                        {
-                            name: "Sub-Extra",
-                            created: "4/7/2020",
-                            students:  "Leandro Hurtado, Joaquin"
-                        }
-                    ]
-                },
-            ]
-        );
-    }
 
     AddSubArea = () =>
     {
