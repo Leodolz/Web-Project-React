@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\EditAreaController.cs" />
     <Compile Include="Controllers\EditStudentController.cs" />
+    <Compile Include="Controllers\EditSubAreaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Models\RealArea.cs" />
     <Compile Include="Models\RealStudent.cs" />
     <Compile Include="Models\RealSubArea.cs" />
+    <Compile Include="Models\RecievingArea.cs" />
     <Compile Include="Proxies\RealAreaProxy.cs" />
     <Compile Include="Proxies\IUserProxy.cs" />
     <Compile Include="Proxies\RealSubAreaProxy.cs" />

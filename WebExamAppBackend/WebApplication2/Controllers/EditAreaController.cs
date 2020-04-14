@@ -15,11 +15,9 @@ namespace WebApplication2.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class EditAreaController : ApiController
     {
-
         public static bool Editing = false;
         public static RealArea currentArea = null;
         private AreaController areaController = new AreaController();
-
         public IHttpActionResult Get()
         {
             if (Editing)
@@ -30,16 +28,17 @@ namespace WebApplication2.Controllers
         // POST: api/EditArea
         public void Post(object area, bool edit)
         {
-
+            
             JObject juser = area as JObject;
-            Area realArea = juser.ToObject<Area>();
+            Area recievingArea = juser.ToObject<Area>();
             if (edit == false)
             {
-                areaController.AddArea(realArea);
+                recievingArea.created = DateTime.Today;
+                areaController.AddArea(recievingArea);
             }
             else
             {
-                areaController.EditArea(realArea.Id, realArea);
+                areaController.EditArea(recievingArea.Id, recievingArea);
             }
         }
 

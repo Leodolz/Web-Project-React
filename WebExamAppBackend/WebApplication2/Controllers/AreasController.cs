@@ -50,6 +50,7 @@ namespace WebApplication2.Controllers
                 EditAreaController.Editing = false;
                 return NotFound();
             }
+            RealAreaProxy.UpdateArea(result);
             EditAreaController.currentArea = result;
             EditAreaController.Editing = true;
             return Ok(result);

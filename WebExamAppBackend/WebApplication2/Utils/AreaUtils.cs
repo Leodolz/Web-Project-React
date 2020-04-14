@@ -27,7 +27,7 @@ namespace WebApplication2.Utils
                 students = allNonRepeatedStudents(realAvailableSubAreas)
             };
         }
-        private static RealSubArea SubAreaToRealSubArea(SubArea subArea, SubAreaController subAreaController, UserController userController)
+        public static RealSubArea SubAreaToRealSubArea(SubArea subArea, SubAreaController subAreaController, UserController userController)
         {
             List<int> allStudents = subAreaController.GetAllStudentsIds(subArea.Id);
             List<string> allStudentNames = new List<string>();

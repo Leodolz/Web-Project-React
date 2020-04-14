@@ -11,20 +11,7 @@ class AreaEditor extends Component {
             formType: "Text",
         },
     }
-    constructor(props)
-    {
-        super(props);
-        this.FetchAvailableSubAreas();
-    }
-    hideComponent = (event)=>
-    {
-        let elementId = event.target.parentElement.id;
-        let newArea = this.state.area;
-        let newarray = this.state.area.subareas.slice();
-        newarray = newarray.filter((value,index)=>{ return index!=elementId});
-        newArea.subareas = newarray;
-        this.setState({area:newArea});
-    }
+  
 
     renderSubAreas = () =>
     {
@@ -46,11 +33,13 @@ class AreaEditor extends Component {
         let studentAttributes = (
         <React.Fragment key={"Student"}>
             <li id="Sname" title={area.name}><span className="etag">Name:</span> {area.name}{editButton}</li> 
+            
             <h3>Sub-Areas: </h3>
             <ul className="myUL">
                 {this.renderSubAreas()}
-                <button onClick={this.handleAddArea}>Manage Existing</button>
             </ul>
+            <br/>
+            <button>Add Sub-Area</button>
             <hr/>
         </React.Fragment> 
             )
@@ -58,12 +47,33 @@ class AreaEditor extends Component {
     }
     subAreaEdit = () =>
     {
-        //Request For SubArea
+       //fetch 
         window.location.assign('/admSubAreas');
     }
     showActive = (event)=>
     {
-        console.log(this.state.area);
+        if(this.state.area.name==null)
+        {
+            alert("You need to fill name field!");
+            return;
+        }
+        let edit = 'true';
+        if(this.props.new)
+            edit= 'false';
+        fetch('http://localhost:51061/api/EditArea?edit='+edit,
+        {
+            method: 'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Id: this.state.area.Id,
+                name: this.state.area.name
+            })
+        }).catch((e)=>{alert("Error, couldn't add or edit student")});
+        alert("Student succesfully Edited");
+        window.location.assign("/home");
     }
     cancelEdit = (event) =>
     {
@@ -72,86 +82,15 @@ class AreaEditor extends Component {
             extras:null
         }})
     }
-    FetchAvailableSubAreas = ()=>
-    {
-        fetch('http://localhost:51061/api/SubAreas?studentAreas='+this.state.area.name)
-        .then(result=>result.json())
-        .then((data)=>{
-            this.setState({availableSubAreas: data});
-        })
-        .catch((e)=>{
-            console.log(e)});
-       // this.setState({loadingSubAreas: true});
-    }
-    GetAvailableSubAreas = () =>
-    {
-        //TODO: REPLACE BY ABOVE
-        return [
-            "Algebra",
-            "Geometry",
-            "Calculus I",
-            "Trigonometry",
-            "Analytic Geometry"
-        ];
-    }
     GetOverlayForm = () =>
     {
         if(this.state.overlayed.overlay)
         {
-            if(this.state.overlayed.formType == "subareas")
-                return this.GetAreasOverlayForm();
-            else
-                return this.GetTextOverlayForm();
+            return this.GetTextOverlayForm();
         }
         else return null;
     }
-    GetAreasCheckBoxes(currentArray, generalArray)
-    {
-        let checkboxes = [];
-        for(let i=0; i<generalArray.length; i++)
-        {
-            let isChecked = currentArray.find((area)=>area==generalArray[i]) != null;
-            checkboxes.push(<label key={i+"Chk"} className="checkContainer"><input type="checkbox" defaultChecked={isChecked}
-            value ={generalArray[i]} onClick={this.handleCheckClick} onChange={this.handleCheckArea} />{generalArray[i]}<span className="checkmark"></span><br/></label>)
-        }
-        return checkboxes;
-    }
-    handleCheckArea = (event) =>
-    {
-        let newArea = this.state.area;
-        let type = this.state.overlayed.formType;
-        let areas = newArea[type];
-        if(event.target.checked)
-        {
-            areas.push(event.target.value);
-        }
-        else
-        {
-            areas = areas.filter((value,index,arr)=>value!=event.target.value);
-        }
-        newArea[type]=areas;
-        this.setState({area:newArea});
-    }
-
-    GetAreasOverlayForm = () =>
-    {
-        let type = this.state.overlayed.formType;
-        let currentAreas = this.state.area[type];
-       
-        let generalAreas = this.state.availableSubAreas;
-        //let generalAreas = this.GetAvailableSubAreas();
-        let checkBoxInputs = this.GetAreasCheckBoxes(currentAreas,generalAreas);
-        return (
-            <div className="overlayed">
-            <form className = "elementEditForm" onSubmit={this.editAreas} >
-                <h3>{this.state.overlayed.extras.placeholder+": "}</h3>
-                <hr/>
-                {checkBoxInputs}
-                <button type="button" onClick= {this.cancelEdit}>Finish</button>
-            </form>
-            </div>
-        );
-    }
+   
     GetTextOverlayForm = () =>
     {
         return (

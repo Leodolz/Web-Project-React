@@ -5,50 +5,47 @@ import SubAreaEditor from '../adminUIs/SubAreaEditor';
 class AddEditSubAreas extends Component {
     state={
         user:null,
-        exam: {
-            title: '',
-            questions: [],
-            answers: [],
-        }
+        subarea: null,
     }
-
-    GetAdminStudentsTable = ()=>
+    FetchSubArea = () =>
     {
-        return(
-            [
-                {
-                    name: "Leandro Hurtado",
-                    username: "leodolz",
-                    email: "leo123f@somemail.com",
-                    areas: "Math, History",
-                    subareas: "Algebra, World History, Geometry",
-                },
-                
-                {
-                    name: "Another Student",
-                    username: "genericStudent",
-                    email: "gen324@somemail.com",
-                    areas: "Math",
-                    subareas: "Algebra, Geometry",
-                },
-            ]
-        );
+        fetch('http://localhost:51061/api/EditSubArea')
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({subarea: data});
+        })
+        .catch((e)=>{
+            this.setState({subarea: this.GetEmptySubArea()});
+            this.setState({new:true});
+        });
+    }
+    GetEmptySubArea = () =>
+    {
+        return {
+            name: null,
+            students: [],
+            Id: 0,
+        };
     }
 
     render() {
         let body = null;
         let role = '';
+        let subarea= null;
+        if(this.state.subarea == null)
+            this.FetchSubArea();
+        subarea= this.state.subarea;
         if(this.state.user)
         {
             role = this.state.user.role;
             let admin = this.state.user.role === "Admin"? true:false; 
-            if(!admin)
+            if(!admin || subarea==null)
                 body= (<h1><a href='/'>You need Admin Permisions to be here</a></h1>);
             else
             body = (
                 <React.Fragment >
                 <h1 className="Editor">Sub-Area editor</h1>
-                <SubAreaEditor/>
+                <SubAreaEditor subArea = {subarea}/>
                 </React.Fragment>
             );
         }

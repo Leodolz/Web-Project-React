@@ -38,6 +38,7 @@ class AddEditAreas extends Component {
         return {
             name: null,
             subareas: [],
+            Id: 0,
         };
     }
 
@@ -45,7 +46,6 @@ class AddEditAreas extends Component {
         let body = null;
         let role = '';
         let area = null;
-        console.log(this.state.area);
         if(this.state.area == null && this.state.user!=null)
             this.FetchArea();
         area = this.state.area;

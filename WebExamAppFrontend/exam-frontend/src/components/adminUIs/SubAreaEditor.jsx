@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 class SubAreaEditor extends Component {
     state = {
-        subArea: 
-            {
+        subArea: this.props.subArea,
+            /*{
                 name: "Math",
                 students: 
                 [
@@ -30,7 +30,7 @@ class SubAreaEditor extends Component {
                         subareas: "Algebra, Geometry, Calculus I",
                     },
                 ],
-            },
+            },*/
         overlayed : {
             overlay: false,
             extras : null,
@@ -54,7 +54,7 @@ class SubAreaEditor extends Component {
         let students = this.state.subArea.students;
         for(let i=0;i<students.length;i++)
         {
-            let student = (<li key={i} title="students" id={i}><span className="etag">{(i+1)+". "}</span>{students[i].name}{editButton}</li>);
+            let student = (<li key={i} title="students" id={i}><span className="etag">{(i+1)+". "}</span>{students[i]}{editButton}</li>);
             studentsList.push(student);
         }
         return studentsList;

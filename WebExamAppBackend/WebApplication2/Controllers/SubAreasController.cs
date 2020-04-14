@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using WebApplication2.DBControllers;
 using WebApplication2.DAL;
+using WebApplication2.Models;
 using WebApplication2.Utils;
 
 namespace WebApplication2.Controllers
@@ -16,6 +17,7 @@ namespace WebApplication2.Controllers
     {
         private SubAreaController subAreaController = new SubAreaController();
         private AreaController areaController = new AreaController();
+        private UserController userController = new UserController();
         // GET: api/SubAreas
         public List<SubArea> Get()
         {
@@ -37,9 +39,21 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/SubAreas/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
+            var result = subAreaController.GetById(id);
+            if (result == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Couldn't return area");
+                EditSubAreaController.currentSubArea = null;
+                EditSubAreaController.Editing = false;
+                return NotFound();
+            }
+            //RealSubAreaProxy.UpdateArea(result);
+            EditSubAreaController.currentSubArea = AreaUtils.SubAreaToRealSubArea(result,subAreaController,userController);
+            EditSubAreaController.Editing = true;
+            return Ok(result);
         }
 
         // POST: api/SubAreas

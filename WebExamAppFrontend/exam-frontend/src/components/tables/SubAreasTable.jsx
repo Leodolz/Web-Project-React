@@ -4,9 +4,17 @@ class AreasTable extends Component {
     state = {  }
     clickDetailsHandler = (event) =>
     {
-        //Fetch by name
+        this.fetchSubAreaById(event.target.title);
         window.location.assign("/admSubAreas")
-        console.log(event.target.title);
+    }
+    fetchSubAreaById(id)
+    {
+        fetch('http://localhost:51061/api/SubAreas/'+id)
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
     }
     clickStudentsHandler = (event) =>
     {

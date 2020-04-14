@@ -75,6 +75,10 @@ namespace WebApplication2.DBControllers
         {
             return subAreaRepository.GetByName(name);
         }
+        public SubArea GetById(int id)
+        {
+            return subAreaRepository.GetById(id);
+        }
         public int GetAssignmentId(int subAreaId, int userId)
         {
             return subAreaAssignRepository.GetSubAreaAssignId(subAreaId, userId);

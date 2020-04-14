@@ -31,7 +31,7 @@ namespace WebApplication2.DBControllers
         public void EditArea(int areaId, Area newArea)
         {
             Area model = areaRepository.GetById(areaId);
-            model = newArea;
+            model.name = newArea.name;
             EditArea(model);
         }
         private void EditArea(Area model)
