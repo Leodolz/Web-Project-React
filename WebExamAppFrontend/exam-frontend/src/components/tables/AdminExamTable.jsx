@@ -15,7 +15,8 @@ class AdminExamTable extends Component {
         {
             let children = [];
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
-            children.push(<td key={"date"+i}>{entries[i].date}</td>)
+            children.push(<td key={"fromDate"+i}>{entries[i].fromDate}</td>)
+            children.push(<td key={"untilDate"+i}>{entries[i].untilDate}</td>)
             children.push(<td key={"area"+i}>{entries[i].area}</td>)
             children.push(<td key={"subarea"+i}>{entries[i].subarea}</td>)
             children.push(<td key={"Edit"+i}>
@@ -33,7 +34,8 @@ class AdminExamTable extends Component {
                     <tbody>
                     <tr>
                         <th>Title</th>
-                        <th>Date</th>
+                        <th>From</th>
+                        <th>Until</th>
                         <th>Area</th>
                         <th>Sub-Area</th>
                         <th>Edit Exam</th>

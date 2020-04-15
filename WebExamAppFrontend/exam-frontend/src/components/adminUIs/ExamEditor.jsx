@@ -14,7 +14,8 @@ class NewExamList extends Component {
             type: "Date",
         },
         editingId: 0,
-        date: null,
+        dateFrom: null,
+        dateUntil: null,
         subarea: null,
         title: null,
       }
@@ -89,7 +90,7 @@ class NewExamList extends Component {
             if(this.state.listElements[i].optionElement.type == "Multiple")
                 answerTag="Answers: ";
             else answerTag="Answer: ";
-            let options = this.state.listElements[i].optionElement.options.join(", ");
+            let options = this.state.listElements[i].optionElement.options.join(", "); 
             let answers = this.state.listElements[i].optionElement.answer.join(", ");
             let listElement = (
             <React.Fragment key={"QA"+i}>
@@ -135,7 +136,7 @@ class NewExamList extends Component {
     }
     GetDateOverlayForm = () =>
     {
-        return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit} date={true}/>;
+        return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit} datetime={true}/>;
     }
     GetTitleOverlayForm = () =>
     {
@@ -183,7 +184,8 @@ class NewExamList extends Component {
         return (
             <React.Fragment>
                 <h3 className="Title" title= {this.state.title}>Exam Title: {this.state.title} <button  onClick= {this.handleEdit}>Edit</button></h3>
-                <h3 className="Date" title={this.state.date}>Exam Date: {this.state.date} <button  onClick= {this.handleEdit}>Edit</button></h3>
+                <h3 className="FromDate" title={this.state.dateFrom}>Date From: {this.state.dateFrom} <button  onClick= {this.handleEdit}>Edit</button></h3>
+                <h3 className="UntilDate" title={this.state.dateUntil}>Date Until: {this.state.dateUntil} <button  onClick= {this.handleEdit}>Edit</button></h3>
                 <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
                 <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}/>
                 <ul className="myUL">
@@ -211,11 +213,20 @@ class NewExamList extends Component {
                 type: "Sub-Area",
             }
         }
-        else if (element.className == "Date")
+        else if (element.className == "FromDate")
         {
             extras  =
             {
-                placeholder: "Date",
+                placeholder: "FromDate",
+                value: element.title,
+                type: "Date",
+            }
+        }
+        else if (element.className == "UntilDate")
+        {
+            extras  =
+            {
+                placeholder: "UntilDate",
                 value: element.title,
                 type: "Date",
             }
@@ -240,8 +251,10 @@ class NewExamList extends Component {
         event.preventDefault();
         if(this.state.overlayed.extras.placeholder == "Title")
             this.setState({title:event.target.newValue.value})
-        else
-            this.setState({date:event.target.newValue.value})
+        else if(this.state.overlayed.extras.placeholder == "FromDate")
+            this.setState({dateFrom:event.target.newValue.value})
+        else if(this.state.overlayed.extras.placeholder == "UntilDate")
+            this.setState({dateUntil:event.target.newValue.value})
         this.setState({overlayed: {
             overlay: false,
             extras:null}

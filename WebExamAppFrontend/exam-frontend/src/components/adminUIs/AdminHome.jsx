@@ -15,6 +15,7 @@ class AdminHome extends Component {
         },
         students : [],
         areas: [],
+        exams: []
     }
     cancelEdit = (event) =>
     {
@@ -53,6 +54,20 @@ class AdminHome extends Component {
     {
         this.setState({user:user});
     }
+    FetchAdminExamsTable = () =>
+    {
+        let context = this;
+        fetch('http://localhost:51061/api/Exams')
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({exams: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No exams found");
+        console.log(e);
+        });
+    }
 
     GetAdminExamsTable = ()=>
     {
@@ -60,21 +75,21 @@ class AdminHome extends Component {
             [
                 {
                     title: "Algebra-1-Apr",
-                    date: "4/16/2020",
+                    fromDate: "4/16/2020",
                     area: "Math",
                     subarea: "Algebra",
                 },
                 {
                     
                     title: "Gemoetry-2-Apr",
-                    date: "4/18/2020",
+                    fromDate: "4/18/2020",
                     area: "Math",
                     subarea: "Geometry",
                 },
                 {
                     
                     title: "History-1-March",
-                    date: "3/30/2020",
+                    fromDate: "3/30/2020",
                     area: "History",
                     subarea: "World History",
                 }
@@ -207,12 +222,14 @@ class AdminHome extends Component {
         }
         if(this.state.students[0]== null)
             this.FetchAdminStudentsTable();
+        if(this.state.exams[0] == null)
+            this.FetchAdminExamsTable();
         return [
             {
                 title:"Exams",
                 body : (
                     <React.Fragment>
-                    <AdminExamTable table = {this.GetAdminExamsTable()}/>
+                    <AdminExamTable table = {this.state.exams}/>
                     <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button> 
                     </React.Fragment>
                 )

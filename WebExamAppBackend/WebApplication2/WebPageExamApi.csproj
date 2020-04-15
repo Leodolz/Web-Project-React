@@ -171,8 +171,10 @@
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\EditAreaController.cs" />
+    <Compile Include="Controllers\EditExamController.cs" />
     <Compile Include="Controllers\EditStudentController.cs" />
     <Compile Include="Controllers\EditSubAreaController.cs" />
+    <Compile Include="Controllers\ExamsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -214,7 +216,9 @@
       <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBControllers\AreaController.cs" />
+    <Compile Include="DBControllers\ExamController.cs" />
     <Compile Include="DBControllers\RealAreaController.cs" />
+    <Compile Include="DBControllers\RealExamController.cs" />
     <Compile Include="DBControllers\RealStudentController.cs" />
     <Compile Include="DBControllers\SubAreaController.cs" />
     <Compile Include="DBControllers\UserController.cs" />
@@ -223,23 +227,30 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExamElement.cs" />
     <Compile Include="Models\RealArea.cs" />
+    <Compile Include="Models\RealExam.cs" />
     <Compile Include="Models\RealStudent.cs" />
     <Compile Include="Models\RealSubArea.cs" />
     <Compile Include="Models\RefurbishedSubArea.cs" />
     <Compile Include="Proxies\RealAreaProxy.cs" />
     <Compile Include="Proxies\IUserProxy.cs" />
+    <Compile Include="Proxies\RealExamProxy.cs" />
     <Compile Include="Proxies\StudentTeacherProxy.cs" />
     <Compile Include="Proxies\UserProxy.cs" />
     <Compile Include="Repository\AreaRepository.cs" />
+    <Compile Include="Repository\ExamRepository.cs" />
     <Compile Include="Repository\Generic\IGenericRepository.cs" />
     <Compile Include="Repository\Generic\GenericRepository.cs" />
     <Compile Include="Models\StaticUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\OptionAssignRepository.cs" />
+    <Compile Include="Repository\QuestionAssignRepository.cs" />
     <Compile Include="Repository\SubAreaAssignRepository.cs" />
     <Compile Include="Repository\SubAreaRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Utils\AreaUtils.cs" />
+    <Compile Include="Utils\ExamUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\StudentUtils.cs" />
     <Compile Include="Utils\SubAreaAssignUtils.cs" />

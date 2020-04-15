@@ -35,6 +35,11 @@ class TextOverlayForm extends Component {
             input = <input name="newValue" defaultValue={this.props.overlayed.extras.value} type="date" className="myInput" 
             placeholder={this.props.overlayed.extras.placeholder +"..."} required/>;
         }
+        if(this.props.datetime)
+        {
+            input = <input name="newValue" defaultValue={this.props.overlayed.extras.value} type="datetime-local" className="myInput" 
+            placeholder={this.props.overlayed.extras.placeholder +"..."} required/>;
+        }
         return (
             <div className="overlayed">
                 <div className="elementEditForm">

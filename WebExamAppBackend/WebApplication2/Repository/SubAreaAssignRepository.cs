@@ -27,7 +27,7 @@ namespace WebApplication2.Repository
         }
         public List<int> GetAllStudentsIds(int subAreaId)
         {
-            return table.Where(subarea => subarea.subAreaId == subAreaId) //TODO: NO OLVIDARSE PONER UNA CONDICION MAS DONDE EL ROL TIENE QUE SER ESTUDIANTE
+            return table.Where(subarea => subarea.subAreaId == subAreaId) 
                 .Select(subarea => subarea.userId).ToList();
         }
     }
