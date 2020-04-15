@@ -229,7 +229,6 @@
     <Compile Include="Models\RefurbishedSubArea.cs" />
     <Compile Include="Proxies\RealAreaProxy.cs" />
     <Compile Include="Proxies\IUserProxy.cs" />
-    <Compile Include="Proxies\RealSubAreaProxy.cs" />
     <Compile Include="Proxies\StudentTeacherProxy.cs" />
     <Compile Include="Proxies\UserProxy.cs" />
     <Compile Include="Repository\AreaRepository.cs" />
@@ -243,7 +242,9 @@
     <Compile Include="Utils\AreaUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\StudentUtils.cs" />
+    <Compile Include="Utils\SubAreaAssignUtils.cs" />
     <Compile Include="Utils\SubAreaUtils.cs" />
+    <Compile Include="Utils\UserUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Exam_Database.mdf" />

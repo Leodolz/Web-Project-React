@@ -29,7 +29,7 @@ namespace WebApplication2.DBControllers
         public void AddStudent(User model, string[] subareas) //subareas assigned?
         {
             int userId = userController.AddUser(model);
-            SubAreaUtils.AssignSubAreasToUser(userId, subAreaController, subareas);
+            SubAreaAssignUtils.AssignSubAreasToUser(userId, subAreaController, subareas);
         }
         public void EditStudent(User newUser, string[] subareas) //change subarea assignations?
         {
@@ -49,8 +49,8 @@ namespace WebApplication2.DBControllers
             List<string> oldSubAreas = SubAreaUtils.GetSubAreasStrings(UserSubAreas).ToList();
             List<string> subAreasToAssign = SubAreaUtils.OneWayCompareSubAreas(newSubAreas, oldSubAreas);
             List<string> subAreasToDelete = SubAreaUtils.OneWayCompareSubAreas(oldSubAreas, newSubAreas);
-            SubAreaUtils.AssignSubAreasToUser(userId, subAreaController, subAreasToAssign.ToArray());
-            SubAreaUtils.UnAssignSubAreasToUser(userId, subAreaController, subAreasToDelete.ToArray());
+            SubAreaAssignUtils.AssignSubAreasToUser(userId, subAreaController, subAreasToAssign.ToArray());
+            SubAreaAssignUtils.UnAssignSubAreasToUser(userId, subAreaController, subAreasToDelete.ToArray());
         }
         public UserController GetUserController()
         {

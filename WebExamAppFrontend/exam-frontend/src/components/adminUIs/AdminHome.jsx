@@ -112,11 +112,23 @@ class AdminHome extends Component {
         });
     }
 
-    AddSubArea = () =>
+    AddSubArea = (event) =>
     {
+        event.preventDefault();
         //Fetch for null Area or generate null SubArea on AddEditSubAreas
         console.log("Add new Area");
+        this.fetchSubAreaById(event.target.title);
         window.location.assign("/admSubAreas");
+    }
+    fetchSubAreaById(id)
+    {
+        fetch('http://localhost:51061/api/SubAreas/'+id+
+            '?parentArea=true')
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
     }
 
     fetchAreaById(id)
@@ -187,13 +199,12 @@ class AdminHome extends Component {
                         <button title={areasTable[i].Id} onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button>
                     </p>
                     <AreasTable table = {areasTable[i].subareas} showStudentsArea={this.showStudentsArea}/>
-                    <button onClick={this.AddSubArea}>Add Sub-Area</button>
+                    <button title={areasTable[i].Id} onClick={this.AddSubArea}>Add Sub-Area</button>
                     </React.Fragment>
                 )
             }
             areasBody.push(container);
         }
-        console.log(areasBody);
         if(this.state.students[0]== null)
             this.FetchAdminStudentsTable();
         return [

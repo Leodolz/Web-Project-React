@@ -18,6 +18,7 @@ namespace WebApplication2.Controllers
     {
         public static bool Editing = false;
         public static RefurbishedSubArea currentSubArea = null;
+        public static int parentAreaId = 0; 
         private SubAreaController subAreaController = new SubAreaController();
 
         // GET: api/EditSubArea
@@ -25,7 +26,7 @@ namespace WebApplication2.Controllers
         {
             if (Editing)
                 return Ok(currentSubArea);
-            else return NotFound();
+            else return Ok(parentAreaId);
         }
 
 
@@ -37,13 +38,16 @@ namespace WebApplication2.Controllers
             SubArea subArea = new SubArea();
             if (edit == false)
             {
-                subArea = AreaUtils.NewSubToSubArea(recievingSubArea, subAreaController);
-                subAreaController.AddSubArea(subArea);
+                subArea = SubAreaUtils.NewSubToSubArea(recievingSubArea, subAreaController);
+                int subAreaId = subAreaController.AddSubArea(subArea);
+                int[] studentsIds = UserUtils.UserToUserIds(recievingSubArea.students).ToArray();
+                SubAreaAssignUtils.AssignUsersToSubArea(studentsIds, subAreaController, subAreaId);
             }
             else
             {
-                subArea = AreaUtils.EditedSubToSubArea(recievingSubArea, subAreaController);
+                subArea = SubAreaUtils.EditedSubToSubArea(recievingSubArea, subAreaController);
                 subAreaController.EditSubArea(recievingSubArea.Id, subArea);
+                ChangeSubAreaUsers(recievingSubArea.Id, recievingSubArea.students);
             }
         }
 
@@ -55,6 +59,15 @@ namespace WebApplication2.Controllers
         // DELETE: api/EditSubArea/5
         public void Delete(int id)
         {
+        }
+        private void ChangeSubAreaUsers(int subAreaId, User[] actualUsers)
+        {
+            List<int> oldSubAreaUsers = subAreaController.GetAllStudentsIds(subAreaId);
+            List<int> actualUsersIds = UserUtils.UserToUserIds(actualUsers);
+            List<int> usersToAssign = UserUtils.OneWayCompareUsers(actualUsersIds, oldSubAreaUsers);
+            List<int> usersToDelete = UserUtils.OneWayCompareUsers(oldSubAreaUsers, actualUsersIds);
+            SubAreaAssignUtils.AssignUsersToSubArea(usersToAssign.ToArray(), subAreaController, subAreaId);
+            SubAreaAssignUtils.UnAssignUsersToSubArea(usersToDelete.ToArray(), subAreaController, subAreaId );
         }
     }
 }

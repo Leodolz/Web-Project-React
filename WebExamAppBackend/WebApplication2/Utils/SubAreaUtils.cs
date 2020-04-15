@@ -35,46 +35,6 @@ namespace WebApplication2.Utils
             }
             return areas.ToArray();
         }
-        //This should be at Sub Area Assigned Utils
-        public static void AssignUsersToSubAreas(User[] users, SubAreaController subAreaController, int subAreaId)
-        {
-            foreach(User user in users)
-            {
-                SubAreaAssign newAssignment = new SubAreaAssign
-                {
-                    userId = user.Id,
-                    created= DateTime.Today,
-                    subAreaId = subAreaId
-                };
-                subAreaController.AssignNewSubArea(newAssignment);
-            }
-        }
-        //This should be at Sub Area Assigned Utils
-        public static void AssignSubAreasToUser(int userId, SubAreaController subAreaController, string[] subareas)
-        {
-            foreach (string subAreaName in subareas)
-            {
-                int subAreaId = subAreaController.GetByName(subAreaName).Id;
-                SubAreaAssign newAssignment = new SubAreaAssign
-                {
-                    userId = userId,
-                    created = DateTime.Today, // TODO: Change name to modified
-                    subAreaId = subAreaId,
-                };
-                subAreaController.AssignNewSubArea(newAssignment);
-            }
-        }
-        //This should be at Sub Area Assigned Utils
-        public static void UnAssignSubAreasToUser(int userId, SubAreaController subAreaController, string[] subareas)
-        {
-            foreach (string subAreaName in subareas)
-            {
-                int subAreaId = subAreaController.GetByName(subAreaName).Id;
-                int subAreaAssignId = subAreaController.GetAssignmentId(subAreaId, userId);
-                subAreaController.DeleteAssignment(subAreaAssignId);
-            }
-
-        }
         public static List<string> OneWayCompareSubAreas(List<string> completeList, List<string> containingList)
         {
             List<string> differentItems = new List<string>();
@@ -85,6 +45,26 @@ namespace WebApplication2.Utils
             }
             return differentItems;
         }
-       
+        public static SubArea NewSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
+        {
+
+            //Assign students to subArea
+            return new SubArea
+            {
+                created = DateTime.Today,
+                Id = refurbishedSubArea.Id,
+                parentAreaId = refurbishedSubArea.parentId,
+                name = refurbishedSubArea.name
+            };
+
+        }
+        public static SubArea EditedSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
+        {
+            SubArea subArea = subAreaController.GetById(refurbishedSubArea.Id);
+            subArea.name = refurbishedSubArea.name;
+            //TODO: ASSIGN OR UNASSIGN ALL THE STUDENTS THAT WERE BEFORE
+            return subArea;
+        }
+
     }
 }

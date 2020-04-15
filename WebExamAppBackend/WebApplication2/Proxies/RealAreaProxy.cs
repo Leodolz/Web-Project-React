@@ -32,5 +32,9 @@ namespace WebApplication2.Proxies
         {
             realAreasCache.Remove(area);
         }
+        public static void UpdateArea(int areaId)
+        {
+            realAreasCache.RemoveAll(area=>area.Id == areaId);
+        }
     }
 }

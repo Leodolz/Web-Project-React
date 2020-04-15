@@ -4,34 +4,6 @@ class SubAreaEditor extends Component {
     state = {
         subArea: this.props.subArea,
         allStudents: null,
-            /*{
-                name: "Math",
-                students: 
-                [
-                    {
-                        name: "Leandro Hurtado",
-                        username: "leodolz",
-                        email: "leo123f@somemail.com",
-                        areas: "Math, History",
-                        subareas: "Algebra, World History, Geometry",
-                    },
-                    
-                    {
-                        name: "Another Student",
-                        username: "genericStudent",
-                        email: "gen324@somemail.com",
-                        areas: "Math",
-                        subareas: "Algebra, Geometry",
-                    },
-                    {
-                        name: "Bob Doole",
-                        username: "genericStudent2",
-                        email: "gen12324@somemail.com",
-                        areas: "History",
-                        subareas: "Algebra, Geometry, Calculus I",
-                    },
-                ],
-            },*/
         overlayed : {
             overlay: false,
             extras : null,
@@ -97,7 +69,9 @@ class SubAreaEditor extends Component {
         }
         let edit = 'true';
         if(this.props.new)
+        {
             edit= 'false';
+        }
         fetch('http://localhost:51061/api/EditSubArea?edit='+edit,
         {
             method: 'POST',

@@ -6,25 +6,34 @@ class AddEditSubAreas extends Component {
     state={
         user:null,
         subarea: null,
+        new: false,
     }
     FetchSubArea = () =>
     {
         fetch('http://localhost:51061/api/EditSubArea')
         .then(result=>result.json())
         .then((data)=>{
-            this.setState({subarea: data});
+            if(data.name)
+            {
+                this.setState({subarea: data});
+            }
+            else 
+            {
+                this.setState({subarea: this.GetEmptySubArea(data)});
+                this.setState({new:true});
+            }
         })
         .catch((e)=>{
-            this.setState({subarea: this.GetEmptySubArea()});
-            this.setState({new:true});
+           
         });
     }
-    GetEmptySubArea = () =>
+    GetEmptySubArea = (parentAreaId) =>
     {
         return {
             name: null,
             students: [],
             Id: 0,
+            parentId: parentAreaId
         };
     }
 
@@ -45,7 +54,7 @@ class AddEditSubAreas extends Component {
             body = (
                 <React.Fragment >
                 <h1 className="Editor">Sub-Area editor</h1>
-                <SubAreaEditor subArea = {subarea}/>
+                <SubAreaEditor subArea = {subarea} new = {this.state.new} />
                 </React.Fragment>
             );
         }

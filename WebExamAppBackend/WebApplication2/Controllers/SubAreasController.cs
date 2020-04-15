@@ -9,6 +9,7 @@ using WebApplication2.DBControllers;
 using WebApplication2.DAL;
 using WebApplication2.Models;
 using WebApplication2.Utils;
+using WebApplication2.Proxies;
 
 namespace WebApplication2.Controllers
 {
@@ -50,10 +51,17 @@ namespace WebApplication2.Controllers
                 EditSubAreaController.Editing = false;
                 return NotFound();
             }
-            //RealSubAreaProxy.UpdateArea(result);
+            RealAreaProxy.UpdateArea(result.parentAreaId);
             EditSubAreaController.currentSubArea = AreaUtils.SubAreaToRefurbished(result,subAreaController,userController);
             EditSubAreaController.Editing = true;
             return Ok(result);
+        }
+        public IHttpActionResult Get(int id, bool parentArea)
+        {
+            EditSubAreaController.Editing = false;
+            EditSubAreaController.parentAreaId = id;
+            RealAreaProxy.UpdateArea(id);
+            return Ok();
         }
 
         // POST: api/SubAreas

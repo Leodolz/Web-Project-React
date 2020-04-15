@@ -79,30 +79,6 @@ namespace WebApplication2.Utils
             }
             return allStudents.ToArray();
         }
-        public static SubArea NewSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
-        {
-            
-            //Assign students to subArea
-            return new SubArea
-            {
-                created = DateTime.Today,
-                Id = refurbishedSubArea.Id,
-                parentAreaId = refurbishedSubArea.parentId,
-                name = refurbishedSubArea.name
-            };
-            SubAreaUtils.AssignUsersToSubAreas(refurbishedSubArea.students, subAreaController, refurbishedSubArea.Id);
-        }
-        public static void AssignUsersToSubAreas()
-        {
-
-        }
-
-        public static SubArea EditedSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
-        {
-            SubArea subArea = subAreaController.GetById(refurbishedSubArea.Id);
-            subArea.name = refurbishedSubArea.name;
-            //TODO: ASSIGN OR UNASSIGN ALL THE STUDENTS THAT WERE BEFORE
-            return subArea;
-        }
+        
     }
 }

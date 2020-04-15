@@ -22,13 +22,14 @@ namespace WebApplication2.DBControllers
             return subAreaRepository.GetAll().ToList();
         }
 
-        public void AddSubArea(SubArea model)
+        public int AddSubArea(SubArea model)
         {
             var allSubAreas = subAreaRepository.GetAll();
             int lastId = allSubAreas[allSubAreas.Count() - 1].Id;
             model.Id = lastId + 1;
             subAreaRepository.Insert(model);
             subAreaRepository.Save();
+            return model.Id;
         }
         public void EditSubArea(int subAreaId, SubArea newSubArea)
         {
@@ -40,6 +41,7 @@ namespace WebApplication2.DBControllers
         {
             subAreaRepository.Update(model);
             subAreaRepository.Save();
+            
         }
         public void DeleteSubArea(int subAreaId)
         {
@@ -88,5 +90,6 @@ namespace WebApplication2.DBControllers
             subAreaAssignRepository.Delete(assignmentId);
             subAreaAssignRepository.Save();
         }
+        
     }
 }
