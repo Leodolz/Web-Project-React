@@ -59,16 +59,14 @@ namespace WebApplication2.Utils
                     answers.Add(option.optionTitle);
             }
             return answers.ToArray();
-
         }
-
-        public static RealExamQuestion[] GetAllExamElements(ExamController examController, int examId)
+        public static RealExamQuestion[] GetAllExamElements(ExamController examController, int examId, QuestionAssignController questionAssignController, OptionAssignController optionAssignController)
         {
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
-            List<questionAssign> allQuestions = examController.GetAllExamQuestions(examId);
+            List<questionAssign> allQuestions = questionAssignController.GetAllExamQuestions(examId);
             foreach (questionAssign question in allQuestions)
             {
-                allExamElements.Add(GetExamElement(question,examController.GetAllQuestionOptions(question.Id)));
+                allExamElements.Add(GetExamElement(question,optionAssignController.GetAllQuestionOptions(question.Id)));
             }
             return allExamElements.ToArray();
         }

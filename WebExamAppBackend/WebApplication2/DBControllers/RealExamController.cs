@@ -11,8 +11,9 @@ namespace WebApplication2.DBControllers
 {
     public class RealExamController
     {
-       
         private ExamController examController = new ExamController();
+        private QuestionAssignController questionAssignController = new QuestionAssignController();
+        private OptionAssignController optionAssignController = new OptionAssignController();
         public RealExam[] GetAllRealExams(RealExamProxy realExamProxy)
         {
             List<Exam> allExams = examController.GetAllExams();
@@ -25,7 +26,7 @@ namespace WebApplication2.DBControllers
         }
         public RealExam GetRealExam(Exam exam)
         {
-            RealExamQuestion[] questions = ExamUtils.GetAllExamElements(examController, exam.Id);
+            RealExamQuestion[] questions = ExamUtils.GetAllExamElements(examController, exam.Id, questionAssignController, optionAssignController);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }
         
@@ -51,7 +52,7 @@ namespace WebApplication2.DBControllers
                     type = question.type,
                     score = question.score,
                 };
-                allQuestionsIds.Add(examController.AssignNewQuestion(questionAssign));
+                allQuestionsIds.Add(questionAssignController.AssignNewQuestion(questionAssign));
             }
             return allQuestionsIds;
         }
@@ -68,7 +69,24 @@ namespace WebApplication2.DBControllers
                     optionTitle = option,
                     answer = answer,
                 };
-                examController.AssignNewOption(optionAssign);
+                optionAssignController.AssignNewOption(optionAssign);
+            }
+        }
+        private void EditOptionsOfQuestion(int questionId, string[] options, string[] answers)
+        {
+            List<OptionAssign> oldOptions = optionAssignController.GetAllQuestionOptions(questionId);
+            foreach (string option in options)
+            {
+                byte[] answer = new byte[] { 0 };
+                if (answers.Contains(option))
+                    answer[0] = 1;
+                OptionAssign optionAssign = new OptionAssign
+                {
+                    questionId = questionId,
+                    optionTitle = option,
+                    answer = answer,
+                };
+                optionAssignController.AssignNewOption(optionAssign);
             }
         }
        
