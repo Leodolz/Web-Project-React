@@ -180,40 +180,40 @@
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\SubAreasController.cs" />
     <Compile Include="DAL\Area.cs">
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Exam.cs">
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\ExamPlatfomModel.Context.cs">
+    <Compile Include="DAL\ExamPlatformModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ExamPlatfomModel.Context.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\ExamPlatfomModel.cs">
+    <Compile Include="DAL\ExamPlatformModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DAL\ExamPlatfomModel.Designer.cs">
+    <Compile Include="DAL\ExamPlatformModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ExamPlatfomModel.edmx</DependentUpon>
+      <DependentUpon>ExamPlatformModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DAL\OptionAssign.cs">
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\questionAssign.cs">
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\SubArea.cs">
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\SubAreaAssign.cs">
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\User.cs">
-      <DependentUpon>ExamPlatfomModel.tt</DependentUpon>
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBControllers\AreaController.cs" />
     <Compile Include="DBControllers\ExamController.cs" />
@@ -267,15 +267,15 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="DAL\ExamPlatfomModel.Context.tt">
+    <Content Include="DAL\ExamPlatformModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ExamPlatfomModel.edmx</DependentUpon>
-      <LastGenOutput>ExamPlatfomModel.Context.cs</LastGenOutput>
+      <DependentUpon>ExamPlatformModel.edmx</DependentUpon>
+      <LastGenOutput>ExamPlatformModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DAL\ExamPlatfomModel.tt">
+    <Content Include="DAL\ExamPlatformModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ExamPlatfomModel.edmx</DependentUpon>
-      <LastGenOutput>ExamPlatfomModel.cs</LastGenOutput>
+      <DependentUpon>ExamPlatformModel.edmx</DependentUpon>
+      <LastGenOutput>ExamPlatformModel.cs</LastGenOutput>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -301,12 +301,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="DAL\ExamPlatfomModel.edmx">
+    <EntityDeploy Include="DAL\ExamPlatformModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ExamPlatfomModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>ExamPlatformModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="DAL\ExamPlatfomModel.edmx.diagram">
-      <DependentUpon>ExamPlatfomModel.edmx</DependentUpon>
+    <Content Include="DAL\ExamPlatformModel.edmx.diagram">
+      <DependentUpon>ExamPlatformModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

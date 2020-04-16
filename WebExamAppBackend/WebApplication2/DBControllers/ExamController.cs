@@ -10,9 +10,9 @@ namespace WebApplication2.DBControllers
 {
     public class ExamController
     {
-        private QuestionAssignRepository questionAssignRepository = new QuestionAssignRepository(new Exam_DBContext());
-        private OptionAssignRepository optionAssignRepository = new OptionAssignRepository(new Exam_DBContext());
-        private ExamRepository examRepository = new ExamRepository(new Exam_DBContext());
+        private QuestionAssignRepository questionAssignRepository = new QuestionAssignRepository(new Exam_DatabaseEntities());
+        private OptionAssignRepository optionAssignRepository = new OptionAssignRepository(new Exam_DatabaseEntities());
+        private ExamRepository examRepository = new ExamRepository(new Exam_DatabaseEntities());
 
         public Exam GetById(int id)
         {

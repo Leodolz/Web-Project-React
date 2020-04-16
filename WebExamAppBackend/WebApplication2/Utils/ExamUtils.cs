@@ -34,7 +34,8 @@ namespace WebApplication2.Utils
                 title = question.title,
                 multiple = question.type=="Single"?false:true,
                 options = OptionsToStrings(allOptions),
-                answer = OptionsToAnswers(allOptions)
+                answer = OptionsToAnswers(allOptions),
+                score = question.score
             };
         }
         private static string[] OptionsToStrings(List<OptionAssign> allOptions)

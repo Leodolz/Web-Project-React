@@ -13,7 +13,7 @@ namespace WebApplication2.DBControllers
 
         public UserController()
         {
-            userRepository = new UserRepository(new Exam_DBContext());
+            userRepository = new UserRepository(new Exam_DatabaseEntities());
         }
         public List<User> GetAllUsers()
         {

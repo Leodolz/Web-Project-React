@@ -18,5 +18,6 @@ namespace WebApplication2.DAL
         public int examId { get; set; }
         public string title { get; set; }
         public string type { get; set; }
+        public int score { get; set; }
     }
 }

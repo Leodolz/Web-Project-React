@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Exam_DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Areas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="created" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Exams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fromDate" Type="datetime" Nullable="false" />
+          <Property Name="subAreaId" Type="int" Nullable="false" />
+          <Property Name="totalScore" Type="int" Nullable="false" />
+          <Property Name="untilDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OptionAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="optionTitle" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="answer" Type="binary" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="questionAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="examId" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubAreaAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="created" Type="date" Nullable="false" />
+          <Property Name="subAreaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubAreas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="created" Type="date" Nullable="false" />
+          <Property Name="parentAreaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="role" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="created" Type="date" Nullable="false" />
+          <Property Name="until" Type="date" Nullable="false" />
+          <Property Name="active" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="full name" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="birth" Type="date" Nullable="false" />
+          <Property Name="contact" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityContainer Name="Exam_DatabaseModelStoreContainer">
+          <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OptionAssign" EntityType="Self.OptionAssign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="questionAssign" EntityType="Self.questionAssign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubAreaAssign" EntityType="Self.SubAreaAssign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubAreas" EntityType="Self.SubAreas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Exam_DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Area">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Exam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fromDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="subAreaId" Type="Int32" Nullable="false" />
+          <Property Name="totalScore" Type="Int32" Nullable="false" />
+          <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="OptionAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="optionTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="answer" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="questionAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="examId" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="score" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubAreaAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="created" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="subAreaId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="parentAreaId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="until" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="active" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="full_name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="Exam_DatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Areas" EntityType="Self.Area" />
+          <EntitySet Name="Exams" EntityType="Self.Exam" />
+          <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />
+          <EntitySet Name="questionAssigns" EntityType="Self.questionAssign" />
+          <EntitySet Name="SubAreaAssigns" EntityType="Self.SubAreaAssign" />
+          <EntitySet Name="SubAreas" EntityType="Self.SubArea" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DatabaseEntities">
+          <EntitySetMapping Name="Areas">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
+              <MappingFragment StoreEntitySet="Areas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="created" ColumnName="created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exams">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.Exam">
+              <MappingFragment StoreEntitySet="Exams">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="fromDate" ColumnName="fromDate" />
+                <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
+                <ScalarProperty Name="totalScore" ColumnName="totalScore" />
+                <ScalarProperty Name="untilDate" ColumnName="untilDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OptionAssigns">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.OptionAssign">
+              <MappingFragment StoreEntitySet="OptionAssign">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="optionTitle" ColumnName="optionTitle" />
+                <ScalarProperty Name="answer" ColumnName="answer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="questionAssigns">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.questionAssign">
+              <MappingFragment StoreEntitySet="questionAssign">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="examId" ColumnName="examId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="score" ColumnName="score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubAreaAssigns">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.SubAreaAssign">
+              <MappingFragment StoreEntitySet="SubAreaAssign">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubAreas">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.SubArea">
+              <MappingFragment StoreEntitySet="SubAreas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="parentAreaId" ColumnName="parentAreaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="until" ColumnName="until" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="full_name" ColumnName="full name" />
+                <ScalarProperty Name="birth" ColumnName="birth" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
