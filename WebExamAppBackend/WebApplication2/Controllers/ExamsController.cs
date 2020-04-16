@@ -21,6 +21,8 @@ namespace WebApplication2.Controllers
         // GET: api/Exams
         public IHttpActionResult Get() //This is for admins who can see all exams
         {
+            EditExamController.currentExam = null;
+            EditExamController.Editing = false;
             return Ok(realExamController.GetAllRealExams(realExamProxy));
         }
         public IHttpActionResult Get(string role ,int userId) //This is for student/teacher exams

@@ -26,5 +26,10 @@ namespace WebApplication2.Repository
         {
             return table.SingleOrDefault(subarea => subarea.name == (string)name);
         }
+        public List<SubArea> GetSubAreasByArea(int parentAreaId)
+        {
+            return table.Where(subarea => subarea.parentAreaId == parentAreaId)
+                .Select(subarea => subarea).ToList();
+        }
     }
 }

@@ -21,7 +21,8 @@ class ExamEdit extends Component {
             fromDate: '',
             untilDate: '',
             subarea: '',
-            RealExamQuestion: [],
+            subAreaId: 0,
+            examElements: [],
         }
     }
     FetchExam = () =>
@@ -36,42 +37,7 @@ class ExamEdit extends Component {
             this.setState({new:true});
         });
     }
-    GetSampleExam = () =>
-    {
-        return {
-            title: 'Generic Exam',
-            RealExamQuestion: [
-                {
-                    title: "First Question",
-                    options: ["A","B","C"],
-                    answer: ["A"],
-                    type: "Single",
-                    multiple: false,
-                    score: 40
-                },
-                {
-                    title: "Second Question",
-                    options: ["True","False"],
-                    answer: ["True"],
-                    type: "Single",
-                    multiple: false,
-                    score: 30
-                },
-                {
-                    title: "Third Question",
-                    options: ["x>10","x=11","x=10","x>11"],
-                    answer: ["x=11"],
-                    type: "Multiple",
-                    multiple: true,
-                    score: 30
-                },
-            ],
-            fromDate: "2020-04-08T17:50",
-            untilDate: "2020-04-08T19:50",
-            subarea: "Geometry",
-            subareaId: 2,
-        }
-    }
+    
     RefurbishExam = (exam)=>
     {
         console.log(exam);
@@ -105,7 +71,7 @@ class ExamEdit extends Component {
             body = (
                 <React.Fragment >
                 <h1 className="Editor">Exam editor</h1>
-                <ExamEditor exam = {this.RefurbishExam(this.state.exam)} new = {this.state.new}/>
+                <ExamEditor exam = {this.RefurbishExam(this.state.exam)} new = {this.state.new} userId={this.state.user.Id}/>
                 </React.Fragment>
             );
         }

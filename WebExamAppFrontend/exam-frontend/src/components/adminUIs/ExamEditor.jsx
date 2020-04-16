@@ -12,10 +12,23 @@ class ExamEditor extends Component {
             extras : null,
             type: "Date",
         },
+        userId: this.props.userId,
+        availableSubAreas: null,
         editingId: 0,
       }
+    constructor(props)
+    {
+        super(props);
+        this.FetchAvailableSubAreas();
+    }
     showActive = (event)=>
     {
+        let totalScore = this.GetTotalScore();
+        if(totalScore<100 || totalScore>100)
+        {
+            alert("Exam must have a total sum of scoring 100 points!");
+            return;
+        }
         let realExam = this.RefurbishExam(this.state.exam);
         let edit = 'true';
             if(this.props.new)
@@ -32,12 +45,11 @@ class ExamEditor extends Component {
                     title: realExam.title,
                     fromDate: realExam.fromDate,
                     subAreaId: realExam.subAreaId,
-                    subarea: realExam.subarea,
                     untilDate: realExam.untilDate,
-                    RealExamQuestion: realExam.RealExamQuestion,
+                    examElements: realExam.RealExamQuestion,
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
-            alert("Student succesfully Edited");
+            alert("Changes Succesfully done");
             window.location.assign("/home");
         console.log(this.RefurbishExam(this.state.exam));
     }
@@ -137,27 +149,53 @@ class ExamEditor extends Component {
         }
         return list;
     }
+    FetchAvailableSubAreas = (userId) =>
+    {
+        //Change this so its with a user
+        fetch('http://localhost:51061/api/SubAreas')
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({availableSubAreas: data});
+        })
+        .catch((e)=>{
+            console.log(e)});
+    }
+    
     PopulateSubAreaOptions = () =>
     {
         let areasBody = [];
-        //I will change this When backend is done
-        areasBody.push(<option key="1" value="Calculus I">Calculus I</option>);
-        areasBody.push(<option key="2" value="Geometry">Geometry</option>);
-        areasBody.push(<option key="3" value="World History">World History</option>);
+        let availableSubAreas = this.state.availableSubAreas;
+        for(let i=0; i<availableSubAreas.length;i++)
+        {
+            areasBody.push(<option key={"SA"+(i+1)} title={availableSubAreas[i].name} value={availableSubAreas[i].Id}>{availableSubAreas[i].name}</option>);
+        }
+       
         return areasBody;
     }
     handleSelectSubArea = (event) =>
     {
         event.preventDefault();
         let exam = this.state.exam;
-        exam.subarea = event.target.value
+        let availableSubAreas = this.state.availableSubAreas;
+        let subarea = availableSubAreas.find(item=>item.Id == event.target.value);
+        exam.subarea = subarea.name;
+        exam.subAreaId = parseInt(event.target.value);
         this.setState({exam:exam});
     }
-
+    GetTotalScore = () =>
+    {
+        let totalScore = 0;
+        let elements = this.state.exam.RealExamQuestion;
+        for(let i=0;i<elements.length;i++)
+        {
+            totalScore = totalScore+elements[i].score;
+        }
+        return totalScore;
+    }
     GetSubAreasOverlayForm = () =>
     {
         let areasBox = this.PopulateSubAreaOptions();
-        return <SelectBox overlayed={this.state.overlayed} element={this.state.exam.subarea} 
+        return <SelectBox overlayed={this.state.overlayed} element={this.state.exam.subAreaId} 
         cancelEdit={this.cancelEdit} handleSelectOption = {this.handleSelectSubArea} optionsBox = {areasBox}/>
     }
     getCloseButton()
@@ -218,6 +256,8 @@ class ExamEditor extends Component {
 
     FormatDate = (date) =>
     {
+        if(date=="")
+            return null;
         let formatedDate = new Date(date);
         formatedDate = formatedDate.toLocaleDateString() + " "
             + formatedDate.toLocaleTimeString();

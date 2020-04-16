@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 class SelectBox extends Component {
-    state = {  }
+
     render() { 
         return (
             <div className="overlayed">
             <form className = "elementEditForm" >
                 <span className="etag">{this.props.overlayed.extras.placeholder+": "}</span>
                 <br/>
-                <select name="newValue" defaultValue={this.props.element} onChange={this.props.handleSelectOption} className="SelectOption">
+                <select name="newValue" onClick ={this.props.handleSelectOption}  defaultValue={this.props.element} onChange={this.props.handleSelectOption} className="SelectOption">
                     {this.props.optionsBox}
                 </select>
                 <br/>

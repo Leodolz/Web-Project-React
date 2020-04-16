@@ -90,6 +90,7 @@ namespace WebApplication2.DBControllers
             subAreaAssignRepository.Delete(assignmentId);
             subAreaAssignRepository.Save();
         }
+
         
     }
 }

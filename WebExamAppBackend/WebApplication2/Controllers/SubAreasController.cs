@@ -56,13 +56,26 @@ namespace WebApplication2.Controllers
             EditSubAreaController.Editing = true;
             return Ok(result);
         }
-        public IHttpActionResult Get(int id, bool parentArea)
+        public IHttpActionResult Get(int id, string action)
         {
-            EditSubAreaController.Editing = false;
-            EditSubAreaController.parentAreaId = id;
-            RealAreaProxy.UpdateArea(id);
-            return Ok();
+            if (action.Equals("SetParentArea"))
+            {
+                EditSubAreaController.Editing = false;
+                EditSubAreaController.parentAreaId = id;
+                RealAreaProxy.UpdateArea(id);
+                return Ok();
+            }
+            else if (action.Equals("GetSubFromTeacher"))
+            {
+                if (userController.GetById(id).role == "Admin")
+                    return Ok(subAreaController.GetAllSubAreas().ToArray());
+                //Use this for getting sub areas that only the teacher can access to 
+                SubArea[] subareas = subAreaController.GetUserSubAreas(id).ToArray();
+                return Ok(subareas);
+            }
+            else return NotFound();
         }
+        
 
         // POST: api/SubAreas
         public void Post([FromBody]string value)

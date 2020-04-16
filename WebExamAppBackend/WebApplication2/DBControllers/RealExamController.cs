@@ -48,7 +48,8 @@ namespace WebApplication2.DBControllers
                 {
                     examId = examId,
                     title = question.title,
-                    type = question.type
+                    type = question.type,
+                    score = question.score,
                 };
                 allQuestionsIds.Add(examController.AssignNewQuestion(questionAssign));
             }

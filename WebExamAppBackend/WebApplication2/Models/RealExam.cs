@@ -13,6 +13,7 @@ namespace WebApplication2.Models
         public int subAreaId { get; set; }
         public string subarea { get; set; }
         public string area { get; set; }
+        public int areaId { get; set; }
         public int totalScore { get; set; }
         public string untilDate { get; set; }
         public RealExamQuestion [] examElements { get; set; }

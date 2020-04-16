@@ -13,7 +13,8 @@ namespace WebApplication2.Utils
         public static RealExam ExamToRealExam(Exam exam, RealExamQuestion[] questions, SubAreaController subAreaController, AreaController areaController)
         {
             SubArea subArea = subAreaController.GetById(exam.subAreaId);
-            string areaName = areaController.getById(subArea.parentAreaId).name;
+            Area currentArea = areaController.getById(subArea.parentAreaId);
+            string areaName = currentArea.name;
             return new RealExam
             {
                 Id = exam.Id,
@@ -23,6 +24,7 @@ namespace WebApplication2.Utils
                 subAreaId = exam.subAreaId,
                 subarea = subArea.name,
                 area = areaName,
+                areaId = currentArea.Id,
                 examElements = questions
             };
         }
@@ -69,6 +71,17 @@ namespace WebApplication2.Utils
                 allExamElements.Add(GetExamElement(question,examController.GetAllQuestionOptions(question.Id)));
             }
             return allExamElements.ToArray();
+        }
+        public static Exam NewRealExamToExam(RealExam exam)
+        {
+            return new Exam
+            {
+                fromDate = DateTime.Parse(exam.fromDate),
+                untilDate = DateTime.Parse(exam.untilDate),
+                subAreaId = exam.subAreaId,
+                title = exam.title,
+                totalScore = exam.totalScore
+            };
         }
     }
 }

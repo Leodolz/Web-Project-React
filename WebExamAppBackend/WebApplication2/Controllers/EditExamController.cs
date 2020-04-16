@@ -8,6 +8,8 @@ using System.Web.Http.Cors;
 using WebApplication2.Models;
 using WebApplication2.DBControllers;
 using WebApplication2.Utils;
+using Newtonsoft.Json.Linq;
+using WebApplication2.DAL;
 
 namespace WebApplication2.Controllers
 {
@@ -22,7 +24,7 @@ namespace WebApplication2.Controllers
         {
             if (Editing)
                 return Ok(currentExam);
-            else return NotFound();
+            else return Ok();
         }
 
         // GET: api/EditExam/5
@@ -32,8 +34,20 @@ namespace WebApplication2.Controllers
         }
 
         // POST: api/EditExam
-        public void Post([FromBody]string value)
+        public void Post(object realExam ,bool edit)
         {
+            JObject juser = realExam as JObject;
+            RealExam recievingRealExam = juser.ToObject<RealExam>();
+            Exam exam = new Exam();
+            if (edit == false)
+            {
+                exam = ExamUtils.NewRealExamToExam(recievingRealExam);
+                realExamController.AddExam(exam, recievingRealExam.examElements);
+            }
+            else
+            {
+                return;
+            }
         }
 
         // PUT: api/EditExam/5

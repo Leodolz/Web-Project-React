@@ -69,33 +69,6 @@ class AdminHome extends Component {
         });
     }
 
-    GetAdminExamsTable = ()=>
-    {
-        return(
-            [
-                {
-                    title: "Algebra-1-Apr",
-                    fromDate: "4/16/2020",
-                    area: "Math",
-                    subarea: "Algebra",
-                },
-                {
-                    
-                    title: "Gemoetry-2-Apr",
-                    fromDate: "4/18/2020",
-                    area: "Math",
-                    subarea: "Geometry",
-                },
-                {
-                    
-                    title: "History-1-March",
-                    fromDate: "3/30/2020",
-                    area: "History",
-                    subarea: "World History",
-                }
-            ]
-        );
-    }
 
     FetchAdminStudentsTable = ()=>
     {
@@ -138,7 +111,7 @@ class AdminHome extends Component {
     fetchSubAreaById(id)
     {
         fetch('http://localhost:51061/api/SubAreas/'+id+
-            '?parentArea=true')
+            '?action=SetParentArea')
         .then(result=>result.json())
         .then((data)=>{
 

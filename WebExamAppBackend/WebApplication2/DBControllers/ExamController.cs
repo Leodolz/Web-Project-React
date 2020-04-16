@@ -68,7 +68,7 @@ namespace WebApplication2.DBControllers
         }
         public void AssignNewOption(OptionAssign assignment)
         {
-            var allOptionAssignments = questionAssignRepository.GetAll();
+            var allOptionAssignments = optionAssignRepository.GetAll();
             int lastId = allOptionAssignments[allOptionAssignments.Count() - 1].Id;
             assignment.Id = lastId + 1;
             optionAssignRepository.Insert(assignment);
