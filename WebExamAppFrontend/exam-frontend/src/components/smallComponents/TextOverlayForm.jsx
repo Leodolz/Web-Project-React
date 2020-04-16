@@ -37,6 +37,7 @@ class TextOverlayForm extends Component {
         }
         if(this.props.datetime)
         {
+            console.log(this.props.overlayed.extras.value)
             input = <input name="newValue" defaultValue={this.props.overlayed.extras.value} type="datetime-local" className="myInput" 
             placeholder={this.props.overlayed.extras.placeholder +"..."} required/>;
         }

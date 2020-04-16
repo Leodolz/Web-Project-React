@@ -15,7 +15,7 @@ namespace WebApplication2.Models
         public string area { get; set; }
         public int totalScore { get; set; }
         public string untilDate { get; set; }
-        public ExamElement [] examElements { get; set; }
+        public RealExamQuestion [] examElements { get; set; }
         public int studentTotalScore { get; set; }
 
     }

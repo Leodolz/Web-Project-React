@@ -19,16 +19,35 @@ namespace WebApplication2.Controllers
         private RealExamController realExamController = new RealExamController();
         private RealExamProxy realExamProxy = new RealExamProxy();
         // GET: api/Exams
-        public IHttpActionResult Get()
+        public IHttpActionResult Get() //This is for admins who can see all exams
         {
             return Ok(realExamController.GetAllRealExams(realExamProxy));
-            //THIS IS ONLY FOR DEMO PURPOSES
         }
-
-        // GET: api/Exams/5
-        public string Get(int id)
+        public IHttpActionResult Get(string role ,int userId) //This is for student/teacher exams
         {
-            return "value";
+            return Ok("");
+        }
+        
+        // GET: api/Exams/5
+        public IHttpActionResult Get(int id, bool student)
+        {
+            if (student == false)
+            {
+                System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
+                var result = realExamProxy.GetRealExam(id);
+                if (result == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Couldn't return student");
+                    EditExamController.currentExam = null;
+                    EditExamController.Editing = false;
+                    return NotFound();
+                }
+                RealExamProxy.UpdateRealExam(result.Id);
+                EditExamController.currentExam = result;
+                EditExamController.Editing = true;
+                return Ok(result);
+            }
+            else return Ok("CHANGE THIS");
         }
 
         // POST: api/Exams

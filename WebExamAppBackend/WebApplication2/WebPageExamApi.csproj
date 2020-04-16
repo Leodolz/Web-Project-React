@@ -227,7 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExamElement.cs" />
+    <Compile Include="Models\RealExamQuestion.cs" />
     <Compile Include="Models\RealArea.cs" />
     <Compile Include="Models\RealExam.cs" />
     <Compile Include="Models\RealStudent.cs" />

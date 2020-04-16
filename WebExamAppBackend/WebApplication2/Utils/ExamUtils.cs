@@ -10,7 +10,7 @@ namespace WebApplication2.Utils
 {
     public static class ExamUtils
     {
-        public static RealExam ExamToRealExam(Exam exam, ExamElement[] questions, SubAreaController subAreaController, AreaController areaController)
+        public static RealExam ExamToRealExam(Exam exam, RealExamQuestion[] questions, SubAreaController subAreaController, AreaController areaController)
         {
             SubArea subArea = subAreaController.GetById(exam.subAreaId);
             string areaName = areaController.getById(subArea.parentAreaId).name;
@@ -26,9 +26,9 @@ namespace WebApplication2.Utils
                 examElements = questions
             };
         }
-        public static ExamElement GetExamElement(questionAssign question, List<OptionAssign> allOptions)
+        public static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions)
         {
-            return new ExamElement
+            return new RealExamQuestion
             {
                 type = question.type,
                 title = question.title,
@@ -59,9 +59,9 @@ namespace WebApplication2.Utils
 
         }
 
-        public static ExamElement[] GetAllExamElements(ExamController examController, int examId)
+        public static RealExamQuestion[] GetAllExamElements(ExamController examController, int examId)
         {
-            List<ExamElement> allExamElements = new List<ExamElement>();
+            List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
             List<questionAssign> allQuestions = examController.GetAllExamQuestions(examId);
             foreach (questionAssign question in allQuestions)
             {

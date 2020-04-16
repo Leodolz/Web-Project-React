@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApplication2.Models
 {
-    public class ExamElement
+    public class RealExamQuestion
     {
         public string title { get; set; }
         public string type { get; set; }

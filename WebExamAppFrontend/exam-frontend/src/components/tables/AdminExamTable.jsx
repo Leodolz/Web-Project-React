@@ -4,9 +4,18 @@ class AdminExamTable extends Component {
     state = {  }
     clickDetailsHandler = (event) =>
     {
-        //Fetch data by name
-        console.log(event.target.title);
+        this.fetchExamById(event.target.title);
         window.location.assign('/admExam');
+    }
+    fetchExamById(id)
+    {
+        fetch('http://localhost:51061/api/Exams/'+id+
+            "?student=false")
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
     }
     renderTable(entries)
     {
@@ -20,7 +29,7 @@ class AdminExamTable extends Component {
             children.push(<td key={"area"+i}>{entries[i].area}</td>)
             children.push(<td key={"subarea"+i}>{entries[i].subarea}</td>)
             children.push(<td key={"Edit"+i}>
-                <p title={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }

@@ -25,11 +25,11 @@ namespace WebApplication2.DBControllers
         }
         public RealExam GetRealExam(Exam exam)
         {
-            ExamElement[] questions = ExamUtils.GetAllExamElements(examController, exam.Id);
+            RealExamQuestion[] questions = ExamUtils.GetAllExamElements(examController, exam.Id);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }
         
-        public void AddExam(Exam model, ExamElement[] questions)
+        public void AddExam(Exam model, RealExamQuestion[] questions)
         {
             int examId = examController.AddExam(model);
             List<int> allQuestionsIds = AssignQuestionsToExam(examId, questions);
@@ -39,10 +39,10 @@ namespace WebApplication2.DBControllers
             }
         }
         //Should be at QuestionsUtils
-        private List<int> AssignQuestionsToExam(int examId, ExamElement[] questions)
+        private List<int> AssignQuestionsToExam(int examId, RealExamQuestion[] questions)
         {
             List<int> allQuestionsIds = new List<int>();
-            foreach (ExamElement question in questions)
+            foreach (RealExamQuestion question in questions)
             {
                 questionAssign questionAssign = new questionAssign
                 {

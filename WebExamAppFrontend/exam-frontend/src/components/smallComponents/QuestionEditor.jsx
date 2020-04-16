@@ -36,7 +36,7 @@ class QuestionEditor extends Component {
             console.log("Entered here")
             let preDefQuestion = this.props.preDefQuestion;
             this.state.listElement = {
-                question: preDefQuestion.question,
+                question: preDefQuestion.title,
                 score: preDefQuestion.score
             };
             this.state.tempOptions = preDefQuestion.optionElement;
@@ -229,8 +229,8 @@ class QuestionEditor extends Component {
         let newQuestion =
         {
             optionElement: this.state.tempOptions,
-            question: event.target.question.value,
-            score: event.target.score.value
+            title: event.target.question.value,
+            score: parseInt(event.target.score.value)
         };
         this.props.getEditedQuestion(newQuestion);
         document.getElementById("admExmForm").reset();
@@ -291,8 +291,8 @@ class QuestionEditor extends Component {
         let newQuestion =
         {
             optionElement: this.state.tempOptions,
-            question: event.target.question.value,
-            score: event.target.score.value
+            title: event.target.question.value,
+            score: parseInt(event.target.score.value)
         };
         this.props.getNewQuestion(newQuestion);
         document.getElementById("admExmForm").reset();
