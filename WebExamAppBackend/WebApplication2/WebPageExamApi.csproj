@@ -253,6 +253,8 @@
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Utils\AreaUtils.cs" />
     <Compile Include="Utils\ExamUtils.cs" />
+    <Compile Include="Utils\OptionUtils.cs" />
+    <Compile Include="Utils\QuestionUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\StudentUtils.cs" />
     <Compile Include="Utils\SubAreaAssignUtils.cs" />

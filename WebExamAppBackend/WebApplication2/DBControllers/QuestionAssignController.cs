@@ -5,6 +5,7 @@ using System.Web;
 using WebApplication2.Repository;
 using WebApplication2.DAL;
 using WebApplication2.Models;
+using WebApplication2.Utils;
 
 namespace WebApplication2.DBControllers
 {
@@ -18,16 +19,31 @@ namespace WebApplication2.DBControllers
             assignment.Id = lastId + 1;
             questionAssignRepository.Insert(assignment);
             questionAssignRepository.Save();
-            return lastId;
+            return assignment.Id;
+        }
+        public questionAssign GetById(int id)
+        {
+            return questionAssignRepository.GetById(id);
         }
         public List<questionAssign> GetAllExamQuestions(int examId)
         {
             return questionAssignRepository.GetAllExamQuestions(examId);
         }
-        public void EditQuestion(int questionId, questionAssign newQuestion)
+        public void EditGroupOfQuestions(List<RealExamQuestion> questions, OptionAssignController optionAssignController)
+        {
+            foreach(RealExamQuestion realQuestion in questions)
+            {
+                questionAssign question = GetById(realQuestion.questionId);
+                EditQuestion(realQuestion.questionId, realQuestion);
+                optionAssignController.EditOptionsOfQuestion(realQuestion.questionId, realQuestion.options, realQuestion.answer);
+            }
+        }
+        public void EditQuestion(int questionId, RealExamQuestion newQuestion)
         {
             questionAssign model = questionAssignRepository.GetById(questionId);
-            model = newQuestion;
+            model.title = newQuestion.title;
+            model.score = newQuestion.score;
+            model.type = newQuestion.type;
             EditQuestion(model);
         }
         private void EditQuestion(questionAssign model)
@@ -35,6 +51,13 @@ namespace WebApplication2.DBControllers
             questionAssignRepository.Update(model);
             questionAssignRepository.Save();
 
+        }
+        public void DeleteQuestions(List<int> ids)
+        {
+            foreach(int id in ids)
+            {
+                DeleteQuestion(id);
+            }
         }
         public void DeleteQuestion(int questionId)
         {

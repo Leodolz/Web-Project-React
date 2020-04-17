@@ -50,7 +50,8 @@ class ExamEdit extends Component {
                 type: exam.examElements[i].type,
                 multiple: exam.examElements[i].multiple,
                 options: exam.examElements[i].options,
-                answer: exam.examElements[i].answer
+                answer: exam.examElements[i].answer,
+                questionId: exam.examElements[i].questionId
             }
         }
         return exam;
@@ -75,6 +76,7 @@ class ExamEdit extends Component {
                 </React.Fragment>
             );
         }
+        console.log("This is a new exam? "+this.state.new);
         return (
             <React.Fragment>
             <MainPage role={role} body={body} home="active" GetUser={this.GetUser}/>

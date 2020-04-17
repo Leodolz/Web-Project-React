@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using WebApplication2.Repository;
 using WebApplication2.DAL;
-using WebApplication2.Models;
+using WebApplication2.Utils;
 
 namespace WebApplication2.DBControllers
 {
@@ -24,6 +24,26 @@ namespace WebApplication2.DBControllers
             optionAssignRepository.Insert(assignment);
             optionAssignRepository.Save();
         }
+        public void EditOptionsOfQuestion(int questionId, string[] options, string[] answers) //NEEDS AN UPDATE
+        {
+            List<OptionAssign> oldOptions = GetAllQuestionOptions(questionId);
+            List<OptionAssign> newOptions = new List<OptionAssign>();
+            foreach (string option in options)
+            {
+                newOptions.Add(OptionUtils.OptionToOptionAssign(questionId, option, answers));
+            }
+            List<OptionAssign> optionsToDelete = OptionUtils.OneWayCompareOptions(oldOptions, newOptions);
+            List<OptionAssign> optionsToAdd = OptionUtils.OneWayCompareOptions(newOptions, oldOptions);
+            DeleteGroupOfOptions(optionsToDelete);
+            AssignGroupOfOptions(optionsToAdd);
+        }
+        public void AssignGroupOfOptions(List<OptionAssign> assignments)
+        {
+            foreach(OptionAssign assignment in assignments)
+            {
+                AssignNewOption(assignment);
+            }
+        }
         public void EditOption(int subAreaId, OptionAssign newOption)
         {
             OptionAssign model = optionAssignRepository.GetById(subAreaId);
@@ -35,6 +55,13 @@ namespace WebApplication2.DBControllers
             optionAssignRepository.Update(model);
             optionAssignRepository.Save();
 
+        }
+        public void DeleteGroupOfOptions(List<OptionAssign> options)
+        {
+            foreach(OptionAssign option in options)
+            {
+                DeleteOption(option.Id);
+            }
         }
         public void DeleteOption(int optionId)
         {

@@ -35,31 +35,14 @@ namespace WebApplication2.Utils
                 type = question.type,
                 title = question.title,
                 multiple = question.type=="Single"?false:true,
-                options = OptionsToStrings(allOptions),
-                answer = OptionsToAnswers(allOptions),
-                score = question.score
+                options = OptionUtils.OptionsToStrings(allOptions),
+                answer = OptionUtils.OptionsToAnswers(allOptions),
+                score = question.score,
+                questionId = question.Id,
             };
         }
-        private static string[] OptionsToStrings(List<OptionAssign> allOptions)
-        {
-            List<string> options = new List<string>();
-            foreach(OptionAssign option in allOptions)
-            {
-                options.Add(option.optionTitle);
-            }
-            return options.ToArray();
-
-        }
-        private static string[] OptionsToAnswers(List<OptionAssign> allOptions)
-        {
-            List<string> answers = new List<string>();
-            foreach (OptionAssign option in allOptions)
-            {
-                if(option.answer[0] == 1)
-                    answers.Add(option.optionTitle);
-            }
-            return answers.ToArray();
-        }
+       
+       
         public static RealExamQuestion[] GetAllExamElements(ExamController examController, int examId, QuestionAssignController questionAssignController, OptionAssignController optionAssignController)
         {
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
@@ -81,5 +64,16 @@ namespace WebApplication2.Utils
                 totalScore = exam.totalScore
             };
         }
+        public static Exam EditedRealToExam(RealExam editedReal, ExamController examController)
+        {
+            Exam editedExam = examController.GetById(editedReal.Id);
+            editedExam.fromDate = DateTime.Parse(editedReal.fromDate);
+            editedExam.untilDate = DateTime.Parse(editedReal.untilDate);
+            editedExam.subAreaId = editedReal.subAreaId;
+            editedExam.title = editedReal.title;
+            return editedExam;
+        }
+
+       
     }
 }

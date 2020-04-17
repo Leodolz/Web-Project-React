@@ -19,6 +19,7 @@ namespace WebApplication2.Controllers
         public static bool Editing = false;
         public static RealExam currentExam = null;
         private RealExamController realExamController = new RealExamController();
+        private ExamController examController = new ExamController();
         // GET: api/EditExam
         public IHttpActionResult Get()
         {
@@ -38,15 +39,17 @@ namespace WebApplication2.Controllers
         {
             JObject juser = realExam as JObject;
             RealExam recievingRealExam = juser.ToObject<RealExam>();
-            Exam exam = new Exam();
             if (edit == false)
             {
-                exam = ExamUtils.NewRealExamToExam(recievingRealExam);
+                Exam exam = ExamUtils.NewRealExamToExam(recievingRealExam);
                 realExamController.AddExam(exam, recievingRealExam.examElements);
             }
             else
             {
-                return;
+                System.Diagnostics.Debug.WriteLine("Entered to editing phase");
+                Exam exam = ExamUtils.EditedRealToExam(recievingRealExam, examController);
+                examController.EditExam(exam.Id, exam);
+                realExamController.EditExam(recievingRealExam.examElements, exam.Id);
             }
         }
 

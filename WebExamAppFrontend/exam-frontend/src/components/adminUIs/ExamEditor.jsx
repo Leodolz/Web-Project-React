@@ -33,7 +33,8 @@ class ExamEditor extends Component {
         let edit = 'true';
             if(this.props.new)
                 edit='false';
-            fetch('http://localhost:51061/api/EditExam?edit='+edit,
+        
+        fetch('http://localhost:51061/api/EditExam?edit='+edit,
             {
                 method: 'POST',
                 headers:{
@@ -46,22 +47,28 @@ class ExamEditor extends Component {
                     fromDate: realExam.fromDate,
                     subAreaId: realExam.subAreaId,
                     untilDate: realExam.untilDate,
-                    examElements: realExam.RealExamQuestion,
+                    examElements: realExam.examElements,
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
             alert("Changes Succesfully done");
             window.location.assign("/home");
-        console.log(this.RefurbishExam(this.state.exam));
+        console.log(this.RefurbishExam(realExam));
     }
     RefurbishExam = (exam)=>
     {
+        exam.examElements = exam.RealExamQuestion;
         for(let i=0; i<exam.RealExamQuestion.length; i++)
         {
-            exam.RealExamQuestion[i].type = exam.RealExamQuestion[i].optionElement.multiple?"Multiple":"Single";
-            exam.RealExamQuestion[i].multiple = exam.RealExamQuestion[i].optionElement.multiple;
-            exam.RealExamQuestion[i].options = exam.RealExamQuestion[i].optionElement.options;
-            exam.RealExamQuestion[i].answer = exam.RealExamQuestion[i].optionElement.answer;
-            delete exam.RealExamQuestion[i].optionElement;
+           
+            exam.examElements[i].type = exam.RealExamQuestion[i].optionElement.multiple?"Multiple":"Single";
+            exam.examElements[i].multiple = exam.RealExamQuestion[i].optionElement.multiple;
+            exam.examElements[i].options = exam.RealExamQuestion[i].optionElement.options;
+            exam.examElements[i].answer = exam.RealExamQuestion[i].optionElement.answer;
+            let questionId = exam.examElements[i].optionElement.questionId;
+            if(questionId == undefined)
+                questionId = 0;
+            exam.examElements[i].questionId = questionId;
+            
         }
         return exam;
     }
@@ -98,7 +105,8 @@ class ExamEditor extends Component {
         {
             optionElement: element.optionElement,
             title: element.title,
-            score: element.score
+            score: element.score,
+            questionId: element.questionId
         };
         let extras = {
             placeholder: "Question Editor",

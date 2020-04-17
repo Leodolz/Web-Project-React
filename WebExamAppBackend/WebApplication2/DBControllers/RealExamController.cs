@@ -33,11 +33,31 @@ namespace WebApplication2.DBControllers
         public void AddExam(Exam model, RealExamQuestion[] questions)
         {
             int examId = examController.AddExam(model);
+            AssignNewQuestionsToExam(questions, examId);
+        }
+        private void AssignNewQuestionsToExam(RealExamQuestion[] questions, int examId)
+        {
             List<int> allQuestionsIds = AssignQuestionsToExam(examId, questions);
-            for(int i=0;i<allQuestionsIds.Count; i++)
+            for (int i = 0; i < allQuestionsIds.Count; i++)
             {
+                System.Diagnostics.Debug.WriteLine("Iteration at question with id: " + allQuestionsIds[i]);
                 AssignOptionsToQuestion(allQuestionsIds[i], questions[i].options, questions[i].answer);
             }
+        }
+        public void EditExam(RealExamQuestion[] questions, int id)
+        {
+            QuestionEditActions(questions,id);
+
+        }
+        private void QuestionEditActions(RealExamQuestion[] newQuestions,int examId)
+        { 
+            List<RealExamQuestion> editedQuestions = QuestionUtils.GetExistingQuestions(newQuestions, questionAssignController);
+            questionAssignController.EditGroupOfQuestions(editedQuestions, optionAssignController);
+            List<questionAssign> oldQuestions = questionAssignController.GetAllExamQuestions(examId);
+            List<int> deletedQuestionsIds = QuestionUtils.DeleteMissingQuestions(oldQuestions, newQuestions.ToList());
+            questionAssignController.DeleteQuestions(deletedQuestionsIds);
+            List<RealExamQuestion> newQuestionAssignments = QuestionUtils.FilterAndConvertQuestions(newQuestions, editedQuestions.ToArray());
+            AssignNewQuestionsToExam(newQuestionAssignments.ToArray(), examId);
         }
         //Should be at QuestionsUtils
         private List<int> AssignQuestionsToExam(int examId, RealExamQuestion[] questions)
@@ -60,35 +80,11 @@ namespace WebApplication2.DBControllers
         {
             foreach (string option in options)
             {
-                byte[] answer = new byte[] { 0 };
-                if (answers.Contains(option))
-                    answer[0] = 1;
-                OptionAssign optionAssign = new OptionAssign
-                {
-                    questionId = questionId,
-                    optionTitle = option,
-                    answer = answer,
-                };
+                OptionAssign optionAssign = OptionUtils.OptionToOptionAssign(questionId, option, answers);
                 optionAssignController.AssignNewOption(optionAssign);
             }
         }
-        private void EditOptionsOfQuestion(int questionId, string[] options, string[] answers)
-        {
-            List<OptionAssign> oldOptions = optionAssignController.GetAllQuestionOptions(questionId);
-            foreach (string option in options)
-            {
-                byte[] answer = new byte[] { 0 };
-                if (answers.Contains(option))
-                    answer[0] = 1;
-                OptionAssign optionAssign = new OptionAssign
-                {
-                    questionId = questionId,
-                    optionTitle = option,
-                    answer = answer,
-                };
-                optionAssignController.AssignNewOption(optionAssign);
-            }
-        }
+       
        
     }
 }

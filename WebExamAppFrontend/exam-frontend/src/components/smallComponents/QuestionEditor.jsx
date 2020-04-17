@@ -37,6 +37,7 @@ class QuestionEditor extends Component {
             let preDefQuestion = this.props.preDefQuestion;
             this.state.listElement = {
                 question: preDefQuestion.title,
+                questionId: preDefQuestion.questionId,
                 score: preDefQuestion.score
             };
             this.state.tempOptions = preDefQuestion.optionElement;
@@ -90,6 +91,7 @@ class QuestionEditor extends Component {
             answer = [];
         this.setState({tempOptions:
             {   
+                questionId: this.state.tempOptions.questionId,
                 options: newArray,
                 answer: answer,
                 multiple: this.state.tempOptions.multiple,
@@ -130,9 +132,11 @@ class QuestionEditor extends Component {
         newOptions.push(event.target.newValue.value);
         let answer = this.state.tempOptions.answer;
         this.setState({tempOptions:{
+            questionId: this.state.tempOptions.questionId,
             options: newOptions,
             answer: answer,
             multiple: this.state.tempOptions.multiple,
+
         }});
         document.getElementById("optionsAdder").reset();
     }
