@@ -14,7 +14,8 @@ class StudentExamViewer extends Component {
         {
             console.log(this.props.exam);
             this.state.listElements = this.props.exam.listElements;
-            this.state.date= this.props.exam.date;
+            this.state.fromDate= this.props.exam.fromDate;
+            this.state.untilDate = this.props.exam.untilDate;
             this.state.subarea= this.props.exam.subarea;
             this.state.score= this.props.exam.score;
         }
@@ -25,8 +26,9 @@ class StudentExamViewer extends Component {
        let accordions = this.GetExamBody();
         return (
             <React.Fragment>
-                <h2>Final Score: {this.state.score}/100</h2>
-                <h3 title={this.state.date}>Exam Date: {this.state.date}</h3>
+                <h2>Final Score: {this.props.exam.studentTotalScore}/100</h2>
+                <h3 title={this.state.fromDate}>Date From: {this.state.fromDate}</h3>
+                <h3 title={this.state.untilDate}>Date Until: {this.state.untilDate}</h3>
                 <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} </h3>
                 <Accordion accordions= {accordions}/>
 
@@ -45,7 +47,7 @@ class StudentExamViewer extends Component {
                     <ul className="myUL">
                      <li className="StudentAnswer" title={this.state.listElements[i].studentAnswer} key={"Q"+i}><span className="etag">Your Answer: </span>{this.state.listElements[i].studentAnswer.join(", ")}<br/></li> 
                      <li className="ExamAnswer" title = {this.state.listElements[i].answer} key={"A"+i}><span className="etag">Answer: </span>{this.state.listElements[i].answer.join(", ")}</li>
-                     <li className="ExamScore" title = {this.state.listElements[i].studentScore} key={"A"+i}><span className="etag">Score: </span>{this.state.listElements[i].studentScore+"/"+this.state.listElements[i].score}</li>
+                     <li className="ExamScore" title = {this.state.listElements[i].studentScore} key={"S"+i}><span className="etag">Score: </span>{this.state.listElements[i].studentScore+"/"+this.state.listElements[i].score}</li>
                     </ul>
                 )
             }

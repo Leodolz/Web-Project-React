@@ -31,7 +31,8 @@ namespace WebApplication2.Utils
                 title = question.title,
                 multiple = question.type == "Single" ? false : true,
                 options = OptionUtils.OptionsToStrings(allOptions),
-                answer = GetStudentAnswers(studentExamQuestion,optionAssignController),
+                studentAnswer = GetStudentAnswers(studentExamQuestion, optionAssignController),
+                answer = OptionUtils.OptionsToAnswers(allOptions),
                 score = studentExamQuestion.score,
                 questionId = question.Id,
             };

@@ -16,14 +16,39 @@ class StudentTable extends Component {
     {
         this.GetExamByName(event.target.title);
     }
-    GetExamByName = (name) =>
+    fetchPastExamById(id)
     {
-        //FETCH 
+        fetch('http://localhost:51061/api/StudentExams/'+id)
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
+        
+    }
+    fetchExamById(id)
+    {
+        fetch('http://localhost:51061/api/Exams/'+id+
+            "?student=true")
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
+    }
+    GetExamByName = (id) =>
+    {
+
         if(this.state.commingExam)
+        {
+            this.fetchExamById(id);
             window.location.assign("/ExamStudent");
+        }
         else
+        {
+            this.fetchPastExamById(id);
             window.location.assign("/studentExm");
-        console.log(name);
+        }
     }
     renderTable(entries)
     {
@@ -39,7 +64,7 @@ class StudentTable extends Component {
             children.push(<td key={"untilDate"+i}>{entries[i].untilDate}</td>)
             children.push(<td key={"score"+i}>{entries[i].studentTotalScore}/100</td>)
             children.push(<td key={"details"+i}>
-                <p title={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
+                <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }

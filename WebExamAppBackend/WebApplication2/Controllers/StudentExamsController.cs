@@ -19,18 +19,28 @@ namespace WebApplication2.Controllers
     {
         private RealExamController realExamController = new RealExamController();
         private RealExamProxy studentExamProxy = new RealExamProxy();
-        // GET: api/StudentExams
-        public IEnumerable<string> Get()
-        {
-            //Not used yet
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/StudentExams/5
-        public RealExam[] Get(int id)
+       
+        public RealExam[] Get(int id, bool pastExams)
         {
             StudentExamController.currentExam = null;
-            return realExamController.GetAllStudentExams(studentExamProxy,id).ToArray();
+            if (pastExams)
+                return realExamController.GetAllPastStudentExams(studentExamProxy, id).ToArray();
+            else
+                return realExamController.GetAllStudentFutureExams(studentExamProxy, id).ToArray();
+            //TODO: Return Present Exams TOO
+        }
+        public IHttpActionResult Get(int id)
+        {
+            var result = studentExamProxy.GetStudentExam(id);
+            if (result == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Couldn't return student Exam");
+                StudentExamController.currentExam = null;
+                return NotFound();
+            }
+            RealExamProxy.UpdateStudentExam(result.Id);
+            StudentExamController.currentExam = result;
+            return Ok(result);
         }
 
         // POST: api/StudentExams

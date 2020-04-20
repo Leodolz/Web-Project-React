@@ -50,10 +50,11 @@ class TakeExam extends Component {
     }
     FetchExam = () =>
     {
-        fetch('http://localhost:51061/api/StudentExam?code=test')
+        fetch('http://localhost:51061/api/StudentExam')
         .then(result=>result.json())
         .then((data)=>{
-            this.setState({exam: data});
+            let exam = this.RefurbishExam(data);
+            this.setState({exam: exam});
         })
         .catch((e)=>{
 
@@ -63,51 +64,9 @@ class TakeExam extends Component {
     RefurbishExam = (exam)=>
     {
         exam.questions = exam.examElements;
-        /*
-        for(let i=0; i<exam.examElements.length; i++)
-        {
-            exam.questions[i] = exam.examElements[i];
-        }*/
         return exam;
     }
-    GetExam = ()=>
-    {
-        //Fetch for exam
-         /*
-    questions = {
-        options: [],
-        answers: [],
-        multiple: true,false
-    }
-    */
-        let exam= {
-            title: 'Generic Exam',
-            questions: [
-                {
-                    title: "First Question",
-                    options: ["A","B","C","D"],
-                    answer: [],
-                    multiple: true
-                },
-                {
-                    title: "Second Question",
-                    options: ["True","False"],
-                    answer: [],
-                    multiple: false
-                },
-                {
-                    title: "Third Question",
-                    options: ["x=5","x=18","x=11","None"],
-                    answer: [],
-                    multiple: false
-                }
-            ],
-            date: "4/7/2020",
-            subarea: "Geometry",
-            score: 0
-        }
-        return exam;
-    }
+    
 }
  
 export default TakeExam;

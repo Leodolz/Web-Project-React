@@ -62,8 +62,16 @@ namespace WebApplication2.Utils
         {
             SubArea subArea = subAreaController.GetById(refurbishedSubArea.Id);
             subArea.name = refurbishedSubArea.name;
-            //TODO: ASSIGN OR UNASSIGN ALL THE STUDENTS THAT WERE BEFORE
             return subArea;
+        }
+        public static List<int> SubAreasToSubAreaIds(List<SubArea> subAreas)
+        {
+            List<int> subAreaIds = new List<int>();
+            foreach(SubArea subArea in subAreas)
+            {
+                subAreaIds.Add(subArea.Id);
+            }
+            return subAreaIds;
         }
 
     }

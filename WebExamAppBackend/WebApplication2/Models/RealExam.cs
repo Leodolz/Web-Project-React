@@ -18,6 +18,6 @@ namespace WebApplication2.Models
         public string untilDate { get; set; }
         public RealExamQuestion [] examElements { get; set; }
         public int studentTotalScore { get; set; }
-
+        public bool presentExam = false;
     }
 }

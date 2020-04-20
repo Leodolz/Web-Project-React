@@ -33,10 +33,12 @@ namespace WebApplication2.Controllers
         // GET: api/Exams/5
         public IHttpActionResult Get(int id, bool student)
         {
+           
             if (student == false)
             {
-                System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
                 var result = realExamProxy.GetRealExam(id);
+                System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
+                
                 if (result == null)
                 {
                     System.Diagnostics.Debug.WriteLine("Couldn't return student");
@@ -49,7 +51,22 @@ namespace WebApplication2.Controllers
                 EditExamController.Editing = true;
                 return Ok(result);
             }
-            else return Ok("CHANGE THIS");
+            else
+            {
+                var result = realExamProxy.GetRealExam(id);
+                if (result == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Couldn't return student");
+                    StudentExamController.currentExam = null;
+                    return NotFound();
+                }
+                foreach (RealExamQuestion question in result.examElements)
+                {
+                    question.answer = new string[] { "" };
+                }
+                StudentExamController.currentExam = result;
+                return Ok();
+            }
         }
 
         // POST: api/Exams

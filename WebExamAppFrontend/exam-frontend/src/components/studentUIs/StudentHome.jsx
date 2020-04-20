@@ -12,16 +12,34 @@ class StudentHome extends Component {
             overlay: false,
             body : null,
         },
-        exams: null,
+        pastExams: null,
+        futureExams:null
     }
-    FetchStudentExamsTable = (userId) =>
+    FetchStudentPastExamsTable = (userId) =>
     {
         this.setState({loading: true});
         let context = this;
-        fetch('http://localhost:51061/api/StudentExams/'+userId)
+        fetch('http://localhost:51061/api/StudentExams/'+userId+
+        '?pastExams=true')
         .then(result=>result.json())
         .then((data)=>{
-            context.setState({exams: data});
+            context.setState({pastExams: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No exams found");
+        console.log(e);
+        });
+    }
+    FetchStudentFutureExamsTable = (userId) =>
+    {
+        this.setState({loading: true});
+        let context = this;
+        fetch('http://localhost:51061/api/StudentExams/'+userId+
+        '?pastExams=false')
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({futureExams: data});
             console.log(data);
         })
        .catch((e)=>{
@@ -51,8 +69,11 @@ class StudentHome extends Component {
         console.log(this.state.exams);
         let overlay = this.GetOverlayForm();
         if(this.state.loading == false && this.state.user!=null)
-            this.FetchStudentExamsTable(this.state.user.Id);
-        if(this.state.exams == null)
+        {
+            this.FetchStudentPastExamsTable(this.state.user.Id);
+            this.FetchStudentFutureExamsTable(this.state.user.Id);
+        }
+        if(this.state.pastExams == null || this.state.futureExams == null)
             return(<h1>Loading Page...</h1>);
         let accordions = this.GetNewStudentBody();
         return (
@@ -66,7 +87,7 @@ class StudentHome extends Component {
     GetUser = (user) =>
     {
         this.setState({user:user});
-        this.FetchStudentExamsTable(user.Id);
+        this.FetchStudentPastExamsTable(user.Id);
     }
 
     GetStudentPastExamsTable = ()=>
@@ -197,9 +218,9 @@ class StudentHome extends Component {
 
     GetNewStudentBody = () =>
     {
-        let pastExamsTable = this.SortByArea(this.state.exams);
+        let pastExamsTable = this.SortByArea(this.state.pastExams);
         let pastExamsBody = this.GetExamsBody(pastExamsTable,false);
-        let commingExamsTable = this.SortByArea(this.GetStudentNextExamsTable());
+        let commingExamsTable = this.SortByArea(this.state.futureExams);
         let commingExamsBody = this.GetExamsBody(commingExamsTable,true);
         
         return [

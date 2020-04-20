@@ -13,6 +13,10 @@ namespace WebApplication2.Repository
         {
 
         }
-        
+        public List<Exam> GetAllBySubArea(int[] subAreaIds)
+        {
+            return table.Where(exam => subAreaIds.Contains(exam.subAreaId) && exam.fromDate >= DateTime.Now)
+                .Select(exam => exam).ToList();
+        }
     }
 }

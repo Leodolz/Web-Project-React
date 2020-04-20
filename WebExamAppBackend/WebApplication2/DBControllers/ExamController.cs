@@ -22,7 +22,10 @@ namespace WebApplication2.DBControllers
         {
             return examRepository.GetAll().ToList();
         }
-
+        public List<Exam> GetAllStudentExams(int[] subAreaIds)
+        {
+            return examRepository.GetAllBySubArea(subAreaIds);
+        }
         public int AddExam(Exam model)
         {
             var allExams = examRepository.GetAll();

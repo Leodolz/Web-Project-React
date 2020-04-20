@@ -26,7 +26,20 @@ namespace WebApplication2.DBControllers
             }
             return allRealExams.ToArray();
         }
-        public RealExam[] GetAllStudentExams(RealExamProxy realExamProxy, int studentId)
+        public RealExam[] GetAllStudentFutureExams(RealExamProxy realExamProxy, int studentId)
+        {
+            SubAreaController subAreaController = new SubAreaController();
+            List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(studentId);
+            int[] subAreaIds = SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
+            List<Exam> allExams = examController.GetAllStudentExams(subAreaIds);
+            List<RealExam> allRealExams = new List<RealExam>();
+            foreach (Exam exam in allExams)
+            {
+                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
+            }
+            return allRealExams.ToArray();
+        }
+        public RealExam[] GetAllPastStudentExams(RealExamProxy realExamProxy, int studentId)
         {
             List<StudentExam> allExams = studentExamController.GetAllStudentExams(studentId);
             List<RealExam> allRealExams = new List<RealExam>();
@@ -35,6 +48,10 @@ namespace WebApplication2.DBControllers
                 allRealExams.Add(realExamProxy.GetStudentExam(exam.Id));
             }
             return allRealExams.ToArray();
+        }
+        public int GetModelId(int studentExamId)
+        {
+            return studentExamController.GetById(studentExamId).examId;
         }
         public RealExam GetRealExam(Exam exam)
         {
