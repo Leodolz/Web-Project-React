@@ -11,10 +11,14 @@ namespace WebApplication2.DBControllers
    
     public class OptionAssignController
     {
-        private OptionAssignRepository optionAssignRepository = new OptionAssignRepository(new Exam_DatabaseEntities());
+        private OptionAssignRepository optionAssignRepository = new OptionAssignRepository(new Exam_DBPlatform());
         public List<OptionAssign> GetAllQuestionOptions(int questionId)
         {
             return optionAssignRepository.GetAllQuestionOptions(questionId);
+        }
+        public OptionAssign GetById(int id)
+        {
+            return optionAssignRepository.GetById(id);
         }
         public void AssignNewOption(OptionAssign assignment)
         {

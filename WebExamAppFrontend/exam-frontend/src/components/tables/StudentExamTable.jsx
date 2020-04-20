@@ -35,8 +35,9 @@ class StudentTable extends Component {
         {
             let children = [];
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
-            children.push(<td key={"date"+i}>{entries[i].date}</td>)
-            children.push(<td key={"score"+i}>{entries[i].score}</td>)
+            children.push(<td key={"fromDate"+i}>{entries[i].fromDate}</td>)
+            children.push(<td key={"untilDate"+i}>{entries[i].untilDate}</td>)
+            children.push(<td key={"score"+i}>{entries[i].studentTotalScore}/100</td>)
             children.push(<td key={"details"+i}>
                 <p title={entries[i].title} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
             </td>)
@@ -52,7 +53,8 @@ class StudentTable extends Component {
                     <tbody>
                     <tr>
                         <th>Title</th>
-                        <th>Date</th>
+                        <th>From</th>
+                        <th>Until</th>
                         <th>Score</th>
                         <th>Details</th>
                     </tr>

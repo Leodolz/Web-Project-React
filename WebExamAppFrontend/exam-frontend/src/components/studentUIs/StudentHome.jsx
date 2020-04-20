@@ -5,12 +5,29 @@ import StudentTable from '../tables/StudentExamTable'
 class StudentHome extends Component {
     state=
     {
+        loading :false,
         user:this.props.user,
         overlayed : 
         {
             overlay: false,
             body : null,
         },
+        exams: null,
+    }
+    FetchStudentExamsTable = (userId) =>
+    {
+        this.setState({loading: true});
+        let context = this;
+        fetch('http://localhost:51061/api/StudentExams/'+userId)
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({exams: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No exams found");
+        console.log(e);
+        });
     }
     cancelEdit = (event) =>
     {
@@ -31,7 +48,12 @@ class StudentHome extends Component {
         else return null;
     }
     render() {
+        console.log(this.state.exams);
         let overlay = this.GetOverlayForm();
+        if(this.state.loading == false && this.state.user!=null)
+            this.FetchStudentExamsTable(this.state.user.Id);
+        if(this.state.exams == null)
+            return(<h1>Loading Page...</h1>);
         let accordions = this.GetNewStudentBody();
         return (
             <React.Fragment>
@@ -44,6 +66,7 @@ class StudentHome extends Component {
     GetUser = (user) =>
     {
         this.setState({user:user});
+        this.FetchStudentExamsTable(user.Id);
     }
 
     GetStudentPastExamsTable = ()=>
@@ -174,7 +197,7 @@ class StudentHome extends Component {
 
     GetNewStudentBody = () =>
     {
-        let pastExamsTable = this.SortByArea(this.GetStudentPastExamsTable());
+        let pastExamsTable = this.SortByArea(this.state.exams);
         let pastExamsBody = this.GetExamsBody(pastExamsTable,false);
         let commingExamsTable = this.SortByArea(this.GetStudentNextExamsTable());
         let commingExamsBody = this.GetExamsBody(commingExamsTable,true);

@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import AnswerManager from '../smallComponents/AnswerManager';
 class StudentExamTaker extends Component {
-    /*
-     question= 
-            {
-                title: "First Question",
-                options: ["A","B","C","D"],
-                answers: [],
-                multiple: true
-            },
-    */
     state = {
         questions : [],
         date: this.props.exam.date,
@@ -47,6 +38,41 @@ class StudentExamTaker extends Component {
             list.push(listElement);
         }
         return list;
+    }
+    submitStudentExam = (event)=>
+    {
+        let totalScore = this.GetTotalScore();
+        if(totalScore<100 || totalScore>100)
+        {
+            alert("Exam must have a total sum of scoring 100 points!");
+            return;
+        }
+        let realExam = this.RefurbishExam(this.state.exam);
+        
+        fetch('http://localhost:51061/api/StudentExam?code=submit',
+            {
+                method: 'POST',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Id: realExam.Id,
+                    title: realExam.title,
+                    fromDate: realExam.fromDate,
+                    subAreaId: realExam.subAreaId,
+                    untilDate: realExam.untilDate,
+                    examElements: realExam.examElements,
+                })
+            }).catch((e)=>{alert("Error, couldn't add or edit student")});
+            alert("Changes Succesfully done");
+            window.location.assign("/home");
+        console.log(this.RefurbishExam(realExam));
+    }
+    RefurbishExam = (exam)=>
+    {
+        exam.examElements = exam.questions;
+        return exam;
     }
     handleEdit = (event) =>
     {

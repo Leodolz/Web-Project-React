@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DatabaseEntities">
+  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform">
     <EntitySetMapping Name="Areas">
       <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
         <MappingFragment StoreEntitySet="Areas">
@@ -39,6 +39,27 @@
           <ScalarProperty Name="examId" ColumnName="examId" />
           <ScalarProperty Name="title" ColumnName="title" />
           <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="score" ColumnName="score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentExams">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.StudentExam">
+        <MappingFragment StoreEntitySet="StudentExam">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="examId" ColumnName="examId" />
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="studentId" ColumnName="studentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StudentQuestionTables">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.StudentQuestionTable">
+        <MappingFragment StoreEntitySet="StudentQuestionTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="studentExamId" ColumnName="studentExamId" />
+          <ScalarProperty Name="questionId" ColumnName="questionId" />
+          <ScalarProperty Name="studentAnswerIds" ColumnName="studentAnswerIds" />
           <ScalarProperty Name="score" ColumnName="score" />
         </MappingFragment>
       </EntityTypeMapping>

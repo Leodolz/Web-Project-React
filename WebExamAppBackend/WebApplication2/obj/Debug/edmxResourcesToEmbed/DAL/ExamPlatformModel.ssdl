@@ -38,6 +38,25 @@
     <Property Name="type" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="score" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="StudentExam">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="examId" Type="int" Nullable="false" />
+    <Property Name="score" Type="int" Nullable="false" />
+    <Property Name="studentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StudentQuestionTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="studentExamId" Type="int" Nullable="false" />
+    <Property Name="questionId" Type="int" Nullable="false" />
+    <Property Name="studentAnswerIds" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="score" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="SubAreaAssign">
     <Key>
       <PropertyRef Name="Id" />
@@ -77,6 +96,8 @@
     <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OptionAssign" EntityType="Self.OptionAssign" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="questionAssign" EntityType="Self.questionAssign" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentExam" EntityType="Self.StudentExam" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentQuestionTable" EntityType="Self.StudentQuestionTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubAreaAssign" EntityType="Self.SubAreaAssign" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubAreas" EntityType="Self.SubAreas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />

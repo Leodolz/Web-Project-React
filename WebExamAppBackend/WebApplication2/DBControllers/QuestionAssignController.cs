@@ -11,7 +11,7 @@ namespace WebApplication2.DBControllers
 {
     public class QuestionAssignController
     {
-        private QuestionAssignRepository questionAssignRepository = new QuestionAssignRepository(new Exam_DatabaseEntities());
+        private QuestionAssignRepository questionAssignRepository = new QuestionAssignRepository(new Exam_DBPlatform());
         public int AssignNewQuestion(questionAssign assignment)
         {
             var allQuestionAssignments = questionAssignRepository.GetAll();

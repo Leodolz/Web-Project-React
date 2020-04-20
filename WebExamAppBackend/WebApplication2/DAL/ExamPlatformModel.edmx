@@ -43,6 +43,25 @@
           <Property Name="type" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="score" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StudentExam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="examId" Type="int" Nullable="false" />
+          <Property Name="score" Type="int" Nullable="false" />
+          <Property Name="studentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentQuestionTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="studentExamId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="studentAnswerIds" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="score" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="SubAreaAssign">
           <Key>
             <PropertyRef Name="Id" />
@@ -82,6 +101,8 @@
           <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OptionAssign" EntityType="Self.OptionAssign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="questionAssign" EntityType="Self.questionAssign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentExam" EntityType="Self.StudentExam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentQuestionTable" EntityType="Self.StudentQuestionTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubAreaAssign" EntityType="Self.SubAreaAssign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubAreas" EntityType="Self.SubAreas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -129,6 +150,25 @@
           <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="score" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="StudentExam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="examId" Type="Int32" Nullable="false" />
+          <Property Name="score" Type="Int32" Nullable="false" />
+          <Property Name="studentId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentQuestionTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="studentExamId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="studentAnswerIds" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="score" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="SubAreaAssign">
           <Key>
             <PropertyRef Name="Id" />
@@ -163,11 +203,13 @@
           <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="Exam_DatabaseEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Exam_DBPlatform" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Areas" EntityType="Self.Area" />
           <EntitySet Name="Exams" EntityType="Self.Exam" />
           <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />
           <EntitySet Name="questionAssigns" EntityType="Self.questionAssign" />
+          <EntitySet Name="StudentExams" EntityType="Self.StudentExam" />
+          <EntitySet Name="StudentQuestionTables" EntityType="Self.StudentQuestionTable" />
           <EntitySet Name="SubAreaAssigns" EntityType="Self.SubAreaAssign" />
           <EntitySet Name="SubAreas" EntityType="Self.SubArea" />
           <EntitySet Name="Users" EntityType="Self.User" />
@@ -177,7 +219,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DatabaseEntities">
+        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform">
           <EntitySetMapping Name="Areas">
             <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
               <MappingFragment StoreEntitySet="Areas">
@@ -216,6 +258,27 @@
                 <ScalarProperty Name="examId" ColumnName="examId" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="score" ColumnName="score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentExams">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.StudentExam">
+              <MappingFragment StoreEntitySet="StudentExam">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="examId" ColumnName="examId" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="studentId" ColumnName="studentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentQuestionTables">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.StudentQuestionTable">
+              <MappingFragment StoreEntitySet="StudentQuestionTable">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="studentExamId" ColumnName="studentExamId" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="studentAnswerIds" ColumnName="studentAnswerIds" />
                 <ScalarProperty Name="score" ColumnName="score" />
               </MappingFragment>
             </EntityTypeMapping>

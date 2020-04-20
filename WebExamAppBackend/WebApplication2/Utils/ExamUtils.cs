@@ -28,7 +28,7 @@ namespace WebApplication2.Utils
                 examElements = questions
             };
         }
-        public static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions)
+        private static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions)
         {
             return new RealExamQuestion
             {
@@ -53,6 +53,8 @@ namespace WebApplication2.Utils
             }
             return allExamElements.ToArray();
         }
+       
+
         public static Exam NewRealExamToExam(RealExam exam)
         {
             return new Exam

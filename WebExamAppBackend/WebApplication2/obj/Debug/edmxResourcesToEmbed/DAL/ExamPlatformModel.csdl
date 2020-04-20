@@ -38,6 +38,25 @@
     <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="score" Type="Int32" Nullable="false" />
   </EntityType>
+  <EntityType Name="StudentExam">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="examId" Type="Int32" Nullable="false" />
+    <Property Name="score" Type="Int32" Nullable="false" />
+    <Property Name="studentId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StudentQuestionTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="studentExamId" Type="Int32" Nullable="false" />
+    <Property Name="questionId" Type="Int32" Nullable="false" />
+    <Property Name="studentAnswerIds" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="score" Type="Int32" Nullable="false" />
+  </EntityType>
   <EntityType Name="SubAreaAssign">
     <Key>
       <PropertyRef Name="Id" />
@@ -72,11 +91,13 @@
     <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityContainer Name="Exam_DatabaseEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="Exam_DBPlatform" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Areas" EntityType="Self.Area" />
     <EntitySet Name="Exams" EntityType="Self.Exam" />
     <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />
     <EntitySet Name="questionAssigns" EntityType="Self.questionAssign" />
+    <EntitySet Name="StudentExams" EntityType="Self.StudentExam" />
+    <EntitySet Name="StudentQuestionTables" EntityType="Self.StudentQuestionTable" />
     <EntitySet Name="SubAreaAssigns" EntityType="Self.SubAreaAssign" />
     <EntitySet Name="SubAreas" EntityType="Self.SubArea" />
     <EntitySet Name="Users" EntityType="Self.User" />

@@ -177,6 +177,8 @@
     <Compile Include="Controllers\ExamsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\StudentExamController.cs" />
+    <Compile Include="Controllers\StudentExamsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\SubAreasController.cs" />
     <Compile Include="DAL\Area.cs">
@@ -206,6 +208,12 @@
     <Compile Include="DAL\questionAssign.cs">
       <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\StudentExam.cs">
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\StudentQuestionTable.cs">
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\SubArea.cs">
       <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
@@ -222,6 +230,8 @@
     <Compile Include="DBControllers\RealAreaController.cs" />
     <Compile Include="DBControllers\RealExamController.cs" />
     <Compile Include="DBControllers\RealStudentController.cs" />
+    <Compile Include="DBControllers\StudentExamController.cs" />
+    <Compile Include="DBControllers\StudentExamQuestionController.cs" />
     <Compile Include="DBControllers\SubAreaController.cs" />
     <Compile Include="DBControllers\UserController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -248,6 +258,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\OptionAssignRepository.cs" />
     <Compile Include="Repository\QuestionAssignRepository.cs" />
+    <Compile Include="Repository\StudentExamQuestionRepository.cs" />
+    <Compile Include="Repository\StudentExamRepository.cs" />
     <Compile Include="Repository\SubAreaAssignRepository.cs" />
     <Compile Include="Repository\SubAreaRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
@@ -256,6 +268,7 @@
     <Compile Include="Utils\OptionUtils.cs" />
     <Compile Include="Utils\QuestionUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\StudentExamUtils.cs" />
     <Compile Include="Utils\StudentUtils.cs" />
     <Compile Include="Utils\SubAreaAssignUtils.cs" />
     <Compile Include="Utils\SubAreaUtils.cs" />

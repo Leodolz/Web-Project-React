@@ -12,6 +12,8 @@ namespace WebApplication2.DBControllers
     public class RealExamController
     {
         private ExamController examController = new ExamController();
+        private StudentExamController studentExamController = new StudentExamController();
+        private StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
         private QuestionAssignController questionAssignController = new QuestionAssignController();
         private OptionAssignController optionAssignController = new OptionAssignController();
         public RealExam[] GetAllRealExams(RealExamProxy realExamProxy)
@@ -24,12 +26,31 @@ namespace WebApplication2.DBControllers
             }
             return allRealExams.ToArray();
         }
+        public RealExam[] GetAllStudentExams(RealExamProxy realExamProxy, int studentId)
+        {
+            List<StudentExam> allExams = studentExamController.GetAllStudentExams(studentId);
+            List<RealExam> allRealExams = new List<RealExam>();
+            foreach (StudentExam exam in allExams)
+            {
+                allRealExams.Add(realExamProxy.GetStudentExam(exam.Id));
+            }
+            return allRealExams.ToArray();
+        }
         public RealExam GetRealExam(Exam exam)
         {
             RealExamQuestion[] questions = ExamUtils.GetAllExamElements(examController, exam.Id, questionAssignController, optionAssignController);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }
-        
+        public RealExam GetStudentExam(StudentExam exam)
+        {
+            Exam modelExam = examController.GetById(exam.examId);
+            RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(examController, modelExam.Id, questionAssignController, optionAssignController,studentExamQuestionController);
+            RealExam realExam =  ExamUtils.ExamToRealExam(modelExam, questions, new SubAreaController(), new AreaController());
+            realExam.studentTotalScore = exam.score;
+            realExam.totalScore = 100;
+            return realExam;
+        }
+
         public void AddExam(Exam model, RealExamQuestion[] questions)
         {
             int examId = examController.AddExam(model);
