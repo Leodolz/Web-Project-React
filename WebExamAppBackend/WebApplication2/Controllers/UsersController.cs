@@ -32,14 +32,8 @@ namespace WebApplication2.Controllers
             var result = userProxy.GetUser(username);
             if (result == null || result.password.Trim()!=password.Trim())
             {
-                System.Diagnostics.Debug.WriteLine("User is: "+result.password);
-                System.Diagnostics.Debug.WriteLine("Real password is: " + password);
-                AuthController.currentUser = null;
-                AuthController.WebAuth = false;
                 return NotFound();
             }
-            AuthController.currentUser = result;
-            AuthController.WebAuth = true;
             return Ok(result);
         }
 
