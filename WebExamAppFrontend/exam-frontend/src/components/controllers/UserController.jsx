@@ -4,30 +4,18 @@ import ResponsiveNavBar from '../ResponsiveNavBar';
  class MainPage extends Component{
 
     state = {
-        user: null,
+        user: JSON.parse(sessionStorage.getItem('User')),
        };
   constructor(props)
     {
         super(props);
         this.props.GetUser(this.state.user);
-        fetch('http://localhost:51061/api/Auth/')
-        .then(result=>result.json())
-        .then((data)=>{
-            this.setState({user: data})
-            this.props.GetUser(data);
-        })
-        .catch(console.log);
     }
 
 
     logOff = () =>
     {
-        fetch('http://localhost:51061/api/Logout')
-        .then(result=>result.json())
-        .then((data)=>{
-            this.forceUpdate();
-          })
-          .catch(console.log);
+        sessionStorage.setItem('User',null);
     }
 
     render() { 

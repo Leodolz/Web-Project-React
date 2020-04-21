@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import userImg from '../images/userImage.png';
 
 class LoginForm extends Component {
-    state = { contact: {}, username: '', display:null }
+    state = { contact: {}, username: '', display:null, user:null }
     render() { 
         return (
             <React.Fragment>
-                <form id="StudentForm" onSubmit={this.handleSubmit}  /*method="get"*/ >
+                <form id="StudentForm" onSubmit={this.handleSubmit}   >
                     <div className="imgContainter">
                         <img src={userImg} alt="Student" className="avatar"/>
                     </div>
@@ -19,9 +19,7 @@ class LoginForm extends Component {
                         <br></br>
                         <button type="submit" >Login</button>
                     </div>
-                    <div className="containerForm" >
-                        <button onClick={this.handlePost} className="registerBtn">Register Name</button>
-                    </div>
+                    
                 </form>
                 
             </React.Fragment>
@@ -46,8 +44,8 @@ class LoginForm extends Component {
             +username+'&password='+encrypted)
             .then(result=>result.json())
             .then((data)=>{
-                context.setState({contacts: data});
-                console.log(context.state.contacts.id);
+                context.setState({user: data});
+                sessionStorage.setItem('User',JSON.stringify(data));
                 window.location.assign('/home');
             })
            .catch((e)=>{
@@ -72,27 +70,6 @@ class LoginForm extends Component {
     {
         alert("Incorrect username");
         document.getElementById("StudentForm").reset();
-    }
-    handlePost = (event) =>
-    {
-        let userName = this.state.username;
-        event.preventDefault();
-        fetch('http://localhost:51061/api/Users/',
-        {
-            method: 'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: 3,
-                name: userName,
-                email: 'leandro@bolivia.com',
-                phone: '888888',
-                role: 10
-            })
-        })
-        console.log(this.state.username);
     }
 }
  
