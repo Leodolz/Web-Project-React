@@ -18,15 +18,24 @@ namespace WebApplication2.Controllers
     {
         private StudentTeacherProxy studentTeacherProxy = new StudentTeacherProxy();
         // GET: api/Students
-        public RealStudent[] Get()
+        public RealStudent[] Get(bool students) // This method DOES differentiate between roles
         {
             RealStudentController studentController = new RealStudentController();
             EditStudentController.Editing = false;
-            return studentController.GetAllStudents(studentTeacherProxy).ToArray();
+            string role;
+            if (students)
+            {
+                role = "Student"; 
+            }
+            else
+            {
+                role = "Teacher";
+            }
+            return studentController.GetAllUsersByRole(studentTeacherProxy,role).ToArray();
         }
 
         // GET: api/Students/5
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult Get(int id) //This method does NOT differentiate between any role
         {
             System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
             var result = studentTeacherProxy.GetStudent(id);

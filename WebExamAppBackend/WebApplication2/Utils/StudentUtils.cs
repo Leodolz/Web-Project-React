@@ -24,7 +24,8 @@ namespace WebApplication2.Utils
                 contact = user.contact,
                 subareas = SubAreaUtils.GetSubAreasStrings(userSubAreas),
                 areas = getAreas(userSubAreas, areaController),
-                full_name = user.full_name
+                full_name = user.full_name,
+                role = user.role
             };
         }
         private static string[] getAreas(List<SubArea> subAreas, AreaController areaController)

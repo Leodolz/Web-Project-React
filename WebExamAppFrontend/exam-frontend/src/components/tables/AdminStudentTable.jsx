@@ -5,10 +5,22 @@ class AdminStudentTable extends Component {
     clickDetailsHandler = (event) =>
     {
         console.log(event.target.title);
-        this.fetchStudentById(event.target.title)
+        if(this.props.userTable)
+            this.fetchUserById(event.target.title);
+        else
+            this.fetchStudentById(event.target.title)
         window.location.assign('/admStudent');
     }
     fetchStudentById(id)
+    {
+        fetch('http://localhost:51061/api/Students/'+id)
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
+    }
+    fetchUserById(id)
     {
         fetch('http://localhost:51061/api/Students/'+id)
         .then(result=>result.json())
@@ -36,6 +48,9 @@ class AdminStudentTable extends Component {
         return table;
     }
     render() { 
+        let editEntry = "Edit Student";
+        if(this.props.userTable)
+            editEntry = "Edit User";
         let tableBody = this.renderTable(this.props.table);
         return ( 
             <div className="overflow-x:auto">
@@ -47,7 +62,7 @@ class AdminStudentTable extends Component {
                         <th>Email</th>
                         <th>Areas</th>
                         <th>Sub-Areas</th>
-                        <th>Edit Student</th>
+                        <th>{editEntry}</th>
                     </tr>
                     {tableBody}
                     </tbody>

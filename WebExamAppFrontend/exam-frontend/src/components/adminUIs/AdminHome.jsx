@@ -15,7 +15,8 @@ class AdminHome extends Component {
         },
         students : [],
         areas: [],
-        exams: []
+        exams: [],
+        teachers: []
     }
     constructor(props)
     {
@@ -23,6 +24,7 @@ class AdminHome extends Component {
         this.FetchAdminAreasTable();
         this.FetchAdminExamsTable();
         this.FetchAdminStudentsTable();
+        this.FetchAdminTeachersTable();
     }
     cancelEdit = (event) =>
     {
@@ -83,10 +85,24 @@ class AdminHome extends Component {
     FetchAdminStudentsTable = ()=>
     {
         let context = this;
-        fetch('http://localhost:51061/api/Students')
+        fetch('http://localhost:51061/api/Students?students=true')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({students: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No students found");
+        console.log(e);
+        });
+    }
+    FetchAdminTeachersTable = ()=>
+    {
+        let context = this;
+        fetch('http://localhost:51061/api/Students?students=false')
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({teachers: data});
             console.log(data);
         })
        .catch((e)=>{
@@ -217,6 +233,15 @@ class AdminHome extends Component {
                     <React.Fragment>
                      <AdminStudentTable table = {this.state.students}/>
                      <button onClick={()=>window.location.assign('/admStudent')}>Add new Student</button>
+                    </React.Fragment>
+                )
+            },
+            {
+                title:"Teachers",
+                body : (
+                    <React.Fragment>
+                     <AdminStudentTable table = {this.state.teachers}/>
+                     <button onClick={()=>window.location.assign('/admTeacher')}>Add new Teacher</button>
                     </React.Fragment>
                 )
             },

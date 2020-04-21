@@ -32,7 +32,7 @@ namespace WebApplication2.DBControllers
             optionAssignRepository.Insert(assignment);
             optionAssignRepository.Save();
         }
-        public void EditOptionsOfQuestion(int questionId, string[] options, string[] answers) //NEEDS AN UPDATE
+        public void EditOptionsOfQuestion(int questionId, string[] options, string[] answers) 
         {
             List<OptionAssign> oldOptions = GetAllQuestionOptions(questionId);
             List<OptionAssign> newOptions = new List<OptionAssign>();

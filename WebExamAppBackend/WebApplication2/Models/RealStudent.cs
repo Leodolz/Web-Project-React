@@ -17,5 +17,6 @@ namespace WebApplication2.Models
         public string[] areas { get; set; }
         public string[] subareas { get; set; }
         public string full_name { get; set; }
+        public string role { get; set; }
     }
 }

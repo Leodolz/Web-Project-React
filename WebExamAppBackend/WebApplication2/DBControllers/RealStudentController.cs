@@ -15,16 +15,17 @@ namespace WebApplication2.DBControllers
         private UserController userController = new UserController();
         private AreaController areaController = new AreaController();
         private SubAreaController subAreaController = new SubAreaController();
-        public List<RealStudent> GetAllStudents(StudentTeacherProxy studentTeacherProxy)
+        public List<RealStudent> GetAllUsersByRole(StudentTeacherProxy studentTeacherProxy, string role)
         {
-            List<User> allStudents = userController.GetGroupByRole("Student");
+            List<User> allUsers = userController.GetGroupByRole(role);
             List<RealStudent> allRealStudents = new List<RealStudent>();
-            foreach(User student in allStudents)
+            foreach(User student in allUsers)
             {
                 allRealStudents.Add(studentTeacherProxy.GetStudent(student.Id));
             }
             return allRealStudents;
         }
+        
 
         public void AddStudent(User model, string[] subareas) 
         {
