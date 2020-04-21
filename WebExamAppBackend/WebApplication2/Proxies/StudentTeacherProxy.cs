@@ -32,6 +32,9 @@ namespace WebApplication2.Proxies
         {
             teacherStudentsCache.Remove(student);
         }
-        
+        public static void UpdateStudent(int studentId)
+        {
+            teacherStudentsCache.RemoveAll(student => student.Id == studentId);
+        }
     }
 }

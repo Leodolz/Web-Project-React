@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using WebApplication2.DAL;
 using WebApplication2.Models;
+using WebApplication2.Proxies;
 using WebApplication2.DBControllers;
 
 namespace WebApplication2.Utils
@@ -14,6 +15,7 @@ namespace WebApplication2.Utils
         {
             foreach (int userId in usersIds)
             {
+                StudentTeacherProxy.UpdateStudent(userId);
                 SubAreaAssign newAssignment = new SubAreaAssign
                 {
                     userId = userId,
@@ -28,6 +30,7 @@ namespace WebApplication2.Utils
             foreach (string subAreaName in subareas)
             {
                 int subAreaId = subAreaController.GetByName(subAreaName).Id;
+                RealAreaProxy.UpdateArea(subAreaId);
                 SubAreaAssign newAssignment = new SubAreaAssign
                 {
                     userId = userId,
@@ -42,6 +45,7 @@ namespace WebApplication2.Utils
             foreach (string subAreaName in subareas)
             {
                 int subAreaId = subAreaController.GetByName(subAreaName).Id;
+                RealAreaProxy.UpdateArea(subAreaId);
                 int subAreaAssignId = subAreaController.GetAssignmentId(subAreaId, userId);
                 subAreaController.DeleteAssignment(subAreaAssignId);
             }
@@ -50,6 +54,7 @@ namespace WebApplication2.Utils
         {
             foreach (int studentId in studentsIds)
             {
+                StudentTeacherProxy.UpdateStudent(studentId);
                 int subAreaAssignId = subAreaController.GetAssignmentId(subAreaId, studentId);
                 subAreaController.DeleteAssignment(subAreaAssignId);
             }
