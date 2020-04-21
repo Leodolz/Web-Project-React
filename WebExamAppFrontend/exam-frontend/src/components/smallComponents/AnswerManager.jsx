@@ -29,6 +29,12 @@ class AnswerManager extends Component {
         {
             if(event.target.checked)
             {
+                if(this.props.answerCount == this.state.answer.length)
+                {
+                    alert("Only "+this.props.answerCount+" admitted for this answer");
+                    event.target.checked = false;
+                    return;
+                }
                 let answer = event.target.value;
                 newAnswers.push(answer);
             }

@@ -27,7 +27,7 @@ class StudentExamTaker extends Component {
                 <li id={i} title={this.state.questions[i].answer} className="StudentAnswer" key={"SA"+i}>
                 <span className="etag">Your Answer: </span> 
                 {this.state.questions[i].answer.join(", ")}
-                <button  onClick= {this.handleEdit} className="editAnswerStudent">Edit</button>
+                <button title={this.state.questions[i].answerCount} onClick= {this.handleEdit} className="editAnswerStudent">Edit</button>
                 </li> 
             </div> 
             )
@@ -73,6 +73,7 @@ class StudentExamTaker extends Component {
             id: event.target.parentElement.id,
             value: event.target.parentElement.title,
             question: event.target.parentElement.previousElementSibling.title,
+            answerCount: event.target.title,
             placeholder: "Your Answser",
         }
         this.SetAnswer( event.target.parentElement.id,[""]);
@@ -93,7 +94,8 @@ class StudentExamTaker extends Component {
     GetAnswerOverlayForm = () =>
     {
         return <AnswerManager cancelEdit={this.cancelEdit} getAnswer={this.GetAnswer}
-        placeholder= {this.state.overlayed.extras.question} tempOptions={this.state.questions[this.state.overlayed.extras.id]}/>;
+        placeholder= {this.state.overlayed.extras.question} tempOptions={this.state.questions[this.state.overlayed.extras.id]}
+        answerCount = {this.state.overlayed.extras.answerCount}/>;
     }
     SetAnswer = (id,answer) =>
     {

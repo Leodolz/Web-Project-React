@@ -16,5 +16,6 @@ namespace WebApplication2.Models
         public int studentScore { get; set; }
         public int score { get; set; }
         public int questionId { get; set; }
+        public int answerCount { get; set; }
     }
 }

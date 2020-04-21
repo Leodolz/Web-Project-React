@@ -19,5 +19,6 @@ namespace WebApplication2.Models
         public RealExamQuestion [] examElements { get; set; }
         public int studentTotalScore { get; set; }
         public int studentId { get; set; }
+
     }
 }

@@ -62,6 +62,7 @@ namespace WebApplication2.Controllers
                 }
                 foreach (RealExamQuestion question in result.examElements)
                 {
+                    question.answerCount = question.answer.Count();
                     question.answer = new string[] { "" };
                 }
                 StudentExamController.currentExam = result;

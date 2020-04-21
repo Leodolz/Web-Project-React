@@ -47,6 +47,7 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
             RealExamProxy.UpdateStudentExam(result.Id);
+            
             StudentExamController.currentExam = result;
             return Ok(result);
         }
@@ -65,5 +66,6 @@ namespace WebApplication2.Controllers
         public void Delete(int id)
         {
         }
+      
     }
 }
