@@ -16,18 +16,14 @@ namespace WebApplication2.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UsersController : ApiController
     {
-        public static List<StaticUser> DefaultUsers = new List<StaticUser>
-        {
-            new StaticUser {id = 1, name = "Me", email= "email1", phone="1", role=1, shaName=StringUtils.StringToSha("Me")},
-            new StaticUser {id = 2, name = "OtherMe", email= "email2", phone="2", role=2, shaName = StringUtils.StringToSha("OtherMe")}
-        };
+       
         private static UserProxy userProxy = new UserProxy(new UserController());
         
         // GET: api/Users
         public IEnumerable<StaticUser> Get()
         {
-            
-            return DefaultUsers;
+
+            return null;
         }
 
         public IHttpActionResult Get(string username, string password)
