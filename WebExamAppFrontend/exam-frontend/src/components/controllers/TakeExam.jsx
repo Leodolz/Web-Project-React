@@ -34,7 +34,7 @@ class TakeExam extends Component {
             body = (
                 <React.Fragment >
                 <h1 className="Editor">{exam.title}</h1>
-                <StudentExamTaker exam={exam}/>
+                <StudentExamTaker studentId={this.state.user.Id} exam={exam}/>
                 </React.Fragment>
             );
         }

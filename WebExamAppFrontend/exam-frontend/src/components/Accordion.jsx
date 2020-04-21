@@ -14,15 +14,15 @@ class Accordion extends Component {
         } 
         else 
         {
-            contentPane.style.maxHeight = contentPane.scrollHeight+"px";
+            contentPane.style.maxHeight = (contentPane.scrollHeight)+"px";
         }
         let parentPane = event.target.parentElement;
         while(parentPane.parentElement)
         {
-            parentPane.style.maxHeight = (contentPane.scrollHeight+parentPane.scrollHeight)+"px";
+            parentPane.style.maxHeight = (contentPane.scrollHeight+parentPane.scrollHeight+15)+"px";
             contentPane = parentPane;
             parentPane = parentPane.parentElement;
-        }  
+        }
         
     }
     GetGenericAccordion = (title, body) =>

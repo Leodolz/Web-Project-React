@@ -31,7 +31,21 @@ namespace WebApplication2.DBControllers
             SubAreaController subAreaController = new SubAreaController();
             List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(studentId);
             int[] subAreaIds = SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
-            List<Exam> allExams = examController.GetAllStudentExams(subAreaIds);
+            List<Exam> allExams = examController.GetAllStudentFutureExams(subAreaIds);
+            List<RealExam> allRealExams = new List<RealExam>();
+            foreach (Exam exam in allExams)
+            {
+                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
+            }
+            return allRealExams.ToArray();
+        }
+        public RealExam[] GetAllStudentPresentExams(RealExamProxy realExamProxy, int studentId)
+        {
+            SubAreaController subAreaController = new SubAreaController();
+            List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(studentId);
+            int[] subAreaIds = SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
+            List<int> allTakenExamIds = studentExamController.GetAllStudentExamIds(studentId);
+            List<Exam> allExams = examController.GetAllStudentPresentExams(subAreaIds,allTakenExamIds);
             List<RealExam> allRealExams = new List<RealExam>();
             foreach (Exam exam in allExams)
             {

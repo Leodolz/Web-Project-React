@@ -13,6 +13,7 @@ class ViewExam extends Component {
     }
 
     render() {
+        console.log(this.state.exam);
         let body = null;
         let role = '';
         if(this.state.user)

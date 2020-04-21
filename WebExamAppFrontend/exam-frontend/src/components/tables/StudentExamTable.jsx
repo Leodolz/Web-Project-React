@@ -4,6 +4,7 @@ class StudentTable extends Component {
     state = 
     {
         commingExam: false,
+        presentExam: false,
     }
 
     constructor(props)
@@ -11,6 +12,8 @@ class StudentTable extends Component {
         super(props);
         if(this.props.commingExam)
             this.state.commingExam = true;
+        if(this.props.presentExam)
+            this.state.presentExam = true;
     }
     clickDetailsHandler = (event) =>
     {
@@ -39,12 +42,12 @@ class StudentTable extends Component {
     GetExamByName = (id) =>
     {
 
-        if(this.state.commingExam)
+        if(this.state.presentExam)
         {
             this.fetchExamById(id);
             window.location.assign("/ExamStudent");
         }
-        else
+        else 
         {
             this.fetchPastExamById(id);
             window.location.assign("/studentExm");
@@ -54,24 +57,31 @@ class StudentTable extends Component {
     {
         let table = [];
         let details = "Details";
-        if(this.state.commingExam)
+        if(this.state.presentExam)
             details = "Take Exam";
+        
         for(let i=0;i<entries.length;i++)
         {
+            let detailsEntry = (<td key={"details"+i}>
+            <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
+            </td>);
+            if(this.state.commingExam)
+                detailsEntry = null;
             let children = [];
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
             children.push(<td key={"fromDate"+i}>{entries[i].fromDate}</td>)
             children.push(<td key={"untilDate"+i}>{entries[i].untilDate}</td>)
             children.push(<td key={"score"+i}>{entries[i].studentTotalScore}/100</td>)
-            children.push(<td key={"details"+i}>
-                <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
-            </td>)
+            children.push(detailsEntry);
             table.push(<tr key={"group"+i}>{children}</tr>);
         }
         return table;
     }
     render() { 
         let tableBody = this.renderTable(this.props.table);
+        let detailsEntry = <th>Details</th>;
+        if(this.state.commingExam)
+            detailsEntry = null;
         return ( 
             <div className="overflow-x:auto">
                 <table>
@@ -81,7 +91,7 @@ class StudentTable extends Component {
                         <th>From</th>
                         <th>Until</th>
                         <th>Score</th>
-                        <th>Details</th>
+                        {detailsEntry}
                     </tr>
                     {tableBody}
                     </tbody>

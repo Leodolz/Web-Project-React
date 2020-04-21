@@ -25,6 +25,11 @@ namespace WebApplication2.DBControllers
         {
             return studentExamRepository.GetAllStudentExams(studentId).ToList();
         }
+        public List<int> GetAllStudentExamIds(int studentId)
+        {
+            return studentExamRepository.GetAllStudentExamIds(studentId).ToList();
+        }
+
         public int AddStudentExam(StudentExam model)
         {
             var allExams = studentExamRepository.GetAll();

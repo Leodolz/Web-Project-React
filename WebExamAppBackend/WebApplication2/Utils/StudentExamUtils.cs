@@ -33,7 +33,8 @@ namespace WebApplication2.Utils
                 options = OptionUtils.OptionsToStrings(allOptions),
                 studentAnswer = GetStudentAnswers(studentExamQuestion, optionAssignController),
                 answer = OptionUtils.OptionsToAnswers(allOptions),
-                score = studentExamQuestion.score,
+                studentScore = studentExamQuestion.score,
+                score = question.score,
                 questionId = question.Id,
             };
         }
@@ -66,6 +67,54 @@ namespace WebApplication2.Utils
                 studentAnswerIds = "",
                 studentExamId = question.examId
             };
+        }
+        public static StudentQuestionTable RealQuestionToStudentQuestion(RealExamQuestion question, int score, int examId, OptionAssignController optionAssignController)
+        {
+            string[] studentAnswers = question.answer;
+            List<string> studentAnswersIds = new List<string>();
+            foreach(string studentAnswer in studentAnswers)
+            {
+                studentAnswersIds.Add(optionAssignController.GetByNameAndQuestionId(studentAnswer, question.questionId).Id.ToString());
+            }
+            return new StudentQuestionTable
+            {
+                score = score,
+                questionId = question.questionId,
+                studentAnswerIds = string.Join(",", studentAnswersIds.ToArray()),
+                studentExamId = examId
+            };
+        }
+        public static StudentExam NewRealExamToStudentExam(RealExam exam, int score, int studentId)
+        {
+            //Make here All the question assignments
+            return new StudentExam
+            {
+                examId = exam.Id,
+                score = score,
+                studentId = studentId
+            };
+        }
+        public static Dictionary<string,float> EvaulateExam(RealExam studentExam, RealExam modelExam)
+        {
+            Dictionary<string,float> questionScores = new Dictionary<string,float>();
+
+            RealExamQuestion[] allQuestions = modelExam.examElements;
+            float totalScore = 0;
+            for (int i = 0; i < allQuestions.Count(); i++)
+            {
+                float questionPoints = 0;
+                float totalQuestionScore = allQuestions[i].score;
+                float individualPoints = totalQuestionScore / allQuestions[i].answer.Count();
+                foreach (string validAnswer in allQuestions[i].answer)
+                {
+                    if (studentExam.examElements[i].answer.Contains(validAnswer))
+                        questionPoints = questionPoints + individualPoints;
+                }
+                questionScores.Add(studentExam.examElements[i].title,questionPoints);
+                totalScore = totalScore + questionPoints;
+            }
+            questionScores.Add("~totalScore", totalScore);
+            return questionScores;
         }
     }
 }

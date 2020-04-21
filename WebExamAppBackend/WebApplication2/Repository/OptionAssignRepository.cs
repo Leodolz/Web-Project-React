@@ -19,5 +19,10 @@ namespace WebApplication2.Repository
             return table.Where(option => option.questionId == (int)questionId)
                 .Select(option => option).ToList();
         }
+        public OptionAssign GetByTitleAndQuestionId(string title, int questionId)
+        {
+            return table.FirstOrDefault(option => option.optionTitle == title
+                && option.questionId == questionId);
+        }
     }
 }

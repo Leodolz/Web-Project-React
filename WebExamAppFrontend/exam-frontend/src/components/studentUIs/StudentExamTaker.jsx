@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import AnswerManager from '../smallComponents/AnswerManager';
 class StudentExamTaker extends Component {
     state = {
-        questions : [],
-        date: this.props.exam.date,
+        questions : this.props.exam.questions,
+        fromDate: this.props.exam.fromDate,
+        untilDate: this.props.exam.untilDate,
         subarea: this.props.exam.subarea,
-        score: this.props.exam.score,
         overlayed : 
         {
             overlay: false,
@@ -14,11 +14,7 @@ class StudentExamTaker extends Component {
         },
         answeringId: 0,
       }
-    constructor(props)
-    {
-        super(props);
-        this.state.questions = this.props.exam.questions
-    }
+
     renderList = () => 
     {
         
@@ -41,13 +37,8 @@ class StudentExamTaker extends Component {
     }
     submitStudentExam = (event)=>
     {
-        let totalScore = this.GetTotalScore();
-        if(totalScore<100 || totalScore>100)
-        {
-            alert("Exam must have a total sum of scoring 100 points!");
-            return;
-        }
-        let realExam = this.RefurbishExam(this.state.exam);
+        event.preventDefault();
+        let realExam = this.RefurbishExam(this.props.exam);
         
         fetch('http://localhost:51061/api/StudentExam?code=submit',
             {
@@ -63,6 +54,7 @@ class StudentExamTaker extends Component {
                     subAreaId: realExam.subAreaId,
                     untilDate: realExam.untilDate,
                     examElements: realExam.examElements,
+                    studentId: this.props.studentId
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
             alert("Changes Succesfully done");
@@ -130,13 +122,14 @@ class StudentExamTaker extends Component {
         let overlay = this.GetOverlayForm();
         return (
             <React.Fragment>
-                <h3 title={this.state.date}>Date: {this.state.date}</h3>
+                <h3 title={this.state.fromDate}>Date From: {this.state.fromDate}</h3>
+                <h3 title={this.state.untilDate}>Date Until: {this.state.untilDate}</h3>
                 <h3 className="SubAreaEdit" title= {this.state.subarea}>Sub-Area Assigned: {this.state.subarea} </h3>
                 <ul className="myUL">
                     {this.renderList()}
                     <br/>
                 </ul>
-                <button onClick={this.submitExam}>Submit Exam</button>
+                <button onClick={this.submitStudentExam}>Submit Exam</button>
                 {overlay}
 
             </React.Fragment>
@@ -144,7 +137,9 @@ class StudentExamTaker extends Component {
     }
     submitExam = () =>
     {
-        console.log(this.state.questions);
+        let exam = this.props.exam;
+        exam.examElements = this.state.questions;
+        console.log(exam);
     }
 
 

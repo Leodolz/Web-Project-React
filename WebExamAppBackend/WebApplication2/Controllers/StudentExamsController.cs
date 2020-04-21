@@ -20,13 +20,21 @@ namespace WebApplication2.Controllers
         private RealExamController realExamController = new RealExamController();
         private RealExamProxy studentExamProxy = new RealExamProxy();
        
-        public RealExam[] Get(int id, bool pastExams)
+        public RealExam[] Get(int id, string time)
         {
             StudentExamController.currentExam = null;
-            if (pastExams)
-                return realExamController.GetAllPastStudentExams(studentExamProxy, id).ToArray();
-            else
-                return realExamController.GetAllStudentFutureExams(studentExamProxy, id).ToArray();
+            switch(time)
+            {
+                case "past":
+                    return realExamController.GetAllPastStudentExams(studentExamProxy, id).ToArray();
+                case "future":
+                    return realExamController.GetAllStudentFutureExams(studentExamProxy, id).ToArray();
+                case "present":
+                    return realExamController.GetAllStudentPresentExams(studentExamProxy, id).ToArray();
+                default:
+                    return null;
+            }
+
             //TODO: Return Present Exams TOO
         }
         public IHttpActionResult Get(int id)

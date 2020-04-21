@@ -20,6 +20,7 @@ namespace WebApplication2.Controllers
         public static RealExam currentExam = null;
         private RealExamController realExamController = new RealExamController();
         private ExamController examController = new ExamController();
+        private DBControllers.StudentExamController studentExamController = new DBControllers.StudentExamController();
         // GET: api/StudentExam
         public IHttpActionResult Get()
         {
@@ -29,8 +30,24 @@ namespace WebApplication2.Controllers
         }
 
         // POST: api/StudentExam
-        public void Post([FromBody]string value)
+        public void Post(object realExam)
         {
+            OptionAssignController optionAssignController = new OptionAssignController();
+            JObject juser = realExam as JObject;
+            RealExam recievingRealExam = juser.ToObject<RealExam>();
+            Exam modelExam = examController.GetById(recievingRealExam.Id);
+            RealExam realModelExam = realExamController.GetRealExam(modelExam);
+            //From here it should be in some kind of controller
+            Dictionary<string,float> questionScores = StudentExamUtils.EvaulateExam(recievingRealExam, realModelExam);
+            StudentExam exam = StudentExamUtils.NewRealExamToStudentExam(recievingRealExam, (int)questionScores["~totalScore"],recievingRealExam.studentId);
+            studentExamController.AddStudentExam(exam);
+            StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
+            foreach(RealExamQuestion question in recievingRealExam.examElements)
+            {
+                StudentQuestionTable studentQuestion = StudentExamUtils.RealQuestionToStudentQuestion(question,(int)questionScores[question.title], modelExam.Id, optionAssignController);
+                studentExamQuestionController.AddStudentExamQuestion(studentQuestion);
+            }
+
         }
 
         // PUT: api/StudentExam/5

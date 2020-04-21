@@ -13,9 +13,15 @@ namespace WebApplication2.Repository
         {
 
         }
-        public List<Exam> GetAllBySubArea(int[] subAreaIds)
+        public List<Exam> GetAllFutureBySubArea(int[] subAreaIds)
         {
-            return table.Where(exam => subAreaIds.Contains(exam.subAreaId) && exam.fromDate >= DateTime.Now)
+            return table.Where(exam => subAreaIds.Contains(exam.subAreaId) && exam.fromDate > DateTime.Now)
+                .Select(exam => exam).ToList();
+        }
+        public List<Exam> GetAllPresentBySubArea(int[] subAreaIds, List<int>takenIds)
+        {
+            return table.Where(exam => subAreaIds.Contains(exam.subAreaId) && exam.fromDate <= DateTime.Now 
+                && exam.untilDate >= DateTime.Now && !(takenIds.Contains(exam.Id)))
                 .Select(exam => exam).ToList();
         }
     }

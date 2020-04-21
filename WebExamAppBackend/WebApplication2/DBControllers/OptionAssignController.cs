@@ -20,6 +20,10 @@ namespace WebApplication2.DBControllers
         {
             return optionAssignRepository.GetById(id);
         }
+        public OptionAssign GetByNameAndQuestionId(string title,int questionId)
+        {
+            return optionAssignRepository.GetByTitleAndQuestionId(title, questionId);
+        }
         public void AssignNewOption(OptionAssign assignment)
         {
             var allOptionAssignments = optionAssignRepository.GetAll();

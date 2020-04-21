@@ -13,17 +13,34 @@ class StudentHome extends Component {
             body : null,
         },
         pastExams: null,
-        futureExams:null
+        futureExams:null,
+        presentExams: null
     }
     FetchStudentPastExamsTable = (userId) =>
     {
         this.setState({loading: true});
         let context = this;
         fetch('http://localhost:51061/api/StudentExams/'+userId+
-        '?pastExams=true')
+        '?time=past')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({pastExams: data});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No exams found");
+        console.log(e);
+        });
+    }
+    FetchStudentPresentExamsTable = (userId) =>
+    {
+        this.setState({loading: true});
+        let context = this;
+        fetch('http://localhost:51061/api/StudentExams/'+userId+
+        '?time=present')
+        .then(result=>result.json())
+        .then((data)=>{
+            context.setState({presentExams: data});
             console.log(data);
         })
        .catch((e)=>{
@@ -36,7 +53,7 @@ class StudentHome extends Component {
         this.setState({loading: true});
         let context = this;
         fetch('http://localhost:51061/api/StudentExams/'+userId+
-        '?pastExams=false')
+        '?time=future')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({futureExams: data});
@@ -65,20 +82,36 @@ class StudentHome extends Component {
             );
         else return null;
     }
+
+    RenderPresentExams()
+    {
+        if(this.state.presentExams == null || this.state.presentExams[0] == null)
+            return null;
+        return(
+            <React.Fragment>
+                <h1>Present Exams:</h1>
+                <StudentTable presentExam={true} table={this.state.presentExams}/>
+            </React.Fragment>
+        );
+    }
+
     render() {
         console.log(this.state.exams);
         let overlay = this.GetOverlayForm();
+        let presentExams = this.RenderPresentExams();
         if(this.state.loading == false && this.state.user!=null)
         {
             this.FetchStudentPastExamsTable(this.state.user.Id);
             this.FetchStudentFutureExamsTable(this.state.user.Id);
+            this.FetchStudentPresentExamsTable(this.state.user.Id);
         }
-        if(this.state.pastExams == null || this.state.futureExams == null)
+        if(this.state.pastExams == null || this.state.futureExams == null || this.state.presentExams == null)
             return(<h1>Loading Page...</h1>);
         let accordions = this.GetNewStudentBody();
         return (
             <React.Fragment>
             <h1>Welcome Student: {this.state.user.name}</h1>
+            {presentExams}
             <Accordion accordions= {accordions}/>
             {overlay}
             </React.Fragment>
@@ -87,95 +120,8 @@ class StudentHome extends Component {
     GetUser = (user) =>
     {
         this.setState({user:user});
-        this.FetchStudentPastExamsTable(user.Id);
     }
-
-    GetStudentPastExamsTable = ()=>
-    {
-        //Replace by a fetch IT HAS TO HAVE THESE ATTRIBUTES
-        return(
-            [
-                {
-                    title: "Algebra-1-Apr",
-                    date: "3/26/2020",
-                    area: "Math",
-                    subarea: "Algebra",
-                    score: "50/100"
-                },
-                {
-                    title: "Geometry-mod-2",
-                    date: "3/27/2020",
-                    area: "Math",
-                    subarea: "Geometry",
-                    score: "not available"
-                },
-                {
-                    title: "World-History-mod-1",
-                    date: "4/1/2020",
-                    area: "History",
-                    subarea: "World History",
-                    score: "70/100"
-                },
-                {
-                    title: "Ad-Geometry-mod-2",
-                    date: "3/15/2020",
-                    area: "Math",
-                    subarea: "Advanced Geomtry",
-                    score: "not available"
-                },
-                {
-                    title: "Extra-1",
-                    date: "4/25/2020",
-                    area: "Extra",
-                    subarea: "Miscellanous",
-                    score: "100/100"
-                },
-            ]
-        );
-    }
-    GetStudentNextExamsTable = ()=>
-    {
-         //Replace by a fetch IT HAS TO HAVE THIS ATTRIBUTES
-        return(
-            [
-                {
-                    title: "Algebra-2-Apr",
-                    date: "5/26/2020",
-                    area: "Math",
-                    subarea: "Algebra",
-                    score: "not available"
-                },
-                {
-                    title: "Generic Exam",
-                    date: "4/7/2020",
-                    area: "Math",
-                    subarea: "Geometry",
-                    score: "not available"
-                },
-                {
-                    title: "World-History-mod-2",
-                    date: "5/1/2020",
-                    area: "History",
-                    subarea: "World History",
-                    score: "not available"
-                },
-                {
-                    title: "Ad-Geometry-mod-3",
-                    date: "5/15/2020",
-                    area: "Math",
-                    subarea: "Advanced Geometry",
-                    score: "not available"
-                },
-                {
-                    title: "Extra-2",
-                    date: "6/25/2020",
-                    area: "Extra",
-                    subarea: "Miscellanous",
-                    score: "not available"
-                },
-            ]
-        );
-    }
+    
 
     SortByArea = (examsTable) =>
     {
