@@ -30,7 +30,7 @@ namespace WebApplication2.Utils
             foreach (string subAreaName in subareas)
             {
                 int subAreaId = subAreaController.GetByName(subAreaName).Id;
-                RealAreaProxy.UpdateArea(subAreaId);
+                RealAreaProxy.UpdateFromSubArea(subAreaId, subAreaController);
                 SubAreaAssign newAssignment = new SubAreaAssign
                 {
                     userId = userId,
@@ -45,7 +45,7 @@ namespace WebApplication2.Utils
             foreach (string subAreaName in subareas)
             {
                 int subAreaId = subAreaController.GetByName(subAreaName).Id;
-                RealAreaProxy.UpdateArea(subAreaId);
+                RealAreaProxy.UpdateFromSubArea(subAreaId,subAreaController);
                 int subAreaAssignId = subAreaController.GetAssignmentId(subAreaId, userId);
                 subAreaController.DeleteAssignment(subAreaAssignId);
             }

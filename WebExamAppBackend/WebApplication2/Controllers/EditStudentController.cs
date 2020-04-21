@@ -41,7 +41,8 @@ namespace WebApplication2.Controllers
             else
             {
                 user = StudentUtils.EditedStudentToUser(realStudent,studentController.GetUserController());
-                studentController.EditStudent(user,realStudent.subareas);
+                bool changedName = (realStudent.name != realStudent.full_name);
+                studentController.EditStudent(user,realStudent.subareas,changedName);
             }
         }
 

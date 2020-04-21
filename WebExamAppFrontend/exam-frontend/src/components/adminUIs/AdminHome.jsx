@@ -17,6 +17,13 @@ class AdminHome extends Component {
         areas: [],
         exams: []
     }
+    constructor(props)
+    {
+        super(props);
+        this.FetchAdminAreasTable();
+        this.FetchAdminExamsTable();
+        this.FetchAdminStudentsTable();
+    }
     cancelEdit = (event) =>
     {
         this.setState({overlayed: {
@@ -176,8 +183,6 @@ class AdminHome extends Component {
         let areasBody = [];
         //let areasTable = this.GetAdminAreasTable();
         let areasTable = this.state.areas;
-        if(this.state.areas[0] == null)
-            this.FetchAdminAreasTable();
         for(let i=0;i<areasTable.length;i++)
         {
             let container = 
@@ -196,10 +201,6 @@ class AdminHome extends Component {
             }
             areasBody.push(container);
         }
-        if(this.state.students[0]== null)
-            this.FetchAdminStudentsTable();
-        if(this.state.exams[0] == null)
-            this.FetchAdminExamsTable();
         return [
             {
                 title:"Exams",

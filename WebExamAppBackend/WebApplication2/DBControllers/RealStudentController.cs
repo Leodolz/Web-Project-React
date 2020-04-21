@@ -26,16 +26,16 @@ namespace WebApplication2.DBControllers
             return allRealStudents;
         }
 
-        public void AddStudent(User model, string[] subareas) //subareas assigned?
+        public void AddStudent(User model, string[] subareas) 
         {
             int userId = userController.AddUser(model);
             SubAreaAssignUtils.AssignSubAreasToUser(userId, subAreaController, subareas);
         }
-        public void EditStudent(User newUser, string[] subareas) //change subarea assignations?
+        public void EditStudent(User newUser, string[] subareas, bool changedName) 
         {
             newUser.password = userController.GetById(newUser.Id).password;
             userController.EditUser(newUser.Id, newUser);
-            ChangeUserSubAreas(newUser.Id, subareas.ToList());
+            ChangeUserSubAreas(newUser.Id, subareas.ToList(),changedName);
         }
 
         public void DeleteStudent(int userId)
@@ -43,9 +43,11 @@ namespace WebApplication2.DBControllers
             userController.DeleteStudent(userId);
             //Delete assignations for subareas
         }
-        private void ChangeUserSubAreas(int userId, List<string> newSubAreas)
+        private void ChangeUserSubAreas(int userId, List<string> newSubAreas, bool changedName)
         {
             List<SubArea> UserSubAreas = subAreaController.GetUserSubAreas(userId);
+            if(changedName)
+                ResetSubAreasProxy(UserSubAreas);
             List<string> oldSubAreas = SubAreaUtils.GetSubAreasStrings(UserSubAreas).ToList();
             List<string> subAreasToAssign = SubAreaUtils.OneWayCompareSubAreas(newSubAreas, oldSubAreas);
             List<string> subAreasToDelete = SubAreaUtils.OneWayCompareSubAreas(oldSubAreas, newSubAreas);
@@ -55,6 +57,14 @@ namespace WebApplication2.DBControllers
         public UserController GetUserController()
         {
             return userController;
+        }
+        private void ResetSubAreasProxy(List<SubArea> subareas)
+        {
+            System.Diagnostics.Debug.WriteLine("Student changed name!");
+            foreach (SubArea subArea in subareas)
+            {
+                RealAreaProxy.UpdateArea(subArea.parentAreaId);
+            }
         }
 
     }

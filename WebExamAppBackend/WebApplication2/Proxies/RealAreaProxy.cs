@@ -36,5 +36,11 @@ namespace WebApplication2.Proxies
         {
             realAreasCache.RemoveAll(area=>area.Id == areaId);
         }
+        public static void UpdateFromSubArea(int subAreaId, SubAreaController subAreaController)
+        {
+            int areaId = subAreaController.GetById(subAreaId).parentAreaId;
+            realAreasCache.RemoveAll(area => area.Id == areaId);
+        }
+
     }
 }

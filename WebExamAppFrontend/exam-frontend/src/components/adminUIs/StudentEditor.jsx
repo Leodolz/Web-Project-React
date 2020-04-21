@@ -60,7 +60,8 @@ class StudentEditor extends Component {
                     active: student.active,
                     contact: student.contact,
                     areas: student.areas,
-                    subareas: student.subareas
+                    subareas: student.subareas,
+                    full_name: student.full_name
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
             alert("Student succesfully Edited");
