@@ -36,14 +36,17 @@ class AdminHome extends Component {
         else return null;
     }
     render() {
+        /*
+            <button>Add User</button>
+            <button>View Users</button>
+        */
         let overlay = this.GetOverlayForm();
         let accordions = this.GetAdminBody()
         return (
             <React.Fragment>
             <h1>Welcome Admin {this.state.user.username}</h1>
             <br/>
-            <button>Add User</button>
-            <button>View Users</button>
+
             <br/>
             <Accordion accordions= {accordions}/>
             {overlay}

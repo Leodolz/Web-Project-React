@@ -200,26 +200,7 @@ class StudentHome extends Component {
         return renderedList;
     }
 
-    showStudentsAreas = (event) =>
-    {
-        //Fetch Students for area
-        //Delete the line below:
-        let students = ["Leandro Hurtado","Other Student","More Students"];
-        let name = event.target.parentElement.title;
-        let renderedStudents = (
-            <React.Fragment key={"Student"}>
-            <h1 className="overlayHeader">Students of: {name}</h1>
-            <ul id="HomeStudentsUL" className="myUL">
-                {this.RenderSubAreasList(students)}
-            </ul>
-            </React.Fragment> 
-        );
-        let overlayed = {
-            overlay: true,
-            body: renderedStudents
-        }
-        this.setState({overlayed:overlayed});
-    }
+    
 }
 
  

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 
-class TeacherEditor extends Component {
+class UserEditor extends Component {
     state = {
         student: this.props.student,
         overlayed : {
@@ -215,4 +215,4 @@ class TeacherEditor extends Component {
     }
 }
  
-export default TeacherEditor;
+export default UserEditor;
