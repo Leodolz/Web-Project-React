@@ -13,6 +13,7 @@ class StudentEditor extends Component {
             extras : null,
             formType: "Text",
         },
+
     }
     constructor(props)
     {
@@ -26,6 +27,12 @@ class StudentEditor extends Component {
         let areas = student.areas.join(', ');
         let subAreas = student.subareas.join(', ');
         let editButton = <button onClick= {this.handleEdit} className="edit">Edit</button>;
+        let areasLi = <li id="Sareas" title={areas}><span className="etag">Areas:</span> {areas}{editButton}</li>;
+        if(this.props.subareas)
+        {
+            areasLi = null;
+            subAreas = this.props.subareas;
+        }
         let studentAttributes = (
         <React.Fragment key={"Student"}>
             <li id="Sname" title={student.name}><span className="etag">Name:</span> {student.name}{editButton}</li> 
@@ -33,7 +40,7 @@ class StudentEditor extends Component {
             <li id="Sbirth" title={student.birth}><span className="etag">Birth:</span> {student.birth}{editButton}</li>  
             <li id="Semail" title={student.email}><span className="etag">Email:</span>{student.email}{editButton}</li> 
             <li id="Scontact" title={student.contact}><span className="etag">Contact number:</span>{student.contact}{editButton}</li> 
-            <li id="Sareas" title={areas}><span className="etag">Areas:</span> {areas}{editButton}</li> 
+            {areasLi}
             <li id="Ssubareas" title={subAreas}><span className="etag">Sub-Areas:</span> {subAreas}{editButton}</li> 
         </React.Fragment> 
             )

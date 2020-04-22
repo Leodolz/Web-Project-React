@@ -170,7 +170,18 @@ class TeacherHome extends Component {
             let bodyItem = <AdminExamTable table={examsTable[i].exams}/>
             if(students==true)
             {
-                bodyItem = (<AdminStudentTable table = {examsTable[i].students}/>);
+                bodyItem = (
+                    <React.Fragment>
+                        <AdminStudentTable teacher={true} table = {examsTable[i].students}/>
+                        <button title={examsTable[i].name} onClick={(event)=>
+                        {
+                            sessionStorage.setItem('URole',"Student");
+                            sessionStorage.setItem('USubArea', event.target.title);
+                            window.location.assign('/admStudent')
+                        }
+                        }>Add new Student</button>
+                    </React.Fragment>
+                    );
             }
             let container = 
             {
@@ -218,68 +229,10 @@ class TeacherHome extends Component {
                 body:
                 {
                     multi: studentExamsBody,
-                    after: <button onClick={()=>{
-                        sessionStorage.setItem('URole',"Student");
-                        window.location.assign('/admStudent')
-                        }}>Add new Student</button>
                 }
             }
         ];
 
-    }
-    GetTeacherBody = () =>
-    {
-        let areasBody = [];
-        let areasTable = this.state.areas;
-        for(let i=0;i<areasTable.length;i++)
-        {
-            let container = 
-            {
-                title: areasTable[i].name,
-                body: (
-                    <React.Fragment>
-                    <AreasTable table = {areasTable[i].subareas} />
-                    <button title={areasTable[i].Id} onClick={this.AddSubArea}>Add Sub-Area</button>
-                    </React.Fragment>
-                )
-            }
-            areasBody.push(container);
-        }
-        return [
-            {
-                title:"Exams",
-                body : (
-                    <React.Fragment>
-                    <AdminExamTable table = {this.state.exams}/>
-                    <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button> 
-                    </React.Fragment>
-                )
-            },
-            {
-                title:"Students",
-                body : (
-                    <React.Fragment>
-                     <AdminStudentTable table = {this.state.students}/>
-                     <button onClick={()=>{
-                         sessionStorage.setItem('URole',"Student");
-                         window.location.assign('/admStudent')
-                         }}>Add new Student</button>
-                    </React.Fragment>
-                )
-            },
-            {
-                title:"Areas",
-                body:
-                {
-                    after:(
-                        <React.Fragment> 
-                        <hr/>
-                        <button onClick={()=>window.location.assign('/admAreas')}>Add Area</button>
-                        </React.Fragment>),
-                    multi: areasBody
-                },
-            },
-        ];
     }
 }
  

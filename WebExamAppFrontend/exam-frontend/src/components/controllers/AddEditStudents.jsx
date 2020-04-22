@@ -43,13 +43,17 @@ class AddEditStudents extends Component {
         {
             role = this.state.user.role;
             let admin = this.state.user.role === "Admin"? true:false; 
-            if(!admin || this.state.student== null)
+            let teacher = this.state.user.role === "Teacher"? true:false;
+            let subareas = null;
+            if(teacher)
+                subareas = sessionStorage.getItem('USubArea');
+            if((!admin && !teacher) || this.state.student== null)
                 body= (<h1><a href='/'>You need Admin Permisions to be here</a></h1>);
             else
             body = (
                 <React.Fragment >
                 <h1 className="Editor">Student editor</h1>
-                <StudentEditor student={student} new={this.state.new}/>
+                <StudentEditor subareas={subareas} student={student} new={this.state.new} user={this.state.user}/>
                 </React.Fragment>
             );
         }

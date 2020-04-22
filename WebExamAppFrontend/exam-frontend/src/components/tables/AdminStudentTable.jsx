@@ -40,6 +40,7 @@ class AdminStudentTable extends Component {
             children.push(<td key={"email"+i}>{entries[i].email}</td>)
             children.push(<td key={"areas"+i}>{entries[i].areas.join(", ")}</td>)
             children.push(<td key={"subareas"+i}>{entries[i].subareas.join(", ")}</td>)
+            if(!this.props.teacher)
             children.push(<td key={"Edit"+i}>
                 <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
             </td>)
@@ -48,10 +49,12 @@ class AdminStudentTable extends Component {
         return table;
     }
     render() { 
-        let editEntry = "Edit Student";
+        let editEntry = <th>Edit Student</th>;
         if(this.props.userTable)
-            editEntry = "Edit User";
+            editEntry = <th>Edit User</th>;
         let tableBody = this.renderTable(this.props.table);
+        if(this.props.teacher)
+            editEntry = null;
         return ( 
             <div className="overflow-x:auto">
                 <table>
@@ -62,7 +65,7 @@ class AdminStudentTable extends Component {
                         <th>Email</th>
                         <th>Areas</th>
                         <th>Sub-Areas</th>
-                        <th>{editEntry}</th>
+                        {editEntry}
                     </tr>
                     {tableBody}
                     </tbody>

@@ -59,7 +59,7 @@ class ExamEdit extends Component {
 
     render() {
         let body = null;
-        let role = '';
+        let role = ''; 
         if(this.state.user)
         {
             role = this.state.user.role;
@@ -75,7 +75,6 @@ class ExamEdit extends Component {
                 </React.Fragment>
             );
         }
-        console.log("This is a new exam? "+this.state.new);
         return (
             <React.Fragment>
             <MainPage role={role} body={body} home="active" GetUser={this.GetUser}/>
