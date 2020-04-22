@@ -196,7 +196,6 @@ class AdminHome extends Component {
     GetAdminBody = () =>
     {
         let areasBody = [];
-        //let areasTable = this.GetAdminAreasTable();
         let areasTable = this.state.areas;
         for(let i=0;i<areasTable.length;i++)
         {

@@ -5,14 +5,20 @@ class StudentEditor extends Component {
     state = {
         student: this.props.student,
         allAreas: [],
-        loadingAreas: false,
         studentSubAreas: [],
         loadingSubAreas: false,
+        allUsernames : [],
         overlayed : {
             overlay: false,
             extras : null,
             formType: "Text",
         },
+    }
+    constructor(props)
+    {
+        super(props);
+        this.FetchAllAreas();
+        this.FetchAllUsernames();
     }
     renderStudent = () => 
     {
@@ -39,6 +45,8 @@ class StudentEditor extends Component {
         if(!student.name || !student.username || !student.email ||
             student.areas.length<1 || student.subareas.length<1)
             alert("You need to fill all fields");
+        else if(this.state.allUsernames.find(value=>value==student.username) && this.props.new)
+            alert("Already existing username, pick another");
         else
         {
             let edit = 'true';
@@ -65,7 +73,7 @@ class StudentEditor extends Component {
                     full_name: student.full_name
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
-            alert("Student succesfully Edited");
+            alert("User succesfully edited");
             window.location.assign("/home");
         }
     }
@@ -85,7 +93,16 @@ class StudentEditor extends Component {
         })
         .catch((e)=>{
             console.log(e)});
-        this.setState({loadingAreas: true});
+    }
+    FetchAllUsernames = () => 
+    {
+        fetch('http://localhost:51061/api/Users')
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({allUsernames: data});
+        })
+        .catch((e)=>{
+            console.log(e)});
     }
     FetchStudentSubAreas = ()=>
     {
@@ -141,7 +158,7 @@ class StudentEditor extends Component {
         }
         newStudent[type]=areas;
         this.setState({student:newStudent});
-        if(type=="areas" && this.state.student.areas[0]!=null)
+        if(type=="areas" && this.state.student.areas[0]!=null && this.state.allAreas[0]!=null )
             this.FetchStudentSubAreas();
     }
 
@@ -177,14 +194,8 @@ class StudentEditor extends Component {
     }
 
     render() {  
-        if(this.state.allAreas[0] == null && !this.state.loadingAreas)
-        {
-            this.FetchAllAreas();
-        }
-        if(this.state.studentSubAreas[0] == null && !this.state.loadingSubAreas && this.state.student.areas[0] != null)
-        {
+        if(this.state.allAreas[0]!=null && !this.props.new && this.state.loadingSubAreas==false)
             this.FetchStudentSubAreas();
-        }
         let overlay = this.GetOverlayForm();
         return (
             <React.Fragment>
