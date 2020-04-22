@@ -18,7 +18,7 @@ namespace WebApplication2.Controllers
     {
         private StudentTeacherProxy studentTeacherProxy = new StudentTeacherProxy();
         // GET: api/Students
-        public RealStudent[] Get(bool students) // This method DOES differentiate between roles
+        public RealStudent[] Get(int subAreaId, bool students) // This method DOES differentiate between roles
         {
             RealStudentController studentController = new RealStudentController();
             EditStudentController.Editing = false;
@@ -31,7 +31,12 @@ namespace WebApplication2.Controllers
             {
                 role = "Teacher";
             }
-            return studentController.GetAllUsersByRole(studentTeacherProxy,role).ToArray();
+            if(subAreaId == 0)
+                return studentController.GetAllUsersByRole(studentTeacherProxy,role).ToArray();
+            else
+            {
+                return studentController.GetStudentsInSubAreas(studentTeacherProxy,subAreaId).ToArray();
+            }
         }
 
         // GET: api/Students/5

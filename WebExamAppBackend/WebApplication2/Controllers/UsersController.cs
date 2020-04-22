@@ -20,10 +20,11 @@ namespace WebApplication2.Controllers
         private static UserProxy userProxy = new UserProxy(new UserController());
         
         // GET: api/Users
-        public IEnumerable<StaticUser> Get()
+        
+        public string[] Get()
         {
-
-            return null;
+            UserController userController = new UserController();
+            return userController.GetAllUsernames().ToArray();
         }
 
         public IHttpActionResult Get(string username, string password)

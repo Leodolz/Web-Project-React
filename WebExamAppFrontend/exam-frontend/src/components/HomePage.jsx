@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MainPage from './controllers/UserController';
 import AdminHome from './adminUIs/AdminHome'
 import StudentHome from './studentUIs/StudentHome'
+import TeacherHome from './adminUIs/TeacherHome';
 
 class Home extends Component {
     state=
@@ -15,8 +16,21 @@ class Home extends Component {
         {
             console.log(this.state.user);
             role= this.state.user.role;
-            body = this.state.user.role === "Admin"? 
-            <AdminHome user={this.state.user} />:<StudentHome user={this.state.user}/>; 
+            switch(role)
+            {
+                case "Admin":
+                    body = <AdminHome user={this.state.user} />;
+                    break;
+                case "Student":
+                    body = <StudentHome user={this.state.user}/>;
+                    break;
+                case "Teacher":
+                    body = <TeacherHome user={this.state.user}/>;
+                    break;
+                default:
+                    body = null;
+                    break;
+            }
         }
 
         return (

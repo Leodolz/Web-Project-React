@@ -19,7 +19,7 @@ class ExamEditor extends Component {
     constructor(props)
     {
         super(props);
-        this.FetchAvailableSubAreas();
+        this.FetchAvailableSubAreas(props.userId);
     }
     showActive = (event)=>
     {
@@ -160,7 +160,8 @@ class ExamEditor extends Component {
     FetchAvailableSubAreas = (userId) =>
     {
         //Change this so its with a user
-        fetch('http://localhost:51061/api/SubAreas')
+        fetch('http://localhost:51061/api/SubAreas/'+userId+
+        '?action=GetSubAreas')
         .then(result=>result.json())
         .then((data)=>{
             this.setState({availableSubAreas: data});

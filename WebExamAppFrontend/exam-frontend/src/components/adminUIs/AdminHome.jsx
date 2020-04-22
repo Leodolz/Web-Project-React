@@ -85,7 +85,8 @@ class AdminHome extends Component {
     FetchAdminStudentsTable = ()=>
     {
         let context = this;
-        fetch('http://localhost:51061/api/Students?students=true')
+        fetch('http://localhost:51061/api/Students?'
+        +'subAreaId=0&students=true')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({students: data});
@@ -99,7 +100,8 @@ class AdminHome extends Component {
     FetchAdminTeachersTable = ()=>
     {
         let context = this;
-        fetch('http://localhost:51061/api/Students?students=false')
+        fetch('http://localhost:51061/api/Students?'
+        +'subAreaId=0&students=false')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({teachers: data});

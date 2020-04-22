@@ -60,13 +60,12 @@ class ExamEdit extends Component {
     render() {
         let body = null;
         let role = '';
-        //let exam = this.GetSampleExam();
-        //exam = this.RefurbishExam(exam);
         if(this.state.user)
         {
             role = this.state.user.role;
             let admin = this.state.user.role === "Admin"? true:false; 
-            if(!admin || this.state.exam == null)
+            let teacher = this.state.user.role === "Teacher"? true:false; 
+            if((!admin && !teacher) || this.state.exam == null)
                 body= (<h1><a href='/'>You need Admin Permisions to be here</a></h1>);
             else
             body = (

@@ -18,14 +18,35 @@ namespace WebApplication2.DBControllers
         public List<RealStudent> GetAllUsersByRole(StudentTeacherProxy studentTeacherProxy, string role)
         {
             List<User> allUsers = userController.GetGroupByRole(role);
+            return UsersToRealUsers(allUsers,studentTeacherProxy);
+        }
+        private List<RealStudent> UsersToRealUsers(List<User> allUsers, StudentTeacherProxy studentTeacherProxy)
+        {
             List<RealStudent> allRealStudents = new List<RealStudent>();
-            foreach(User student in allUsers)
+            foreach (User student in allUsers)
             {
                 allRealStudents.Add(studentTeacherProxy.GetStudent(student.Id));
             }
             return allRealStudents;
         }
         
+        public List<RealStudent> GetStudentsInSubAreas(StudentTeacherProxy studentTeacherProxy, int userId)
+        {
+            List<SubArea> allSubAreas = subAreaController.GetUserSubAreas(userId);
+            List<int> allStudentIds = new List<int>();
+            foreach(SubArea subarea in allSubAreas)
+            {
+                allStudentIds.AddRange(subAreaController.GetAllStudentsIds(subarea.Id));
+            }
+            List<User> allUsers = new List<User>();
+            foreach(int studentId in allStudentIds)
+            {
+                if (allUsers.Find(user => user.Id == studentId) == null)
+                    allUsers.Add(userController.GetById(studentId));
+            }
+            allUsers.RemoveAll(user => user.role != "Student");
+            return UsersToRealUsers(allUsers,studentTeacherProxy);
+        }
 
         public void AddStudent(User model, string[] subareas) 
         {

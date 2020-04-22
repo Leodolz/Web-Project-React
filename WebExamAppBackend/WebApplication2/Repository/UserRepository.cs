@@ -17,7 +17,6 @@ namespace WebApplication2.Repository
         {
             return table.SingleOrDefault(userInTable => userInTable.username == (string)username);
         }
-        //This is handling like a select 
         public User GetAllWithSameName(object username)
         {
             return table.Where(user => user.username == (string)username)
@@ -28,6 +27,9 @@ namespace WebApplication2.Repository
             return table.Where(user => user.role.Trim() == (string)role)
                .Select(user => user).ToList();
         }
-        
+        public List<string> GetAllUserNames()
+        {
+            return table.Select(user => user.username).ToList();
+        }
     }
 }

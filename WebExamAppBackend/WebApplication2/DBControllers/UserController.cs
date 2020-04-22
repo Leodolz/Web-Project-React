@@ -19,11 +19,10 @@ namespace WebApplication2.DBControllers
         {
             return userRepository.GetAll().ToList();
         }
-        /*
-        public UserController(IGenericRepository<User> userRepository)
+        public List<string> GetAllUsernames()
         {
-            this.userRepository = userRepository;
-        }*/
+            return userRepository.GetAllUserNames();
+        }
         public int AddUser(User model)
         {
             var allUsers = userRepository.GetAll();

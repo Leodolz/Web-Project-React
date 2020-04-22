@@ -188,18 +188,6 @@ class StudentHome extends Component {
 
     }
 
-    RenderSubAreasList = (studentArray) =>
-    {
-        let renderedList = [];
-        for(let i=0;i<studentArray.length;i++)
-        {
-            let student = studentArray[i];
-            let studentItem = <li key={"student"+i} id={"Student"+i} title={student}><span className="etag">{(i+1)+". "}</span> {student}</li>;
-            renderedList.push(studentItem);
-        }
-        return renderedList;
-    }
-
     
 }
 

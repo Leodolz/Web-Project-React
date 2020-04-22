@@ -26,8 +26,6 @@ namespace WebApplication2.Controllers
         }
         public string[] Get(string studentAreas)
         {
-            //Better if we put some area proxies
-            //AND if we put this method into some sort of area utils
             List<string> allStudentAreas = studentAreas.Split(',').ToList();
             List<Area> userAreas = new List<Area>();
             foreach (string areaName in allStudentAreas)
@@ -65,8 +63,9 @@ namespace WebApplication2.Controllers
                 RealAreaProxy.UpdateArea(id);
                 return Ok();
             }
-            else if (action.Equals("GetSubFromTeacher"))
+            else if (action.Equals("GetSubAreas"))
             {
+                
                 if (userController.GetById(id).role == "Admin")
                     return Ok(subAreaController.GetAllSubAreas().ToArray());
                 //Use this for getting sub areas that only the teacher can access to 
