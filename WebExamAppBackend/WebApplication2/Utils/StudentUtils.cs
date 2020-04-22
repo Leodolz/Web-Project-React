@@ -48,7 +48,7 @@ namespace WebApplication2.Utils
                 Id = student.Id,
                 email = student.email,
                 username = student.username,
-                role= "Student",
+                role= student.role,
                 password = StringUtils.StringToSha("User_123"),
                 created = DateTime.Today,
                 until = DateTime.Today.AddYears(4), //TODO: OBSERVATION CHANGE FOR REAL FORM

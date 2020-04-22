@@ -26,6 +26,7 @@ class AddEditStudents extends Component {
             name: null,
             username: null,
             email: null,
+            role: sessionStorage.getItem('URole'),
             areas: [],
             subareas: []
         };

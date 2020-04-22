@@ -176,8 +176,7 @@ class AdminHome extends Component {
 
     showStudentsArea = (event) =>
     {
-        //Fetch Students for area
-        //Delete the line below:
+
         let students = event.target.title.split(',');
         let name = event.target.parentElement.title;
         let renderedStudents = (
@@ -232,7 +231,10 @@ class AdminHome extends Component {
                 body : (
                     <React.Fragment>
                      <AdminStudentTable table = {this.state.students}/>
-                     <button onClick={()=>window.location.assign('/admStudent')}>Add new Student</button>
+                     <button onClick={()=>{
+                         sessionStorage.setItem('URole',"Student");
+                         window.location.assign('/admStudent')
+                         }}>Add new Student</button>
                     </React.Fragment>
                 )
             },
@@ -241,7 +243,10 @@ class AdminHome extends Component {
                 body : (
                     <React.Fragment>
                      <AdminStudentTable table = {this.state.teachers}/>
-                     <button onClick={()=>window.location.assign('/admTeacher')}>Add new Teacher</button>
+                     <button onClick={()=>{
+                         sessionStorage.setItem('URole',"Teacher");
+                         window.location.assign('/admStudent');
+                         }}>Add new Teacher</button>
                     </React.Fragment>
                 )
             },

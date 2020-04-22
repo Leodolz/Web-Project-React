@@ -60,6 +60,7 @@ class StudentEditor extends Component {
                     active: student.active,
                     contact: student.contact,
                     areas: student.areas,
+                    role: student.role,
                     subareas: student.subareas,
                     full_name: student.full_name
                 })
@@ -124,6 +125,12 @@ class StudentEditor extends Component {
         let areas = newStudent[type];
         if(event.target.checked)
         {
+            /*
+            if(areas.length == 1 && newStudent.role == "Teacher")
+            {
+                alert("Only 1 area admitted per teacher");
+                return;
+            }*/
             areas.push(event.target.value);
         }
         else
