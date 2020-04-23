@@ -24,5 +24,10 @@ namespace WebApplication2.Repository
                 && exam.untilDate >= DateTime.Now && !(takenIds.Contains(exam.Id)))
                 .Select(exam => exam).ToList();
         }
+        public List<int> GetAllSubAreaExams(int subAreaId)
+        {
+            return table.Where(exam => exam.subAreaId == subAreaId)
+                .Select(exam => exam.Id).ToList();
+        }
     }
 }

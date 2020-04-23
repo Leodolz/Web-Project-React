@@ -26,6 +26,11 @@ namespace WebApplication2.DBControllers
             }
             return allRealExams.ToArray();
         }
+        public void DeleteExam(int examId)
+        {
+            studentExamController.GetAllStudentExamsFromModel(examId);
+            examController.DeleteExam(examId);
+        }
         public RealExam[] GetAllStudentFutureExams(RealExamProxy realExamProxy, int studentId)
         {
             SubAreaController subAreaController = new SubAreaController();
@@ -96,9 +101,9 @@ namespace WebApplication2.DBControllers
                 AssignOptionsToQuestion(allQuestionsIds[i], questions[i].options, questions[i].answer);
             }
         }
-        public void EditExam(RealExamQuestion[] questions, int id)
+        public void EditExamQuestions(RealExamQuestion[] questions, int examId)
         {
-            QuestionEditActions(questions,id);
+            QuestionEditActions(questions,examId);
 
         }
         private void QuestionEditActions(RealExamQuestion[] newQuestions,int examId)

@@ -17,7 +17,10 @@ namespace WebApplication2.DBControllers
         {
             return examRepository.GetById(id);
         }
-
+        public List<int> GetAllSubAreaExamIds(int subAreaId)
+        {
+            return examRepository.GetAllSubAreaExams(subAreaId);
+        }
         public List<Exam> GetAllExams()
         {
             return examRepository.GetAll().ToList();

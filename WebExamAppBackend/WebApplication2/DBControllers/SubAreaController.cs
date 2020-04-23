@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using WebApplication2.Repository;
 using WebApplication2.DAL;
+using WebApplication2.Proxies;
+using WebApplication2.Utils;
 
 namespace WebApplication2.DBControllers
 {
@@ -48,6 +50,19 @@ namespace WebApplication2.DBControllers
             SubArea model = subAreaRepository.GetById(subAreaId);
             if (model == null)
                 return;
+            RealAreaProxy.UpdateArea(model.parentAreaId);
+            List<int> subAreaAssignIds = GetAllAssignmentsOfSubArea(subAreaId);
+            foreach (int subAreaAssignId in subAreaAssignIds)
+            {
+                DeleteAssignment(subAreaAssignId);
+            }
+            ExamController examController = new ExamController();
+            RealExamController realExamController = new RealExamController();
+            List<int> allExamIds = examController.GetAllSubAreaExamIds(subAreaId);
+            foreach(int examId in allExamIds)
+            {
+                realExamController.DeleteExam(examId);
+            }
             Delete(subAreaId);
         }
 
@@ -89,6 +104,10 @@ namespace WebApplication2.DBControllers
         {
             subAreaAssignRepository.Delete(assignmentId);
             subAreaAssignRepository.Save();
+        }
+        private List<int> GetAllAssignmentsOfSubArea(int subAreaId)
+        {
+            return subAreaAssignRepository.GetAllAssignmentsOfSub(subAreaId);
         }
 
         

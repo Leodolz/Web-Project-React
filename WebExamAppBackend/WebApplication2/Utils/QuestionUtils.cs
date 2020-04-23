@@ -21,18 +21,6 @@ namespace WebApplication2.Utils
             }
             return existingQuestions;
         }
-        public static List<RealExamQuestion> GetNewQuestions(RealExamQuestion[] allQuestions, QuestionAssignController questionAssignController)
-        {
-            List<RealExamQuestion> newQuestions = new List<RealExamQuestion>();
-            foreach (RealExamQuestion question in allQuestions)
-            {
-                questionAssign existingQuestion = questionAssignController.GetById(question.questionId);
-                if (existingQuestion == null)
-                    newQuestions.Add(question);
-            }
-            return newQuestions;
-        }
-        // delete below
         public static List<RealExamQuestion> FilterAndConvertQuestions (RealExamQuestion[] allRealQuestions, RealExamQuestion[] unWishedQuestions)
         {
             List<RealExamQuestion> filteredQuestions = new List<RealExamQuestion>();

@@ -30,5 +30,10 @@ namespace WebApplication2.Repository
             return table.Where(subarea => subarea.subAreaId == subAreaId) 
                 .Select(subarea => subarea.userId).ToList();
         }
+        public List<int> GetAllAssignmentsOfSub(int subAreaId)
+        {
+            return table.Where(assignment => assignment.subAreaId == subAreaId)
+                .Select(assignment => assignment.Id).ToList();
+        }
     }
 }

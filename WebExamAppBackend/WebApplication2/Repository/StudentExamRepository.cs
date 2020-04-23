@@ -23,5 +23,10 @@ namespace WebApplication2.Repository
             return table.Where(studentExam => studentExam.studentId == id)
                 .Select(exam => exam.examId);
         }
+        public IEnumerable<int> GetAllStudntExamsFromModel(int modelId)
+        {
+            return table.Where(studentExam => studentExam.examId == modelId)
+                .Select(studentExam => studentExam.Id);
+        }
     }
 }
