@@ -49,9 +49,8 @@ class AdminStudentTable extends Component {
         return table;
     }
     render() { 
-        let editEntry = <th>Edit Student</th>;
-        if(this.props.userTable)
-            editEntry = <th>Edit User</th>;
+
+        let editEntry = <th>{"Edit "+this.props.role}</th>;
         let tableBody = this.renderTable(this.props.table);
         if(this.props.teacher)
             editEntry = null;

@@ -52,7 +52,7 @@ class AddEditStudents extends Component {
             else
             body = (
                 <React.Fragment >
-                <h1 className="Editor">Student editor</h1>
+                <h1 className="Editor">{this.state.student.role} editor</h1>
                 <StudentEditor subareas={subareas} student={student} new={this.state.new} user={this.state.user}/>
                 </React.Fragment>
             );

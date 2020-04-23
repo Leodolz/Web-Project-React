@@ -33,6 +33,12 @@ class StudentEditor extends Component {
             areasLi = null;
             subAreas = this.props.subareas;
         }
+        let subAreasLi = <li id="Ssubareas" title={subAreas}><span className="etag">Sub-Areas:</span> {subAreas}{editButton}</li>;
+        if(this.state.student.role == "Admin")
+        {
+            areasLi = null;
+            subAreasLi = null;
+        }
         let studentAttributes = (
         <React.Fragment key={"Student"}>
             <li id="Sname" title={student.name}><span className="etag">Name:</span> {student.name}{editButton}</li> 
@@ -41,7 +47,7 @@ class StudentEditor extends Component {
             <li id="Semail" title={student.email}><span className="etag">Email:</span>{student.email}{editButton}</li> 
             <li id="Scontact" title={student.contact}><span className="etag">Contact number:</span>{student.contact}{editButton}</li> 
             {areasLi}
-            <li id="Ssubareas" title={subAreas}><span className="etag">Sub-Areas:</span> {subAreas}{editButton}</li> 
+            {subAreasLi}
         </React.Fragment> 
             )
         return studentAttributes;
@@ -49,8 +55,10 @@ class StudentEditor extends Component {
     showActive = (event)=>
     {
         let student = this.state.student;
-        if(!student.name || !student.username || !student.email ||
-            student.areas.length<1 || student.subareas.length<1)
+        let baseConditions = (student.name && student.username && student.email);
+        let adminConditions = (baseConditions && student.role=="Admin");
+        let normalConditions = (baseConditions && student.subareas.length>1);
+        if(!normalConditions && !adminConditions)
             alert("You need to fill all fields");
         else if(this.state.allUsernames.find(value=>value==student.username) && this.props.new)
             alert("Already existing username, pick another");

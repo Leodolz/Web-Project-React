@@ -25,6 +25,7 @@ class AdminHome extends Component {
         this.FetchAdminExamsTable();
         this.FetchAdminStudentsTable();
         this.FetchAdminTeachersTable();
+        this.FetchAdmins();
     }
     cancelEdit = (event) =>
     {
@@ -45,17 +46,27 @@ class AdminHome extends Component {
         else return null;
     }
     render() {
-        /*
-            <button>Add User</button>
-            <button>View Users</button>
-        */
+            
         let overlay = this.GetOverlayForm();
-        let accordions = this.GetAdminBody()
+        let accordions = this.GetAdminBody();
+        let adminView = null;
+        if(this.state.admins)
+            adminView = <button 
+            onClick={this.showAdminsList}
+            title={this.state.admins.join(",")}>
+                View Admins</button>;
         return (
             <React.Fragment>
             <h1>Welcome Admin {this.state.user.username}</h1>
             <br/>
-
+                <button 
+                onClick={()=>{
+                    sessionStorage.setItem('URole',"Admin");
+                    window.location.assign('/admStudent')
+                    }}>
+                    Add Admin
+                </button>
+                {adminView}
             <br/>
             <Accordion accordions= {accordions}/>
             {overlay}
@@ -86,7 +97,7 @@ class AdminHome extends Component {
     {
         let context = this;
         fetch('http://localhost:51061/api/Students?'
-        +'subAreaId=0&students=true')
+        +'subAreaId=0&role=Student')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({students: data});
@@ -97,11 +108,37 @@ class AdminHome extends Component {
         console.log(e);
         });
     }
+    GetAdminsNames = (adminArray)=>
+    {
+        let namesArray = [];
+        for(let i=0;i<adminArray.length;i++)
+        {
+            namesArray.push(adminArray[i].full_name+" ("+adminArray[i].username+") ")
+        }
+        return namesArray;
+    }
+    FetchAdmins = ()=>
+    {
+        let context = this;
+        fetch('http://localhost:51061/api/Students?'
+        +'subAreaId=0&role=Admin')
+        .then(result=>result.json())
+        .then((data)=>{
+            let admins = context.GetAdminsNames(data);
+            context.setState({admins: admins});
+            console.log(data);
+        })
+       .catch((e)=>{
+        alert("No students found");
+        console.log(e);
+        });
+    }
+
     FetchAdminTeachersTable = ()=>
     {
         let context = this;
         fetch('http://localhost:51061/api/Students?'
-        +'subAreaId=0&students=false')
+        +'subAreaId=0&role=Teacher')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({teachers: data});
@@ -175,7 +212,23 @@ class AdminHome extends Component {
         }
         return renderedList;
     }
-
+    showAdminsList=(event)=>
+    {
+        let admins = event.target.title.split(',');
+        let renderedAdmins = (
+            <React.Fragment key={"Student"}>
+            <h1 className="overlayHeader">Admins:</h1>
+            <ul id="HomeStudentsUL" className="myUL">
+                {this.RenderStudentList(admins)}
+            </ul>
+            </React.Fragment> 
+        );
+        let overlayed = {
+            overlay: true,
+            body: renderedAdmins
+        }
+        this.setState({overlayed:overlayed});
+    }
     showStudentsArea = (event) =>
     {
 
@@ -231,7 +284,7 @@ class AdminHome extends Component {
                 title:"Students",
                 body : (
                     <React.Fragment>
-                     <AdminStudentTable table = {this.state.students}/>
+                     <AdminStudentTable table = {this.state.students} role="Student"/>
                      <button onClick={()=>{
                          sessionStorage.setItem('URole',"Student");
                          window.location.assign('/admStudent')
@@ -243,7 +296,7 @@ class AdminHome extends Component {
                 title:"Teachers",
                 body : (
                     <React.Fragment>
-                     <AdminStudentTable table = {this.state.teachers}/>
+                     <AdminStudentTable table = {this.state.teachers} role="Teacher"/>
                      <button onClick={()=>{
                          sessionStorage.setItem('URole',"Teacher");
                          window.location.assign('/admStudent');

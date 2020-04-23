@@ -18,19 +18,10 @@ namespace WebApplication2.Controllers
     {
         private StudentTeacherProxy studentTeacherProxy = new StudentTeacherProxy();
         // GET: api/Students
-        public RealStudent[] Get(int subAreaId, bool students) // This method DOES differentiate between roles
+        public RealStudent[] Get(int subAreaId, string role) // This method DOES differentiate between roles
         {
             RealStudentController studentController = new RealStudentController();
             EditStudentController.Editing = false;
-            string role;
-            if (students)
-            {
-                role = "Student"; 
-            }
-            else
-            {
-                role = "Teacher";
-            }
             if(subAreaId == 0)
                 return studentController.GetAllUsersByRole(studentTeacherProxy,role).ToArray();
             else

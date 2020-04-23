@@ -108,7 +108,7 @@ class TeacherHome extends Component {
     {
         let context = this;
         fetch('http://localhost:51061/api/Students?subAreaId='
-        +id+'&students=true')
+        +id+'&role=Student')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({students: data});
