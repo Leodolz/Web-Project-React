@@ -17,7 +17,7 @@ namespace WebApplication2.Controllers
     public class UsersController : ApiController
     {
        
-        private static UserProxy userProxy = new UserProxy(new UserController());
+        private UserProxy userProxy = new UserProxy(new UserController());
         
         // GET: api/Users
         

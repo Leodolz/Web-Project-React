@@ -175,6 +175,7 @@
     <Compile Include="Controllers\EditSubAreaController.cs" />
     <Compile Include="Controllers\ExamsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PwdChangeController.cs" />
     <Compile Include="Controllers\StudentExamController.cs" />
     <Compile Include="Controllers\StudentExamsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PasswordObject.cs" />
     <Compile Include="Models\RealExamQuestion.cs" />
     <Compile Include="Models\RealArea.cs" />
     <Compile Include="Models\RealExam.cs" />

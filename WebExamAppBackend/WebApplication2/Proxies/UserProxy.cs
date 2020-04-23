@@ -10,7 +10,7 @@ namespace WebApplication2.Proxies
 {
     public class UserProxy : IUserProxy
     {
-        private List<User> usersCache;
+        private static List<User> usersCache;
         private UserController userController;
         public UserProxy(UserController userController)
         {
@@ -31,6 +31,10 @@ namespace WebApplication2.Proxies
 
             System.Diagnostics.Debug.WriteLine("User cached is:" + cachedUser);
             return cachedUser;
+        }
+        public static void UpdateUser(int userId)
+        {
+            usersCache.RemoveAll(user=>user.Id == userId);
         }
     }
 }

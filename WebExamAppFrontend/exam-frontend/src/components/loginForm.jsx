@@ -39,7 +39,7 @@ class LoginForm extends Component {
         let context = this;
         Promise.resolve(this.sha256(password)).then(function(value)
         {
-            encrypted = value;
+            let encrypted = value;
             fetch('http://localhost:51061/api/Users?username='
             +username+'&password='+encrypted)
             .then(result=>result.json())
