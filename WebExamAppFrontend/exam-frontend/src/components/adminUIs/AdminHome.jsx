@@ -121,7 +121,7 @@ class AdminHome extends Component {
     {
         event.preventDefault();
         this.fetchSubAreaById(event.target.title);
-        //window.location.assign("/admSubAreas");
+        window.location.assign("/admSubAreas");
     }
     fetchSubAreaById(id)
     {
