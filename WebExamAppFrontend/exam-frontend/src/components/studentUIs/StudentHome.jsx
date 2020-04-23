@@ -18,55 +18,21 @@ class StudentHome extends Component {
     constructor(props)
     {
         super(props);
-        this.FetchStudentPastExamsTable(this.state.user.Id);
-        this.FetchStudentFutureExamsTable(this.state.user.Id);
-        this.FetchStudentPresentExamsTable(this.state.user.Id);
+        let userId = props.user.Id;
+        this.FetchGenericTable('StudentExams/'+userId+'?time=future','futureExams');
+        this.FetchGenericTable('StudentExams/'+userId+'?time=present','presentExams');
+        this.FetchGenericTable('StudentExams/'+userId+'?time=past','pastExams');
     }
-    FetchStudentPastExamsTable = (userId) =>
+    FetchGenericTable = (url,stateVariable) =>
     {
-        this.setState({loading: true});
         let context = this;
-        fetch('http://localhost:51061/api/StudentExams/'+userId+
-        '?time=past')
+        fetch('http://localhost:51061/api/'+url)
         .then(result=>result.json())
         .then((data)=>{
-            context.setState({pastExams: data});
-            console.log(data);
+            context.setState({[stateVariable]: data});
         })
        .catch((e)=>{
-        alert("No exams found");
-        console.log(e);
-        });
-    }
-    FetchStudentPresentExamsTable = (userId) =>
-    {
-        this.setState({loading: true});
-        let context = this;
-        fetch('http://localhost:51061/api/StudentExams/'+userId+
-        '?time=present')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({presentExams: data});
-            console.log(data);
-        })
-       .catch((e)=>{
-        alert("No exams found");
-        console.log(e);
-        });
-    }
-    FetchStudentFutureExamsTable = (userId) =>
-    {
-        this.setState({loading: true});
-        let context = this;
-        fetch('http://localhost:51061/api/StudentExams/'+userId+
-        '?time=future')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({futureExams: data});
-            console.log(data);
-        })
-       .catch((e)=>{
-        alert("No exams found");
+        alert("No students found");
         console.log(e);
         });
     }

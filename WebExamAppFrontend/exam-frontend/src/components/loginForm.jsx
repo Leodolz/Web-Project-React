@@ -35,7 +35,6 @@ class LoginForm extends Component {
         event.preventDefault();
         let username = event.target.uname.value;
         let password = event.target.pass.value;
-        let encrypted = '';
         let context = this;
         Promise.resolve(this.sha256(password)).then(function(value)
         {

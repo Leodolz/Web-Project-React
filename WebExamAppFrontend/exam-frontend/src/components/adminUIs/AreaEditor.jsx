@@ -20,7 +20,7 @@ class AreaEditor extends Component {
         let subAreas = this.state.area.subareas;
         for(let i=0;i<subAreas.length;i++)
         {
-            let subArea = (<li key={i} title="subareas" id={i}><span className="etag">{(i+1)+". "}</span>{subAreas[i]}{editButton}</li>);
+            let subArea = (<li key={i} title={subAreas[i].Id} id={i}><span className="etag">{(i+1)+". "}</span>{subAreas[i].name}{editButton}</li>);
             subAreasList.push(subArea);
         }
         return subAreasList;
@@ -45,10 +45,20 @@ class AreaEditor extends Component {
             )
         return studentAttributes;
     }
-    subAreaEdit = () =>
+    subAreaEdit = (event) =>
     {
-       //fetch 
-        window.location.assign('/admSubAreas');
+        console.log(event.target.parentElement.title);
+        this.fetchSubAreaById(event.target.parentElement.title);
+        
+    }
+    fetchSubAreaById(id)
+    {
+        fetch('http://localhost:51061/api/SubAreas/'+id)
+        .then(result=>result.json())
+        .then((data)=>{
+            window.location.assign('/admSubAreas');
+        })
+        .catch(console.log);
     }
     showActive = (event)=>
     {

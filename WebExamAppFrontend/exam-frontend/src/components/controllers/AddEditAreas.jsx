@@ -8,24 +8,13 @@ class AddEditAreas extends Component {
         new: false,
     }
 
-    ObjectsToStrings(arrayOfObjects)
-    {
-        let outputArray = [];
-        for(let i=0; i<arrayOfObjects.length; i++)
-        {
-            outputArray.push(arrayOfObjects[i].name);
-        }
-        return outputArray;
-    }
 
     FetchArea = () =>
     {
         fetch('http://localhost:51061/api/EditArea')
         .then(result=>result.json())
         .then((data)=>{
-            let refurbishedArea = data;
-            refurbishedArea.subareas = this.ObjectsToStrings(data.subareas);
-            this.setState({area: refurbishedArea});
+            this.setState({area: data});
         })
         .catch((e)=>{
             this.setState({area: this.GetEmptyArea()});

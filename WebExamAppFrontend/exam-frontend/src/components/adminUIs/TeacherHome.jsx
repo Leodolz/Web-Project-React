@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Accordion from '../Accordion';
 import AdminExamTable from '../tables/AdminExamTable'
 import AdminStudentTable from '../tables/AdminStudentTable'
-import AreasTable from '../tables/SubAreasTable'
 
 class TeacherHome extends Component {
     state=
@@ -22,21 +21,11 @@ class TeacherHome extends Component {
     constructor(props)
     {
         super(props);
-        this.FetchCommingExamsTable(props.user.Id);
-        this.FetchStudentsTable(props.user.Id);
-        this.FetchPastExamsTable(props.user.Id);
-        this.fetchSubAreasById(props.user.Id);
-    }
-    fetchSubAreasById(id)
-    {
-        let context= this;
-        fetch('http://localhost:51061/api/SubAreas/'+id+
-            '?action=GetSubAreas')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({subAreas:data});
-        })
-        .catch((e)=>console.log);
+        let userId = props.user.Id;
+        this.FetchGenericTable('SubAreas/'+userId+'?action=GetSubAreas','subAreas');
+        this.FetchGenericTable('StudentExams/'+userId+'?time=future','commingExams');
+        this.FetchGenericTable('Students?subAreaId='+userId+'&role=Student','students');
+        this.FetchGenericTable('StudentExams/'+userId+'?time=past','pastExams');
     }
     cancelEdit = (event) =>
     {
@@ -59,7 +48,7 @@ class TeacherHome extends Component {
     render() {
 
         let overlay = this.GetOverlayForm();
-        let accordions = this.GetNewStudentBody();
+        let accordions = this.GetTeacherHomeBody();
         return (
             <React.Fragment>
             <h1>Welcome Teacher {this.state.user.username}</h1>
@@ -74,45 +63,13 @@ class TeacherHome extends Component {
     {
         this.setState({user:user});
     }
-    FetchPastExamsTable = (id) =>
+    FetchGenericTable = (url,stateVariable) =>
     {
         let context = this;
-        fetch('http://localhost:51061/api/StudentExams/'+id+
-        '?time=past')
+        fetch('http://localhost:51061/api/'+url)
         .then(result=>result.json())
         .then((data)=>{
-            context.setState({pastExams: data});
-            console.log(data);
-        })
-       .catch((e)=>{
-        alert("No exams found");
-        console.log(e);
-        });
-    }
-    FetchCommingExamsTable = (id) =>
-    {
-        let context = this;
-        fetch('http://localhost:51061/api/StudentExams/'+id+
-        '?time=future')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({commingExams: data});
-            console.log(data);
-        })
-       .catch((e)=>{
-        alert("No exams found");
-        console.log(e);
-        });
-    }
-    FetchStudentsTable = (id)=>
-    {
-        let context = this;
-        fetch('http://localhost:51061/api/Students?subAreaId='
-        +id+'&role=Student')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({students: data});
-            console.log(data);
+            context.setState({[stateVariable]: data});
         })
        .catch((e)=>{
         alert("No students found");
@@ -199,7 +156,7 @@ class TeacherHome extends Component {
 
    
 
-    GetNewStudentBody = () =>
+    GetTeacherHomeBody = () =>
     {
         let pastExamsTable = this.SortByArea(this.state.pastExams);
         let pastExamsBody = this.GetExamsBody(pastExamsTable,false);

@@ -95,7 +95,7 @@ class SubAreaEditor extends Component {
     FetchAllStudents =()=>
     {
         let context = this;
-        fetch('http://localhost:51061/api/Students')
+        fetch('http://localhost:51061/api/Students?subAreaId=0&role=Student')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({allStudents: data});

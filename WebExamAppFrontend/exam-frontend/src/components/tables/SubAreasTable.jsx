@@ -27,7 +27,6 @@ class AreasTable extends Component {
         let table = [];
         for(let i=0;i<entries.length;i++)
         {
-            //entries[i].students
             let children = [];
             children.push(<td key={"name"+i}>{entries[i].name}</td>)
             children.push(<td key={"created"+i}>{entries[i].created}</td>)
@@ -47,13 +46,12 @@ class AreasTable extends Component {
             <div className="overflow-x:auto">
                 <table>
                 <caption><h3>Sub-Areas</h3></caption>
-                    <tbody>
-                        
+                    <tbody> 
                     <tr>
                         <th>Name</th>
                         <th>Created</th>
                         <th>Students</th>
-                        <th>Edit Area</th>
+                        <th>Edit Sub-Area</th>
                     </tr>
                     {tableBody}
                     </tbody>

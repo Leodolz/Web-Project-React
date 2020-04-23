@@ -59,7 +59,6 @@ class ExamEditor extends Component {
         exam.examElements = exam.RealExamQuestion;
         for(let i=0; i<exam.RealExamQuestion.length; i++)
         {
-           
             exam.examElements[i].type = exam.RealExamQuestion[i].optionElement.multiple?"Multiple":"Single";
             exam.examElements[i].multiple = exam.RealExamQuestion[i].optionElement.multiple;
             exam.examElements[i].options = exam.RealExamQuestion[i].optionElement.options;
@@ -159,7 +158,6 @@ class ExamEditor extends Component {
     }
     FetchAvailableSubAreas = (userId) =>
     {
-        //Change this so its with a user
         fetch('http://localhost:51061/api/SubAreas/'+userId+
         '?action=GetSubAreas')
         .then(result=>result.json())
@@ -301,41 +299,27 @@ class ExamEditor extends Component {
         event.preventDefault();
         let element = event.target.parentElement;
         let extras = {};
-        if(element.className == "SubAreaEdit")
+        extras.value = element.title;
+        switch(element.className)
         {
-            extras = 
-            {
-                placeholder: "Sub-Area",
-                value: element.title,
-                type: "Sub-Area",
-            }
-        }
-        else if (element.className == "FromDate")
-        {
-            extras  =
-            {
-                placeholder: "FromDate",
-                value: element.title,
-                type: "Date",
-            }
-        }
-        else if (element.className == "UntilDate")
-        {
-            extras  =
-            {
-                placeholder: "UntilDate",
-                value: element.title,
-                type: "Date",
-            }
-        }
-        else if (element.className == "Title")
-        {
-            extras  =
-            {
-                placeholder: "Title",
-                value: element.title,
-                type: "Title",
-            }
+            case "SubAreaEdit":
+                extras.placeholder= "Sub-Area";
+                extras.type= "Sub-Area";
+                break;
+            case "FromDate":
+                extras.placeholder= "FromDate";
+                extras.type= "Date";
+                break;
+            case "UntilDate":
+                extras.placeholder= "UntilDate";
+                extras.type= "Date";
+                break;
+            case "Title":
+                extras.placeholder= "Title";
+                extras.type= "Title";
+                break;
+            default:
+                break;
         }
         this.setState({overlayed: {
             overlay: true,
@@ -347,12 +331,20 @@ class ExamEditor extends Component {
     {
         let exam = this.state.exam;
         event.preventDefault();
-        if(this.state.overlayed.extras.placeholder == "Title")
-            exam.title = event.target.newValue.value;
-        else if(this.state.overlayed.extras.placeholder == "FromDate")
-            exam.fromDate = event.target.newValue.value;
-        else if(this.state.overlayed.extras.placeholder == "UntilDate")
-            exam.untilDate = event.target.newValue.value;
+        switch(this.state.overlayed.extras.placeholder)
+        {
+            case "Title":
+                exam.title = event.target.newValue.value;
+                break;
+            case "FromDate":
+                exam.fromDate = event.target.newValue.value;
+                break;
+            case "UntilDate":
+                exam.untilDate = event.target.newValue.value;
+                break;
+            default: 
+                break;
+        }
         this.setState({exam:exam})
         this.setState({overlayed: {
             overlay: false,
