@@ -21,10 +21,10 @@ class AdminHome extends Component {
     constructor(props)
     {
         super(props);
-        this.FetchAdminAreasTable();
-        this.FetchAdminExamsTable();
-        this.FetchAdminStudentsTable();
-        this.FetchAdminTeachersTable();
+        this.FetchGenericTable("Areas","areas");
+        this.FetchGenericTable("Exams","exams");
+        this.FetchGenericTable("Students?subAreaId=0&role=Student","students");
+        this.FetchGenericTable("Students?subAreaId=0&role=Teacher","teachers");
         this.FetchAdmins();
     }
     cancelEdit = (event) =>
@@ -77,31 +77,14 @@ class AdminHome extends Component {
     {
         this.setState({user:user});
     }
-    FetchAdminExamsTable = () =>
+
+    FetchGenericTable = (url,stateVariable) =>
     {
         let context = this;
-        fetch('http://localhost:51061/api/Exams')
+        fetch('http://localhost:51061/api/'+url)
         .then(result=>result.json())
         .then((data)=>{
-            context.setState({exams: data});
-            console.log(data);
-        })
-       .catch((e)=>{
-        alert("No exams found");
-        console.log(e);
-        });
-    }
-
-
-    FetchAdminStudentsTable = ()=>
-    {
-        let context = this;
-        fetch('http://localhost:51061/api/Students?'
-        +'subAreaId=0&role=Student')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({students: data});
-            console.log(data);
+            context.setState({[stateVariable]: data});
         })
        .catch((e)=>{
         alert("No students found");
@@ -134,44 +117,11 @@ class AdminHome extends Component {
         });
     }
 
-    FetchAdminTeachersTable = ()=>
-    {
-        let context = this;
-        fetch('http://localhost:51061/api/Students?'
-        +'subAreaId=0&role=Teacher')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({teachers: data});
-            console.log(data);
-        })
-       .catch((e)=>{
-        alert("No students found");
-        console.log(e);
-        });
-    }
-
-    FetchAdminAreasTable = ()=>
-    {
-        let context = this;
-        fetch('http://localhost:51061/api/Areas')
-        .then(result=>result.json())
-        .then((data)=>{
-            context.setState({areas: data});
-            console.log(data);
-        })
-       .catch((e)=>{
-        alert("No areas found");
-        console.log(e);
-        });
-    }
-
     AddSubArea = (event) =>
     {
         event.preventDefault();
-        //Fetch for null Area or generate null SubArea on AddEditSubAreas
-        console.log("Add new Area");
         this.fetchSubAreaById(event.target.title);
-        window.location.assign("/admSubAreas");
+        //window.location.assign("/admSubAreas");
     }
     fetchSubAreaById(id)
     {
@@ -183,7 +133,6 @@ class AdminHome extends Component {
         })
         .catch(console.log);
     }
-
     fetchAreaById(id)
     {
         fetch('http://localhost:51061/api/Areas/'+id)

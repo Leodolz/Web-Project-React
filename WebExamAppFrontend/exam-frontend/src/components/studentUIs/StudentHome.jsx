@@ -5,7 +5,6 @@ import StudentTable from '../tables/StudentExamTable'
 class StudentHome extends Component {
     state=
     {
-        loading :false,
         user:this.props.user,
         overlayed : 
         {
@@ -15,6 +14,13 @@ class StudentHome extends Component {
         pastExams: null,
         futureExams:null,
         presentExams: null
+    }
+    constructor(props)
+    {
+        super(props);
+        this.FetchStudentPastExamsTable(this.state.user.Id);
+        this.FetchStudentFutureExamsTable(this.state.user.Id);
+        this.FetchStudentPresentExamsTable(this.state.user.Id);
     }
     FetchStudentPastExamsTable = (userId) =>
     {
@@ -99,12 +105,6 @@ class StudentHome extends Component {
         console.log(this.state.exams);
         let overlay = this.GetOverlayForm();
         let presentExams = this.RenderPresentExams();
-        if(this.state.loading == false && this.state.user!=null)
-        {
-            this.FetchStudentPastExamsTable(this.state.user.Id);
-            this.FetchStudentFutureExamsTable(this.state.user.Id);
-            this.FetchStudentPresentExamsTable(this.state.user.Id);
-        }
         if(this.state.pastExams == null || this.state.futureExams == null || this.state.presentExams == null)
             return(<h1>Loading Page...</h1>);
         let accordions = this.GetNewStudentBody();
