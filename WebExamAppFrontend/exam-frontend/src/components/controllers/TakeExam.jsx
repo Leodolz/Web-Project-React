@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
 import StudentExamTaker from '../studentUIs/StudentExamTaker';
+import MasterQuestion from '../smallComponents/MasterQuestion';
 
 class TakeExam extends Component {
     state={
@@ -34,9 +35,11 @@ class TakeExam extends Component {
             body = (
                 <React.Fragment >
                 <h1 className="Editor">{exam.title}</h1>
-                <StudentExamTaker studentId={this.state.user.Id} exam={exam}/>
+                <MasterQuestion studentId={this.state.user.Id} exam={exam}/>
                 </React.Fragment>
             );
+            //<StudentExamTaker studentId={this.state.user.Id} exam={exam}/>
+            //<MasterQuestion studentId={this.state.user.Id} exam={exam}/>
         }
         return (
             <React.Fragment>

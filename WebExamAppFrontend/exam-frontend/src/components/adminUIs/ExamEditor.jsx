@@ -229,7 +229,7 @@ class ExamEditor extends Component {
     {
         let extras = this.state.overlayed.extras;
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
                 <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}
                 preDefQuestion={extras.value} editing={true} getEditedQuestion={this.getEditedQuestion}/>
             </div>

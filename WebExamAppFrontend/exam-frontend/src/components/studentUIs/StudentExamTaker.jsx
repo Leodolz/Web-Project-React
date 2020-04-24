@@ -12,7 +12,6 @@ class StudentExamTaker extends Component {
             extras : null,
             formType: "Text",
         },
-        answeringId: 0,
       }
 
     renderList = () => 

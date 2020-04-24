@@ -137,6 +137,7 @@ class TeacherHome extends Component {
                             window.location.assign('/admStudent')
                         }
                         }>Add new Student</button>
+                        
                     </React.Fragment>
                     );
             }

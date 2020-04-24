@@ -73,7 +73,7 @@ class AnswerManager extends Component {
             checkBoxInputs = (<CustomRadioButtons handleChangeRadioAnswer = {this.handleChangeRadioAnswer} answer = {currentAnswer} generalArray={currentOptions} />);
         }
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
                 <form className = "elementEditForm" onSubmit={this.editAreas} >
                     <h3>{this.props.placeholder+": "}</h3>
                     <hr/>

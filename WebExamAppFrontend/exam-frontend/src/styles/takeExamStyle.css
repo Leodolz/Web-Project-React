@@ -1,0 +1,32 @@
+.MasterExamQuestion
+{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.questionCount
+{
+    float: left;
+}
+.markStepButton
+{
+    background-color: rgb(39, 156, 202);
+    align-self: center;
+}
+.nextStepButton
+{
+    background-color: rgb(47, 134, 81);
+    float: right;
+}
+.prevStepButton
+{
+    background-color: rgb(47, 134, 81);
+    float: left;
+}
+.SubmitStExamButton
+{
+    background-color: rgb(98, 211, 255);
+    float: left;
+    margin-left: 19.5%;
+    color: black;
+    font-weight: bolder;
+}

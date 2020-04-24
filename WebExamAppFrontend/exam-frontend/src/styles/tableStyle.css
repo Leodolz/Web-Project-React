@@ -12,6 +12,10 @@ table {
   .tDetails{
       color: blue;
   }
+  .tDelete{
+    color: red;
+    font-weight: bold;
+}
   .tDetails:hover{
     cursor: pointer;
   }

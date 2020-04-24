@@ -29,9 +29,14 @@ class AdminStudentTable extends Component {
             children.push(<td key={"areas"+i}>{entries[i].areas.join(", ")}</td>)
             children.push(<td key={"subareas"+i}>{entries[i].subareas.join(", ")}</td>)
             if(!this.props.teacher)
-            children.push(<td key={"Edit"+i}>
-                <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
-            </td>)
+            {
+                children.push(<td key={"Edit"+i}>
+                    <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                </td>)
+                 children.push(<td key={"Edit"+i}>
+                 <p title={entries[i].Id} className="tDelete" onClick={this.clickDeleteHandler}>Delete</p>
+             </td>)
+            }
             table.push(<tr key={"group"+i}>{children}</tr>);
         }
         return table;
@@ -39,9 +44,13 @@ class AdminStudentTable extends Component {
     render() { 
 
         let editEntry = <th>{"Edit "+this.props.role}</th>;
+        let deleteEntry = <th>{"Delete "+this.props.role}</th>;
         let tableBody = this.renderTable(this.props.table);
         if(this.props.teacher)
+        {
             editEntry = null;
+            deleteEntry = null;
+        }
         return ( 
             <div className="overflow-x:auto">
                 <table>
@@ -53,6 +62,7 @@ class AdminStudentTable extends Component {
                         <th>Areas</th>
                         <th>Sub-Areas</th>
                         {editEntry}
+                        {deleteEntry}
                     </tr>
                     {tableBody}
                     </tbody>
