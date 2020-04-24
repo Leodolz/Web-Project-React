@@ -6,7 +6,13 @@ class UserSettings extends Component {
     state = {
         oldPassword: "",
         user:  null,
+        errors: {
+            oldpass: "",
+            newpass: "",
+            newpassconf: "",
+        }
       }
+      
 
     constructor(props)
     {
@@ -39,6 +45,10 @@ class UserSettings extends Component {
         if(event.target.newpass.value != event.target.newpassconf.value)
         {
             alert("Password confirmation does not match with new password");
+            let errors = this.state.errors;
+            errors.newpass = "errorForm";
+            errors.newpassconf = "errorForm";
+            this.setState({errors:errors});
             return;
         }
         let userId = this.state.user.Id;
@@ -49,7 +59,10 @@ class UserSettings extends Component {
             let encrypted = value;
             if(encrypted!=userOldPass)
             {
-                alert("Password confirmation does not match with old password");
+                alert("User password does not match with old password");
+                let errors = context.state.errors;
+                errors.oldpass = "errorForm";
+                context.setState({errors:errors});
                 return;
             }
             else 
@@ -74,6 +87,12 @@ class UserSettings extends Component {
                     });
                 });
                 alert("Password succesfully changed!");
+                context.setState({errors:{
+                    oldpass: "",
+                    newpass: "",
+                    newpassconf: "",
+                }})
+                document.getElementById("UserPasswordForm").reset();
             }
            
         });
@@ -100,18 +119,24 @@ class UserSettings extends Component {
     render() { 
         let body = 
         (
-                <form id="StudentForm" onSubmit={this.handleSubmit}  /*method="get"*/ >
+                <form id="UserPasswordForm" onSubmit={this.handleSubmit}  /*method="get"*/ >
                     <div className= "containerForm">
                         <br></br>
+                        <div className={this.state.errors.oldpass}>
                         <label><b>Old Password: </b></label>
                         <input type="password" name="oldpass" placeholder="Enter Old Password" required />
                         <br></br>
+                        </div>
+                        <div className={this.state.errors.newpass}>
                         <label><b>New Password: </b></label>
-                        <input type="password" name="newpass" placeholder="Enter New Password" required />
+                        <input type="password"  name="newpass" placeholder="Enter New Password" required />
                         <br></br>
+                        </div>
+                        <div className={this.state.errors.newpassconf}>
                         <label><b>Enter Again: </b></label>
-                        <input type="password" name="newpassconf" placeholder="Enter New Password" required />
+                        <input type="password"  name="newpassconf" placeholder="Enter New Password" required />
                         <br></br>
+                        </div>
                         <button type="submit" >Change Password</button>
                     </div>
                 </form>

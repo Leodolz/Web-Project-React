@@ -1,3 +1,19 @@
+.errorForm input[type=password]{
+    border: 3px solid #ff0000;
+}
+.containerForm label{
+    margin-left: 18%;
 
+}
+.containerForm label{
+    text-align: left;
+    display: block;
+}
 
-
+.containerForm input{
+    text-align: left;
+    margin-top: -25px;
+    align-items: left;
+    margin-left:31%;
+    display: block;
+}
