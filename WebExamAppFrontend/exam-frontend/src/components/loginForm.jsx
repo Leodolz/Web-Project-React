@@ -57,12 +57,23 @@ class LoginForm extends Component {
     }
 
     async sha256(message) {
-        const msgBuffer = new TextEncoder('utf-8').encode(message);                    
+        const msgBuffer = this.textEncode(message);                    
         const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
         const hashArray = Array.from(new Uint8Array(hashBuffer));                
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         console.log(hashHex);
         return hashHex;
+    }
+    textEncode(str) {
+        if (window.TextEncoder) {
+            return new TextEncoder('utf-8').encode(str);
+        }
+        var utf8 = unescape(encodeURIComponent(str));
+        var result = new Uint8Array(utf8.length);
+        for (var i = 0; i < utf8.length; i++) {
+            result[i] = utf8.charCodeAt(i);
+        }
+        return result;
     }
 
     handleCatch = ()=>
