@@ -77,7 +77,6 @@ class StudentHome extends Component {
         let accordions = this.GetNewStudentBody();
         return (
             <React.Fragment>
-            <h1>Welcome Student: {this.state.user.full_name}</h1>
             {presentExams}
             <Accordion accordions= {accordions}/>
             {overlay}

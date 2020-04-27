@@ -7,6 +7,7 @@ class ResponsiveNavBar extends Component {
         <div className="topnav">
             <a className={this.props.home} href="/home">Home</a>
             <div id = "UserInfo">
+            <a>Welcome {this.props.name}</a>
             <a >User: {this.props.username}</a>
             <a>Role: {this.props.role}</a>
             <a  className="active" href="/settings">Settings</a>

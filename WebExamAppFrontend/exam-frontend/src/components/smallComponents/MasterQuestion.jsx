@@ -5,12 +5,50 @@ class MasterQuestion extends Component {
     {
         currentStep: 1, // Default is Step 1
         markedQuestions: [],
+        hours: 2,
+        minutes: 0,
+        seconds: 0,
         questions : this.props.exam.questions,
         fromDate: this.props.exam.fromDate,
         untilDate: this.props.exam.untilDate,
         subarea: this.props.exam.subarea,
     }
-    
+    constructor(props)
+    {
+        super(props);
+        this.StartTimer();
+    }
+    StartTimer = () =>
+    {
+        this.myInterval = setInterval(()=>
+        {
+            const{seconds,minutes,hours} = this.state;
+            if (seconds > 0) {
+                this.setState(({ seconds }) => ({
+                  seconds: seconds - 1
+                }))
+              }
+            if (seconds === 0) 
+            {
+                if (minutes === 0) 
+                {
+                    if(hours === 0)
+                        clearInterval(this.myInterval);
+                    else
+                        this.setState(({ hours }) => ({
+                            hours: hours - 1,
+                            minutes: 59,
+                            seconds: 59
+                        }))                  
+                }
+                else   
+                    this.setState(({ minutes }) => ({
+                        minutes: minutes - 1,
+                        seconds: 59
+                    }));
+            }
+        },1000)
+    }
     SetAnswer = (id,answer) =>
     {
         let newQuestions = this.state.questions.slice();
@@ -55,12 +93,15 @@ class MasterQuestion extends Component {
 
       render()
       {
+          const {hours,minutes,seconds} = this.state;
+          let currentTimer =  <span className="examTimer">Time left: {hours}:{minutes<10?`0${minutes}`:minutes}:{seconds<10?`0${seconds}`:seconds}</span>;
+          if(hours == 0 && minutes == 0 && seconds == 0)
+            currentTimer = <span className="examTimer">Time's out!</span>
+            //Replace for the action of submitting exam
           return(
             <React.Fragment>
                 <span className="questionCount">Question {this.state.currentStep}/{this.state.questions.length}</span>
-                <br/>
-                {this.prevButton}
-                {this.nextButton}
+                {currentTimer}
                 <br/>
                 <br/>
                 <StepQuestion 
@@ -70,7 +111,8 @@ class MasterQuestion extends Component {
                 />
                 {this.markButton}
                 <br/>
-
+                {this.prevButton}
+                {this.nextButton}
                 
             </React.Fragment>
           );

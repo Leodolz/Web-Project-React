@@ -58,7 +58,6 @@ class AdminHome extends Component {
                 View Admins</button>;
         return (
             <React.Fragment>
-            <h1>Welcome Admin {this.state.user.username}</h1>
             <br/>
                 <button 
                 onClick={()=>{

@@ -52,9 +52,6 @@ class TeacherHome extends Component {
         let accordions = this.GetTeacherHomeBody();
         return (
             <React.Fragment>
-            <h1>Welcome Teacher {this.state.user.username}</h1>
-            <br/>
-            <br/>
             <Accordion accordions= {accordions}/>
             {overlay}
             </React.Fragment>

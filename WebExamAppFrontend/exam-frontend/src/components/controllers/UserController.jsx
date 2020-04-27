@@ -25,6 +25,7 @@ import ResponsiveNavBar from '../ResponsiveNavBar';
             menu = (
             <React.Fragment>
              <ResponsiveNavBar 
+              name = {this.state.user.full_name}
               role = {this.props.role}
               onLogout={this.logOff} 
               home= {this.props.home}
