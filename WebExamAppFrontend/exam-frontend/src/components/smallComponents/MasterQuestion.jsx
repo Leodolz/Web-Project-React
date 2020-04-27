@@ -161,6 +161,43 @@ class MasterQuestion extends Component {
         }
         else return null;
     }
+    GetMarkedQuestions =()=>
+    {
+        let markedList = this.GetMarkedList();
+        return (
+            <div className="overlayedHome">
+                <h1 className="whiteTitle">Marked Questions: </h1>
+                <ul className="myUL">
+                    {markedList}
+                </ul>
+                <button onClick={()=>this.setState({overlayed:
+                {
+                    overlay: false,
+                    formType: "",
+                }})}>OK</button>
+            </div>
+        );
+    }
+    GoToQuestion =(event)=>
+    {
+        event.preventDefault();
+        this.setState({currentStep: event.target.title});
+        this.setState({overlayed: {
+            overlay: false,
+            formType: "",
+        }})
+    }
+    GetMarkedList = () =>
+    {
+        let list = this.state.markedQuestions.slice();
+        let itemList = [];
+        for(let i=0; i<list.length; i++)
+        {
+            itemList.push(<li title = {list[i]} key = {"MQ"+i}
+            onClick={this.GoToQuestion}>{list[i]}. {this.state.questions[list[i]-1].title}</li>);
+        }
+        return itemList;
+    }
     SetAnswer = (id,answer) =>
     {
         let newQuestions = this.state.questions.slice();
@@ -287,11 +324,18 @@ class MasterQuestion extends Component {
             );
         }
         return (
-            <button
-                className="SubmitStExamButton"
-                onClick={this.submitStudentExam}>
-                Submit Exam
-            </button>
+            <>
+                <button
+                    className="SubmitStExamButton"
+                    onClick={this.submitStudentExam}>
+                    Submit Exam
+                </button>
+                <br/>
+                <br/>
+                <br/>
+                {this.viewMarksButton}
+            </>
+            
         );
     }
     get markButton()
@@ -303,6 +347,36 @@ class MasterQuestion extends Component {
                 Mark Question
             </button>
         );
+    }
+    get viewMarksButton()
+    {
+        return (
+            <button
+            className= "SubmitStExamButton"
+                onClick={()=>this.setState({overlayed:
+                {
+                    overlay: true,
+                    extras: null,
+                    formType: "MarkedQuestions"
+                }})}>
+                View Marked Questions
+            </button>
+        )
+    }
+    registerQuestion = () =>
+    {
+        let marked = this.state.markedQuestions.slice();
+        if(!this.state.markedQuestions.find(item=>item == this.state.currentStep))
+        {
+            marked = this.state.markedQuestions.slice();
+            marked.push(this.state.currentStep);
+        }
+        else
+        {
+            marked = this.state.markedQuestions.slice();
+            marked = marked.filter((value,index,arr)=>value!= this.state.currentStep);
+        }
+        this.setState({markedQuestions: marked})
     }
 
 }
