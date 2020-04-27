@@ -8,15 +8,76 @@ class MasterQuestion extends Component {
         hours: 2,
         minutes: 0,
         seconds: 0,
+        submited: false,
         questions : this.props.exam.questions,
         fromDate: this.props.exam.fromDate,
         untilDate: this.props.exam.untilDate,
         subarea: this.props.exam.subarea,
+        overlayed : 
+        {
+            overlay: false,
+            extras : null,
+            formType: "Start",
+        },
     }
     constructor(props)
     {
         super(props);
-        this.StartTimer();
+        
+        let time = sessionStorage.getItem('CurrentTime');
+        let quest = sessionStorage.getItem('CurrentQuestions');
+        if(time!=null && quest!=null)
+        {
+            let timeObj = JSON.parse(time);
+            let questionsObj = JSON.parse(quest);
+            this.state.hours = timeObj.hours;
+            this.state.minutes = timeObj.minutes;
+            this.state.seconds = timeObj.seconds;
+            this.state.questions = this.SetAllAnswers(questionsObj.answers);
+            this.StartTimer();
+        }
+        else
+            this.state.overlayed.overlay = true;
+    }
+    componentWillMount()
+    {
+        onbeforeunload = e => {
+            let context = this;
+            if(this.state.submited)
+                return;
+            sessionStorage.setItem('CurrentTime',JSON.stringify({
+                hours: context.state.hours,
+                minutes: context.state.minutes,
+                seconds: context.state.seconds
+            }));
+            let answers = this.GetAllAnswers();
+            sessionStorage.setItem('CurrentQuestions',JSON.stringify({
+                answers: answers,
+            }));
+            return;
+        }
+    }
+    componentWillUnmount()
+    {
+        onbeforeunload = null;
+    }
+    GetAllAnswers()
+    {
+        let answers =[];
+        for(let i =0; i<this.state.questions.length;i++)
+        {
+            answers.push(this.state.questions[i].answer);
+        }
+        return answers;
+    }
+    SetAllAnswers = (answers) =>
+    {
+        let questions = this.state.questions.slice();
+        for(let i =0; i<questions.length;i++)
+        {
+            questions[i].answer = answers[i];
+        }
+        return questions;
     }
     StartTimer = () =>
     {
@@ -28,7 +89,7 @@ class MasterQuestion extends Component {
                   seconds: seconds - 1
                 }))
               }
-            if (seconds === 0) 
+            else 
             {
                 if (minutes === 0) 
                 {
@@ -47,7 +108,58 @@ class MasterQuestion extends Component {
                         seconds: 59
                     }));
             }
-        },1000)
+        },1000);
+    }
+    GetStartOverlayForm = () =>
+    {
+        const {hours,minutes,seconds} = this.state;
+        return (
+            <div className="overlayedHome">
+                <div className="whiteTitle">
+                    <h3>Student Aknowledgement</h3>
+                    <h4>Read this before entering the exam: </h4>
+                </div>
+                <div className= "whiteText">
+                    <p>By Clicking "I Agree" you aknowledge the following: </p>
+                    <ul>
+                        <li>This exam has a timer of {hours}:{minutes}:{seconds+" "}  
+                        when countdown reaches 0, the exam will be delivered with 
+                        the current student answers of that time</li>
+                        <li>This exam can only be taken ONCE so the score the student
+                            gets after being evaluated will be irrevocable
+                        </li>
+                    </ul>
+                    <button onClick={()=>
+                    {
+                        this.setState({overlayed:
+                        {
+                            overlay: false,
+                            extras : null,
+                            formType: "MarkedQuestions",
+                        }});
+                        this.StartTimer();
+                    }
+                    }>I Agree</button>
+                </div>
+            </div>
+        );
+    }
+    GetOverlayForm = () =>
+    {
+        if(this.state.overlayed.overlay)
+        {
+            switch(this.state.overlayed.formType)
+            {
+                case "Start":
+                    return this.GetStartOverlayForm();
+                case "MarkedQuestions":
+                    return this.GetMarkedQuestions();
+                default:
+                    return null;
+            }
+           
+        }
+        else return null;
     }
     SetAnswer = (id,answer) =>
     {
@@ -62,6 +174,9 @@ class MasterQuestion extends Component {
     {
         event.preventDefault();
         let realExam = this.RefurbishExam(this.props.exam);
+        sessionStorage.removeItem('CurrentTime');
+        sessionStorage.removeItem('CurrentQuestions');
+        this.setState({submited: true});
         console.log(realExam);
         return;
         fetch('http://localhost:51061/api/StudentExam?code=submit',
@@ -93,13 +208,17 @@ class MasterQuestion extends Component {
 
       render()
       {
+          let overlay = this.GetOverlayForm();
           const {hours,minutes,seconds} = this.state;
           let currentTimer =  <span className="examTimer">Time left: {hours}:{minutes<10?`0${minutes}`:minutes}:{seconds<10?`0${seconds}`:seconds}</span>;
           if(hours == 0 && minutes == 0 && seconds == 0)
+          {
+            sessionStorage.setItem('CurrentTime',null);
             currentTimer = <span className="examTimer">Time's out!</span>
+          }
             //Replace for the action of submitting exam
           return(
-            <React.Fragment>
+            <>
                 <span className="questionCount">Question {this.state.currentStep}/{this.state.questions.length}</span>
                 {currentTimer}
                 <br/>
@@ -113,8 +232,9 @@ class MasterQuestion extends Component {
                 <br/>
                 {this.prevButton}
                 {this.nextButton}
+                {overlay}
                 
-            </React.Fragment>
+            </>
           );
       }
     changeStep = (forward) =>

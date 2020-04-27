@@ -17,6 +17,7 @@ class UserSettings extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "User Settings"
         this.fetchOldPassword(JSON.parse(sessionStorage.getItem('User')).Id);
     }
 

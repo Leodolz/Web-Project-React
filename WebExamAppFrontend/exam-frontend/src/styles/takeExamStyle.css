@@ -36,3 +36,13 @@
     font-weight: bold;
     font-size: 1.2em;
 }
+.whiteTitle
+{
+    text-align: center;
+    color: white;    
+}
+.whiteText
+{
+    text-align: left;
+    color: white;    
+}

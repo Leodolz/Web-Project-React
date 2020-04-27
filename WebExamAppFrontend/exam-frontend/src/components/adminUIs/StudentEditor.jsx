@@ -190,7 +190,7 @@ class StudentEditor extends Component {
         else generalAreas = this.state.studentSubAreas;
         let checkBoxInputs = this.GetAreasCheckBoxes(currentAreas,generalAreas);
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
             <form className = "elementEditForm" onSubmit={this.editAreas} >
                 <h3>{this.state.overlayed.extras.placeholder+": "}</h3>
                 <hr/>

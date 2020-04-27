@@ -164,7 +164,7 @@ class SubAreaEditor extends Component {
         let generalStudents = this.state.allStudents;
         let checkBoxInputs = this.GetAreasCheckBoxes(currentStudents,generalStudents);
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
                 <form className = "elementEditForm" onSubmit={this.editAreas} >
                     <h3>{this.state.overlayed.extras.placeholder+": "}</h3>
                     <hr/>
@@ -177,7 +177,7 @@ class SubAreaEditor extends Component {
     GetTextOverlayForm = () =>
     {
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
             <form className = "elementEditForm" onSubmit={this.addAction} >
                 <span className="putLeft">{this.state.overlayed.extras.placeholder+": "}</span>
                 <textarea rows="1" name="newValue" defaultValue={this.state.overlayed.extras.value} type="text" className="myInput" placeholder={this.state.overlayed.extras.placeholder +"..."} required/>

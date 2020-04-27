@@ -42,7 +42,7 @@ class TextOverlayForm extends Component {
             placeholder={this.props.overlayed.extras.placeholder +"..."} required/>;
         }
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
                 <div className="elementEditForm">
                     <form id="optionsAdder" className = "elementEditForm" onSubmit={submitAction} >
                         <span className="putLeft">{this.props.overlayed.extras.placeholder+": "}</span>

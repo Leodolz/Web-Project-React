@@ -17,11 +17,6 @@ namespace WebApplication2.Repository
         {
             return table.SingleOrDefault(userInTable => userInTable.username == (string)username);
         }
-        public User GetAllWithSameName(object username)
-        {
-            return table.Where(user => user.username == (string)username)
-                .Select(user => user).ToList()[0];
-        }
         public List<User> GetGroupByRole(object role)
         {
             return table.Where(user => user.role.Trim() == (string)role)

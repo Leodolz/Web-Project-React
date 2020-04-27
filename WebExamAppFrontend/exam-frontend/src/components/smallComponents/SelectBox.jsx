@@ -4,7 +4,7 @@ class SelectBox extends Component {
 
     render() { 
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
             <form className = "elementEditForm" >
                 <span className="etag">{this.props.overlayed.extras.placeholder+": "}</span>
                 <br/>

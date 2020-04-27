@@ -108,7 +108,7 @@ class AreaEditor extends Component {
     GetTextOverlayForm = () =>
     {
         return (
-            <div className="overlayed">
+            <div className="overlayedHome">
             <form className = "elementEditForm" onSubmit={this.editAction} >
                 <span className="putLeft">{this.state.overlayed.extras.placeholder+": "}</span>
                 <textarea rows="1" name="newValue" defaultValue={this.state.overlayed.extras.value} type="text" className="myInput" placeholder={this.state.overlayed.extras.placeholder +"..."} required/>

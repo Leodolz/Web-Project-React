@@ -58,7 +58,7 @@ namespace WebApplication2.DBControllers
         }
         public User GetByUsername(string username)
         {
-            return userRepository.GetAllWithSameName(username);
+            return userRepository.GetByUsername(username);
         }
         public List<User> GetGroupByRole(string role)
         {

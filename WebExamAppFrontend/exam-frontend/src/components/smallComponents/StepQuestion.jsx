@@ -22,7 +22,7 @@ class StepQuestion extends Component {
             answerCount: event.target.title,
             placeholder: "Your Answser",
         }
-        this.props.SetAnswer(this.props.step,[""]);
+        //this.props.SetAnswer(this.props.step,[]);
         this.setState({overlayed:
         {
             overlay: true,
@@ -61,7 +61,7 @@ class StepQuestion extends Component {
     {
         return <AnswerManager cancelEdit={this.cancelEdit} getAnswer={this.GetAnswer}
         placeholder= {this.state.overlayed.extras.question} tempOptions={this.props.question}
-        answerCount = {this.state.overlayed.extras.answerCount}/>;
+        answerCount = {this.state.overlayed.extras.answerCount} preDefAnswer = {this.props.question.answer}/>;
     }
 
     render() { 
