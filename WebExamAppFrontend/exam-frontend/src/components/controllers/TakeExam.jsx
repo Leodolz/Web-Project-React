@@ -11,6 +11,7 @@ class TakeExam extends Component {
     constructor(props)
     {
         super(props);
+        document.title= "Student exam";
         this.FetchExam();
     }
 
@@ -32,12 +33,35 @@ class TakeExam extends Component {
                     </React.Fragment>
                 );
             else
-            body = (
-                <React.Fragment >
-                <h1 className="Editor">{exam.title}</h1>
-                <MasterQuestion studentId={this.state.user.Id} exam={exam}/>
-                </React.Fragment>
-            );
+            {
+                let doneExams = sessionStorage.getItem('DoneExams');
+                if(doneExams!=null)
+                {
+                    if(doneExams.split(",").find(examItem=>examItem == exam.Id))
+                    {
+                        body=(
+                        <>
+                            <h1>You have already done this exam</h1>
+                        </>);
+                    }
+                }
+                else
+                {
+                let today = new Date();
+                let examTime = new Date(exam.untilDate);
+                let expTime = examTime- today;
+                expTime = expTime/1000;
+                let hours = Math.floor(expTime/3600);
+                let minutes = Math.floor(expTime/60);
+                let seconds = Math.floor((expTime-(hours*3600)-(minutes*60)));
+                body = (
+                    <React.Fragment >
+                    <h1 className="Editor">{exam.title}</h1>
+                    <MasterQuestion studentId={this.state.user.Id} exam={exam} hours={hours} minutes= {minutes} seconds={seconds}/>
+                    </React.Fragment>
+                );
+                }
+            }
             //<StudentExamTaker studentId={this.state.user.Id} exam={exam}/>
             //<MasterQuestion studentId={this.state.user.Id} exam={exam}/>
         }

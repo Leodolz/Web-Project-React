@@ -5,9 +5,9 @@ class MasterQuestion extends Component {
     {
         currentStep: 1, // Default is Step 1
         markedQuestions: [],
-        hours: 2,
-        minutes: 0,
-        seconds: 0,
+        hours: this.props.hours,
+        minutes: this.props.minutes,
+        seconds: this.props.seconds,
         submited: false,
         questions : this.props.exam.questions,
         fromDate: this.props.exam.fromDate,
@@ -23,36 +23,37 @@ class MasterQuestion extends Component {
     constructor(props)
     {
         super(props);
-        
-        let time = sessionStorage.getItem('CurrentTime');
         let quest = sessionStorage.getItem('CurrentQuestions');
-        if(time!=null && quest!=null)
+        let marked = sessionStorage.getItem('MarkedQuestions');
+        if(quest!=null)
         {
-            let timeObj = JSON.parse(time);
             let questionsObj = JSON.parse(quest);
-            this.state.hours = timeObj.hours;
-            this.state.minutes = timeObj.minutes;
-            this.state.seconds = timeObj.seconds;
             this.state.questions = this.SetAllAnswers(questionsObj.answers);
+            if(marked!=null)
+            {
+                let markedQuestionsObj = JSON.parse(marked);
+                this.state.markedQuestions = markedQuestionsObj.questions;
+            }
             this.StartTimer();
         }
         else
+        {
             this.state.overlayed.overlay = true;
+            sessionStorage.setItem('SubmitedExam',"");
+        }
     }
     componentWillMount()
     {
         onbeforeunload = e => {
             let context = this;
-            if(this.state.submited)
+            if(sessionStorage.getItem('SubmitedExam') == "true")
                 return;
-            sessionStorage.setItem('CurrentTime',JSON.stringify({
-                hours: context.state.hours,
-                minutes: context.state.minutes,
-                seconds: context.state.seconds
-            }));
             let answers = this.GetAllAnswers();
             sessionStorage.setItem('CurrentQuestions',JSON.stringify({
                 answers: answers,
+            }));
+            sessionStorage.setItem('MarkedQuestions',JSON.stringify({
+                questions: context.state.markedQuestions,
             }));
             return;
         }
@@ -207,15 +208,19 @@ class MasterQuestion extends Component {
         this.setState({questions:newQuestions});
     }
     
-    submitStudentExam = (event)=>
+    submitStudentExam = ()=>
     {
-        event.preventDefault();
         let realExam = this.RefurbishExam(this.props.exam);
-        sessionStorage.removeItem('CurrentTime');
+        sessionStorage.setItem('SubmitedExam','true')
         sessionStorage.removeItem('CurrentQuestions');
-        this.setState({submited: true});
-        console.log(realExam);
-        return;
+        sessionStorage.removeItem('MarkedQuestions');
+        let doneExams = sessionStorage.getItem('DoneExams');
+        if(doneExams==null)
+        {
+            doneExams = [];
+        }
+        doneExams.push(this.props.exam.Id);
+        sessionStorage.setItem('DoneExams',doneExams.join(','));
         fetch('http://localhost:51061/api/StudentExam?code=submit',
             {
                 method: 'POST',
@@ -234,8 +239,7 @@ class MasterQuestion extends Component {
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
             alert("Changes Succesfully done");
-            //window.location.assign("/home");
-        console.log(this.RefurbishExam(realExam));
+        window.location.assign("/home");
     }
     RefurbishExam = (exam)=>
     {
@@ -248,10 +252,9 @@ class MasterQuestion extends Component {
           let overlay = this.GetOverlayForm();
           const {hours,minutes,seconds} = this.state;
           let currentTimer =  <span className="examTimer">Time left: {hours}:{minutes<10?`0${minutes}`:minutes}:{seconds<10?`0${seconds}`:seconds}</span>;
-          if(hours == 0 && minutes == 0 && seconds == 0)
+          if(hours < 1 && minutes < 1 && seconds < 1)
           {
-            sessionStorage.setItem('CurrentTime',null);
-            currentTimer = <span className="examTimer">Time's out!</span>
+             this.submitStudentExam();
           }
             //Replace for the action of submitting exam
           return(
