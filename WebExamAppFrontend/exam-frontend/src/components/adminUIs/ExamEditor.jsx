@@ -19,6 +19,7 @@ class ExamEditor extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "Exam Editor";
         this.FetchAvailableSubAreas(props.userId);
     }
     showActive = (event)=>

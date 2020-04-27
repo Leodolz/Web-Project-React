@@ -21,6 +21,7 @@ class AdminHome extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "Admin Home";
         this.FetchGenericTable("Areas","areas");
         this.FetchGenericTable("Exams","exams");
         this.FetchGenericTable("Students?subAreaId=0&role=Student","students");

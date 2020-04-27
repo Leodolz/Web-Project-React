@@ -21,6 +21,7 @@ class TeacherHome extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "Teacher Home";
         let userId = props.user.Id;
         this.FetchGenericTable('SubAreas/'+userId+'?action=GetSubAreas','subAreas');
         this.FetchGenericTable('StudentExams/'+userId+'?time=future','commingExams');

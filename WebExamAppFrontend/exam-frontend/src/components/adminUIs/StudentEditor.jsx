@@ -18,6 +18,7 @@ class StudentEditor extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "Student Editor";
         this.FetchAllAreas();
         this.FetchAllUsernames();
     }

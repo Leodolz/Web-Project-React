@@ -10,6 +10,7 @@ class StudentExamViewer extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "Exam Viewer";
         if(this.props.exam)
         {
             console.log(this.props.exam);

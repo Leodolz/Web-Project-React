@@ -14,6 +14,11 @@ class StudentExamTaker extends Component {
         },
       }
 
+    constructor(props)
+    {
+        super(props);
+        document.title = "Student Exam";
+    }
     renderList = () => 
     {
         

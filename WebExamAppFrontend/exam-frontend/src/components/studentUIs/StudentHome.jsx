@@ -18,6 +18,7 @@ class StudentHome extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "Student Home";
         let userId = props.user.Id;
         this.FetchGenericTable('StudentExams/'+userId+'?time=future','futureExams');
         this.FetchGenericTable('StudentExams/'+userId+'?time=present','presentExams');

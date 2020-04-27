@@ -3,6 +3,11 @@ import userImg from '../images/userImage.png';
 
 class LoginForm extends Component {
     state = { contact: {}, username: '', display:null, user:null }
+    constructor(props)
+    {
+        super(props);
+        document.title = "Login";
+    }
     render() { 
         return (
             <React.Fragment>

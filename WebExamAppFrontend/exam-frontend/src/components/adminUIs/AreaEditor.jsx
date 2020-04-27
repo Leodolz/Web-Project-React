@@ -12,7 +12,11 @@ class AreaEditor extends Component {
         },
     }
   
-
+    constructor(props)
+    {
+        super(props);
+        document.title = "Area Editor";
+    }
     renderSubAreas = () =>
     {
         let subAreasList = [];

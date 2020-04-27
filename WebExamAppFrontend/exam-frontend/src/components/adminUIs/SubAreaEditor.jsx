@@ -13,6 +13,7 @@ class SubAreaEditor extends Component {
     constructor(props)
     {
         super(props);
+        document.title = "Sub Area Editor";
         this.FetchAllStudents();
     }
     hideComponent = (event)=>
