@@ -47,8 +47,9 @@
   
   .panelAcc {
     padding: 0 18px;
-    background-color: white;
+    background-color: rgb(240, 238, 238);
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
+  
