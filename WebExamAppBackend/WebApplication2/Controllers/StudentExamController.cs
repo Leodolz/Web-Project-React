@@ -25,7 +25,11 @@ namespace WebApplication2.Controllers
         public IHttpActionResult Get()
         {
             if (currentExam != null)
+            {
+                currentExam.untilDate = DateTime.Parse(currentExam.untilDate).ToShortDateString() + " "+ 
+                    DateTime.Parse(currentExam.untilDate).ToShortTimeString();
                 return Ok(currentExam);
+            }
             else return NotFound();
         }
 

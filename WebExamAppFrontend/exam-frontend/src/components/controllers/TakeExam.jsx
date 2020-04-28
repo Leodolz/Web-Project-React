@@ -16,6 +16,7 @@ class TakeExam extends Component {
     }
 
     render() {
+        console.log(this.state.exam);
         let body = null;
         let role = '';
         if(this.state.user)
@@ -34,7 +35,7 @@ class TakeExam extends Component {
                 );
             else
             {
-                let doneExams = sessionStorage.getItem('DoneExams');
+                let doneExams = localStorage.getItem('DoneExams');
                 if(doneExams!=null)
                 {
                     if(doneExams.split(",").find(examItem=>examItem == exam.Id))

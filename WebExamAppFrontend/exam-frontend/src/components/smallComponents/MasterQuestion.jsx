@@ -23,8 +23,8 @@ class MasterQuestion extends Component {
     constructor(props)
     {
         super(props);
-        let quest = sessionStorage.getItem('CurrentQuestions');
-        let marked = sessionStorage.getItem('MarkedQuestions');
+        let quest = localStorage.getItem('CurrentQuestions');
+        let marked = localStorage.getItem('MarkedQuestions');
         if(quest!=null)
         {
             let questionsObj = JSON.parse(quest);
@@ -49,19 +49,16 @@ class MasterQuestion extends Component {
             if(sessionStorage.getItem('SubmitedExam') == "true")
                 return;
             let answers = this.GetAllAnswers();
-            sessionStorage.setItem('CurrentQuestions',JSON.stringify({
+            localStorage.setItem('CurrentQuestions',JSON.stringify({
                 answers: answers,
             }));
-            sessionStorage.setItem('MarkedQuestions',JSON.stringify({
+            localStorage.setItem('MarkedQuestions',JSON.stringify({
                 questions: context.state.markedQuestions,
             }));
             return;
         }
     }
-    componentWillUnmount()
-    {
-        onbeforeunload = null;
-    }
+
     GetAllAnswers()
     {
         let answers =[];
@@ -73,7 +70,7 @@ class MasterQuestion extends Component {
     }
     SetAllAnswers = (answers) =>
     {
-        let questions = this.state.questions.slice();
+        let questions = this.props.exam.questions.slice();
         for(let i =0; i<questions.length;i++)
         {
             questions[i].answer = answers[i];
@@ -212,15 +209,15 @@ class MasterQuestion extends Component {
     {
         let realExam = this.RefurbishExam(this.props.exam);
         sessionStorage.setItem('SubmitedExam','true')
-        sessionStorage.removeItem('CurrentQuestions');
-        sessionStorage.removeItem('MarkedQuestions');
-        let doneExams = sessionStorage.getItem('DoneExams');
+        localStorage.removeItem('CurrentQuestions');
+        localStorage.removeItem('MarkedQuestions');
+        let doneExams = localStorage.getItem('DoneExams');
         if(doneExams==null)
         {
             doneExams = [];
         }
         doneExams.push(this.props.exam.Id);
-        sessionStorage.setItem('DoneExams',doneExams.join(','));
+        localStorage.setItem('DoneExams',doneExams.join(','));
         fetch('http://localhost:51061/api/StudentExam?code=submit',
             {
                 method: 'POST',

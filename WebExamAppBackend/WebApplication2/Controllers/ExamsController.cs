@@ -65,6 +65,7 @@ namespace WebApplication2.Controllers
                     question.answerCount = question.answer.Count();
                     question.answer = new string[] { };
                 }
+                RealExamProxy.UpdateRealExam(id);
                 StudentExamController.currentExam = result;
                 return Ok();
             }
