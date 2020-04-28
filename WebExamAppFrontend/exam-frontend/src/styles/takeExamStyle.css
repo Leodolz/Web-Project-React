@@ -46,3 +46,17 @@
     text-align: left;
     color: white;    
 }
+.questionTitle
+{
+    font-size: 20px;
+    font-weight: 500;
+    text-align: justify;
+}
+.optionElement
+{
+    text-align: left;
+}
+.optionElement p
+{
+    margin-left: 5%;
+}

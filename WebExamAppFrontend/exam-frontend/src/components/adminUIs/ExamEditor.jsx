@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextOverlayForm from '../smallComponents/TextOverlayForm';
 import SelectBox from '../smallComponents/SelectBox';
 import QuestionEditor from '../smallComponents/QuestionEditor';
+import Accordion from '../Accordion';
 
 
 class ExamEditor extends Component {
@@ -21,6 +22,17 @@ class ExamEditor extends Component {
         super(props);
         document.title = "Exam Editor";
         this.FetchAvailableSubAreas(props.userId);
+    }
+    FetchAvailableSubAreas = (userId) =>
+    {
+        fetch('http://localhost:51061/api/SubAreas/'+userId+
+        '?action=GetSubAreas')
+        .then(result=>result.json())
+        .then((data)=>{
+            this.setState({availableSubAreas: data});
+        })
+        .catch((e)=>{
+            console.log(e)});
     }
     showActive = (event)=>
     {
@@ -49,6 +61,7 @@ class ExamEditor extends Component {
                     subAreaId: realExam.subAreaId,
                     untilDate: realExam.untilDate,
                     examElements: realExam.examElements,
+                    staticQuestions: realExam.staticQuestions,
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
             alert("Changes Succesfully done");
@@ -85,90 +98,38 @@ class ExamEditor extends Component {
         exam.RealExamQuestion = newArray;
         this.setState({exam:exam});
     }
-    findItemsInArray = (currentArray,generalArray) =>
-    {
-        for(let i=0;i<currentArray.length;i++)
-        {
-            if(generalArray.find(item=>item==currentArray[i])!=null)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    editQuestion = (event) =>
-    {
-        event.preventDefault();
-        let element = this.state.exam.RealExamQuestion[event.target.parentElement.id];
-        let preDefValue = 
-        {
-            optionElement: element.optionElement,
-            title: element.title,
-            score: element.score,
-            questionId: element.questionId
-        };
-        let extras = {
-            placeholder: "Question Editor",
-            value: preDefValue,
-            type: "Question"
-        }
-        this.setState({editingId:event.target.parentElement.id});
-        this.setState({overlayed: {
-            overlay: true,
-            extras:extras
-        }});
-    }
-
-    getEditedQuestion = (newQuestion) =>
-    {
-        let newList = this.state.exam.RealExamQuestion.slice();
-        newList[this.state.editingId] = newQuestion;
-        let exam = this.state.exam;
-        exam.RealExamQuestion = newList;
-        this.setState({exam:exam});
-        this.setState({overlayed: {
-            overlay: false,
-            extras:null
-        }});
-    }
-
-    renderList = () => 
+    renderOptionList = (question) => 
     {
         let list = [];
-        let closeButton = <button type="button" onClick={this.hideComponent} className="close">x</button>;
-        let editButton = <button  onClick= {this.editQuestion} className="edit">Edit</button>;
-        for(let i=0;i<this.state.exam.RealExamQuestion.length;i++)
+        //let closeButton = <button type="button" onClick={this.hideComponent} className="close">x</button>;
+        list.push(<li key={"Options"+question.questionId} className= "questionTitle"><p>Options:</p></li>);
+        for(let i=0;i<question.optionElement.options.length;i++)
         {
-            let answerTag = null;
-            if(this.state.exam.RealExamQuestion[i].optionElement.type == "Multiple")
-                answerTag="Answers: ";
-            else answerTag="Answer: ";
-            let options = this.state.exam.RealExamQuestion[i].optionElement.options.join(", "); 
-            let answers = this.state.exam.RealExamQuestion[i].optionElement.answer.join(", ");
             let listElement = (
-            <React.Fragment key={"QA"+i}>
-                <li className="ExamQuestion" title={this.state.exam.RealExamQuestion[i].title} id={i} key={"Q"+i}><span className="etag">{(i+1)+". "}</span>{this.state.exam.RealExamQuestion[i].title}{closeButton}{editButton}</li> 
-                <li className="ExamAnswer" title = {options} key={"O"+i}><span className="etag">Options: </span>{options}</li>
-            <li className="ExamAnswer" title = {answers} key={"A"+i}><span className="etag">{answerTag}</span>{answers} <span className="etag">Score: </span>{this.state.exam.RealExamQuestion[i].score}</li>
-            </React.Fragment> 
+                <li className="optionElement" title = {question.optionElement.options[i]} key={"O"+i}><p>{(i+1)}. {question.optionElement.options[i]}</p></li>
             )
             list.push(listElement);
         }
+        list = this.renderAnswersList(question, list);
         return list;
     }
-    FetchAvailableSubAreas = (userId) =>
+    renderAnswersList =(question, list) =>
     {
-        fetch('http://localhost:51061/api/SubAreas/'+userId+
-        '?action=GetSubAreas')
-        .then(result=>result.json())
-        .then((data)=>{
-            this.setState({availableSubAreas: data});
-        })
-        .catch((e)=>{
-            console.log(e)});
-    }
-    
+        let answerTag = null;
+        if(question.optionElement.type == "Multiple")
+            answerTag="Answers:";
+        else answerTag="Answer:";
+        list.push(<li className= "questionTitle" key={"AN"+question.questionId}>{answerTag}</li>);
+        for(let i=0;i<question.optionElement.answer.length;i++)
+        {
+            let listElement = (
+                <li className="optionElement" key={"A"+i+""+question.Id}><p>{question.optionElement.answer[i]}</p></li>
+            );
+            list.push(listElement);
+        }
+        return list;
+    }    
     PopulateSubAreaOptions = () =>
     {
         let areasBody = [];
@@ -210,14 +171,7 @@ class ExamEditor extends Component {
     {
         return <button onClick={this.hideComponent} className="close">x</button>; 
     }
-    getNewQuestion = (newQuestion) =>
-    {
-        let newList = this.state.exam.RealExamQuestion.slice();
-        newList.push(newQuestion);
-        let exam = this.state.exam;
-        exam.RealExamQuestion = newList;
-        this.setState({exam:exam});
-    }
+   
     GetDateOverlayForm = () =>
     {
         return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit} datetime={true}/>;
@@ -243,24 +197,6 @@ class ExamEditor extends Component {
             extras:null
         }})
     }
-    GetOverlayedForm = () => 
-    {
-        if(this.state.overlayed.overlay)
-        {
-            switch(this.state.overlayed.extras.type)
-            {
-                case "Sub-Area":
-                    return this.GetSubAreasOverlayForm();
-                case "Date":
-                    return this.GetDateOverlayForm();
-                case "Title":
-                    return this.GetTitleOverlayForm();
-                default:
-                    return this.GetQuestionOverlayForm();
-            }   
-        }
-        else return null;
-    }
 
     FormatDate = (date) =>
     {
@@ -272,28 +208,80 @@ class ExamEditor extends Component {
         return formatedDate;
     }
 
+    handleChangeType = (event) =>
+    {
+        let newExam = this.state.exam;
+        newExam.staticQuestions = event.target.value;
+        this.setState({exam:newExam});
+    }
+    GetQuestionsBody = (questions) =>
+    {
+        let questionsList = [];
+        for(let i=0;i<questions.length;i++)
+        {
+            let container = 
+            {
+                title: "Question "+(i+1),
+                body: (<>
+                    <p className = "questionTitle">{questions[i].title}</p>
+                    <ul className="myUL">
+                        {this.renderOptionList(questions[i])}
+                    </ul>
+                    </>
+                )
+            }
+            questionsList.push(container);
+        }
+        return [
+            {
+                title:"Questions",
+                body:
+                {
+                    after:(
+                        <React.Fragment>
+                            <button >Manage Questions</button> 
+                        <hr/>
+                        </React.Fragment>),
+                    multi: questionsList
+                },
+            },
+        ];
+    }
     render() 
     {  
+        console.log(this.state.exam.staticQuestions);
         let overlay = this.GetOverlayedForm();
         let fromDate = this.FormatDate(this.state.exam.fromDate);
         let untilDate = this.FormatDate(this.state.exam.untilDate);
+        let accordions = this.GetQuestionsBody(this.state.exam.RealExamQuestion.slice());
         return (
             <React.Fragment>
-                <h3 className="Title" title= {this.state.exam.title}>Exam Title: {this.state.exam.title} <button  onClick= {this.handleEdit}>Edit</button></h3>
-                <h3 className="FromDate" title={this.state.exam.fromDate}>Date From: {fromDate} <button  onClick= {this.handleEdit}>Edit</button></h3>
-                <h3 className="UntilDate" title={this.state.exam.untilDate}>Date Until: {untilDate} <button  onClick= {this.handleEdit}>Edit</button></h3>
-                <h3 className="SubAreaEdit" title= {this.state.exam.subarea}>Sub-Area Assigned: {this.state.exam.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
+                <div className="">
+                    <h3 className="Title" title= {this.state.exam.title}>Exam Title: {this.state.exam.title} <button  onClick= {this.handleEdit}>Edit</button></h3>
+                    <h3 className="FromDate" title={this.state.exam.fromDate}>Date From: {fromDate} <button  onClick= {this.handleEdit}>Edit</button></h3>
+                    <h3 className="UntilDate" title={this.state.exam.untilDate}>Date Until: {untilDate} <button  onClick= {this.handleEdit}>Edit</button></h3>
+                    <h3 className="SubAreaEdit" title= {this.state.exam.subarea}>Sub-Area Assigned: {this.state.exam.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
+                    <h3 className="examType" title= {this.state.exam.staticQuestions}>Exam Type: </h3>
+
+                        <input type="radio" onChange={this.handleChangeType} id="static" name="type" value={true} defaultChecked={this.state.exam.staticQuestions}/>
+                        <label className="radioLabel" >Static Questions</label>
+                        <input type="radio" onChange={this.handleChangeType} id="random" name="type" value={false} defaultChecked={!this.state.exam.staticQuestions}/>
+                        <label className="radioLabel" >Random Questions</label>
+
+                </div>
                 <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}/>
-                <ul className="myUL">
-                    {this.renderList()}
-                    <br/>
-                    <button onClick={this.showActive}>Upload Exam</button>
-                </ul>
+                <Accordion accordions={accordions} />
+                <br/>
+                <button onClick={this.showActive}>Upload Exam</button>
                 {overlay}
             </React.Fragment>
           );
     }
-   
+    /*
+        <ul className="myUL">
+            {this.renderList()}
+        </ul>
+    */ 
 
     handleEdit = (event) =>
     {
@@ -353,6 +341,79 @@ class ExamEditor extends Component {
         });
     }
 
+    GetOverlayedForm = () => 
+    {
+        if(this.state.overlayed.overlay)
+        {
+            switch(this.state.overlayed.extras.type)
+            {
+                case "Sub-Area":
+                    return this.GetSubAreasOverlayForm();
+                case "Date":
+                    return this.GetDateOverlayForm();
+                case "Title":
+                    return this.GetTitleOverlayForm();
+                default:
+                    return this.GetQuestionOverlayForm();
+            }   
+        }
+        else return null;
+    }
+    getNewQuestion = (newQuestion) =>
+    {
+        let newList = this.state.exam.RealExamQuestion.slice();
+        newList.push(newQuestion);
+        let exam = this.state.exam;
+        exam.RealExamQuestion = newList;
+        this.setState({exam:exam});
+    }
+    findItemsInArray = (currentArray,generalArray) =>
+    {
+        for(let i=0;i<currentArray.length;i++)
+        {
+            if(generalArray.find(item=>item==currentArray[i])!=null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    editQuestion = (event) =>
+    {
+        event.preventDefault();
+        let element = this.state.exam.RealExamQuestion[event.target.parentElement.id];
+        let preDefValue = 
+        {
+            optionElement: element.optionElement,
+            title: element.title,
+            score: element.score,
+            questionId: element.questionId
+        };
+        let extras = {
+            placeholder: "Question Editor",
+            value: preDefValue,
+            type: "Question"
+        }
+        this.setState({editingId:event.target.parentElement.id});
+        this.setState({overlayed: {
+            overlay: true,
+            extras:extras
+        }});
+    }
+
+    getEditedQuestion = (newQuestion) =>
+    {
+        let newList = this.state.exam.RealExamQuestion.slice();
+        newList[this.state.editingId] = newQuestion;
+        let exam = this.state.exam;
+        exam.RealExamQuestion = newList;
+        this.setState({exam:exam});
+        this.setState({overlayed: {
+            overlay: false,
+            extras:null
+        }});
+    }
 
     
     

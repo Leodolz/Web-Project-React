@@ -1,5 +1,6 @@
+
 .accordion {
-    background-color: #eee;
+    background-color: rgb(199, 235, 233);
     color: rgb(38, 91, 134);
     cursor: pointer;
     padding: 18px;
@@ -13,7 +14,7 @@
   }
   
   .activeAcc, .accordion:hover {
-    background-color: #ccc;
+    background-color: rgb(188, 226, 233);
   }
   .activeAcc
   {

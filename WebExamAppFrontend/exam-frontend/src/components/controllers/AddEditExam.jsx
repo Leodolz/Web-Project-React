@@ -23,6 +23,7 @@ class ExamEdit extends Component {
             subarea: '',
             subAreaId: 0,
             examElements: [],
+            staticQuestions: false,
         }
     }
     FetchExam = () =>
