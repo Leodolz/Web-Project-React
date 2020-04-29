@@ -72,15 +72,11 @@ namespace WebApplication2.DBControllers
         {
             return studentExamController.GetById(studentExamId).examId;
         }
-        public RealExamQuestion[] GetAllSubAreaQuestions(int subAreaId)
-        {
-            List<questionAssign> allSubAreaQuestions = questionAssignController.GetAllSubAreaQuestions(subAreaId);
-            return ExamUtils.GetAllQuestionElements(examController, allSubAreaQuestions, optionAssignController);
-        }
+        
         public RealExam GetRealExam(Exam exam)
         {
             List<questionAssign> allExamQuestions = questionAssignController.GetAllExamQuestions(exam.Id);
-            RealExamQuestion[] questions = ExamUtils.GetAllQuestionElements(examController, allExamQuestions, optionAssignController);
+            RealExamQuestion[] questions = ExamUtils.GetAllQuestionElements(allExamQuestions, optionAssignController);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }
         public RealExam GetStudentExam(StudentExam exam)
@@ -97,17 +93,9 @@ namespace WebApplication2.DBControllers
         {
             int examId = examController.AddExam(model);
             if (model.staticQuestions)
-                AssignNewQuestionsToExam(questions, examId);
+                AssignQuestionsToExam(examId, questions);
         }
-        private void AssignNewQuestionsToExam(RealExamQuestion[] questions, int examId)
-        {
-            List<int> allQuestionsIds = AssignQuestionsToExam(examId, questions);
-            for (int i = 0; i < allQuestionsIds.Count; i++)
-            {
-                System.Diagnostics.Debug.WriteLine("Iteration at question with id: " + allQuestionsIds[i]);
-                AssignOptionsToQuestion(allQuestionsIds[i], questions[i].options, questions[i].answer);
-            }
-        }
+        
         
         public void EditExamQuestions(RealExamQuestion[] questions, int examId)
         {
@@ -120,35 +108,27 @@ namespace WebApplication2.DBControllers
             questionAssignController.EditGroupOfQuestions(editedQuestions, optionAssignController);
             List<questionAssign> oldQuestions = questionAssignController.GetAllExamQuestions(examId);
             List<int> deletedQuestionsIds = QuestionUtils.DeleteMissingQuestions(oldQuestions, newQuestions.ToList());
-            questionAssignController.DeleteQuestions(deletedQuestionsIds);
+            questionAssignController.DeleteStaticQuestions(deletedQuestionsIds);
             List<RealExamQuestion> newQuestionAssignments = QuestionUtils.FilterAndConvertQuestions(newQuestions, editedQuestions.ToArray());
-            AssignNewQuestionsToExam(newQuestionAssignments.ToArray(), examId);
+            AssignQuestionsToExam(examId,newQuestionAssignments.ToArray());
         }
         //Should be at QuestionsUtils
-        private List<int> AssignQuestionsToExam(int subAreaId, RealExamQuestion[] questions)
+        private List<int> AssignQuestionsToExam(int examId, RealExamQuestion[] questions)
         {
             List<int> allQuestionsIds = new List<int>();
             foreach (RealExamQuestion question in questions)
             {
-                questionAssign questionAssign = new questionAssign
+                StaticQuestionAssign staticQuestionAssign = new StaticQuestionAssign
                 {
-                    subAreaId = subAreaId,
-                    title = question.title,
-                    type = question.type,
-                    score = question.score,
+                    examId = examId,
+                    questionId = question.questionId,
                 };
-                allQuestionsIds.Add(questionAssignController.AssignNewQuestion(questionAssign));
+                allQuestionsIds.Add(questionAssignController.AssignNewStaticQuestion(staticQuestionAssign));
             }
             return allQuestionsIds;
         }
-        private void AssignOptionsToQuestion(int questionId, string[] options, string[] answers)
-        {
-            foreach (string option in options)
-            {
-                OptionAssign optionAssign = OptionUtils.OptionToOptionAssign(questionId, option, answers);
-                optionAssignController.AssignNewOption(optionAssign);
-            }
-        }
+       
+       
        
        
     }

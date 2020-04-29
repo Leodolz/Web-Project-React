@@ -179,6 +179,7 @@
     <Compile Include="Controllers\StudentExamController.cs" />
     <Compile Include="Controllers\StudentExamsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\SubAreaQuestionsController.cs" />
     <Compile Include="Controllers\SubAreasController.cs" />
     <Compile Include="DAL\Area.cs">
       <DependentUpon>ExamPlatformModel.tt</DependentUpon>
@@ -235,6 +236,7 @@
     <Compile Include="DBControllers\StudentExamController.cs" />
     <Compile Include="DBControllers\StudentExamQuestionController.cs" />
     <Compile Include="DBControllers\SubAreaController.cs" />
+    <Compile Include="DBControllers\SubAreaQuestionsController.cs" />
     <Compile Include="DBControllers\UserController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

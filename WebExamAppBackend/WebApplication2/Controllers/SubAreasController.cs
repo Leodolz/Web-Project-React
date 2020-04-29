@@ -72,11 +72,7 @@ namespace WebApplication2.Controllers
                 SubArea[] subareas = subAreaController.GetUserSubAreas(id).ToArray();
                 return Ok(subareas);
             }
-            else if (action.Equals("GetQuestions"))
-            {
-                RealExamController realExamController = new RealExamController();
-                return Ok(realExamController.GetAllSubAreaQuestions(id));
-            }
+           
             else return NotFound();
         }
         

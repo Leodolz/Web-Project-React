@@ -16,10 +16,21 @@ namespace WebApplication2.DBControllers
         public int AssignNewQuestion(questionAssign assignment)
         {
             var allQuestionAssignments = questionAssignRepository.GetAll();
-            int lastId = allQuestionAssignments[allQuestionAssignments.Count() - 1].Id;
+            int lastId = 0;
+            if (allQuestionAssignments[0] != null)
+                lastId = allQuestionAssignments[allQuestionAssignments.Count() - 1].Id;
             assignment.Id = lastId + 1;
             questionAssignRepository.Insert(assignment);
             questionAssignRepository.Save();
+            return assignment.Id;
+        }
+        public int AssignNewStaticQuestion(StaticQuestionAssign assignment)
+        {
+            var allQuestionAssignments = staticQuestionRepository.GetAll();
+            int lastId = allQuestionAssignments[allQuestionAssignments.Count() - 1].Id;
+            assignment.Id = lastId + 1;
+            staticQuestionRepository.Insert(assignment);
+            staticQuestionRepository.Save();
             return assignment.Id;
         }
 
@@ -47,7 +58,6 @@ namespace WebApplication2.DBControllers
             {
                 questionAssign question = GetById(realQuestion.questionId);
                 EditQuestion(realQuestion.questionId, realQuestion);
-                optionAssignController.EditOptionsOfQuestion(realQuestion.questionId, realQuestion.options, realQuestion.answer);
             }
         }
         public void EditQuestion(int questionId, RealExamQuestion newQuestion)
@@ -71,6 +81,13 @@ namespace WebApplication2.DBControllers
                 DeleteQuestion(id);
             }
         }
+        public void DeleteStaticQuestions(List<int> ids)
+        {
+            foreach (int id in ids)
+            {
+                DeleteStaticQuestion(id);
+            }
+        }
         public void DeleteQuestion(int questionId)
         {
             questionAssign model = questionAssignRepository.GetById(questionId);
@@ -78,10 +95,21 @@ namespace WebApplication2.DBControllers
                 return;
             Delete(questionId);
         }
-
-        private void Delete(int subAreaId)
+        public void DeleteStaticQuestion(int questionId)
         {
-            questionAssignRepository.Delete(subAreaId);
+            StaticQuestionAssign model = staticQuestionRepository.GetById(questionId);
+            if (model == null)
+                return;
+            DeleteStatic(questionId);
+        }
+        private void DeleteStatic(int questionId)
+        {
+            questionAssignRepository.Delete(questionId);
+            questionAssignRepository.Save();
+        }
+        private void Delete(int id)
+        {
+            questionAssignRepository.Delete(id);
             questionAssignRepository.Save();
         }
     }

@@ -43,7 +43,7 @@ namespace WebApplication2.Utils
         }
        
        
-        public static RealExamQuestion[] GetAllQuestionElements(ExamController examController,List<questionAssign> allQuestions, OptionAssignController optionAssignController)
+        public static RealExamQuestion[] GetAllQuestionElements(List<questionAssign> allQuestions, OptionAssignController optionAssignController)
         {
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
             foreach (questionAssign question in allQuestions)
