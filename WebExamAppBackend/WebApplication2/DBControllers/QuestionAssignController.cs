@@ -58,6 +58,7 @@ namespace WebApplication2.DBControllers
             {
                 questionAssign question = GetById(realQuestion.questionId);
                 EditQuestion(realQuestion.questionId, realQuestion);
+                optionAssignController.EditOptionsOfQuestion(realQuestion.questionId, realQuestion.options, realQuestion.answer);
             }
         }
         public void EditQuestion(int questionId, RealExamQuestion newQuestion)

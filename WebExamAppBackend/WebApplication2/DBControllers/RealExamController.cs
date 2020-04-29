@@ -104,8 +104,8 @@ namespace WebApplication2.DBControllers
         }
         private void QuestionEditActions(RealExamQuestion[] newQuestions,int examId)
         { 
-            List<RealExamQuestion> editedQuestions = QuestionUtils.GetExistingQuestions(newQuestions, questionAssignController);
-            questionAssignController.EditGroupOfQuestions(editedQuestions, optionAssignController);
+            /*List<RealExamQuestion> editedQuestions = QuestionUtils.GetExistingQuestions(newQuestions, questionAssignController);
+            questionAssignController.EditGroupOfQuestions(editedQuestions, optionAssignController);*/
             List<questionAssign> oldQuestions = questionAssignController.GetAllExamQuestions(examId);
             List<int> deletedQuestionsIds = QuestionUtils.DeleteMissingQuestions(oldQuestions, newQuestions.ToList());
             questionAssignController.DeleteStaticQuestions(deletedQuestionsIds);
