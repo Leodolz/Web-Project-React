@@ -6,6 +6,8 @@ class AddEditQuestions extends Component {
     state={
         user:null,
         questions: null,
+        new: false,
+        subAreaId: sessionStorage.getItem('CurrentSubArea'),
     }
     constructor(props)
     {
@@ -20,7 +22,7 @@ class AddEditQuestions extends Component {
         .then(result=>result.json())
         .then((data)=>{
             let realQuestions = context.RefurbishQuestions(data);
-            context.setState({questions:realQuestions})
+            context.setState({questions:realQuestions});
         })
         .catch((e)=>{
             this.setState({questions: []});
@@ -61,7 +63,7 @@ class AddEditQuestions extends Component {
             body = (
                 <React.Fragment >
                 <h1 className="Editor">Questions Editor</h1>
-                <QuestionsManager questions= {this.state.questions}/>
+                <QuestionsManager questions= {this.state.questions} new = {this.state.new} subAreaId = {this.state.subAreaId}/>
                 </React.Fragment>
             );
         }

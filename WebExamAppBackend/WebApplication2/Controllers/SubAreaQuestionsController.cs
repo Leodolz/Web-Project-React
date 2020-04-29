@@ -33,7 +33,7 @@ namespace WebApplication2.Controllers
         // POST: api/SubAreaQuestions
         public void Post(object realQuestions, bool edit, int subAreaId)
         {
-            JObject juser = realQuestions as JObject;
+            JArray juser = realQuestions as JArray;
             RealExamQuestion[] recievingQuestions = juser.ToObject<RealExamQuestion[]>();
             if (edit == false)
             {

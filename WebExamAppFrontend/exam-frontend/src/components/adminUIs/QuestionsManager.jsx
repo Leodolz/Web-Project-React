@@ -9,13 +9,27 @@ class QuestionsManager extends Component {
             overlay: false,
             extras : null
         },
+        subAreaId: this.props.subAreaId
       }
 
 
     SaveChanges = () =>
     {
         let realExamQuestions = this.RefurbishQuestions();
-        console.log(realExamQuestions);
+        let edit = 'true';
+        if(this.props.new)
+            edit='false';
+        fetch('http://localhost:51061/api/SubAreaQuestions?edit='+edit+"&subAreaId="+this.state.subAreaId,
+            {
+                method: 'POST',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(realExamQuestions),
+            }).catch((e)=>{alert("Error, couldn't add or edit Questions ")});
+            alert("Changes Succesfully done");
+            window.location.assign("/home");
     }
 
     RefurbishQuestions = ()=>

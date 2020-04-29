@@ -33,7 +33,6 @@ class QuestionEditor extends Component {
         super(props);
         if(this.props.preDefQuestion)
         {
-            console.log("Entered here")
             let preDefQuestion = this.props.preDefQuestion;
             this.state.listElement = {
                 question: preDefQuestion.title,
