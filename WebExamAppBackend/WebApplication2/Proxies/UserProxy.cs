@@ -23,6 +23,8 @@ namespace WebApplication2.Proxies
             if(cachedUser==null)
             {
                 User newUser = userController.GetByUsername(username);
+                if (newUser == null)
+                    return null;
                 usersCache.Add(newUser);
                 System.Diagnostics.Debug.WriteLine("User fetched is:"+newUser.username);
                 System.Diagnostics.Debug.WriteLine("With password: " + newUser.password.Trim());

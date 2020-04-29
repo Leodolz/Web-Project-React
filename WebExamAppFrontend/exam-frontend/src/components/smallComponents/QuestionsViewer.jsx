@@ -14,13 +14,19 @@ class QuestionsViewer extends Component {
     GetQuestionsBody = (questions) =>
     {
         let questionsList = [];
+        let editButton = <button onClick= {this.props.editQuestion} className="edit">Edit</button>;
+        let closeButton = <button type="button" onClick={this.props.hideComponent} className="close">x</button>;
         for(let i=0;i<questions.length;i++)
         {
             let container = 
             {
                 title: "Question "+(i+1),
                 body: (<>
-                    <p className = "questionTitle">{questions[i].title}</p>
+                    <p id ={i} className = "questionTitle">
+                        {questions[i].title}
+                        {editButton}
+                        {closeButton}
+                    </p>
                     <ul className="myUL">
                         {this.renderOptionList(questions[i])}
                     </ul>
@@ -44,10 +50,10 @@ class QuestionsViewer extends Component {
             },
         ];
     }
+    
     renderOptionList = (question) => 
     {
         let list = [];
-        //let closeButton = <button type="button" onClick={this.hideComponent} className="close">x</button>;
         list.push(<li key={"Options"+question.questionId} className= "questionTitle"><p>Options:</p></li>);
         for(let i=0;i<question.optionElement.options.length;i++)
         {

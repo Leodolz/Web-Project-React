@@ -14,9 +14,10 @@ namespace WebApplication2.Repository
         {
 
         }
-        public List<questionAssign> GetAllExamQuestions(object examId)
+       
+        public List<questionAssign> GetAllQuestionAssignments(object subAreaId)
         {
-            return table.Where(assigment => assigment.examId == (int)examId)
+            return table.Where(assigment => assigment.subAreaId == (int)subAreaId)
                 .Select(assignment => assignment).ToList();
         }
     }

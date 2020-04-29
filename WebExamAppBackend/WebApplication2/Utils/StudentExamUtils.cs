@@ -17,14 +17,14 @@ namespace WebApplication2.Utils
             foreach (questionAssign question in allQuestions)
             {
                 StudentQuestionTable studentExamQuestion = studentExamQuestionController.GetByModelQuestionId(question.Id);
-                allExamElements.Add(GetExamElement(question, optionAssignController.GetAllQuestionOptions(question.Id), studentExamQuestion, optionAssignController));
+                allExamElements.Add(GetExamElement(question, optionAssignController.GetAllQuestionOptions(question.Id), studentExamQuestion, optionAssignController,examId));
             }
             return allExamElements.ToArray();
         }
-        public static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions, StudentQuestionTable studentExamQuestion, OptionAssignController optionAssignController)
+        public static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions, StudentQuestionTable studentExamQuestion, OptionAssignController optionAssignController, int examId)
         {
             if (studentExamQuestion == null)
-                studentExamQuestion = GetNewStudentExamQuestion(question);
+                studentExamQuestion = GetNewStudentExamQuestion(question, examId);
             return new RealExamQuestion
             {
                 type = question.type,
@@ -58,14 +58,14 @@ namespace WebApplication2.Utils
             }
             return answers.ToArray();
         }
-        public static StudentQuestionTable GetNewStudentExamQuestion(questionAssign question)
+        public static StudentQuestionTable GetNewStudentExamQuestion(questionAssign question, int examId)
         {
             return new StudentQuestionTable
             {
                 score = question.score,
                 questionId = question.Id,
                 studentAnswerIds = "",
-                studentExamId = question.examId
+                studentExamId = examId
             };
         }
         public static StudentQuestionTable RealQuestionToStudentQuestion(RealExamQuestion question, int score, int examId, OptionAssignController optionAssignController)

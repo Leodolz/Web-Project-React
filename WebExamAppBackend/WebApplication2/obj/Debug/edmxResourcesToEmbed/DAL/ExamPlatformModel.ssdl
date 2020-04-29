@@ -18,6 +18,7 @@
     <Property Name="subAreaId" Type="int" Nullable="false" />
     <Property Name="totalScore" Type="int" Nullable="false" />
     <Property Name="untilDate" Type="datetime" Nullable="false" />
+    <Property Name="staticQuestions" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="OptionAssign">
     <Key>
@@ -25,7 +26,7 @@
     </Key>
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="questionId" Type="int" Nullable="false" />
-    <Property Name="optionTitle" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="optionTitle" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="answer" Type="binary" MaxLength="1" Nullable="false" />
   </EntityType>
   <EntityType Name="questionAssign">
@@ -33,10 +34,18 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" Nullable="false" />
-    <Property Name="examId" Type="int" Nullable="false" />
-    <Property Name="title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="subAreaId" Type="int" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="250" Nullable="false" />
     <Property Name="type" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="score" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StaticQuestionAssign">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="examId" Type="int" Nullable="false" />
+    <Property Name="questionId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="StudentExam">
     <Key>
@@ -96,6 +105,7 @@
     <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OptionAssign" EntityType="Self.OptionAssign" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="questionAssign" EntityType="Self.questionAssign" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StaticQuestionAssign" EntityType="Self.StaticQuestionAssign" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StudentExam" EntityType="Self.StudentExam" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StudentQuestionTable" EntityType="Self.StudentQuestionTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubAreaAssign" EntityType="Self.SubAreaAssign" Schema="dbo" store:Type="Tables" />

@@ -15,7 +15,7 @@ namespace WebApplication2.DAL
     public partial class questionAssign
     {
         public int Id { get; set; }
-        public int examId { get; set; }
+        public int subAreaId { get; set; }
         public string title { get; set; }
         public string type { get; set; }
         public int score { get; set; }

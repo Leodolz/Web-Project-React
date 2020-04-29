@@ -207,6 +207,9 @@
     <Compile Include="DAL\questionAssign.cs">
       <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\StaticQuestionAssign.cs">
+      <DependentUpon>ExamPlatformModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\StudentExam.cs">
       <DependentUpon>ExamPlatformModel.tt</DependentUpon>
     </Compile>
@@ -257,6 +260,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\OptionAssignRepository.cs" />
     <Compile Include="Repository\QuestionAssignRepository.cs" />
+    <Compile Include="Repository\StaticQuestionRepository.cs" />
     <Compile Include="Repository\StudentExamQuestionRepository.cs" />
     <Compile Include="Repository\StudentExamRepository.cs" />
     <Compile Include="Repository\SubAreaAssignRepository.cs" />

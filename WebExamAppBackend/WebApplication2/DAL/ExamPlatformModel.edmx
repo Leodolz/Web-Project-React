@@ -23,6 +23,7 @@
           <Property Name="subAreaId" Type="int" Nullable="false" />
           <Property Name="totalScore" Type="int" Nullable="false" />
           <Property Name="untilDate" Type="datetime" Nullable="false" />
+          <Property Name="staticQuestions" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OptionAssign">
           <Key>
@@ -30,7 +31,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="questionId" Type="int" Nullable="false" />
-          <Property Name="optionTitle" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="optionTitle" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="answer" Type="binary" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="questionAssign">
@@ -38,10 +39,18 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="examId" Type="int" Nullable="false" />
-          <Property Name="title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="subAreaId" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="type" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StaticQuestionAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="examId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StudentExam">
           <Key>
@@ -101,6 +110,7 @@
           <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OptionAssign" EntityType="Self.OptionAssign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="questionAssign" EntityType="Self.questionAssign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaticQuestionAssign" EntityType="Self.StaticQuestionAssign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentExam" EntityType="Self.StudentExam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentQuestionTable" EntityType="Self.StudentQuestionTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubAreaAssign" EntityType="Self.SubAreaAssign" Schema="dbo" store:Type="Tables" />
@@ -130,6 +140,7 @@
           <Property Name="subAreaId" Type="Int32" Nullable="false" />
           <Property Name="totalScore" Type="Int32" Nullable="false" />
           <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="staticQuestions" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="OptionAssign">
           <Key>
@@ -137,7 +148,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="questionId" Type="Int32" Nullable="false" />
-          <Property Name="optionTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="optionTitle" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="answer" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
         </EntityType>
         <EntityType Name="questionAssign">
@@ -145,10 +156,18 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="examId" Type="Int32" Nullable="false" />
-          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="subAreaId" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="score" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StaticQuestionAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="examId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="StudentExam">
           <Key>
@@ -203,11 +222,12 @@
           <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="Exam_DBPlatform" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Exam_DBPlatform3" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Areas" EntityType="Self.Area" />
           <EntitySet Name="Exams" EntityType="Self.Exam" />
           <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />
           <EntitySet Name="questionAssigns" EntityType="Self.questionAssign" />
+          <EntitySet Name="StaticQuestionAssigns" EntityType="Self.StaticQuestionAssign" />
           <EntitySet Name="StudentExams" EntityType="Self.StudentExam" />
           <EntitySet Name="StudentQuestionTables" EntityType="Self.StudentQuestionTable" />
           <EntitySet Name="SubAreaAssigns" EntityType="Self.SubAreaAssign" />
@@ -219,7 +239,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform">
+        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform3">
           <EntitySetMapping Name="Areas">
             <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
               <MappingFragment StoreEntitySet="Areas">
@@ -238,6 +258,7 @@
                 <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
                 <ScalarProperty Name="totalScore" ColumnName="totalScore" />
                 <ScalarProperty Name="untilDate" ColumnName="untilDate" />
+                <ScalarProperty Name="staticQuestions" ColumnName="staticQuestions" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -255,10 +276,19 @@
             <EntityTypeMapping TypeName="Exam_DatabaseModel.questionAssign">
               <MappingFragment StoreEntitySet="questionAssign">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="examId" ColumnName="examId" />
+                <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="score" ColumnName="score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaticQuestionAssigns">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.StaticQuestionAssign">
+              <MappingFragment StoreEntitySet="StaticQuestionAssign">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="examId" ColumnName="examId" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

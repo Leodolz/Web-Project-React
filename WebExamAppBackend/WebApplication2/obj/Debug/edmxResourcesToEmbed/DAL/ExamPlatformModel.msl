@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform">
+  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform3">
     <EntitySetMapping Name="Areas">
       <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
         <MappingFragment StoreEntitySet="Areas">
@@ -19,6 +19,7 @@
           <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
           <ScalarProperty Name="totalScore" ColumnName="totalScore" />
           <ScalarProperty Name="untilDate" ColumnName="untilDate" />
+          <ScalarProperty Name="staticQuestions" ColumnName="staticQuestions" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -36,10 +37,19 @@
       <EntityTypeMapping TypeName="Exam_DatabaseModel.questionAssign">
         <MappingFragment StoreEntitySet="questionAssign">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="examId" ColumnName="examId" />
+          <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
           <ScalarProperty Name="title" ColumnName="title" />
           <ScalarProperty Name="type" ColumnName="type" />
           <ScalarProperty Name="score" ColumnName="score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StaticQuestionAssigns">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.StaticQuestionAssign">
+        <MappingFragment StoreEntitySet="StaticQuestionAssign">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="examId" ColumnName="examId" />
+          <ScalarProperty Name="questionId" ColumnName="questionId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

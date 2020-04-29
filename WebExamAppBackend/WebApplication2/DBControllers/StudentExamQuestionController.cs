@@ -10,7 +10,7 @@ namespace WebApplication2.DBControllers
 {
     public class StudentExamQuestionController
     {
-        private StudentExamQuestionRepository studentExamRepository = new StudentExamQuestionRepository(new Exam_DBPlatform());
+        private StudentExamQuestionRepository studentExamRepository = new StudentExamQuestionRepository(new Exam_DBPlatform3());
 
         public StudentQuestionTable GetById(int id)
         {

@@ -11,7 +11,7 @@ namespace WebApplication2.DBControllers
    
     public class OptionAssignController
     {
-        private OptionAssignRepository optionAssignRepository = new OptionAssignRepository(new Exam_DBPlatform());
+        private OptionAssignRepository optionAssignRepository = new OptionAssignRepository(new Exam_DBPlatform3());
         public List<OptionAssign> GetAllQuestionOptions(int questionId)
         {
             return optionAssignRepository.GetAllQuestionOptions(questionId);

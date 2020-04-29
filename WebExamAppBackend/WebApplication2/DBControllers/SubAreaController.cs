@@ -5,7 +5,7 @@ using System.Web;
 using WebApplication2.Repository;
 using WebApplication2.DAL;
 using WebApplication2.Proxies;
-using WebApplication2.Utils;
+using WebApplication2.Models;
 
 namespace WebApplication2.DBControllers
 {
@@ -16,8 +16,8 @@ namespace WebApplication2.DBControllers
 
         public SubAreaController()
         {
-            subAreaRepository = new SubAreaRepository(new Exam_DBPlatform());
-            subAreaAssignRepository = new SubAreaAssignRepository(new Exam_DBPlatform());
+            subAreaRepository = new SubAreaRepository(new Exam_DBPlatform3());
+            subAreaAssignRepository = new SubAreaAssignRepository(new Exam_DBPlatform3());
         }
         public List<SubArea> GetAllSubAreas()
         {
@@ -76,6 +76,7 @@ namespace WebApplication2.DBControllers
            List<int> ids = subAreaAssignRepository.GetAllSubAreasIds(userId);
            return subAreaRepository.GetSubAreasByIds(ids);
         }
+       
         public List<int> GetAllStudentsIds(int subAreaId)
         {
             return subAreaAssignRepository.GetAllStudentsIds(subAreaId);

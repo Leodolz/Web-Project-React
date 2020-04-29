@@ -28,7 +28,7 @@ namespace WebApplication2.Utils
                 examElements = questions
             };
         }
-        private static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions)
+        private static RealExamQuestion GetQuestionElement(questionAssign question, List<OptionAssign> allOptions)
         {
             return new RealExamQuestion
             {
@@ -43,13 +43,12 @@ namespace WebApplication2.Utils
         }
        
        
-        public static RealExamQuestion[] GetAllExamElements(ExamController examController, int examId, QuestionAssignController questionAssignController, OptionAssignController optionAssignController)
+        public static RealExamQuestion[] GetAllQuestionElements(ExamController examController,List<questionAssign> allQuestions, OptionAssignController optionAssignController)
         {
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
-            List<questionAssign> allQuestions = questionAssignController.GetAllExamQuestions(examId);
             foreach (questionAssign question in allQuestions)
             {
-                allExamElements.Add(GetExamElement(question,optionAssignController.GetAllQuestionOptions(question.Id)));
+                allExamElements.Add(GetQuestionElement(question,optionAssignController.GetAllQuestionOptions(question.Id)));
             }
             return allExamElements.ToArray();
         }
@@ -63,7 +62,8 @@ namespace WebApplication2.Utils
                 untilDate = DateTime.Parse(exam.untilDate),
                 subAreaId = exam.subAreaId,
                 title = exam.title,
-                totalScore = exam.totalScore
+                totalScore = exam.totalScore,
+                staticQuestions = exam.staticQuestions,
             };
         }
         public static Exam EditedRealToExam(RealExam editedReal, ExamController examController)

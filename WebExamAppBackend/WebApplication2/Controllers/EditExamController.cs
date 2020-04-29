@@ -46,10 +46,10 @@ namespace WebApplication2.Controllers
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Entered to editing phase");
                 Exam exam = ExamUtils.EditedRealToExam(recievingRealExam, examController);
                 examController.EditExam(exam.Id, exam);
-                realExamController.EditExamQuestions(recievingRealExam.examElements, exam.Id);
+                if(recievingRealExam.staticQuestions)
+                    realExamController.EditExamQuestions(recievingRealExam.examElements, exam.Id);
             }
         }
 

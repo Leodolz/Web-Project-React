@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import TextOverlayForm from '../smallComponents/TextOverlayForm';
 import SelectBox from '../smallComponents/SelectBox';
 import QuestionEditor from '../smallComponents/QuestionEditor';
-import Accordion from '../Accordion';
 import QuestionsViewer from '../smallComponents/QuestionsViewer';
 
 
@@ -149,16 +148,6 @@ class ExamEditor extends Component {
     {
         return <TextOverlayForm editAction={this.editAction} overlayed = {this.state.overlayed} cancelEdit={this.cancelEdit}/>;
     }
-    GetQuestionOverlayForm = () =>
-    {
-        let extras = this.state.overlayed.extras;
-        return (
-            <div className="overlayedHome">
-                <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}
-                preDefQuestion={extras.value} editing={true} getEditedQuestion={this.getEditedQuestion}/>
-            </div>
-            );
-    }
     cancelEdit = (event) => 
     {
         this.setState({overlayed: {
@@ -213,11 +202,7 @@ class ExamEditor extends Component {
             </React.Fragment>
           );
     }
-    /*
-        <ul className="myUL">
-            {this.renderList()}
-        </ul>
-    */ 
+
 
     handleEdit = (event) =>
     {
@@ -294,6 +279,16 @@ class ExamEditor extends Component {
             }   
         }
         else return null;
+    }
+    GetQuestionOverlayForm = () =>
+    {
+        let extras = this.state.overlayed.extras;
+        return (
+            <div className="overlayedHome">
+                <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}
+                preDefQuestion={extras.value} editing={true} getEditedQuestion={this.getEditedQuestion}/>
+            </div>
+            );
     }
     getNewQuestion = (newQuestion) =>
     {

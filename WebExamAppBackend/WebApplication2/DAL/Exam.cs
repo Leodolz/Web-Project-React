@@ -20,5 +20,6 @@ namespace WebApplication2.DAL
         public int subAreaId { get; set; }
         public int totalScore { get; set; }
         public System.DateTime untilDate { get; set; }
+        public bool staticQuestions { get; set; }
     }
 }

@@ -72,9 +72,15 @@ namespace WebApplication2.DBControllers
         {
             return studentExamController.GetById(studentExamId).examId;
         }
+        public RealExamQuestion[] GetAllSubAreaQuestions(int subAreaId)
+        {
+            List<questionAssign> allSubAreaQuestions = questionAssignController.GetAllSubAreaQuestions(subAreaId);
+            return ExamUtils.GetAllQuestionElements(examController, allSubAreaQuestions, optionAssignController);
+        }
         public RealExam GetRealExam(Exam exam)
         {
-            RealExamQuestion[] questions = ExamUtils.GetAllExamElements(examController, exam.Id, questionAssignController, optionAssignController);
+            List<questionAssign> allExamQuestions = questionAssignController.GetAllExamQuestions(exam.Id);
+            RealExamQuestion[] questions = ExamUtils.GetAllQuestionElements(examController, allExamQuestions, optionAssignController);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }
         public RealExam GetStudentExam(StudentExam exam)
@@ -90,7 +96,8 @@ namespace WebApplication2.DBControllers
         public void AddExam(Exam model, RealExamQuestion[] questions)
         {
             int examId = examController.AddExam(model);
-            AssignNewQuestionsToExam(questions, examId);
+            if (model.staticQuestions)
+                AssignNewQuestionsToExam(questions, examId);
         }
         private void AssignNewQuestionsToExam(RealExamQuestion[] questions, int examId)
         {
@@ -101,6 +108,7 @@ namespace WebApplication2.DBControllers
                 AssignOptionsToQuestion(allQuestionsIds[i], questions[i].options, questions[i].answer);
             }
         }
+        
         public void EditExamQuestions(RealExamQuestion[] questions, int examId)
         {
             QuestionEditActions(questions,examId);
@@ -117,14 +125,14 @@ namespace WebApplication2.DBControllers
             AssignNewQuestionsToExam(newQuestionAssignments.ToArray(), examId);
         }
         //Should be at QuestionsUtils
-        private List<int> AssignQuestionsToExam(int examId, RealExamQuestion[] questions)
+        private List<int> AssignQuestionsToExam(int subAreaId, RealExamQuestion[] questions)
         {
             List<int> allQuestionsIds = new List<int>();
             foreach (RealExamQuestion question in questions)
             {
                 questionAssign questionAssign = new questionAssign
                 {
-                    examId = examId,
+                    subAreaId = subAreaId,
                     title = question.title,
                     type = question.type,
                     score = question.score,

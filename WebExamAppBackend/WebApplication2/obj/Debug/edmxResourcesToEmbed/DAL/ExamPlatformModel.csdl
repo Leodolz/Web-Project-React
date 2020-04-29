@@ -18,6 +18,7 @@
     <Property Name="subAreaId" Type="Int32" Nullable="false" />
     <Property Name="totalScore" Type="Int32" Nullable="false" />
     <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="staticQuestions" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="OptionAssign">
     <Key>
@@ -25,7 +26,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="questionId" Type="Int32" Nullable="false" />
-    <Property Name="optionTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="optionTitle" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="answer" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
   </EntityType>
   <EntityType Name="questionAssign">
@@ -33,10 +34,18 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="examId" Type="Int32" Nullable="false" />
-    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="subAreaId" Type="Int32" Nullable="false" />
+    <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="score" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StaticQuestionAssign">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="examId" Type="Int32" Nullable="false" />
+    <Property Name="questionId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="StudentExam">
     <Key>
@@ -91,11 +100,12 @@
     <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityContainer Name="Exam_DBPlatform" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="Exam_DBPlatform3" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Areas" EntityType="Self.Area" />
     <EntitySet Name="Exams" EntityType="Self.Exam" />
     <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />
     <EntitySet Name="questionAssigns" EntityType="Self.questionAssign" />
+    <EntitySet Name="StaticQuestionAssigns" EntityType="Self.StaticQuestionAssign" />
     <EntitySet Name="StudentExams" EntityType="Self.StudentExam" />
     <EntitySet Name="StudentQuestionTables" EntityType="Self.StudentQuestionTable" />
     <EntitySet Name="SubAreaAssigns" EntityType="Self.SubAreaAssign" />

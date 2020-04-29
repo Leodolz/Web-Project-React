@@ -10,6 +10,7 @@ import AddEditAreas from './components/controllers/AddEditAreas';
 import AddEditSubAreas from './components/controllers/AddEditSubAreas';
 import ViewExam from './components/controllers/ViewExam'
 import TakeExam from './components/controllers/TakeExam'
+import AddEditQuestions from './components/controllers/AddEditQuestions'
 class App extends Component{
 
   
@@ -27,7 +28,7 @@ render()
         <Route path="/admSubAreas"  exact component={()=> <AddEditSubAreas/>}/>  
         <Route path="/studentExm"  exact component={()=> <ViewExam/>}/>  
         <Route path="/ExamStudent"  exact component={()=> <TakeExam/>}/>  
-        
+        <Route path="/admSubAreaQuestions"  exact component={()=> <AddEditQuestions />}/>  
        </Router>
       </div>
     );
