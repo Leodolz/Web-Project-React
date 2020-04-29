@@ -9,7 +9,8 @@ class AreasTable extends Component {
     }
     clickManageHandler = (event) =>
     {
-        this.fetchSubAreaQuestionsById(event.target.title);
+        sessionStorage.setItem('CurrentSubArea',event.target.title);
+        window.location.assign("/admSubAreaQuestions");
     }
     fetchSubAreaById(id)
     {
@@ -20,18 +21,7 @@ class AreasTable extends Component {
         })
         .catch(console.log);
     }
-    fetchSubAreaQuestionsById(id)
-    {
-        fetch('http://localhost:51061/api/SubAreas/'+id+'?action=GetQuestions')
-        .then(result=>result.json())
-        .then((data)=>{
-            sessionStorage.setItem('CurrentSubArea',JSON.stringify({
-                questions: data,
-            }));
-            window.location.assign("/admSubAreaQuestions");
-        })
-        .catch(console.log);
-    }
+    
     clickStudentsHandler = (event) =>
     {
         event.preventDefault();

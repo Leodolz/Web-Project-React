@@ -10,15 +10,41 @@ class AddEditQuestions extends Component {
     constructor(props)
     {
         super(props);
-        this.state.questions = this.FetchQuestions();
+        this.FetchQuestions();
     }
     FetchQuestions = () =>
     {
-        let questionsJson = sessionStorage.getItem('CurrentSubArea');
-        let questions = [];
-        if(questionsJson)
-            questions = JSON.parse(questionsJson).questions;
-        return questions;
+        let subAreaId = sessionStorage.getItem('CurrentSubArea');
+        let context = this;
+        fetch('http://localhost:51061/api/SubAreaQuestions/'+subAreaId)
+        .then(result=>result.json())
+        .then((data)=>{
+            let realQuestions = context.RefurbishQuestions(data);
+            context.setState({questions:realQuestions})
+        })
+        .catch((e)=>{
+            this.setState({questions: []});
+            this.setState({new:true});
+        });
+    }
+
+    RefurbishQuestions = (questions) => 
+    {
+        console.log(questions);
+        let realQuestions = questions;
+        for(let i=0; i<questions.length; i++)
+        {
+            realQuestions[i].optionElement = 
+            {
+                type: questions[i].type,
+                multiple: questions[i].multiple,
+                options: questions[i].options,
+                answer: questions[i].answer,
+                questionId: questions[i].questionId
+            }
+        }
+        return realQuestions;
+    
     }
 
     render() {

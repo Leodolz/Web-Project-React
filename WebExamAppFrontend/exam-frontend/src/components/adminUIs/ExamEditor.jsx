@@ -194,7 +194,6 @@ class ExamEditor extends Component {
                         <label className="radioLabel" >Random Questions</label>
 
                 </div>
-                <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}/>
                 <QuestionsViewer questions = {this.state.exam.RealExamQuestion.slice()}/>
                 <br/>
                 <button onClick={this.showActive}>Upload Exam</button>
@@ -275,75 +274,23 @@ class ExamEditor extends Component {
                 case "Title":
                     return this.GetTitleOverlayForm();
                 default:
-                    return this.GetQuestionOverlayForm();
+                    return this.GetAllQuestionsOverlayForm();
             }   
         }
         else return null;
     }
-    GetQuestionOverlayForm = () =>
+    GetAllQuestionsOverlayForm = () =>
     {
-        let extras = this.state.overlayed.extras;
-        return (
-            <div className="overlayedHome">
-                <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}
-                preDefQuestion={extras.value} editing={true} getEditedQuestion={this.getEditedQuestion}/>
-            </div>
-            );
+        return null; //Por ahora
     }
-    getNewQuestion = (newQuestion) =>
+    IntroduceNewQuestion = (newQuestion) =>
     {
+        //Cambiarlo
         let newList = this.state.exam.RealExamQuestion.slice();
         newList.push(newQuestion);
         let exam = this.state.exam;
         exam.RealExamQuestion = newList;
         this.setState({exam:exam});
-    }
-    findItemsInArray = (currentArray,generalArray) =>
-    {
-        for(let i=0;i<currentArray.length;i++)
-        {
-            if(generalArray.find(item=>item==currentArray[i])!=null)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    editQuestion = (event) =>
-    {
-        event.preventDefault();
-        let element = this.state.exam.RealExamQuestion[event.target.parentElement.id];
-        let preDefValue = 
-        {
-            optionElement: element.optionElement,
-            title: element.title,
-            score: element.score,
-            questionId: element.questionId
-        };
-        let extras = {
-            placeholder: "Question Editor",
-            value: preDefValue,
-            type: "Question"
-        }
-        this.setState({editingId:event.target.parentElement.id});
-        this.setState({overlayed: {
-            overlay: true,
-            extras:extras
-        }});
-    }
-
-    getEditedQuestion = (newQuestion) =>
-    {
-        let newList = this.state.exam.RealExamQuestion.slice();
-        newList[this.state.editingId] = newQuestion;
-        let exam = this.state.exam;
-        exam.RealExamQuestion = newList;
-        this.setState({exam:exam});
-        this.setState({overlayed: {
-            overlay: false,
-            extras:null
-        }});
     }
 
     

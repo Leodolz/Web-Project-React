@@ -7,10 +7,33 @@ class QuestionsManager extends Component {
         questions: this.props.questions,
         overlayed : {
             overlay: false,
-            extras : null,
-            type: "Date",
+            extras : null
         },
       }
+
+
+    SaveChanges = () =>
+    {
+        let realExamQuestions = this.RefurbishQuestions();
+        console.log(realExamQuestions);
+    }
+
+    RefurbishQuestions = ()=>
+    {
+        let questions = this.state.questions;
+        for(let i=0; i<questions.length; i++)
+        {
+            questions[i].type =  questions[i].optionElement.multiple?"Multiple":"Single";
+            questions[i].multiple =  questions[i].optionElement.multiple;
+            questions[i].options =  questions[i].optionElement.options;
+            questions[i].answer =  questions[i].optionElement.answer;
+            let questionId =  questions[i].optionElement.questionId;
+            if(questionId == undefined)
+                questionId = 0;
+            questions[i].questionId = questionId;
+        }
+        return questions;
+    }
 
     getNewQuestion = (newQuestion) =>
     {
@@ -44,7 +67,6 @@ class QuestionsManager extends Component {
         let extras = {
             placeholder: "Question Editor",
             value: preDefValue,
-            type: "Question"
         }
         this.setState({editingId:event.target.parentElement.id});
         this.setState({overlayed: {
@@ -81,17 +103,7 @@ class QuestionsManager extends Component {
     {
         if(this.state.overlayed.overlay)
         {
-            switch(this.state.overlayed.extras.type)
-            {
-                case "Sub-Area":
-                    return this.GetSubAreasOverlayForm();
-                case "Date":
-                    return this.GetDateOverlayForm();
-                case "Title":
-                    return this.GetTitleOverlayForm();
-                default:
-                    return this.GetQuestionOverlayForm();
-            }   
+            return this.GetQuestionOverlayForm(); 
         }
         else return null;
     }
@@ -105,6 +117,7 @@ class QuestionsManager extends Component {
             </div>
             );
     }
+    
 
     render() { 
         let overlay = this.GetOverlayedForm();
@@ -112,6 +125,7 @@ class QuestionsManager extends Component {
             <>
                 <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}/>
                 <QuestionsViewer questions = {this.state.questions} editQuestion = {this.editQuestion} hideComponent={this.DeleteQuestion}/>
+                <button onClick={()=>this.SaveChanges()}>Save Changes</button>
                 {overlay}
             </>
           );
