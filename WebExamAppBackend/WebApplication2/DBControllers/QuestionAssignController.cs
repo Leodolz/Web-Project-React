@@ -11,8 +11,8 @@ namespace WebApplication2.DBControllers
 {
     public class QuestionAssignController
     {
-        private QuestionAssignRepository questionAssignRepository = new QuestionAssignRepository(new Exam_DBPlatform3());
-        private StaticQuestionRepository staticQuestionRepository = new StaticQuestionRepository(new Exam_DBPlatform3());
+        private QuestionAssignRepository questionAssignRepository = new QuestionAssignRepository(new Exam_DBPlatform4());
+        private StaticQuestionRepository staticQuestionRepository = new StaticQuestionRepository(new Exam_DBPlatform4());
         public int AssignNewQuestion(questionAssign assignment)
         {
             var allQuestionAssignments = questionAssignRepository.GetAll();
@@ -42,12 +42,28 @@ namespace WebApplication2.DBControllers
         {
             return questionAssignRepository.GetById(id);
         }
+        public questionAssign GetStaticInExam(int examId, int id)
+        {
+            StaticQuestionAssign staticQuestion = staticQuestionRepository.GetStaticInExam(examId, id);
+            if (staticQuestion != null)
+                return GetById(staticQuestion.questionId);
+            else return null;
+        }
+        public StaticQuestionAssign GetStaticById(int id)
+        {
+            return staticQuestionRepository.GetById(id);
+        }
+        public List<StaticQuestionAssign> GetAllStaticInExam(int examId)
+        {
+            return staticQuestionRepository.GetAllStaticExamQuestions(examId);
+        }
         public List<questionAssign> GetAllExamQuestions(int examId)
         {
-            List<int> allQuestionsId = staticQuestionRepository.GetAllExamQuestionsIds(examId);
+            List<int> allQuestionsId = staticQuestionRepository.GetAllExamQuestions(examId);
             List<questionAssign> allExamQuestions = new List<questionAssign>();
             foreach(int questionId in allQuestionsId)
             {
+                System.Diagnostics.Debug.WriteLine("Question in exam is:" + questionId);
                 allExamQuestions.Add(questionAssignRepository.GetById(questionId));
             }
             return allExamQuestions;

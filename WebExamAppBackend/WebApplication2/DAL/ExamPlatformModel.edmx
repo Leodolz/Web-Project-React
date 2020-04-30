@@ -21,7 +21,7 @@
           <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fromDate" Type="datetime" Nullable="false" />
           <Property Name="subAreaId" Type="int" Nullable="false" />
-          <Property Name="totalScore" Type="int" Nullable="false" />
+          <Property Name="numberQuestions" Type="int" Nullable="false" />
           <Property Name="untilDate" Type="datetime" Nullable="false" />
           <Property Name="staticQuestions" Type="bit" Nullable="false" />
         </EntityType>
@@ -138,7 +138,7 @@
           <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="fromDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="subAreaId" Type="Int32" Nullable="false" />
-          <Property Name="totalScore" Type="Int32" Nullable="false" />
+          <Property Name="numberQuestions" Type="Int32" Nullable="false" />
           <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="staticQuestions" Type="Boolean" Nullable="false" />
         </EntityType>
@@ -222,7 +222,7 @@
           <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="Exam_DBPlatform3" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Exam_DBPlatform4" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Areas" EntityType="Self.Area" />
           <EntitySet Name="Exams" EntityType="Self.Exam" />
           <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />
@@ -239,7 +239,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform3">
+        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform4">
           <EntitySetMapping Name="Areas">
             <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
               <MappingFragment StoreEntitySet="Areas">
@@ -256,7 +256,7 @@
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="fromDate" ColumnName="fromDate" />
                 <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
-                <ScalarProperty Name="totalScore" ColumnName="totalScore" />
+                <ScalarProperty Name="numberQuestions" ColumnName="numberQuestions" />
                 <ScalarProperty Name="untilDate" ColumnName="untilDate" />
                 <ScalarProperty Name="staticQuestions" ColumnName="staticQuestions" />
               </MappingFragment>

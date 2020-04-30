@@ -16,7 +16,7 @@
     <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="fromDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="subAreaId" Type="Int32" Nullable="false" />
-    <Property Name="totalScore" Type="Int32" Nullable="false" />
+    <Property Name="numberQuestions" Type="Int32" Nullable="false" />
     <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="staticQuestions" Type="Boolean" Nullable="false" />
   </EntityType>
@@ -100,7 +100,7 @@
     <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
-  <EntityContainer Name="Exam_DBPlatform3" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="Exam_DBPlatform4" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Areas" EntityType="Self.Area" />
     <EntitySet Name="Exams" EntityType="Self.Exam" />
     <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />

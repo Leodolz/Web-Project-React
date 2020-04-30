@@ -21,6 +21,17 @@ namespace WebApplication2.Utils
             }
             return existingQuestions;
         }
+        public static List<RealExamQuestion> GetRemainingQuestions(int examId, RealExamQuestion[] allQuestions, QuestionAssignController questionAssignController)
+        {
+            List<RealExamQuestion> remainingQuestions = new List<RealExamQuestion>();
+            foreach (RealExamQuestion question in allQuestions)
+            {
+                questionAssign existingQuestion = questionAssignController.GetStaticInExam(examId,question.questionId);
+                if (existingQuestion != null)
+                    remainingQuestions.Add(question);
+            }
+            return remainingQuestions;
+        }
         public static List<RealExamQuestion> FilterAndConvertQuestions (RealExamQuestion[] allRealQuestions, RealExamQuestion[] unWishedQuestions)
         {
             List<RealExamQuestion> filteredQuestions = new List<RealExamQuestion>();
@@ -30,6 +41,17 @@ namespace WebApplication2.Utils
                     filteredQuestions.Add(question);
             }
             return filteredQuestions;
+        }
+        public static List<int> DeleteMissingStaticQuestions(List<StaticQuestionAssign> oldQuestions, List<RealExamQuestion> actualQuestions)
+        {
+            List<int> actualQuestionsIds = GetRealQuestionsIds(actualQuestions);
+            List<int> deletedQuestionsIds = new List<int>();
+            foreach (StaticQuestionAssign listElement in oldQuestions)
+            {
+                if (!actualQuestionsIds.Contains(listElement.questionId))
+                    deletedQuestionsIds.Add(listElement.Id);
+            }
+            return deletedQuestionsIds;
         }
         public static List<int> DeleteMissingQuestions(List<questionAssign> oldQuestions, List<RealExamQuestion> actualQuestions)
         {

@@ -13,7 +13,7 @@ namespace WebApplication2.DBControllers
 
         public AreaController()
         {
-            areaRepository = new AreaRepository(new Exam_DBPlatform3());
+            areaRepository = new AreaRepository(new Exam_DBPlatform4());
         }
         public List<Area> GetAllAreas()
         {

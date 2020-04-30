@@ -17,7 +17,7 @@ class ExamEditor extends Component {
         availableSubAreas: null,
         selectedQuestions: null,
         staticQuestions: this.props.exam.staticQuestions,
-        allQuestions: null,
+        allQuestions: [],
         selectedQuestions: null,
       }
     constructor(props)
@@ -25,7 +25,7 @@ class ExamEditor extends Component {
         super(props);
         document.title = "Exam Editor";
         this.FetchAvailableSubAreas(props.userId);
-        if(!props.new && props.exam.staticQuestions)
+        if(!props.new)
         {
             this.FetchSubAreaQuestions(props.exam.subAreaId);
         }
@@ -43,12 +43,12 @@ class ExamEditor extends Component {
     }
     showActive = (event)=>
     {
-        let totalScore = this.GetTotalScore();
-        let realExam = this.RefurbishExam(this.state.exam);
+        event.preventDefault();
+        let numberOfQuestions = this.GetTotalScore(event);
+        let realExam = this.RefurbishExam(this.state.exam,numberOfQuestions);
         let edit = 'true';
             if(this.props.new)
                 edit='false';
-        
         fetch('http://localhost:51061/api/EditExam?edit='+edit,
             {
                 method: 'POST',
@@ -64,15 +64,18 @@ class ExamEditor extends Component {
                     untilDate: realExam.untilDate,
                     examElements: realExam.examElements,
                     staticQuestions: realExam.staticQuestions,
+                    numberQuestions: numberOfQuestions
                 })
             }).catch((e)=>{alert("Error, couldn't add or edit student")});
             alert("Changes Succesfully done");
             window.location.assign("/home");
-        console.log(this.RefurbishExam(realExam));
+        console.log(realExam);
+
     }
-    RefurbishExam = (exam)=>
+    RefurbishExam = (exam,numberOfQuestions)=>
     {
         exam.examElements = exam.RealExamQuestion;
+        exam.numberQuestions = numberOfQuestions;
         for(let i=0; i<exam.RealExamQuestion.length; i++)
         {
             exam.examElements[i].type = exam.RealExamQuestion[i].optionElement.multiple?"Multiple":"Single";
@@ -117,10 +120,11 @@ class ExamEditor extends Component {
         let exam = this.state.exam;
         let availableSubAreas = this.state.availableSubAreas;
         let subarea = availableSubAreas.find(item=>item.Id == event.target.value);
+        let changedSubArea = exam.subAreaId == parseInt(event.target.value);
         exam.subarea = subarea.name;
         exam.subAreaId = parseInt(event.target.value);
         this.setState({exam:exam});
-        if(this.state.staticQuestions)
+        if(this.state.allQuestions[0] == null || changedSubArea)
             this.ResetExamQuestions(true);
     }
     ResetExamQuestions = (fetch) => 
@@ -129,22 +133,25 @@ class ExamEditor extends Component {
         exam.RealExamQuestion = [];
         this.setState({exam});
         if(fetch)
+        {
             this.FetchSubAreaQuestions(this.state.exam.subAreaId);
+        }
         else 
         {
-            this.setState({allQuestions: []});
             this.setState({selectedQuestions: []});
         }
     }
-    GetTotalScore = () =>
+    GetTotalScore = (event) =>
     {
-        let totalScore = 0;
-        let elements = this.state.exam.RealExamQuestion;
-        for(let i=0;i<elements.length;i++)
+        let staticQuestions = this.state.exam.staticQuestions;
+        if(staticQuestions == false)
         {
-            totalScore = totalScore+elements[i].score;
+            return parseInt(event.target.parentElement.nQuestions.value);
         }
-        return totalScore;
+        else
+        {
+            return this.state.exam.RealExamQuestion.length;
+        }
     }
     GetSubAreasOverlayForm = () =>
     {
@@ -186,17 +193,11 @@ class ExamEditor extends Component {
     handleChangeType = (event) =>
     {
         let newExam = this.state.exam;
-        newExam.staticQuestions = event.target.value;
-        if(event.target.value == "false")
-        {
-            this.ResetExamQuestions(false);
-        }
-        if(event.target.value == "true")
-        {
-            if(this.state.allQuestions == null && this.state.exam.subAreaId>0)
-                this.ResetExamQuestions(true);
-            else this.ResetExamQuestions(false);
-        }
+        newExam.staticQuestions = event.target.value == "true"?true:false;
+        /*
+        if(this.state.allQuestions[0] == null && this.state.exam.subAreaId>0)
+            this.ResetExamQuestions(true);
+        else this.ResetExamQuestions(false);*/
         this.setState({exam:newExam});
     }
 
@@ -209,8 +210,23 @@ class ExamEditor extends Component {
         let fromDate = this.FormatDate(this.state.exam.fromDate);
         let untilDate = this.FormatDate(this.state.exam.untilDate);
         let questions = null;
-        if(this.state.exam.staticQuestions == true || this.state.exam.staticQuestions == "true")
-            questions = <QuestionsViewer questions = {this.state.exam.RealExamQuestion.slice()}  manageQuestions = {this.ManageQuestions}/>;
+        let numberOfQuestions = null;
+        if(this.state.exam.staticQuestions == true || this.state.exam.staticQuestions == true)
+            questions = (
+                <>
+                    <QuestionsViewer questions = {this.state.exam.RealExamQuestion.slice()}  manageQuestions = {this.ManageQuestions}/>
+                    <br/>
+                    <button onClick={this.showActive}>Upload Exam</button>
+                </>
+            );
+        else numberOfQuestions = (
+            <form>
+                <label className="Stag" >Questions: </label>
+                <input className="NumberInput" defaultValue={this.state.exam.numberQuestions} type="number" id="nQuestions" name="nQuestions" min={1} max={this.state.allQuestions.length} placeholder={"1 to "+this.state.allQuestions.length} required/>
+                <br/>
+                <button onClick={this.showActive}>Upload Exam</button>
+            </form>
+        );
         return (
             <React.Fragment>
                 <div className="">
@@ -223,10 +239,10 @@ class ExamEditor extends Component {
                         <label className="radioLabel" >Static Questions</label>
                         <input type="radio" onChange={this.handleChangeType} id="random" name="type" value={false} defaultChecked={!this.state.exam.staticQuestions}/>
                         <label className="radioLabel" >Random Questions</label>
+                        
                 </div>
                 {questions}
-                <br/>
-                <button onClick={this.showActive}>Upload Exam</button>
+                {numberOfQuestions}
                 {overlay}
             </React.Fragment>
           );
@@ -384,7 +400,7 @@ class ExamEditor extends Component {
     }
     GetAllQuestionsOverlayForm = () =>
     {
-        if(this.state.allQuestions == null)
+        if(this.state.allQuestions[0] == null)
         return (<div className="overlayedHome">
              <h1>Loading Questions...</h1>;
         </div>);

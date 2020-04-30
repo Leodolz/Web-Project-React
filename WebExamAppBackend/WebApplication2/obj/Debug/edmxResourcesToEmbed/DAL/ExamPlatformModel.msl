@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform3">
+  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform4">
     <EntitySetMapping Name="Areas">
       <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
         <MappingFragment StoreEntitySet="Areas">
@@ -17,7 +17,7 @@
           <ScalarProperty Name="title" ColumnName="title" />
           <ScalarProperty Name="fromDate" ColumnName="fromDate" />
           <ScalarProperty Name="subAreaId" ColumnName="subAreaId" />
-          <ScalarProperty Name="totalScore" ColumnName="totalScore" />
+          <ScalarProperty Name="numberQuestions" ColumnName="numberQuestions" />
           <ScalarProperty Name="untilDate" ColumnName="untilDate" />
           <ScalarProperty Name="staticQuestions" ColumnName="staticQuestions" />
         </MappingFragment>

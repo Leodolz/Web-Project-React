@@ -13,10 +13,10 @@ namespace WebApplication2.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Exam_DBPlatform3 : DbContext
+    public partial class Exam_DBPlatform4 : DbContext
     {
-        public Exam_DBPlatform3()
-            : base("name=Exam_DBPlatform3")
+        public Exam_DBPlatform4()
+            : base("name=Exam_DBPlatform4")
         {
         }
     

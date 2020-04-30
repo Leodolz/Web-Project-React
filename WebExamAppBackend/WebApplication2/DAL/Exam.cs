@@ -18,7 +18,7 @@ namespace WebApplication2.DAL
         public string title { get; set; }
         public System.DateTime fromDate { get; set; }
         public int subAreaId { get; set; }
-        public int totalScore { get; set; }
+        public int numberQuestions { get; set; }
         public System.DateTime untilDate { get; set; }
         public bool staticQuestions { get; set; }
     }

@@ -85,7 +85,6 @@ namespace WebApplication2.DBControllers
             RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(examController, modelExam.Id, questionAssignController, optionAssignController,studentExamQuestionController);
             RealExam realExam =  ExamUtils.ExamToRealExam(modelExam, questions, new SubAreaController(), new AreaController());
             realExam.studentTotalScore = exam.score;
-            realExam.totalScore = 100;
             return realExam;
         }
 
@@ -104,10 +103,10 @@ namespace WebApplication2.DBControllers
         }
         private void QuestionEditActions(RealExamQuestion[] newQuestions,int examId)
         { 
-            List<RealExamQuestion> remainedQuestions = QuestionUtils.GetExistingQuestions(newQuestions, questionAssignController);
+            List<RealExamQuestion> remainedQuestions = QuestionUtils.GetRemainingQuestions(examId,newQuestions, questionAssignController);
             /*questionAssignController.EditGroupOfQuestions(editedQuestions, optionAssignController);*/
-            List<questionAssign> oldQuestions = questionAssignController.GetAllExamQuestions(examId);
-            List<int> deletedQuestionsIds = QuestionUtils.DeleteMissingQuestions(oldQuestions, newQuestions.ToList());
+            List<StaticQuestionAssign> oldQuestions = questionAssignController.GetAllStaticInExam(examId);
+            List<int> deletedQuestionsIds = QuestionUtils.DeleteMissingStaticQuestions(oldQuestions, newQuestions.ToList());
             questionAssignController.DeleteStaticQuestions(deletedQuestionsIds);
             List<RealExamQuestion> newQuestionAssignments = QuestionUtils.FilterAndConvertQuestions(newQuestions, remainedQuestions.ToArray());
             AssignQuestionsToExam(examId,newQuestionAssignments.ToArray());
@@ -118,6 +117,7 @@ namespace WebApplication2.DBControllers
             List<int> allQuestionsIds = new List<int>();
             foreach (RealExamQuestion question in questions)
             {
+                System.Diagnostics.Debug.WriteLine("Assigning new question:" + question.questionId);
                 StaticQuestionAssign staticQuestionAssign = new StaticQuestionAssign
                 {
                     examId = examId,

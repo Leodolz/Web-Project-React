@@ -13,10 +13,20 @@ namespace WebApplication2.Repository
 
         }
         
-       public List<int> GetAllExamQuestionsIds(object examId)
+       public List<int> GetAllExamQuestions(object examId)
        {
            return table.Where(assigment => assigment.examId == (int)examId)
                .Select(assignment => assignment.questionId).ToList();
        }
+        public List<StaticQuestionAssign> GetAllStaticExamQuestions(object examId)
+        {
+            return table.Where(assigment => assigment.examId == (int)examId)
+                .Select(assignment => assignment).ToList();
+        }
+        public StaticQuestionAssign GetStaticInExam(int examId, int questionId)
+        {
+            return table.FirstOrDefault(assignment => assignment.examId == examId &&
+            assignment.questionId == questionId);
+        }
     }
 }

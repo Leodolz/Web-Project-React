@@ -33,7 +33,7 @@ class AdminStudentTable extends Component {
                 children.push(<td key={"Edit"+i}>
                     <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
                 </td>)
-                 children.push(<td key={"Edit"+i}>
+                 children.push(<td key={"Delete"+i}>
                  <p title={entries[i].Id} className="tDelete" onClick={this.clickDeleteHandler}>Delete</p>
              </td>)
             }

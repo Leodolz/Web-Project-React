@@ -16,7 +16,7 @@
     <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="fromDate" Type="datetime" Nullable="false" />
     <Property Name="subAreaId" Type="int" Nullable="false" />
-    <Property Name="totalScore" Type="int" Nullable="false" />
+    <Property Name="numberQuestions" Type="int" Nullable="false" />
     <Property Name="untilDate" Type="datetime" Nullable="false" />
     <Property Name="staticQuestions" Type="bit" Nullable="false" />
   </EntityType>

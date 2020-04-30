@@ -11,7 +11,7 @@ namespace WebApplication2.DBControllers
     public class ExamController
     {
        
-        private ExamRepository examRepository = new ExamRepository(new Exam_DBPlatform3());
+        private ExamRepository examRepository = new ExamRepository(new Exam_DBPlatform4());
 
         public Exam GetById(int id)
         {

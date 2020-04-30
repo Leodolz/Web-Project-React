@@ -26,7 +26,8 @@ namespace WebApplication2.Utils
                 area = areaName,
                 areaId = currentArea.Id,
                 examElements = questions,
-                staticQuestions = exam.staticQuestions
+                staticQuestions = exam.staticQuestions,
+                numberQuestions = exam.numberQuestions,
             };
         }
         private static RealExamQuestion GetQuestionElement(questionAssign question, List<OptionAssign> allOptions)
@@ -49,8 +50,7 @@ namespace WebApplication2.Utils
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
             foreach (questionAssign question in allQuestions)
             {
-                //if(question!=null)
-                    allExamElements.Add(GetQuestionElement(question,optionAssignController.GetAllQuestionOptions(question.Id)));
+                allExamElements.Add(GetQuestionElement(question,optionAssignController.GetAllQuestionOptions(question.Id)));
             }
             return allExamElements.ToArray();
         }
@@ -64,7 +64,7 @@ namespace WebApplication2.Utils
                 untilDate = DateTime.Parse(exam.untilDate),
                 subAreaId = exam.subAreaId,
                 title = exam.title,
-                totalScore = exam.totalScore,
+                numberQuestions = exam.numberQuestions,
                 staticQuestions = exam.staticQuestions,
             };
         }
@@ -74,6 +74,8 @@ namespace WebApplication2.Utils
             editedExam.fromDate = DateTime.Parse(editedReal.fromDate);
             editedExam.untilDate = DateTime.Parse(editedReal.untilDate);
             editedExam.subAreaId = editedReal.subAreaId;
+            editedExam.staticQuestions = editedReal.staticQuestions;
+            editedExam.numberQuestions = editedReal.numberQuestions;
             editedExam.title = editedReal.title;
             return editedExam;
         }

@@ -19,7 +19,7 @@ class QuestionsViewer extends Component {
         let closeButton = null;
         let chooseBox = null;
         let manageQuestions = null;
-        if(this.props.editQuestion && this.props.hideComponent && this.props.selectQuestions)
+        if(this.props.editQuestion && this.props.hideComponent)
         {
             editButton = <button onClick= {this.props.editQuestion} className="edit">Edit</button>;
             closeButton = <button type="button" onClick={this.props.hideComponent} className="close">x</button>;
