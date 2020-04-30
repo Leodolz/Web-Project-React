@@ -105,8 +105,8 @@ namespace WebApplication2.DBControllers
         }
         private void DeleteStatic(int questionId)
         {
-            questionAssignRepository.Delete(questionId);
-            questionAssignRepository.Save();
+            staticQuestionRepository.Delete(questionId);
+            staticQuestionRepository.Save();
         }
         private void Delete(int id)
         {

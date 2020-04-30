@@ -130,6 +130,11 @@ class ExamEditor extends Component {
         this.setState({exam});
         if(fetch)
             this.FetchSubAreaQuestions(this.state.exam.subAreaId);
+        else 
+        {
+            this.setState({allQuestions: []});
+            this.setState({selectedQuestions: []});
+        }
     }
     GetTotalScore = () =>
     {

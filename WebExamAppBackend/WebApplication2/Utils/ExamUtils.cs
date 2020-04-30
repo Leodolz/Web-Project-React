@@ -25,7 +25,8 @@ namespace WebApplication2.Utils
                 subarea = subArea.name,
                 area = areaName,
                 areaId = currentArea.Id,
-                examElements = questions
+                examElements = questions,
+                staticQuestions = exam.staticQuestions
             };
         }
         private static RealExamQuestion GetQuestionElement(questionAssign question, List<OptionAssign> allOptions)
@@ -48,7 +49,8 @@ namespace WebApplication2.Utils
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
             foreach (questionAssign question in allQuestions)
             {
-                allExamElements.Add(GetQuestionElement(question,optionAssignController.GetAllQuestionOptions(question.Id)));
+                //if(question!=null)
+                    allExamElements.Add(GetQuestionElement(question,optionAssignController.GetAllQuestionOptions(question.Id)));
             }
             return allExamElements.ToArray();
         }
