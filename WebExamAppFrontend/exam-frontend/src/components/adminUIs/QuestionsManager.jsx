@@ -131,8 +131,8 @@ class QuestionsManager extends Component {
             </div>
             );
     }
-    
 
+    
     render() { 
         let overlay = this.GetOverlayedForm();
         return (

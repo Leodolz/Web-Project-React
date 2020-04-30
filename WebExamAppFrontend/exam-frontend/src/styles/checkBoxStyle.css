@@ -29,6 +29,15 @@
       text-align: justify;
       float: left;
   }
+  .checkmarkContained
+  {
+    position: relative;
+    float: left;
+    left: 5%;
+    height: 25px;
+    width: 25px;
+    background-color: rgb(178, 216, 208);
+  }
   /* Create a custom checkbox */
   .checkmark {
     position: fixed;
@@ -40,12 +49,12 @@
   }
   
   /* On mouse-over, add a grey background color */
-  .checkContainer:hover input ~ .checkmark {
+  .checkContainer:hover input ~ .checkmark .checkmarkContained{
     background-color: #ccc;
   }
   
   /* When the checkbox is checked, add a blue background */
-  .checkContainer input:checked ~ .checkmark {
+  .checkContainer input:checked ~ .checkmark .checkmarkContained{
     background-color: #2196F3;
   }
   
@@ -57,12 +66,12 @@
   }
   
   /* Show the checkmark when checked */
-  .checkContainer input:checked ~ .checkmark:after {
+  .checkContainer input:checked ~ .checkmark:after .checkmarkContained:after{
     display: block;
   }
   
   /* Style the checkmark/indicator */
-  .checkContainer .checkmark:after {
+  .checkContainer .checkmark:after .checkmarkContained{
     left: 9px;
     top: 5px;
     width: 5px;

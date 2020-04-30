@@ -15,13 +15,20 @@ class ExamEditor extends Component {
         },
         userId: this.props.userId,
         availableSubAreas: null,
-        editingId: 0,
+        selectedQuestions: null,
+        staticQuestions: this.props.exam.staticQuestions,
+        allQuestions: null,
+        selectedQuestions: null,
       }
     constructor(props)
     {
         super(props);
         document.title = "Exam Editor";
         this.FetchAvailableSubAreas(props.userId);
+        if(!props.new && props.exam.staticQuestions)
+        {
+            this.FetchSubAreaQuestions(props.exam.subAreaId);
+        }
     }
     FetchAvailableSubAreas = (userId) =>
     {
@@ -37,11 +44,6 @@ class ExamEditor extends Component {
     showActive = (event)=>
     {
         let totalScore = this.GetTotalScore();
-        if(totalScore<100 || totalScore>100)
-        {
-            alert("Exam must have a total sum of scoring 100 points!");
-            return;
-        }
         let realExam = this.RefurbishExam(this.state.exam);
         let edit = 'true';
             if(this.props.new)
@@ -118,6 +120,16 @@ class ExamEditor extends Component {
         exam.subarea = subarea.name;
         exam.subAreaId = parseInt(event.target.value);
         this.setState({exam:exam});
+        if(this.state.staticQuestions)
+            this.ResetExamQuestions(true);
+    }
+    ResetExamQuestions = (fetch) => 
+    {
+        let exam = this.state.exam;
+        exam.RealExamQuestion = [];
+        this.setState({exam});
+        if(fetch)
+            this.FetchSubAreaQuestions(this.state.exam.subAreaId);
     }
     GetTotalScore = () =>
     {
@@ -170,6 +182,16 @@ class ExamEditor extends Component {
     {
         let newExam = this.state.exam;
         newExam.staticQuestions = event.target.value;
+        if(event.target.value == "false")
+        {
+            this.ResetExamQuestions(false);
+        }
+        if(event.target.value == "true")
+        {
+            if(this.state.allQuestions == null && this.state.exam.subAreaId>0)
+                this.ResetExamQuestions(true);
+            else this.ResetExamQuestions(false);
+        }
         this.setState({exam:newExam});
     }
 
@@ -177,8 +199,13 @@ class ExamEditor extends Component {
     {  
         console.log(this.state.exam.staticQuestions);
         let overlay = this.GetOverlayedForm();
+        if (overlay!=null)
+            return overlay;
         let fromDate = this.FormatDate(this.state.exam.fromDate);
         let untilDate = this.FormatDate(this.state.exam.untilDate);
+        let questions = null;
+        if(this.state.exam.staticQuestions == true || this.state.exam.staticQuestions == "true")
+            questions = <QuestionsViewer questions = {this.state.exam.RealExamQuestion.slice()}  manageQuestions = {this.ManageQuestions}/>;
         return (
             <React.Fragment>
                 <div className="">
@@ -186,15 +213,13 @@ class ExamEditor extends Component {
                     <h3 className="FromDate" title={this.state.exam.fromDate}>Date From: {fromDate} <button  onClick= {this.handleEdit}>Edit</button></h3>
                     <h3 className="UntilDate" title={this.state.exam.untilDate}>Date Until: {untilDate} <button  onClick= {this.handleEdit}>Edit</button></h3>
                     <h3 className="SubAreaEdit" title= {this.state.exam.subarea}>Sub-Area Assigned: {this.state.exam.subarea} <button onClick={this.handleEdit}>Edit</button></h3>
-                    <h3 className="examType" title= {this.state.exam.staticQuestions}>Exam Type: </h3>
-
+                    <h3 className="examType">Exam Type: </h3>
                         <input type="radio" onChange={this.handleChangeType} id="static" name="type" value={true} defaultChecked={this.state.exam.staticQuestions}/>
                         <label className="radioLabel" >Static Questions</label>
                         <input type="radio" onChange={this.handleChangeType} id="random" name="type" value={false} defaultChecked={!this.state.exam.staticQuestions}/>
                         <label className="radioLabel" >Random Questions</label>
-
                 </div>
-                <QuestionsViewer questions = {this.state.exam.RealExamQuestion.slice()}/>
+                {questions}
                 <br/>
                 <button onClick={this.showActive}>Upload Exam</button>
                 {overlay}
@@ -279,15 +304,108 @@ class ExamEditor extends Component {
         }
         else return null;
     }
+    handleCheckAnswer = (event) =>
+    {
+        let selectedQuestions = this.state.selectedQuestions.slice();
+        let allQuestions = this.state.allQuestions.slice();
+        let index  = allQuestions.findIndex(question=>question.questionId == event.target.title);
+        if(event.target.checked)
+        {
+            selectedQuestions[index] = event.target.title;
+            this.IntroduceNewQuestion(index);
+        }
+        else 
+        {
+            selectedQuestions[index] = 0;
+            this.DeleteQuestion(index);
+        }
+        this.setState({selectedQuestions: selectedQuestions});
+        
+    }
+    FetchSubAreaQuestions = (subAreaId) =>
+    {
+        let context = this;
+        fetch('http://localhost:51061/api/SubAreaQuestions/'+subAreaId)
+        .then(result=>result.json())
+        .then((data)=>{
+            let realQuestions = context.RefurbishQuestions(data);
+            context.setState({allQuestions:realQuestions});
+            let selectedQuestions = Array(realQuestions.length).fill(0);
+            selectedQuestions = this.AssignSelectedQuestions(selectedQuestions,realQuestions);
+            context.setState({selectedQuestions});
+        })
+        .catch((e)=>{
+            this.setState({allQuestions: []});
+            this.setState({selectedQuestions: []});
+        });
+    }
+    AssignSelectedQuestions = (selectedQuestions,allQuestions) =>
+    {
+        let examQuestions = this.state.exam.RealExamQuestion.slice();
+        for(let i=0; i<examQuestions.length; i++)
+        {
+            let index = allQuestions.findIndex(question=>question.questionId == examQuestions[i].questionId);
+                selectedQuestions[index] = examQuestions[i].questionId;
+        }
+        console.log(selectedQuestions);
+        return selectedQuestions;
+    }
+    RefurbishQuestions = (questions) => 
+    {
+        console.log(questions);
+        let realQuestions = questions;
+        for(let i=0; i<questions.length; i++)
+        {
+            realQuestions[i].optionElement = 
+            {
+                type: questions[i].type,
+                multiple: questions[i].multiple,
+                options: questions[i].options,
+                answer: questions[i].answer,
+                questionId: questions[i].questionId
+            }
+        }
+        return realQuestions;
+    
+    }
+    ManageQuestions = () => 
+    {
+        this.setState({overlayed: 
+        {
+            overlay: true,
+            extras : {type: "Questions"},
+            type: "Questions",
+        }})
+    }
     GetAllQuestionsOverlayForm = () =>
     {
-        return null; //Por ahora
+        if(this.state.allQuestions == null)
+        return (<div className="overlayedHome">
+             <h1>Loading Questions...</h1>;
+        </div>);
+        console.log(this.state.allQuestions);
+        return (
+            <div className="overlayed">
+                <QuestionsViewer questions={this.state.allQuestions} checked = {this.state.selectedQuestions} 
+                handleCheckAnswer = {this.handleCheckAnswer} selectQuestions= {true} />
+                <button onClick={this.cancelEdit}>OK</button>
+            </div>
+        );
     }
-    IntroduceNewQuestion = (newQuestion) =>
+    IntroduceNewQuestion = (index) =>
     {
-        //Cambiarlo
         let newList = this.state.exam.RealExamQuestion.slice();
-        newList.push(newQuestion);
+        let allQuestions = this.state.allQuestions.slice();
+        newList.push(allQuestions[index]);
+        let exam = this.state.exam;
+        exam.RealExamQuestion = newList;
+        this.setState({exam:exam});
+    }
+    DeleteQuestion = (index) =>
+    {
+        let newList = this.state.exam.RealExamQuestion.slice();
+        let allQuestions = this.state.allQuestions.slice();
+        newList = newList.filter(question=>question.questionId != allQuestions[index].questionId);
         let exam = this.state.exam;
         exam.RealExamQuestion = newList;
         this.setState({exam:exam});

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Accordion from '../Accordion';
+import CustomCheckBoxes from './CustomCheckBoxes';
 
 class QuestionsViewer extends Component {
     state = {  }
@@ -14,10 +15,26 @@ class QuestionsViewer extends Component {
     GetQuestionsBody = (questions) =>
     {
         let questionsList = [];
-        let editButton = <button onClick= {this.props.editQuestion} className="edit">Edit</button>;
-        let closeButton = <button type="button" onClick={this.props.hideComponent} className="close">x</button>;
+        let editButton = null;
+        let closeButton = null;
+        let chooseBox = null;
+        let manageQuestions = null;
+        if(this.props.editQuestion && this.props.hideComponent && this.props.selectQuestions)
+        {
+            editButton = <button onClick= {this.props.editQuestion} className="edit">Edit</button>;
+            closeButton = <button type="button" onClick={this.props.hideComponent} className="close">x</button>;
+        }
+        else if(this.props.manageQuestions)
+            manageQuestions = <button onClick = {this.props.manageQuestions}>Manage Questions</button> 
         for(let i=0;i<questions.length;i++)
         {
+            if(this.props.selectQuestions)
+                    chooseBox = <CustomCheckBoxes 
+                    generalArray = {[questions[i].questionId]} 
+                    answers = {[this.props.checked[i]]} 
+                    handleCheckAnswer = {this.props.handleCheckAnswer} 
+                    title = {questions[i].questionId}
+                    checkContained = {true}/>
             let optionsList = (
                 <ul className = "myUL">
                     {this.renderOptionList(questions[i])}
@@ -27,6 +44,7 @@ class QuestionsViewer extends Component {
             {
                 title: "Question "+(i+1),
                 body: (<React.Fragment>
+                     {chooseBox}
                     <p id ={i} className = "questionTitle">
                         {questions[i].title}
                         {editButton}
@@ -45,7 +63,7 @@ class QuestionsViewer extends Component {
                 {
                     after:(
                         <>
-                            <button >Manage Questions</button> 
+                            {manageQuestions}
                         <hr/>
                         </>),
                     multi: questionsList
