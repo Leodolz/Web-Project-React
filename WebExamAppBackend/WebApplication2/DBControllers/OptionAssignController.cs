@@ -42,8 +42,18 @@ namespace WebApplication2.DBControllers
             }
             List<OptionAssign> optionsToDelete = OptionUtils.OneWayCompareOptions(oldOptions, newOptions);
             List<OptionAssign> optionsToAdd = OptionUtils.OneWayCompareOptions(newOptions, oldOptions);
+            List<OptionAssign> optionsToEdit = OptionUtils.FilterUnwishedOptions(newOptions, optionsToAdd.Concat(optionsToDelete).ToList());
             DeleteGroupOfOptions(optionsToDelete);
             AssignGroupOfOptions(optionsToAdd);
+            EditOptions(optionsToEdit);
+        }
+
+        private void EditOptions(List<OptionAssign> editedOptions)
+        {
+            foreach(OptionAssign option in editedOptions)
+            {
+                EditOption(option);
+            }
         }
         public void AssignGroupOfOptions(List<OptionAssign> assignments)
         {
@@ -52,17 +62,14 @@ namespace WebApplication2.DBControllers
                 AssignNewOption(assignment);
             }
         }
-        public void EditOption(int subAreaId, OptionAssign newOption)
+        private void EditOption(OptionAssign newOption)
         {
-            OptionAssign model = optionAssignRepository.GetById(subAreaId);
-            model = newOption;
-            EditOption(model);
-        }
-        private void EditOption(OptionAssign model)
-        {
+            OptionAssign model = GetByNameAndQuestionId(newOption.optionTitle,newOption.questionId);
+            model.optionTitle = newOption.optionTitle;
+            model.questionId = newOption.questionId;
+            model.answer = newOption.answer;
             optionAssignRepository.Update(model);
             optionAssignRepository.Save();
-
         }
         public void DeleteGroupOfOptions(List<OptionAssign> options)
         {

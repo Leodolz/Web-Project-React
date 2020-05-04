@@ -55,5 +55,17 @@ namespace WebApplication2.Utils
             }
             return differentItems;
         }
+        public static List<OptionAssign> FilterUnwishedOptions(List<OptionAssign> completeList, List<OptionAssign> bannedList)
+        {
+            List<OptionAssign> filteredOptions = new List<OptionAssign>();
+            foreach (OptionAssign option in completeList)
+            {
+                if (!bannedList.Contains(option))
+                {
+                    filteredOptions.Add(option);
+                }
+            }
+            return filteredOptions;
+        }
     }
 }
