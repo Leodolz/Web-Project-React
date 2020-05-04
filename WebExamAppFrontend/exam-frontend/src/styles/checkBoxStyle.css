@@ -49,12 +49,12 @@
   }
   
   /* On mouse-over, add a grey background color */
-  .checkContainer:hover input ~ .checkmark .checkmarkContained{
+  .checkContainer:hover input ~ .checkmark {
     background-color: #ccc;
   }
   
   /* When the checkbox is checked, add a blue background */
-  .checkContainer input:checked ~ .checkmark .checkmarkContained{
+  .checkContainer input:checked ~ .checkmark {
     background-color: #2196F3;
   }
   
@@ -66,12 +66,12 @@
   }
   
   /* Show the checkmark when checked */
-  .checkContainer input:checked ~ .checkmark:after .checkmarkContained:after{
+  .checkContainer input:checked ~ .checkmark:after{
     display: block;
   }
   
   /* Style the checkmark/indicator */
-  .checkContainer .checkmark:after .checkmarkContained{
+  .checkContainer .checkmark:after {
     left: 9px;
     top: 5px;
     width: 5px;

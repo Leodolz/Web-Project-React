@@ -41,11 +41,28 @@ class ExamEditor extends Component {
         .catch((e)=>{
             console.log(e)});
     }
+    controlExamParameters =(exam) =>
+    {
+        let accepted = {value: true, message: null}
+        if(exam.title == null || exam.fromDate == null 
+            || exam.untilDate == null || exam.subAreaId == 0 ||
+            exam.subAreaId == null || exam.numberQuestions == 0 )
+            accepted = {value: false, message: "You need to fill ALL fields!"};
+        if(exam.staticQuestions == false && exam.numberQuestions>this.state.allQuestions.length)
+            accepted = {value: false, message: "Invalid number of questions, must be between 1 and "+this.state.allQuestions.length};
+        return accepted;
+    }
     showActive = (event)=>
     {
         event.preventDefault();
         let numberOfQuestions = this.GetTotalScore(event);
         let realExam = this.RefurbishExam(this.state.exam,numberOfQuestions);
+        let accepted = this.controlExamParameters(realExam)
+        if( accepted.value== false)
+        {
+            alert(accepted.message);
+            return;
+        }
         let edit = 'true';
             if(this.props.new)
                 edit='false';
@@ -194,16 +211,11 @@ class ExamEditor extends Component {
     {
         let newExam = this.state.exam;
         newExam.staticQuestions = event.target.value == "true"?true:false;
-        /*
-        if(this.state.allQuestions[0] == null && this.state.exam.subAreaId>0)
-            this.ResetExamQuestions(true);
-        else this.ResetExamQuestions(false);*/
         this.setState({exam:newExam});
     }
 
     render() 
     {  
-        console.log(this.state.exam.staticQuestions);
         let overlay = this.GetOverlayedForm();
         if (overlay!=null)
             return overlay;
@@ -401,9 +413,10 @@ class ExamEditor extends Component {
     GetAllQuestionsOverlayForm = () =>
     {
         if(this.state.allQuestions[0] == null)
-        return (<div className="overlayedHome">
-             <h1>Loading Questions...</h1>;
-        </div>);
+        return(<div className="overlayedHome">
+        <h1>No questions in this Sub-Area...</h1>;
+        <button onClick = {this.cancelEdit}>OK</button>
+        </div>)
         console.log(this.state.allQuestions);
         return (
             <div className="overlayed">

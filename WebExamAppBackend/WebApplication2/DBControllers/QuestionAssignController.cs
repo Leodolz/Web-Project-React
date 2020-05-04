@@ -34,6 +34,17 @@ namespace WebApplication2.DBControllers
             return assignment.Id;
         }
 
+        public List<questionAssign> GetRandomQuestions(int numberOfQuestions, int subAreaId)
+        {
+            List<questionAssign> randomQuestions = new List<questionAssign>();
+            List<questionAssign> allSubAreaQuestions = GetAllSubAreaQuestions(subAreaId);
+            List<int> randomQuestionsCells = NumberUtils.GetSetOfRandomNumbers(allSubAreaQuestions.Count(), numberOfQuestions);
+            foreach(int randomQuestionsCell in randomQuestionsCells)
+            {
+                randomQuestions.Add(allSubAreaQuestions[randomQuestionsCell]);
+            }
+            return randomQuestions;
+        }
         public List<questionAssign> GetAllSubAreaQuestions(int subAreaId)
         {
             return questionAssignRepository.GetAllQuestionAssignments(subAreaId);

@@ -53,7 +53,8 @@ namespace WebApplication2.Controllers
             }
             else
             {
-                var result = realExamProxy.GetRealExam(id);
+
+                RealExam result = realExamProxy.GetRealExam(id);
                 if (result == null)
                 {
                     System.Diagnostics.Debug.WriteLine("Couldn't return student");

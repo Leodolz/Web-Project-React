@@ -18,15 +18,27 @@ namespace WebApplication2.Proxies
         public RealExam GetRealExam(int id)
         {
             RealExam cachedExam = realExamsCache.Find(realExam => realExam.Id == id);
-            if(cachedExam == null)
+            if (!cachedExam.staticQuestions)
+                return GetRandomExam(examController.GetById(id));
+            if (cachedExam == null)
             {
-                RealExam newExam = realExamController.GetRealExam(examController.GetById(id));
+                DAL.Exam exam = examController.GetById(id);
+                if (!exam.staticQuestions)
+                    return GetRandomExam(exam);
+                RealExam newExam = realExamController.GetStaticExam(exam);
                 realExamsCache.Add(newExam);
                 System.Diagnostics.Debug.WriteLine("Exam fetched is:" + newExam.title);
                 return newExam;
             }
             System.Diagnostics.Debug.WriteLine("Exam cached is:" + cachedExam.title);
             return cachedExam;
+        }
+        private RealExam GetRandomExam(DAL.Exam exam)
+        {
+            RealExam randomExam = realExamController.GetRandomExam(exam);
+            realExamsCache.Add(randomExam);
+            System.Diagnostics.Debug.WriteLine("Exam fetched is:" + randomExam.title);
+            return randomExam;
         }
         public RealExam GetStudentExam(int id)
         {

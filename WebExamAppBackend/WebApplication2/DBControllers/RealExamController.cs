@@ -72,10 +72,18 @@ namespace WebApplication2.DBControllers
         {
             return studentExamController.GetById(studentExamId).examId;
         }
-        
-        public RealExam GetRealExam(Exam exam)
+        public RealExam GetRandomExam(Exam exam)
+        {
+            List<questionAssign> allExamQuestions = questionAssignController.GetRandomQuestions(exam.numberQuestions, exam.subAreaId);
+            return GetRealExam(exam, allExamQuestions);
+        }
+        public RealExam GetStaticExam(Exam exam)
         {
             List<questionAssign> allExamQuestions = questionAssignController.GetAllExamQuestions(exam.Id);
+            return GetRealExam(exam, allExamQuestions);
+        }
+        private RealExam GetRealExam(Exam exam, List<questionAssign> allExamQuestions)
+        {
             RealExamQuestion[] questions = ExamUtils.GetAllQuestionElements(allExamQuestions, optionAssignController);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }
