@@ -18,8 +18,6 @@ namespace WebApplication2.Proxies
         public RealExam GetRealExam(int id)
         {
             RealExam cachedExam = realExamsCache.Find(realExam => realExam.Id == id);
-            if (!cachedExam.staticQuestions)
-                return GetRandomExam(examController.GetById(id));
             if (cachedExam == null)
             {
                 DAL.Exam exam = examController.GetById(id);
@@ -30,6 +28,8 @@ namespace WebApplication2.Proxies
                 System.Diagnostics.Debug.WriteLine("Exam fetched is:" + newExam.title);
                 return newExam;
             }
+            if (!cachedExam.staticQuestions)
+                return GetRandomExam(examController.GetById(id));
             System.Diagnostics.Debug.WriteLine("Exam cached is:" + cachedExam.title);
             return cachedExam;
         }

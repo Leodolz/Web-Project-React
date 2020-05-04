@@ -33,7 +33,6 @@ namespace WebApplication2.DBControllers
             staticQuestionRepository.Save();
             return assignment.Id;
         }
-
         public List<questionAssign> GetRandomQuestions(int numberOfQuestions, int subAreaId)
         {
             List<questionAssign> randomQuestions = new List<questionAssign>();

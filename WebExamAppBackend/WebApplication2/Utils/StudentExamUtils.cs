@@ -10,21 +10,18 @@ namespace WebApplication2.Utils
 {
     public class StudentExamUtils
     {
-        public static RealExamQuestion[] GetAllStudentExamElements(ExamController examController, int examId, QuestionAssignController questionAssignController, OptionAssignController optionAssignController, StudentExamQuestionController studentExamQuestionController)
+        public static RealExamQuestion[] GetAllStudentExamElements(ExamController examController, List<questionAssign> allQuestions, QuestionAssignController questionAssignController, OptionAssignController optionAssignController, StudentExamQuestionController studentExamQuestionController)
         {
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
-            List<questionAssign> allQuestions = questionAssignController.GetAllExamQuestions(examId);
             foreach (questionAssign question in allQuestions)
             {
                 StudentQuestionTable studentExamQuestion = studentExamQuestionController.GetByModelQuestionId(question.Id);
-                allExamElements.Add(GetExamElement(question, optionAssignController.GetAllQuestionOptions(question.Id), studentExamQuestion, optionAssignController,examId));
+                allExamElements.Add(GetExamElement(question, optionAssignController.GetAllQuestionOptions(question.Id), studentExamQuestion, optionAssignController));
             }
             return allExamElements.ToArray();
         }
-        public static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions, StudentQuestionTable studentExamQuestion, OptionAssignController optionAssignController, int examId)
+        public static RealExamQuestion GetExamElement(questionAssign question, List<OptionAssign> allOptions, StudentQuestionTable studentExamQuestion, OptionAssignController optionAssignController)
         {
-            if (studentExamQuestion == null)
-                studentExamQuestion = GetNewStudentExamQuestion(question, examId);
             return new RealExamQuestion
             {
                 type = question.type,
@@ -58,16 +55,7 @@ namespace WebApplication2.Utils
             }
             return answers.ToArray();
         }
-        public static StudentQuestionTable GetNewStudentExamQuestion(questionAssign question, int examId)
-        {
-            return new StudentQuestionTable
-            {
-                score = question.score,
-                questionId = question.Id,
-                studentAnswerIds = "",
-                studentExamId = examId
-            };
-        }
+       
         public static StudentQuestionTable RealQuestionToStudentQuestion(RealExamQuestion question, int score, int examId, OptionAssignController optionAssignController)
         {
             string[] studentAnswers = question.answer;
@@ -86,7 +74,6 @@ namespace WebApplication2.Utils
         }
         public static StudentExam NewRealExamToStudentExam(RealExam exam, int score, int studentId)
         {
-            //Make here All the question assignments
             return new StudentExam
             {
                 examId = exam.Id,
@@ -100,8 +87,10 @@ namespace WebApplication2.Utils
 
             RealExamQuestion[] allQuestions = modelExam.examElements;
             float totalScore = 0;
+            float perfectScore = 0;
             for (int i = 0; i < allQuestions.Count(); i++)
             {
+                perfectScore = perfectScore + allQuestions[i].score;
                 float questionPoints = 0;
                 float totalQuestionScore = allQuestions[i].score;
                 float individualPoints = totalQuestionScore / allQuestions[i].answer.Count();
@@ -113,8 +102,10 @@ namespace WebApplication2.Utils
                 questionScores.Add(studentExam.examElements[i].title,questionPoints);
                 totalScore = totalScore + questionPoints;
             }
+            totalScore = (totalScore / perfectScore) * 100;
             questionScores.Add("~totalScore", totalScore);
             return questionScores;
         }
+
     }
 }

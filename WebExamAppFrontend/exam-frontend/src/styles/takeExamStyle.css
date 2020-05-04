@@ -22,11 +22,19 @@
     background-color: rgb(47, 134, 81);
     float: left;
 }
+
 .SubmitStExamButton
 {
     background-color: rgb(98, 211, 255);
     float: left;
     margin-left: 19.5%;
+    color: black;
+    font-weight: bolder;
+}
+.ViewMarkedExamButton
+{
+    background-color: rgb(98, 211, 255);
+    float: center;
     color: black;
     font-weight: bolder;
 }

@@ -40,10 +40,13 @@ namespace WebApplication2.Controllers
             JObject juser = realExam as JObject;
             RealExam recievingRealExam = juser.ToObject<RealExam>();
             Exam modelExam = examController.GetById(recievingRealExam.Id);
-
-            //RealExam realModelExam = realExamController.GetRealExam(modelExam); Change Get Real Exam To Get Static or Get Random
+            RealExam realModelExam;
+            if (!modelExam.staticQuestions)
+                realModelExam = realExamController.GetRandomExamModel(recievingRealExam);
+            else
+                realModelExam = realExamController.GetStaticExam(modelExam);
             //From here it should be in some kind of controller
-            /*Dictionary<string,float> questionScores = StudentExamUtils.EvaulateExam(recievingRealExam, realModelExam);
+            Dictionary<string,float> questionScores = StudentExamUtils.EvaulateExam(recievingRealExam, realModelExam);
             StudentExam exam = StudentExamUtils.NewRealExamToStudentExam(recievingRealExam, (int)questionScores["~totalScore"],recievingRealExam.studentId);
             studentExamController.AddStudentExam(exam);
             StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
@@ -51,7 +54,7 @@ namespace WebApplication2.Controllers
             {
                 StudentQuestionTable studentQuestion = StudentExamUtils.RealQuestionToStudentQuestion(question,(int)questionScores[question.title], modelExam.Id, optionAssignController);
                 studentExamQuestionController.AddStudentExamQuestion(studentQuestion);
-            }*/
+            }
 
         }
 

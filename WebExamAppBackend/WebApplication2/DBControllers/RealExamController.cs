@@ -77,6 +77,21 @@ namespace WebApplication2.DBControllers
             List<questionAssign> allExamQuestions = questionAssignController.GetRandomQuestions(exam.numberQuestions, exam.subAreaId);
             return GetRealExam(exam, allExamQuestions);
         }
+        public RealExam GetRandomExamModel(RealExam exam)
+        {
+            foreach(RealExamQuestion question in exam.examElements)
+            {
+                List<string> answers = new List<string>();
+                List<OptionAssign> modelOptions = optionAssignController.GetAllQuestionOptions(question.questionId);
+                foreach(OptionAssign option in modelOptions)
+                {
+                    if (option.answer[0] == 1)
+                        answers.Add(option.optionTitle);
+                }
+                question.answer = answers.ToArray();
+            }
+            return exam;
+        }
         public RealExam GetStaticExam(Exam exam)
         {
             List<questionAssign> allExamQuestions = questionAssignController.GetAllExamQuestions(exam.Id);
@@ -90,10 +105,25 @@ namespace WebApplication2.DBControllers
         public RealExam GetStudentExam(StudentExam exam)
         {
             Exam modelExam = examController.GetById(exam.examId);
-            RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(examController, modelExam.Id, questionAssignController, optionAssignController,studentExamQuestionController);
+            List<questionAssign> allStudentExamQuestions;
+            if (modelExam.staticQuestions)
+                allStudentExamQuestions = questionAssignController.GetAllExamQuestions(modelExam.Id);
+            else allStudentExamQuestions = GetStudentRandomedExamQuestions(exam.Id);
+            RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(examController, allStudentExamQuestions, questionAssignController, optionAssignController,studentExamQuestionController);
             RealExam realExam =  ExamUtils.ExamToRealExam(modelExam, questions, new SubAreaController(), new AreaController());
             realExam.studentTotalScore = exam.score;
             return realExam;
+        }
+        //Should be at Student Utils
+        private List<questionAssign> GetStudentRandomedExamQuestions(int studentExamId)
+        {
+            List<int> allExamQuestionsIds = studentExamQuestionController.GetAllExamQuestions(studentExamId);
+            List<questionAssign> allQuestions = new List<questionAssign>();
+            foreach (int questionId in allExamQuestionsIds)
+            {
+                allQuestions.Add(questionAssignController.GetById(questionId));
+            }
+            return allQuestions;
         }
 
         public void AddExam(Exam model, RealExamQuestion[] questions)

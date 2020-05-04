@@ -17,5 +17,10 @@ namespace WebApplication2.Repository
         {
             return table.FirstOrDefault(question => question.questionId == id);
         }
+        public List<int> GetAllQuestionsInExam(int studentExamId)
+        {
+            return table.Where(stQuestion => stQuestion.studentExamId == studentExamId)
+                .Select(stQuestion => stQuestion.questionId).ToList();
+        }
     }
 }

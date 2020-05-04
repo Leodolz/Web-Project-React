@@ -217,6 +217,7 @@ class MasterQuestion extends Component {
         {
             doneExams = [];
         }
+        else doneExams = doneExams.split(",");
         doneExams.push(this.props.exam.Id);
         localStorage.setItem('DoneExams',doneExams.join(','));
         fetch('http://localhost:51061/api/StudentExam?code=submit',
@@ -334,6 +335,8 @@ class MasterQuestion extends Component {
                 <br/>
                 <br/>
                 <br/>
+                <br/>
+                <br/>
                 {this.viewMarksButton}
             </>
             
@@ -353,7 +356,7 @@ class MasterQuestion extends Component {
     {
         return (
             <button
-            className= "SubmitStExamButton"
+            className= "ViewMarkedExamButton"
                 onClick={()=>this.setState({overlayed:
                 {
                     overlay: true,

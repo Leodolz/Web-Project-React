@@ -21,9 +21,9 @@ namespace WebApplication2.DBControllers
             return studentExamRepository.GetByModelQuestionId(id);
         }
 
-        public List<StudentQuestionTable> GetAllExamQuestions()
+        public List<int> GetAllExamQuestions(int studentExamId)
         {
-            return studentExamRepository.GetAll().ToList();
+            return studentExamRepository.GetAllQuestionsInExam(studentExamId);
         }
 
         public int AddStudentExamQuestion(StudentQuestionTable model)
