@@ -35,32 +35,31 @@ class TakeExam extends Component {
                 );
             else
             {
-                let doneExams = localStorage.getItem('DoneExams');
-                if(doneExams!=null)
+                let doneExams = localStorage.getItem("DoneExams").split(",");
+                if(doneExams == null)
+                    doneExams = [];
+                if(doneExams.find(examItem=>examItem == exam.Id))
                 {
-                    if(doneExams.split(",").find(examItem=>examItem == exam.Id))
-                    {
-                        body=(
-                        <>
-                            <h1>You have already done this exam</h1>
-                        </>);
-                    }
+                    body=(
+                    <>
+                        <h1>You have already done this exam</h1>
+                    </>);
                 }
                 else
                 {
-                let today = new Date();
-                let examTime = new Date(exam.untilDate);
-                let expTime = examTime- today;
-                expTime = expTime/1000;
-                let hours = Math.floor(expTime/3600);
-                let minutes = Math.floor(expTime/60);
-                let seconds = Math.floor((expTime-(hours*3600)-(minutes*60)));
-                body = (
-                    <React.Fragment >
-                    <h1 className="Editor">{exam.title}</h1>
-                    <MasterQuestion studentId={this.state.user.Id} exam={exam} hours={hours} minutes= {minutes} seconds={seconds}/>
-                    </React.Fragment>
-                );
+                    let today = new Date();
+                    let examTime = new Date(exam.untilDate);
+                    let expTime = examTime- today;
+                    expTime = expTime/1000;
+                    let hours = Math.floor(expTime/3600);
+                    let minutes = Math.floor((expTime - (hours*3600))/60);
+                    let seconds = Math.floor((expTime-(hours*3600)-(minutes*60)));
+                    body = (
+                        <React.Fragment >
+                        <h1 className="Editor">{exam.title}</h1>
+                        <MasterQuestion studentId={this.state.user.Id} exam={exam} hours={hours} minutes= {minutes} seconds={seconds}/>
+                        </React.Fragment>
+                    );
                 }
             }
             //<StudentExamTaker studentId={this.state.user.Id} exam={exam}/>

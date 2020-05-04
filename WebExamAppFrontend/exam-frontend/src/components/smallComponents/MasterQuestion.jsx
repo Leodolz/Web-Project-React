@@ -42,6 +42,7 @@ class MasterQuestion extends Component {
             sessionStorage.setItem('SubmitedExam',"");
         }
     }
+    
     componentWillMount()
     {
         onbeforeunload = e => {
