@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Accordion from '../Accordion';
 import AdminExamTable from '../tables/AdminExamTable'
 import AdminStudentTable from '../tables/AdminStudentTable'
+import HorizontalTabs from '../HorizontalTabs';
 
 class TeacherHome extends Component {
     state=
@@ -13,9 +14,9 @@ class TeacherHome extends Component {
             body : null,
         },
         pastExams: [],
-        commingExams: [],
+        commingExams: null,
         subAreas: [],
-        students: [],
+        students: null,
         done: false,
     }
     constructor(props)
@@ -26,7 +27,6 @@ class TeacherHome extends Component {
         this.FetchGenericTable('SubAreas/'+userId+'?action=GetSubAreas','subAreas');
         this.FetchGenericTable('StudentExams/'+userId+'?time=future','commingExams');
         this.FetchGenericTable('Students?subAreaId='+userId+'&role=Student','students');
-        this.FetchGenericTable('StudentExams/'+userId+'?time=past','pastExams');
     }
     cancelEdit = (event) =>
     {
@@ -47,12 +47,11 @@ class TeacherHome extends Component {
         else return null;
     }
     render() {
-
         let overlay = this.GetOverlayForm();
-        let accordions = this.GetTeacherHomeBody();
+        let teacherBody = this.GetTeacherHomeBody();
         return (
             <React.Fragment>
-            <Accordion accordions= {accordions}/>
+            {teacherBody}
             {overlay}
             </React.Fragment>
             );
@@ -67,6 +66,7 @@ class TeacherHome extends Component {
         fetch('http://localhost:51061/api/'+url)
         .then(result=>result.json())
         .then((data)=>{
+            
             context.setState({[stateVariable]: data});
         })
        .catch((e)=>{
@@ -118,8 +118,9 @@ class TeacherHome extends Component {
 
     GetExamsBody = (examsTable, students) => 
     {
-        let pastExamsBody = [];
-        
+        let tabContentBody = [];
+        if(examsTable.length<1)
+            return <h1>Empty tables</h1>
         for(let i=0;i<examsTable.length;i++)
         {
             let bodyItem = <AdminExamTable table={examsTable[i].exams}/>
@@ -148,46 +149,35 @@ class TeacherHome extends Component {
                     </React.Fragment>
                 )
             }
-            pastExamsBody.push(container);
+            tabContentBody.push(container);
         }
-        return pastExamsBody;
+        return  <Accordion accordions= {tabContentBody}/>;
     }
 
    
 
     GetTeacherHomeBody = () =>
     {
+        if(this.state.students == null || this.state.commingExams == null || this.state.pastExams == null)
+            return <h1>Loading..</h1>
         let pastExamsTable = this.SortByArea(this.state.pastExams);
         let pastExamsBody = this.GetExamsBody(pastExamsTable,false);
         let commingExamsTable = this.SortByArea(this.state.commingExams);
         let commingExamsBody = this.GetExamsBody(commingExamsTable,false);
-        let studentExamsTable = this.SortStudentsByArea(this.state.students);
-        let studentExamsBody = this.GetExamsBody(studentExamsTable,true);
-        return [
-            {
-                title:"Past Exams",
-                body:
-                {
-                    multi: pastExamsBody
-                },
-            },
-            {
-                title:"Coming Exams",
-                body:
-                {
-                    multi: commingExamsBody,
-                    after: (<button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button> ),
-                },
-               
-            },
-            {
-                title:"Students",
-                body:
-                {
-                    multi: studentExamsBody,
-                }
-            }
+        commingExamsBody = (<>
+            {commingExamsBody}
+            <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button>
+        </>);
+        let studentsTable = this.SortStudentsByArea(this.state.students);
+        let studentsBody = this.GetExamsBody(studentsTable,true);
+        let allTabs = [
+            {id: 0, title: "Past Exams", body: pastExamsBody},
+            {id: 1,title: "Comming Exams", body: commingExamsBody},
+            {id: 2,title: "Students", body: studentsBody},
         ];
+        return (
+            <HorizontalTabs allTabs= {allTabs} default={2}/>
+        );
 
     }
 }

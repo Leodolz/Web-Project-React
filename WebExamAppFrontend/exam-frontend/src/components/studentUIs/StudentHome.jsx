@@ -58,6 +58,7 @@ class StudentHome extends Component {
         else return null;
     }
 
+    //Delete when posible
     RenderPresentExams()
     {
         if(this.state.presentExams == null || this.state.presentExams[0] == null)
