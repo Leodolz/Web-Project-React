@@ -3,6 +3,7 @@ import Accordion from '../Accordion';
 import AdminExamTable from '../tables/AdminExamTable'
 import AdminStudentTable from '../tables/AdminStudentTable'
 import AreasTable from '../tables/SubAreasTable'
+import HorizontalTabs from '../HorizontalTabs';
 
 class AdminHome extends Component {
     state=
@@ -13,10 +14,10 @@ class AdminHome extends Component {
             overlay: false,
             body : null,
         },
-        students : [],
-        areas: [],
-        exams: [],
-        teachers: []
+        students : null,
+        areas: null,
+        exams: null,
+        teachers: null
     }
     constructor(props)
     {
@@ -49,7 +50,10 @@ class AdminHome extends Component {
     render() {
             
         let overlay = this.GetOverlayForm();
-        let accordions = this.GetAdminBody();
+        const {exams, teachers, students, areas} = this.state;
+        if(exams == null || teachers == null || students == null || areas == null)
+            return(<h1>Loading page...</h1>)
+        let tabs = this.GetAdminBody();
         let adminView = null;
         if(this.state.admins)
             adminView = <button 
@@ -58,7 +62,6 @@ class AdminHome extends Component {
                 View Admins</button>;
         return (
             <React.Fragment>
-            <br/>
                 <button 
                 onClick={()=>{
                     sessionStorage.setItem('URole',"Admin");
@@ -68,7 +71,7 @@ class AdminHome extends Component {
                 </button>
                 {adminView}
             <br/>
-            <Accordion accordions= {accordions}/>
+            {tabs}
             {overlay}
             </React.Fragment>
             );
@@ -197,8 +200,10 @@ class AdminHome extends Component {
         }
         this.setState({overlayed:overlayed});
     }
-    GetAdminBody = () =>
+    GetAreasAccordions = () =>
     {
+        if(this.state.loadedAccordions)
+            return this.state.loadedAccordions;
         let areasBody = [];
         let areasTable = this.state.areas;
         for(let i=0;i<areasTable.length;i++)
@@ -219,53 +224,42 @@ class AdminHome extends Component {
             }
             areasBody.push(container);
         }
-        return [
-            {
-                title:"Exams",
-                body : (
-                    <React.Fragment>
-                    <AdminExamTable table = {this.state.exams}/>
-                    <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button> 
-                    </React.Fragment>
-                )
-            },
-            {
-                title:"Students",
-                body : (
-                    <React.Fragment>
-                     <AdminStudentTable table = {this.state.students} role="Student"/>
-                     <button onClick={()=>{
-                         sessionStorage.setItem('URole',"Student");
-                         window.location.assign('/admStudent')
-                         }}>Add new Student</button>
-                    </React.Fragment>
-                )
-            },
-            {
-                title:"Teachers",
-                body : (
-                    <React.Fragment>
-                     <AdminStudentTable table = {this.state.teachers} role="Teacher"/>
-                     <button onClick={()=>{
-                         sessionStorage.setItem('URole',"Teacher");
-                         window.location.assign('/admStudent');
-                         }}>Add new Teacher</button>
-                    </React.Fragment>
-                )
-            },
-            {
-                title:"Areas",
-                body:
-                {
-                    after:(
-                        <React.Fragment> 
-                        <hr/>
-                        <button onClick={()=>window.location.assign('/admAreas')}>Add Area</button>
-                        </React.Fragment>),
-                    multi: areasBody
-                },
-            },
+        this.setState({loadedAccordions: areasBody});
+        return areasBody;
+    }
+    GetAdminBody = () =>
+    {
+        let areasBody = this.GetAreasAccordions();
+        let examsBody = 
+            <>
+                <AdminExamTable table = {this.state.exams}/>
+                <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button> 
+            </>
+        let studentsBody =
+            <>
+                <AdminStudentTable table = {this.state.students} role="Student"/>
+                <button onClick={()=>{
+                    sessionStorage.setItem('URole',"Student");
+                    window.location.assign('/admStudent')
+                    }}>Add new Student</button>
+            </>;
+        let teachersBody = 
+            <>
+                <AdminStudentTable table = {this.state.teachers} role="Teacher"/>
+                    <button onClick={()=>{
+                        sessionStorage.setItem('URole',"Teacher");
+                        window.location.assign('/admStudent');
+                        }}>Add new Teacher</button>
+            </>
+        let allTabs = [
+            {id: 0, title: "Exams", body: examsBody},
+            {id: 1,title: "Students", body: studentsBody},
+            {id: 2,title: "Teachers", body: teachersBody},
+            {id: 3,title: "Areas", body: <Accordion accordions ={areasBody}/>},
         ];
+        return (
+            <HorizontalTabs allTabs= {allTabs} default={0}/>
+        );
     }
 }
  
