@@ -5,8 +5,11 @@ class AdminExamTable extends Component {
     clickDetailsHandler = (event) =>
     {
         this.fetchExamById(event.target.title);
+        if(this.props.past)
+            sessionStorage.setItem('NewExam','true');
         window.location.assign('/admExam');
     }
+
     fetchExamById(id)
     {
         fetch('http://localhost:51061/api/Exams/'+id+
@@ -23,13 +26,16 @@ class AdminExamTable extends Component {
         for(let i=0;i<entries.length;i++)
         {
             let children = [];
+            let detailsEntry = <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>;
+            if(this.props.past)
+            detailsEntry =  <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Copy new</p>;
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
             children.push(<td key={"fromDate"+i}>{entries[i].fromDate}</td>)
             children.push(<td key={"untilDate"+i}>{entries[i].untilDate}</td>)
             children.push(<td key={"area"+i}>{entries[i].area}</td>)
             children.push(<td key={"subarea"+i}>{entries[i].subarea}</td>)
             children.push(<td key={"Edit"+i}>
-                <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                {detailsEntry}
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }
@@ -37,6 +43,9 @@ class AdminExamTable extends Component {
     }
     render() { 
         let tableBody = this.renderTable(this.props.table);
+        let editEntry = <th>Edit Exam</th>;
+        if(this.props.past)
+            editEntry = <th>Copy new</th>;
         return ( 
             <div className="overflow-x:auto">
                 <table>
@@ -47,7 +56,7 @@ class AdminExamTable extends Component {
                         <th>Until</th>
                         <th>Area</th>
                         <th>Sub-Area</th>
-                        <th>Edit Exam</th>
+                        {editEntry}
                     </tr>
                     {tableBody}
                     </tbody>

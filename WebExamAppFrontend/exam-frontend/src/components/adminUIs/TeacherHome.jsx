@@ -13,7 +13,7 @@ class TeacherHome extends Component {
             overlay: false,
             body : null,
         },
-        pastExams: [],
+        pastExams: null,
         commingExams: null,
         subAreas: [],
         students: null,
@@ -26,6 +26,7 @@ class TeacherHome extends Component {
         let userId = props.user.Id;
         this.FetchGenericTable('SubAreas/'+userId+'?action=GetSubAreas','subAreas');
         this.FetchGenericTable('StudentExams/'+userId+'?time=future','commingExams');
+        this.FetchGenericTable('StudentExams/'+userId+'?time=pastAdmin','pastExams');
         this.FetchGenericTable('Students?subAreaId='+userId+'&role=Student','students');
     }
     cancelEdit = (event) =>
@@ -116,30 +117,33 @@ class TeacherHome extends Component {
         return newArray;
     }
 
-    GetExamsBody = (examsTable, students) => 
+    GetItemBody(students,tableElement,past)
+    {
+        if(students)
+            return (
+                <>
+                    <AdminStudentTable teacher={true} table = {tableElement.students}/>
+                    <button title={tableElement.name} onClick={(event)=>
+                    {
+                        sessionStorage.setItem('URole',"Student");
+                        sessionStorage.setItem('USubArea', event.target.title);
+                        window.location.assign('/admStudent')
+                    }
+                    }>Add new Student</button>
+                </>
+            );
+        else return <AdminExamTable table={tableElement.exams} past={past}/>;
+
+    }
+
+    GetExamsBody = (examsTable, students, past) => 
     {
         let tabContentBody = [];
         if(examsTable.length<1)
             return <h1>Empty tables</h1>
         for(let i=0;i<examsTable.length;i++)
         {
-            let bodyItem = <AdminExamTable table={examsTable[i].exams}/>
-            if(students==true)
-            {
-                bodyItem = (
-                    <React.Fragment>
-                        <AdminStudentTable teacher={true} table = {examsTable[i].students}/>
-                        <button title={examsTable[i].name} onClick={(event)=>
-                        {
-                            sessionStorage.setItem('URole',"Student");
-                            sessionStorage.setItem('USubArea', event.target.title);
-                            window.location.assign('/admStudent')
-                        }
-                        }>Add new Student</button>
-                        
-                    </React.Fragment>
-                    );
-            }
+            let bodyItem = this.GetItemBody(students,examsTable[i], past);
             let container = 
             {
                 title: examsTable[i].name,
@@ -161,15 +165,15 @@ class TeacherHome extends Component {
         if(this.state.students == null || this.state.commingExams == null || this.state.pastExams == null)
             return <h1>Loading..</h1>
         let pastExamsTable = this.SortByArea(this.state.pastExams);
-        let pastExamsBody = this.GetExamsBody(pastExamsTable,false);
+        let pastExamsBody = this.GetExamsBody(pastExamsTable,false, true);
         let commingExamsTable = this.SortByArea(this.state.commingExams);
-        let commingExamsBody = this.GetExamsBody(commingExamsTable,false);
+        let commingExamsBody = this.GetExamsBody(commingExamsTable,false, false);
         commingExamsBody = (<>
             {commingExamsBody}
             <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button>
         </>);
         let studentsTable = this.SortStudentsByArea(this.state.students);
-        let studentsBody = this.GetExamsBody(studentsTable,true);
+        let studentsBody = this.GetExamsBody(studentsTable,true, false);
         let allTabs = [
             {id: 0, title: "Past Exams", body: pastExamsBody},
             {id: 1,title: "Comming Exams", body: commingExamsBody},

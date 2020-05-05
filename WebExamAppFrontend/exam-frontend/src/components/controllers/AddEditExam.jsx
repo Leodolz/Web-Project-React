@@ -32,6 +32,9 @@ class ExamEdit extends Component {
         .then(result=>result.json())
         .then((data)=>{
             this.setState({exam: data});
+            let newExam = sessionStorage.getItem('NewExam');
+            if(newExam!=null)
+                this.setState({new:true});
         })
         .catch((e)=>{
             this.setState({exam: this.GetEmptyExam()});

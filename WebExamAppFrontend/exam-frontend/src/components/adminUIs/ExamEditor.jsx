@@ -44,17 +44,42 @@ class ExamEditor extends Component {
     controlExamParameters =(exam) =>
     {
         let accepted = {value: true, message: null}
+        accepted = this.checkEmptyFields(exam, accepted);
+        accepted = this.checkValidQuestions(exam, accepted);
+        accepted = this.checkValidDate(exam, accepted);
+        return accepted;
+    }
+    checkValidDate = (exam, accepted) =>
+    {
+        let fromDate = new Date(exam.fromDate);
+        let untilDate = new Date(exam.untilDate);
+        let rightNowDate = new Date();
+        if(untilDate<=fromDate)
+            accepted = {value: false, message: "Cannot set a finishing date that is BEFORE the starting date, use an until date at least 10 minutes after "+this.FormatDate(exam.fromDate)};
+        else if(((untilDate-fromDate)/60000)<10)
+            accepted = {value: false, message: "Time is too short, use an until date at least 10 minutes after "+this.FormatDate(exam.fromDate)};
+        else if(fromDate<= rightNowDate)
+            accepted = {value: false, message: "Cannot use a past date for setting an upcomming exam! Use a starting date after "+rightNowDate.toDateString()+ " "+ rightNowDate.toTimeString()};
+        return accepted;
+    }
+    checkValidQuestions = (exam, accepted) => 
+    {
+        if(exam.staticQuestions == false && exam.numberQuestions>this.state.allQuestions.length)
+            accepted = {value: false, message: "Invalid number of questions, must be between 1 and "+this.state.allQuestions.length};
+        return accepted;
+    }
+    checkEmptyFields = (exam, accepted) =>
+    {
         if(exam.title == null || exam.fromDate == null 
             || exam.untilDate == null || exam.subAreaId == 0 ||
             exam.subAreaId == null || exam.numberQuestions == 0 )
             accepted = {value: false, message: "You need to fill ALL fields!"};
-        if(exam.staticQuestions == false && exam.numberQuestions>this.state.allQuestions.length)
-            accepted = {value: false, message: "Invalid number of questions, must be between 1 and "+this.state.allQuestions.length};
         return accepted;
     }
     showActive = (event)=>
     {
         event.preventDefault();
+        sessionStorage.setItem('NewExam',null);
         let numberOfQuestions = this.GetTotalScore(event);
         let realExam = this.RefurbishExam(this.state.exam,numberOfQuestions);
         let accepted = this.controlExamParameters(realExam)
@@ -251,7 +276,6 @@ class ExamEditor extends Component {
                         <label className="radioLabel" >Static Questions</label>
                         <input type="radio" onChange={this.handleChangeType} id="random" name="type" value={false} defaultChecked={!this.state.exam.staticQuestions}/>
                         <label className="radioLabel" >Random Questions</label>
-                        
                 </div>
                 {questions}
                 {numberOfQuestions}

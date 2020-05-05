@@ -29,6 +29,10 @@ namespace WebApplication2.DBControllers
         {
             return examRepository.GetAllFutureBySubArea(subAreaIds);
         }
+        public List<Exam> GetAllPastGeneralExams(int[] subAreaIds)
+        {
+            return examRepository.GetAllPastBySubArea(subAreaIds);
+        }
         public List<Exam> GetAllStudentPresentExams(int[] subAreaIds, List<int> takenIds)
         {
             return examRepository.GetAllPresentBySubArea(subAreaIds,takenIds);

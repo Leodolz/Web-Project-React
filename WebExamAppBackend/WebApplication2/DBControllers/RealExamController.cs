@@ -31,6 +31,20 @@ namespace WebApplication2.DBControllers
             studentExamController.GetAllStudentExamsFromModel(examId);
             examController.DeleteExam(examId);
         }
+
+        public RealExam[] GetAllTeacherPastExams(RealExamProxy realExamProxy, int teacherId)
+        {
+            SubAreaController subAreaController = new SubAreaController();
+            List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(teacherId);
+            int[] subAreaIds = SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
+            List<Exam> allExams = examController.GetAllPastGeneralExams(subAreaIds);
+            List<RealExam> allRealExams = new List<RealExam>();
+            foreach (Exam exam in allExams)
+            {
+                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
+            }
+            return allRealExams.ToArray();
+        }
         public RealExam[] GetAllStudentFutureExams(RealExamProxy realExamProxy, int studentId)
         {
             SubAreaController subAreaController = new SubAreaController();

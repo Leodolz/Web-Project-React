@@ -31,6 +31,8 @@ namespace WebApplication2.Controllers
                     return realExamController.GetAllStudentFutureExams(studentExamProxy, id).ToArray();
                 case "present":
                     return realExamController.GetAllStudentPresentExams(studentExamProxy, id).ToArray();
+                case "pastAdmin":
+                    return realExamController.GetAllTeacherPastExams(studentExamProxy, id).ToArray();
                 default:
                     return null;
             }
