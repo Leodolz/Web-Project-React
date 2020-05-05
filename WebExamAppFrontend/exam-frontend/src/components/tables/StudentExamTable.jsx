@@ -3,18 +3,9 @@ import React, { Component } from 'react';
 class StudentTable extends Component {
     state = 
     {
-        commingExam: false,
-        presentExam: false,
+        examTime: this.props.examTime
     }
 
-    constructor(props)
-    {
-        super(props);
-        if(this.props.commingExam)
-            this.state.commingExam = true;
-        if(this.props.presentExam)
-            this.state.presentExam = true;
-    }
     clickDetailsHandler = (event) =>
     {
         this.GetExamByName(event.target.title);
@@ -41,16 +32,18 @@ class StudentTable extends Component {
     }
     GetExamByName = (id) =>
     {
-
-        if(this.state.presentExam)
+        switch(this.state.examTime)
         {
-            this.fetchExamById(id);
-            window.location.assign("/ExamStudent");
-        }
-        else 
-        {
-            this.fetchPastExamById(id);
-            window.location.assign("/studentExm");
+            case "present":
+                this.fetchExamById(id);
+                window.location.assign("/ExamStudent");
+                break;
+            case "past":
+                this.fetchExamById(id);
+                window.location.assign("/studentExm");
+                break;
+            default: 
+                break;
         }
     }
     renderTable(entries)
