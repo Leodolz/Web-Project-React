@@ -48,11 +48,11 @@ namespace WebApplication2.Controllers
             //From here it should be in some kind of controller
             Dictionary<string,float> questionScores = StudentExamUtils.EvaulateExam(recievingRealExam, realModelExam);
             StudentExam exam = StudentExamUtils.NewRealExamToStudentExam(recievingRealExam, (int)questionScores["~totalScore"],recievingRealExam.studentId);
-            studentExamController.AddStudentExam(exam);
+            int studentExamId = studentExamController.AddStudentExam(exam);
             StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
             foreach(RealExamQuestion question in recievingRealExam.examElements)
             {
-                StudentQuestionTable studentQuestion = StudentExamUtils.RealQuestionToStudentQuestion(question,(int)questionScores[question.title], modelExam.Id, optionAssignController);
+                StudentQuestionTable studentQuestion = StudentExamUtils.RealQuestionToStudentQuestion(question,(int)questionScores[question.title], studentExamId, optionAssignController);
                 studentExamQuestionController.AddStudentExamQuestion(studentQuestion);
             }
 

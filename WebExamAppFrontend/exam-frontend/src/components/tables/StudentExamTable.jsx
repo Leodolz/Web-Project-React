@@ -39,7 +39,7 @@ class StudentTable extends Component {
                 window.location.assign("/ExamStudent");
                 break;
             case "past":
-                this.fetchExamById(id);
+                this.fetchPastExamById(id);
                 window.location.assign("/studentExm");
                 break;
             default: 
@@ -50,7 +50,7 @@ class StudentTable extends Component {
     {
         let table = [];
         let details = "Details";
-        if(this.state.presentExam)
+        if(this.state.examTime == "present")
             details = "Take Exam";
         
         for(let i=0;i<entries.length;i++)
@@ -58,7 +58,7 @@ class StudentTable extends Component {
             let detailsEntry = (<td key={"details"+i}>
             <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
             </td>);
-            if(this.state.commingExam)
+            if(this.state.examTime == "future")
                 detailsEntry = null;
             let children = [];
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
@@ -73,7 +73,7 @@ class StudentTable extends Component {
     render() { 
         let tableBody = this.renderTable(this.props.table);
         let detailsEntry = <th>Details</th>;
-        if(this.state.commingExam)
+        if(this.state.examTime == "future")
             detailsEntry = null;
         return ( 
             <div className="overflow-x:auto">

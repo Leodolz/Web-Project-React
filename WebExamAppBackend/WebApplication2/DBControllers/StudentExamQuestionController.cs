@@ -10,56 +10,56 @@ namespace WebApplication2.DBControllers
 {
     public class StudentExamQuestionController
     {
-        private StudentExamQuestionRepository studentExamRepository = new StudentExamQuestionRepository(new Exam_DBPlatform4());
+        private StudentExamQuestionRepository studentExamQuestionRepository = new StudentExamQuestionRepository(new Exam_DBPlatform4());
 
         public StudentQuestionTable GetById(int id)
         {
-            return studentExamRepository.GetById(id);
+            return studentExamQuestionRepository.GetById(id);
         }
         public StudentQuestionTable GetByModelQuestionId(int id)
         {
-            return studentExamRepository.GetByModelQuestionId(id);
+            return studentExamQuestionRepository.GetByModelQuestionId(id);
         }
 
         public List<int> GetAllExamQuestions(int studentExamId)
         {
-            return studentExamRepository.GetAllQuestionsInExam(studentExamId);
+            return studentExamQuestionRepository.GetAllQuestionsInExam(studentExamId);
         }
 
         public int AddStudentExamQuestion(StudentQuestionTable model)
         {
-            var allExamQuestions = studentExamRepository.GetAll();
+            var allExamQuestions = studentExamQuestionRepository.GetAll();
             int lastId = 0;
             if(allExamQuestions.Count()>0)
                 lastId = allExamQuestions[allExamQuestions.Count() - 1].Id;
             model.Id = lastId + 1;
-            studentExamRepository.Insert(model);
-            studentExamRepository.Save();
+            studentExamQuestionRepository.Insert(model);
+            studentExamQuestionRepository.Save();
             return model.Id;
         }
         public void EditStudentExamQuestion(int examQuestionId, StudentQuestionTable newExamQuestion)
         {
-            StudentQuestionTable model = studentExamRepository.GetById(examQuestionId);
+            StudentQuestionTable model = studentExamQuestionRepository.GetById(examQuestionId);
             model = newExamQuestion;
             EditStudentExamQuestion(model);
         }
         private void EditStudentExamQuestion(StudentQuestionTable model)
         {
-            studentExamRepository.Update(model);
-            studentExamRepository.Save();
+            studentExamQuestionRepository.Update(model);
+            studentExamQuestionRepository.Save();
 
         }
         public void DeleteStudentExamQuestion(int examQuestionId)
         {
-            StudentQuestionTable model = studentExamRepository.GetById(examQuestionId);
+            StudentQuestionTable model = studentExamQuestionRepository.GetById(examQuestionId);
             if (model == null)
                 return;
             Delete(examQuestionId);
         }
         private void Delete(int examId)
         {
-            studentExamRepository.Delete(examId);
-            studentExamRepository.Save();
+            studentExamQuestionRepository.Delete(examId);
+            studentExamQuestionRepository.Save();
         }
     }
 }

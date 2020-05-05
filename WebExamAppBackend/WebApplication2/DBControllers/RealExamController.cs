@@ -121,7 +121,7 @@ namespace WebApplication2.DBControllers
             Exam modelExam = examController.GetById(exam.examId);
             List<questionAssign> allStudentExamQuestions;
             if (modelExam.staticQuestions)
-                allStudentExamQuestions = questionAssignController.GetAllExamQuestions(modelExam.Id);
+                allStudentExamQuestions = GetStudentRandomedExamQuestions(exam.Id);
             else allStudentExamQuestions = GetStudentRandomedExamQuestions(exam.Id);
             RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(examController, allStudentExamQuestions, questionAssignController, optionAssignController,studentExamQuestionController);
             RealExam realExam =  ExamUtils.ExamToRealExam(modelExam, questions, new SubAreaController(), new AreaController());

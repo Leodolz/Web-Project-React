@@ -46,7 +46,7 @@ class StudentExamViewer extends Component {
                 title: (i+1)+". "+this.state.listElements[i].title,
                 body: (
                     <ul className="myUL">
-                     <li className="StudentAnswer" title={this.state.listElements[i].studentAnswer} key={"Q"+i}><span className="etag">Your Answer: </span>{this.state.listElements[i].studentAnswer.join(", ")}<br/></li> 
+                     <li className="StudentAnswer" title={this.state.listElements[i].studentAnswer} key={"Q"+i}><span className="etag">Your Answer: </span>{this.state.listElements[i].studentAnswer}<br/></li> 
                      <li className="ExamAnswer" title = {this.state.listElements[i].answer} key={"A"+i}><span className="etag">Answer: </span>{this.state.listElements[i].answer.join(", ")}</li>
                      <li className="ExamScore" title = {this.state.listElements[i].studentScore} key={"S"+i}><span className="etag">Score: </span>{this.state.listElements[i].studentScore+"/"+this.state.listElements[i].score}</li>
                     </ul>
