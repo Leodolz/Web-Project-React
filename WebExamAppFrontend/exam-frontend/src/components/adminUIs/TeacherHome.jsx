@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Accordion from '../Accordion';
 import AdminExamTable from '../tables/AdminExamTable'
 import AdminStudentTable from '../tables/AdminStudentTable'
+import SubAreasTable from '../tables/SubAreasTable'
 import HorizontalTabs from '../HorizontalTabs';
 
 class TeacherHome extends Component {
@@ -136,17 +137,17 @@ class TeacherHome extends Component {
 
     }
 
-    GetExamsBody = (examsTable, students, past) => 
+    GetTabBody = (dataArray, students, past) => 
     {
         let tabContentBody = [];
-        if(examsTable.length<1)
+        if(dataArray.length<1)
             return <h1>Empty tables</h1>
-        for(let i=0;i<examsTable.length;i++)
+        for(let i=0;i<dataArray.length;i++)
         {
-            let bodyItem = this.GetItemBody(students,examsTable[i], past);
+            let bodyItem = this.GetItemBody(students,dataArray[i], past);
             let container = 
             {
-                title: examsTable[i].name,
+                title: dataArray[i].name,
                 body: (
                     <React.Fragment>
                        {bodyItem}
@@ -158,26 +159,26 @@ class TeacherHome extends Component {
         return  <Accordion accordions= {tabContentBody}/>;
     }
 
-   
-
     GetTeacherHomeBody = () =>
     {
         if(this.state.students == null || this.state.commingExams == null || this.state.pastExams == null)
             return <h1>Loading..</h1>
         let pastExamsTable = this.SortByArea(this.state.pastExams);
-        let pastExamsBody = this.GetExamsBody(pastExamsTable,false, true);
+        let pastExamsBody = this.GetTabBody(pastExamsTable,false, true);
         let commingExamsTable = this.SortByArea(this.state.commingExams);
-        let commingExamsBody = this.GetExamsBody(commingExamsTable,false, false);
+        let commingExamsBody = this.GetTabBody(commingExamsTable,false, false);
         commingExamsBody = (<>
             {commingExamsBody}
             <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button>
         </>);
         let studentsTable = this.SortStudentsByArea(this.state.students);
-        let studentsBody = this.GetExamsBody(studentsTable,true, false);
+        let studentsBody = this.GetTabBody(studentsTable,true, false);
+        let subAreasBody = <SubAreasTable table = {this.state.subAreas}/>;
         let allTabs = [
             {id: 0, title: "Past Exams", body: pastExamsBody},
             {id: 1,title: "Comming Exams", body: commingExamsBody},
             {id: 2,title: "Students", body: studentsBody},
+            {id: 3, title: "Sub Areas", body: subAreasBody}
         ];
         return (
             <HorizontalTabs allTabs= {allTabs} default={2}/>

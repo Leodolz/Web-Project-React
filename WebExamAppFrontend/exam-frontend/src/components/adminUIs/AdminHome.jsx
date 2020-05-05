@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Accordion from '../Accordion';
 import AdminExamTable from '../tables/AdminExamTable'
 import AdminStudentTable from '../tables/AdminStudentTable'
-import AreasTable from '../tables/SubAreasTable'
+import SubAreasTable from '../tables/SubAreasTable'
 import HorizontalTabs from '../HorizontalTabs';
 
 class AdminHome extends Component {
@@ -217,7 +217,7 @@ class AdminHome extends Component {
                         <button title={areasTable[i].students.join(",")} className="neighboorOptions" onClick={this.showStudentsArea}>View Students</button>
                         <button title={areasTable[i].Id} onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button>
                     </p>
-                    <AreasTable table = {areasTable[i].subareas} showStudentsArea={this.showStudentsArea}/>
+                    <SubAreasTable table = {areasTable[i].subareas} showStudentsArea={this.showStudentsArea} admin={true}/>
                     <button title={areasTable[i].Id} onClick={this.AddSubArea}>Add Sub-Area</button>
                     </React.Fragment>
                 )
