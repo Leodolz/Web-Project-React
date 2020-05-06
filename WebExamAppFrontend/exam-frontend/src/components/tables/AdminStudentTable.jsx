@@ -17,6 +17,21 @@ class AdminStudentTable extends Component {
         })
         .catch(console.log);
     }
+    clickDeleteHandler = (event) =>
+    {
+        if(window.confirm("Are you sure you want to delete this student?"))
+            this.DeleteStudent(event.target.title);
+    }
+    DeleteStudent = (id) =>
+    {
+        fetch('http://localhost:51061/api/Users/'+id,
+            {
+                method: 'DELETE',
+            })
+            .then(res=> window.location.assign('/home'))
+            .catch((e)=>{alert("Error, couldn't add or edit student")});
+            alert("Changes Succesfully done");
+    }
     renderTable(entries)
     {
         let table = [];

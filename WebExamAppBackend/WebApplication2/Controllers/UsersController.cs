@@ -46,7 +46,6 @@ namespace WebApplication2.Controllers
             System.Diagnostics.Debug.WriteLine("Recieved User: "+realUser.username);
             UserController userController = new UserController();
             
-            //DefaultUsers.Add(realUser);
         }
 
         // PUT: api/Users/5
@@ -55,8 +54,13 @@ namespace WebApplication2.Controllers
         }
 
         // DELETE: api/Users/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            if (id < 1)
+                return BadRequest("Not a valid Id");
+            RealStudentController realStudentController = new RealStudentController();
+            realStudentController.DeleteStudent(id);
+            return Ok();
         }
 
     }

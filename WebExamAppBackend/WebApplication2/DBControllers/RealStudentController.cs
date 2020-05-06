@@ -67,10 +67,12 @@ namespace WebApplication2.DBControllers
             List<string> assignmentsToDelete =  SubAreaUtils.GetSubAreasStrings(userSubAreas).ToList();
             SubAreaAssignUtils.UnAssignSubAreasToUser(userId, subAreaController, assignmentsToDelete.ToArray());
             StudentExamController studentExamController = new StudentExamController();
-            List<int> allStudentExamIds = studentExamController.GetAllStudentExamIds(userId);
-            foreach(int studentExamId in allStudentExamIds)
+            StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
+            List<StudentExam> allStudentExamIds = studentExamController.GetAllStudentExams(userId);
+            foreach(StudentExam studentExam in allStudentExamIds)
             {
-                studentExamController.DeleteStudentExam(studentExamId);
+                studentExamQuestionController.DeleteAllStudentExamQuestions(studentExam.Id);
+                studentExamController.DeleteStudentExam(studentExam.Id);
             }
             userController.DeleteStudent(userId);
         }

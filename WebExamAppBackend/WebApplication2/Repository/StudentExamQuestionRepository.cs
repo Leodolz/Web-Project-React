@@ -22,5 +22,10 @@ namespace WebApplication2.Repository
             return table.Where(stQuestion => stQuestion.studentExamId == studentExamId)
                 .Select(stQuestion => stQuestion.questionId).ToList();
         }
+        public List<int> GetAllStudentQuestionIdsInExam(int studentExamId)
+        {
+            return table.Where(stQuestion => stQuestion.studentExamId == studentExamId)
+                .Select(stQuestion => stQuestion.Id).ToList();
+        }
     }
 }

@@ -49,7 +49,16 @@ namespace WebApplication2.DBControllers
             studentExamQuestionRepository.Save();
 
         }
-        public void DeleteStudentExamQuestion(int examQuestionId)
+        public void DeleteAllStudentExamQuestions(int studentExamId)
+        {
+            List<int> allstudentQuestionIds = studentExamQuestionRepository.GetAllStudentQuestionIdsInExam(studentExamId);
+            foreach(int stQuestionId in allstudentQuestionIds)
+            {
+                DeleteStudentExamQuestion(stQuestionId);
+            }
+        }
+
+        private void DeleteStudentExamQuestion(int examQuestionId)
         {
             StudentQuestionTable model = studentExamQuestionRepository.GetById(examQuestionId);
             if (model == null)

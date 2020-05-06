@@ -11,13 +11,16 @@ table {
     padding: 8px;
   }
   .tDetails{
-      color: blue;
+    color: blue;
   }
   .tDelete{
     color: red;
     font-weight: bold;
 }
   .tDetails:hover{
+    cursor: pointer;
+  }
+  .tDelete:hover{
     cursor: pointer;
   }
   

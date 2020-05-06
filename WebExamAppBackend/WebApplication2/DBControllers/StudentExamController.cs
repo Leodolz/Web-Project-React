@@ -57,12 +57,13 @@ namespace WebApplication2.DBControllers
             studentExamRepository.Save();
 
         }
-        public void DeleteStudentExam(int examId)
+        public void  DeleteStudentExam(int examId)
         {
             StudentExam model = studentExamRepository.GetById(examId);
             if (model == null)
                 return;
             Delete(examId);
+       
         }
         private void Delete(int examId)
         {
