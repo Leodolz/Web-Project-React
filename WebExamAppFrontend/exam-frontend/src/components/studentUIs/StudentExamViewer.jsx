@@ -36,19 +36,37 @@ class StudentExamViewer extends Component {
             </React.Fragment>
           );
     }
+    RenderArrayList = (array) =>
+    {
+        let list = [];
+        for(let i =0;i<array.length;i++)
+        {
+            let listElement = (
+                <li className="optionElement" key={array[i]+" "+i}><p>{(i+1)}. {array[i]}</p></li>
+            )
+            list.push(listElement);
+        }
+        return list;
+    }
     GetExamBody = () =>
     {
         let examBody = [];
+        
         for(let i=0;i<this.state.listElements.length;i++)
         {
+            let plural = "";
+            if(this.state.listElements[i].answer.length>1)
+                plural = "s";
             let container = 
             {
                 title: (i+1)+". "+this.state.listElements[i].title,
                 body: (
                     <ul className="myUL">
-                     <li className="StudentAnswer" title={this.state.listElements[i].studentAnswer} key={"Q"+i}><span className="etag">Your Answer: </span>{this.state.listElements[i].studentAnswer.join(", ")}<br/></li> 
-                     <li className="ExamAnswer" title = {this.state.listElements[i].answer} key={"A"+i}><span className="etag">Answer: </span>{this.state.listElements[i].answer.join(", ")}</li>
-                     <li className="ExamScore" title = {this.state.listElements[i].studentScore} key={"S"+i}><span className="etag">Score: </span>{this.state.listElements[i].studentScore+"/"+this.state.listElements[i].score}</li>
+                     <li className="questionTitle" title={this.state.listElements[i].studentAnswer} key={"Q"+i}><span className="etag">Your Answer{plural}: </span></li>
+                     {this.RenderArrayList(this.state.listElements[i].studentAnswer)} 
+                     <li className="questionTitle" title = {this.state.listElements[i].answer} key={"A"+i}><span className="etag">Correct Answer{plural}: </span></li>
+                     {this.RenderArrayList(this.state.listElements[i].answer)}
+                     <li className="optionElement" title = {this.state.listElements[i].studentScore} key={"S"+i}><span className="etag">Score: </span>{this.state.listElements[i].studentScore+"/"+this.state.listElements[i].score}</li>
                     </ul>
                 )
             }
