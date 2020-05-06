@@ -16,9 +16,9 @@ namespace WebApplication2.DBControllers
         {
             return studentExamQuestionRepository.GetById(id);
         }
-        public StudentQuestionTable GetByModelQuestionId(int id)
+        public StudentQuestionTable GetByModelQuestionId(int questionId, int studentExamId)
         {
-            return studentExamQuestionRepository.GetByModelQuestionId(id);
+            return studentExamQuestionRepository.GetByModelQuestionIdAndStudentId(questionId, studentExamId);
         }
 
         public List<int> GetAllExamQuestions(int studentExamId)

@@ -46,8 +46,9 @@ namespace WebApplication2.Controllers
             else
                 realModelExam = realExamController.GetStaticExam(modelExam);
             //From here it should be in some kind of controller
+            
             Dictionary<string,float> questionScores = StudentExamUtils.EvaulateExam(recievingRealExam, realModelExam);
-            StudentExam exam = StudentExamUtils.NewRealExamToStudentExam(recievingRealExam, (int)questionScores["~totalScore"],recievingRealExam.studentId);
+            StudentExam exam = StudentExamUtils.NewRealExamToStudentExam(recievingRealExam, (int)questionScores["~totalScore"], recievingRealExam.studentId);
             int studentExamId = studentExamController.AddStudentExam(exam);
             StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
             foreach(RealExamQuestion question in recievingRealExam.examElements)

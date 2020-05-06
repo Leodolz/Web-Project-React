@@ -93,7 +93,8 @@ namespace WebApplication2.DBControllers
         }
         public RealExam GetRandomExamModel(RealExam exam)
         {
-            foreach(RealExamQuestion question in exam.examElements)
+            RealExam studentExamCopy = new RealExam(exam);
+            foreach(RealExamQuestion question in studentExamCopy.examElements)
             {
                 List<string> answers = new List<string>();
                 List<OptionAssign> modelOptions = optionAssignController.GetAllQuestionOptions(question.questionId);
@@ -104,7 +105,7 @@ namespace WebApplication2.DBControllers
                 }
                 question.answer = answers.ToArray();
             }
-            return exam;
+            return studentExamCopy;
         }
         public RealExam GetStaticExam(Exam exam)
         {
@@ -119,11 +120,8 @@ namespace WebApplication2.DBControllers
         public RealExam GetStudentExam(StudentExam exam)
         {
             Exam modelExam = examController.GetById(exam.examId);
-            List<questionAssign> allStudentExamQuestions;
-            if (modelExam.staticQuestions)
-                allStudentExamQuestions = GetStudentRandomedExamQuestions(exam.Id);
-            else allStudentExamQuestions = GetStudentRandomedExamQuestions(exam.Id);
-            RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(examController, allStudentExamQuestions, questionAssignController, optionAssignController,studentExamQuestionController);
+            List<questionAssign> allStudentExamQuestions = GetStudentRandomedExamQuestions(exam.Id);
+            RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(exam.Id, examController, allStudentExamQuestions, questionAssignController, optionAssignController,studentExamQuestionController);
             RealExam realExam =  ExamUtils.ExamToRealExam(modelExam, questions, new SubAreaController(), new AreaController());
             realExam.studentTotalScore = exam.score;
             return realExam;

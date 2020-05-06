@@ -17,5 +17,23 @@ namespace WebApplication2.Models
         public int score { get; set; }
         public int questionId { get; set; }
         public int answerCount { get; set; }
+
+        public RealExamQuestion()
+        {
+
+        }
+        public RealExamQuestion(RealExamQuestion realExamQuestion)
+        {
+            title = realExamQuestion.title;
+            type = realExamQuestion.type;
+            options = realExamQuestion.options;
+            answer = realExamQuestion.answer;
+            multiple = realExamQuestion.multiple;
+            studentAnswer = realExamQuestion.studentAnswer;
+            studentScore = realExamQuestion.studentScore;
+            score = realExamQuestion.score;
+            questionId = realExamQuestion.questionId;
+            answerCount = realExamQuestion.answerCount;
+        }
     }
 }

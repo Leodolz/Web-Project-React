@@ -81,7 +81,7 @@ class StudentHome extends Component {
         let presentExams = this.GetExamsBody(this.state.presentExams,"present");
         let allTabs = [
             {id: 0, title: "Past Exams", body: pastExamsBody},
-            {id: 1,title: "Comming Exams", body: commingExamsBody},
+            {id: 1,title: "Coming Exams", body: commingExamsBody},
             {id: 2,title: "Present Exams", body: presentExams},
         ];
         let overlay = this.GetOverlayForm();

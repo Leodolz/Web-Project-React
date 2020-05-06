@@ -10,12 +10,12 @@ namespace WebApplication2.Utils
 {
     public class StudentExamUtils
     {
-        public static RealExamQuestion[] GetAllStudentExamElements(ExamController examController, List<questionAssign> allQuestions, QuestionAssignController questionAssignController, OptionAssignController optionAssignController, StudentExamQuestionController studentExamQuestionController)
+        public static RealExamQuestion[] GetAllStudentExamElements(int studentExamId, ExamController examController, List<questionAssign> allQuestions, QuestionAssignController questionAssignController, OptionAssignController optionAssignController, StudentExamQuestionController studentExamQuestionController)
         {
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
             foreach (questionAssign question in allQuestions)
             {
-                StudentQuestionTable studentExamQuestion = studentExamQuestionController.GetByModelQuestionId(question.Id);
+                StudentQuestionTable studentExamQuestion = studentExamQuestionController.GetByModelQuestionId(question.Id,studentExamId);
                 allExamElements.Add(GetExamElement(question, optionAssignController.GetAllQuestionOptions(question.Id), studentExamQuestion, optionAssignController));
             }
             return allExamElements.ToArray();

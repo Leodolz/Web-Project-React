@@ -208,6 +208,7 @@ class MasterQuestion extends Component {
     
     submitStudentExam = ()=>
     {
+        
         let realExam = this.RefurbishExam(this.props.exam);
         sessionStorage.setItem('SubmitedExam','true')
         localStorage.removeItem('CurrentQuestions');

@@ -13,9 +13,9 @@ namespace WebApplication2.Repository
         {
 
         }
-        public StudentQuestionTable GetByModelQuestionId(int id)
+        public StudentQuestionTable GetByModelQuestionIdAndStudentId(int id, int studentExamId)
         {
-            return table.FirstOrDefault(question => question.questionId == id);
+            return table.FirstOrDefault(question => question.questionId == id && question.studentExamId == studentExamId);
         }
         public List<int> GetAllQuestionsInExam(int studentExamId)
         {

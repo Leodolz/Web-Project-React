@@ -35,6 +35,7 @@ class TakeExam extends Component {
                 );
             else
             {
+                //localStorage.setItem("DoneExams",null);
                 let doneExams = localStorage.getItem("DoneExams").split(",");
                 if(doneExams == null)
                     doneExams = [];

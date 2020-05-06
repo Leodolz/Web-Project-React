@@ -20,5 +20,30 @@ namespace WebApplication2.Models
         public int studentTotalScore { get; set; }
         public int studentId { get; set; }
         public bool staticQuestions { get; set; }
+        public RealExam()
+        {
+
+        }
+        public RealExam(RealExam exam)
+        {
+            area = exam.area;
+            areaId = exam.areaId;
+            Id = exam.Id;
+            title = exam.title;
+            fromDate = exam.fromDate;
+            subAreaId = exam.subAreaId;
+            subarea = exam.subarea;
+            numberQuestions = exam.numberQuestions;
+            untilDate = exam.untilDate;
+            List<RealExamQuestion> newExamQuestions = new List<RealExamQuestion>();
+            foreach (RealExamQuestion realExamQuestion in exam.examElements)
+            {
+                newExamQuestions.Add(new RealExamQuestion(realExamQuestion));
+            }
+            examElements = newExamQuestions.ToArray();
+            studentTotalScore = exam.studentTotalScore;
+            studentId = exam.studentId;
+            staticQuestions = exam.staticQuestions;
+        }
     }
 }
