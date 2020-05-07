@@ -23,5 +23,18 @@ table {
   .tDelete:hover{
     cursor: pointer;
   }
+  .tSortable:hover{
+    cursor: pointer;
+  }
+  .arrow {
+    float: right;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    padding: 3px;
+  }
+  .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
   
   tr:nth-child(even){background-color: #c2e4e9}

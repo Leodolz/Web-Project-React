@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 
 class AdminExamTable extends Component {
-    state = {  }
+    state = {
+        table : this.props.table,
+        sortingTitles: 
+        {
+            title: "arrow down",
+            fromDate: "none",
+            untilDate: "none",
+            area: "none",
+            subarea: "none",
+        },
+        currentSorted: "title",
+      }
     clickDetailsHandler = (event) =>
     {
         this.fetchExamById(event.target.title);
@@ -19,6 +30,27 @@ class AdminExamTable extends Component {
 
         })
         .catch(console.log);
+    }
+    onSort(e, sortKey)
+    {
+        const data = this.state.table.slice();
+        const currentSorted = sortKey;
+        data.sort((a,b)=>a[sortKey].localeCompare(b[sortKey]));
+        this.setState({table:data,
+            currentSorted});
+        let sortingTitles= this.state.sortingTitles;
+        let newSortingTitles = this.changeStates(sortingTitles,currentSorted);
+        this.setState({sortingTitles:newSortingTitles});
+    }
+    changeStates(sortingTitles, currentSorted)
+    {
+        for(let property in sortingTitles)
+        {
+            if(property == currentSorted)
+                sortingTitles[property] = "arrow down";
+            else sortingTitles[property] = "none";
+        }
+        return sortingTitles;
     }
     renderTable(entries)
     {
@@ -42,7 +74,7 @@ class AdminExamTable extends Component {
         return table;
     }
     render() { 
-        let tableBody = this.renderTable(this.props.table);
+        let tableBody = this.renderTable(this.state.table);
         let editEntry = <th>Edit Exam</th>;
         if(this.props.past)
             editEntry = <th>Copy new</th>;
@@ -51,11 +83,11 @@ class AdminExamTable extends Component {
                 <table>
                     <tbody>
                     <tr>
-                        <th>Title</th>
-                        <th>From</th>
-                        <th>Until</th>
-                        <th>Area</th>
-                        <th>Sub-Area</th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'title')}>Title <i className={this.state.sortingTitles.title}></i></th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'fromDate')}>From <i className={this.state.sortingTitles.fromDate}></i></th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'untilDate')}>Until <i className={this.state.sortingTitles.untilDate}></i></th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'area')}>Area <i className={this.state.sortingTitles.area}></i></th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'subarea')}>Sub-Area <i className={this.state.sortingTitles.subarea}></i></th>
                         {editEntry}
                     </tr>
                     {tableBody}
