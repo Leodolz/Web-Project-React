@@ -23,7 +23,9 @@ namespace WebApplication2.DBControllers
         public void AddArea(Area model)
         {
             var allSubAreas = areaRepository.GetAll();
-            int lastId = allSubAreas[allSubAreas.Count() - 1].Id;
+            int lastId = 0;
+            if (allSubAreas.Count() > 0)
+                lastId = allSubAreas[allSubAreas.Count() - 1].Id;
             model.Id = lastId + 1;
             areaRepository.Insert(model);
             areaRepository.Save();

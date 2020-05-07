@@ -35,7 +35,7 @@ namespace WebApplication2.Utils
             {
                 User user = userController.GetById(studentId);
                 if(user.role=="Student")
-                    allStudentNames.Add(user.full_name); //HERE WE FILTER ONLY STUDENTS
+                    allStudentNames.Add(user.full_name); 
             }
             RealSubArea realSubArea = new RealSubArea
             {

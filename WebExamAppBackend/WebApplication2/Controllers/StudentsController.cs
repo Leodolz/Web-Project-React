@@ -33,11 +33,9 @@ namespace WebApplication2.Controllers
         // GET: api/Students/5
         public IHttpActionResult Get(int id) //This method does NOT differentiate between any role
         {
-            System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
             var result = studentTeacherProxy.GetStudent(id);
             if (result == null )
             {
-                System.Diagnostics.Debug.WriteLine("Couldn't return student");
                 EditStudentController.currentStudent = null;
                 EditStudentController.Editing = false;
                 return NotFound();

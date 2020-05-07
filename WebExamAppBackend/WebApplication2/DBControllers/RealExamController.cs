@@ -16,62 +16,43 @@ namespace WebApplication2.DBControllers
         private StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
         private QuestionAssignController questionAssignController = new QuestionAssignController();
         private OptionAssignController optionAssignController = new OptionAssignController();
-        public RealExam[] GetAllRealExams(RealExamProxy realExamProxy)
-        {
-            List<Exam> allExams = examController.GetAllExams();
-            List<RealExam> allRealExams = new List<RealExam>();
-            foreach(Exam exam in allExams)
-            {
-                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
-            }
-            return allRealExams.ToArray();
-        }
+       
         public void DeleteExam(int examId)
         {
             studentExamController.GetAllStudentExamsFromModel(examId);
             examController.DeleteExam(examId);
         }
 
+        public RealExam[] GetAllRealExams(RealExamProxy realExamProxy)
+        {
+            List<Exam> allExams = examController.GetAllExams();
+            return ExamUtils.GetRealExamArray(allExams, realExamProxy);
+        }
         public RealExam[] GetAllTeacherPastExams(RealExamProxy realExamProxy, int teacherId)
         {
-            SubAreaController subAreaController = new SubAreaController();
-            List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(teacherId);
-            int[] subAreaIds = SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
+            int[] subAreaIds = GetUserSubAreasIds(teacherId);
+
             List<Exam> allExams = examController.GetAllPastGeneralExams(subAreaIds);
-            List<RealExam> allRealExams = new List<RealExam>();
-            foreach (Exam exam in allExams)
-            {
-                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
-            }
-            return allRealExams.ToArray();
+
+            return ExamUtils.GetRealExamArray(allExams, realExamProxy);
         }
+
         public RealExam[] GetAllStudentFutureExams(RealExamProxy realExamProxy, int studentId)
         {
-            SubAreaController subAreaController = new SubAreaController();
-            List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(studentId);
-            int[] subAreaIds = SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
+            int[] subAreaIds = GetUserSubAreasIds(studentId);
             List<Exam> allExams = examController.GetAllStudentFutureExams(subAreaIds);
-            List<RealExam> allRealExams = new List<RealExam>();
-            foreach (Exam exam in allExams)
-            {
-                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
-            }
-            return allRealExams.ToArray();
+            return ExamUtils.GetRealExamArray(allExams, realExamProxy);
         }
         public RealExam[] GetAllStudentPresentExams(RealExamProxy realExamProxy, int studentId)
         {
-            SubAreaController subAreaController = new SubAreaController();
-            List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(studentId);
-            int[] subAreaIds = SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
+            int[] subAreaIds = GetUserSubAreasIds(studentId);
             List<int> allTakenExamIds = studentExamController.GetAllStudentExamIds(studentId);
             List<Exam> allExams = examController.GetAllStudentPresentExams(subAreaIds,allTakenExamIds);
-            List<RealExam> allRealExams = new List<RealExam>();
-            foreach (Exam exam in allExams)
-            {
-                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
-            }
-            return allRealExams.ToArray();
+
+            return ExamUtils.GetRealExamArray(allExams, realExamProxy);
         }
+
+
         public RealExam[] GetAllPastStudentExams(RealExamProxy realExamProxy, int studentId)
         {
             List<StudentExam> allExams = studentExamController.GetAllStudentExams(studentId);
@@ -82,15 +63,29 @@ namespace WebApplication2.DBControllers
             }
             return allRealExams.ToArray();
         }
-        public int GetModelId(int studentExamId)
+        private int[] GetUserSubAreasIds(int userId)
         {
-            return studentExamController.GetById(studentExamId).examId;
+            SubAreaController subAreaController = new SubAreaController();
+            List<SubArea> userSubAreas = subAreaController.GetUserSubAreas(userId);
+            return SubAreaUtils.SubAreasToSubAreaIds(userSubAreas).ToArray();
         }
+
+
         public RealExam GetRandomExam(Exam exam)
         {
             List<questionAssign> allExamQuestions = questionAssignController.GetRandomQuestions(exam.numberQuestions, exam.subAreaId);
             return GetRealExam(exam, allExamQuestions);
         }
+        public RealExam GetStudentExam(StudentExam exam)
+        {
+            Exam modelExam = examController.GetById(exam.examId);
+            List<questionAssign> allStudentExamQuestions = GetStudentExamQuestions(exam.Id);
+            RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(exam.Id, examController, allStudentExamQuestions, questionAssignController, optionAssignController, studentExamQuestionController);
+            RealExam realExam = ExamUtils.ExamToRealExam(modelExam, questions, new SubAreaController(), new AreaController());
+            realExam.studentTotalScore = exam.score;
+            return realExam;
+        }
+     
         public RealExam GetRandomExamModel(RealExam exam)
         {
             RealExam studentExamCopy = new RealExam(exam);
@@ -107,7 +102,7 @@ namespace WebApplication2.DBControllers
             }
             return studentExamCopy;
         }
-        public RealExam GetStaticExam(Exam exam)
+        public RealExam GetStaticExamModel(Exam exam)
         {
             List<questionAssign> allExamQuestions = questionAssignController.GetAllExamQuestions(exam.Id);
             return GetRealExam(exam, allExamQuestions);
@@ -117,17 +112,8 @@ namespace WebApplication2.DBControllers
             RealExamQuestion[] questions = ExamUtils.GetAllQuestionElements(allExamQuestions, optionAssignController);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }
-        public RealExam GetStudentExam(StudentExam exam)
-        {
-            Exam modelExam = examController.GetById(exam.examId);
-            List<questionAssign> allStudentExamQuestions = GetStudentRandomedExamQuestions(exam.Id);
-            RealExamQuestion[] questions = StudentExamUtils.GetAllStudentExamElements(exam.Id, examController, allStudentExamQuestions, questionAssignController, optionAssignController,studentExamQuestionController);
-            RealExam realExam =  ExamUtils.ExamToRealExam(modelExam, questions, new SubAreaController(), new AreaController());
-            realExam.studentTotalScore = exam.score;
-            return realExam;
-        }
-        //Should be at Student Utils
-        private List<questionAssign> GetStudentRandomedExamQuestions(int studentExamId)
+
+        private List<questionAssign> GetStudentExamQuestions(int studentExamId)
         {
             List<int> allExamQuestionsIds = studentExamQuestionController.GetAllExamQuestions(studentExamId);
             List<questionAssign> allQuestions = new List<questionAssign>();
@@ -138,11 +124,13 @@ namespace WebApplication2.DBControllers
             return allQuestions;
         }
 
+
+        //Admin actions
         public void AddExam(Exam model, RealExamQuestion[] questions)
         {
             int examId = examController.AddExam(model);
             if (model.staticQuestions)
-                AssignQuestionsToExam(examId, questions);
+                AssignStaticQuestionsToExam(examId, questions);
         }
         
         
@@ -154,15 +142,14 @@ namespace WebApplication2.DBControllers
         private void QuestionEditActions(RealExamQuestion[] newQuestions,int examId)
         { 
             List<RealExamQuestion> remainedQuestions = QuestionUtils.GetRemainingQuestions(examId,newQuestions, questionAssignController);
-            /*questionAssignController.EditGroupOfQuestions(editedQuestions, optionAssignController);*/
             List<StaticQuestionAssign> oldQuestions = questionAssignController.GetAllStaticInExam(examId);
             List<int> deletedQuestionsIds = QuestionUtils.DeleteMissingStaticQuestions(oldQuestions, newQuestions.ToList());
             questionAssignController.DeleteStaticQuestions(deletedQuestionsIds);
             List<RealExamQuestion> newQuestionAssignments = QuestionUtils.FilterAndConvertQuestions(newQuestions, remainedQuestions.ToArray());
-            AssignQuestionsToExam(examId,newQuestionAssignments.ToArray());
+            AssignStaticQuestionsToExam(examId,newQuestionAssignments.ToArray());
         }
-        //Should be at QuestionsUtils
-        private List<int> AssignQuestionsToExam(int examId, RealExamQuestion[] questions)
+
+        private List<int> AssignStaticQuestionsToExam(int examId, RealExamQuestion[] questions)
         {
             List<int> allQuestionsIds = new List<int>();
             foreach (RealExamQuestion question in questions)
@@ -177,9 +164,6 @@ namespace WebApplication2.DBControllers
             }
             return allQuestionsIds;
         }
-       
-       
-       
        
     }
 }

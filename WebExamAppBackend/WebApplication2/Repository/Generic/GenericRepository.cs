@@ -27,7 +27,6 @@ namespace WebApplication2.Repository
         {
             return table.ToList();
         }
-
         public T GetById(object id)
         {
             return table.Find(id);

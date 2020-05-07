@@ -23,7 +23,7 @@ namespace WebApplication2.Proxies
                 DAL.Exam exam = examController.GetById(id);
                 if (!exam.staticQuestions)
                     return GetRandomExam(exam);
-                RealExam newExam = realExamController.GetStaticExam(exam);
+                RealExam newExam = realExamController.GetStaticExamModel(exam);
                 realExamsCache.Add(newExam);
                 System.Diagnostics.Debug.WriteLine("Exam fetched is:" + newExam.title);
                 return newExam;

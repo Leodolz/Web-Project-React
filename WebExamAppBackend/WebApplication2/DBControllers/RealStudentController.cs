@@ -13,7 +13,6 @@ namespace WebApplication2.DBControllers
     public class RealStudentController
     {
         private UserController userController = new UserController();
-        private AreaController areaController = new AreaController();
         private SubAreaController subAreaController = new SubAreaController();
         public List<RealStudent> GetAllUsersByRole(StudentTeacherProxy studentTeacherProxy, string role)
         {
@@ -93,7 +92,6 @@ namespace WebApplication2.DBControllers
         }
         private void ResetSubAreasProxy(List<SubArea> subareas)
         {
-            System.Diagnostics.Debug.WriteLine("Student changed name!");
             foreach (SubArea subArea in subareas)
             {
                 RealAreaProxy.UpdateArea(subArea.parentAreaId);

@@ -42,11 +42,10 @@ namespace WebApplication2.Controllers
         // GET: api/Areas/5
         public IHttpActionResult Get(int id)
         {
-            System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
+        
             var result = areasProxy.GetArea(id);
             if (result == null)
             {
-                System.Diagnostics.Debug.WriteLine("Couldn't return area");
                 EditAreaController.currentArea = null;
                 EditAreaController.Editing = false;
                 return NotFound();

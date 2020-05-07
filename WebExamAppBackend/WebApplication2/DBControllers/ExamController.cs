@@ -40,7 +40,9 @@ namespace WebApplication2.DBControllers
         public int AddExam(Exam model)
         {
             var allExams = examRepository.GetAll();
-            int lastId = allExams[allExams.Count() - 1].Id;
+            int lastId = 0;
+            if (allExams.Count() > 0)
+                lastId = allExams[allExams.Count() - 1].Id;
             model.Id = lastId + 1;
             examRepository.Insert(model);
             examRepository.Save();

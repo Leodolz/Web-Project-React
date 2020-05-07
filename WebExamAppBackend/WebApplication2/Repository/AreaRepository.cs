@@ -17,6 +17,6 @@ namespace WebApplication2.Repository
         {
             return table.SingleOrDefault(areaInTable => areaInTable.name == (string)name);
         }
-       // TODO: MAKE MORE INDIVIDYAK ROUTINES
+
     }
 }

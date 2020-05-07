@@ -44,7 +44,6 @@ namespace WebApplication2.Controllers
             var result = studentExamProxy.GetStudentExam(id);
             if (result == null)
             {
-                System.Diagnostics.Debug.WriteLine("Couldn't return student Exam");
                 StudentExamController.currentExam = null;
                 return NotFound();
             }

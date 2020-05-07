@@ -36,7 +36,7 @@ namespace WebApplication2.Controllers
         // POST: api/StudentExam
         public void Post(object realExam)
         {
-            OptionAssignController optionAssignController = new OptionAssignController();
+            
             JObject juser = realExam as JObject;
             RealExam recievingRealExam = juser.ToObject<RealExam>();
             Exam modelExam = examController.GetById(recievingRealExam.Id);
@@ -44,19 +44,22 @@ namespace WebApplication2.Controllers
             if (!modelExam.staticQuestions)
                 realModelExam = realExamController.GetRandomExamModel(recievingRealExam);
             else
-                realModelExam = realExamController.GetStaticExam(modelExam);
-            //From here it should be in some kind of controller
-            
-            Dictionary<string,float> questionScores = StudentExamUtils.EvaulateExam(recievingRealExam, realModelExam);
-            StudentExam exam = StudentExamUtils.NewRealExamToStudentExam(recievingRealExam, (int)questionScores["~totalScore"], recievingRealExam.studentId);
+                realModelExam = realExamController.GetStaticExamModel(modelExam);
+            EvaluateAndRegister(recievingRealExam, realModelExam);
+
+        }
+        private void EvaluateAndRegister(RealExam studentExam, RealExam modelExam)
+        {
+            OptionAssignController optionAssignController = new OptionAssignController();
+            Dictionary<string, float> questionScores = StudentExamUtils.EvaulateExam(studentExam, modelExam);
+            StudentExam exam = StudentExamUtils.NewRealExamToStudentExam(studentExam, (int)questionScores["~totalScore"], studentExam.studentId);
             int studentExamId = studentExamController.AddStudentExam(exam);
             StudentExamQuestionController studentExamQuestionController = new StudentExamQuestionController();
-            foreach(RealExamQuestion question in recievingRealExam.examElements)
+            foreach (RealExamQuestion question in studentExam.examElements)
             {
-                StudentQuestionTable studentQuestion = StudentExamUtils.RealQuestionToStudentQuestion(question,(int)questionScores[question.title], studentExamId, optionAssignController);
+                StudentQuestionTable studentQuestion = StudentExamUtils.RealQuestionToStudentQuestion(question, (int)questionScores[question.title], studentExamId, optionAssignController);
                 studentExamQuestionController.AddStudentExamQuestion(studentQuestion);
             }
-
         }
 
         // PUT: api/StudentExam/5

@@ -37,11 +37,8 @@ namespace WebApplication2.Controllers
             if (student == false)
             {
                 var result = realExamProxy.GetRealExam(id);
-                System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
-                
                 if (result == null)
                 {
-                    System.Diagnostics.Debug.WriteLine("Couldn't return student");
                     EditExamController.currentExam = null;
                     EditExamController.Editing = false;
                     return NotFound();
@@ -57,7 +54,6 @@ namespace WebApplication2.Controllers
                 RealExam result = realExamProxy.GetRealExam(id);
                 if (result == null)
                 {
-                    System.Diagnostics.Debug.WriteLine("Couldn't return Exam");
                     StudentExamController.currentExam = null;
                     return NotFound();
                 }

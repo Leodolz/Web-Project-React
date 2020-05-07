@@ -17,7 +17,7 @@ namespace WebApplication2.DBControllers
         {
             var allQuestionAssignments = questionAssignRepository.GetAll();
             int lastId = 0;
-            if (allQuestionAssignments[0] != null)
+            if (allQuestionAssignments.Count() > 0)
                 lastId = allQuestionAssignments[allQuestionAssignments.Count() - 1].Id;
             assignment.Id = lastId + 1;
             questionAssignRepository.Insert(assignment);

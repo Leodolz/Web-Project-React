@@ -68,7 +68,6 @@ namespace WebApplication2.Controllers
                 
                 if (userController.GetById(id).role == "Admin")
                     return Ok(subAreaController.GetAllSubAreas().ToArray());
-                //Use this for getting sub areas that only the teacher can access to 
                 SubArea[] subareas = subAreaController.GetUserSubAreas(id).ToArray();
                 return Ok(subareas);
             }

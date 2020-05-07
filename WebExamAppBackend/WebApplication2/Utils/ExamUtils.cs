@@ -5,6 +5,7 @@ using System.Web;
 using WebApplication2.DAL;
 using WebApplication2.Models;
 using WebApplication2.DBControllers;
+using WebApplication2.Proxies;
 
 namespace WebApplication2.Utils
 {
@@ -80,6 +81,14 @@ namespace WebApplication2.Utils
             return editedExam;
         }
 
-       
+        public static RealExam[] GetRealExamArray(List<Exam> allExams, RealExamProxy realExamProxy)
+        {
+            List<RealExam> allRealExams = new List<RealExam>();
+            foreach (Exam exam in allExams)
+            {
+                allRealExams.Add(realExamProxy.GetRealExam(exam.Id));
+            }
+            return allRealExams.ToArray();
+        }
     }
 }
