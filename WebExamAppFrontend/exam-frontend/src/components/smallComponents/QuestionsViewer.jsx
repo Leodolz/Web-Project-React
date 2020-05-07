@@ -84,6 +84,7 @@ class QuestionsViewer extends Component {
             list.push(listElement);
         }
         list = this.renderAnswersList(question, list);
+        list.push(<li className= "questionTitle"><span className="boldText">Score: </span>{question.score}</li>)
         return list;
     }
     renderAnswersList =(question, list) =>

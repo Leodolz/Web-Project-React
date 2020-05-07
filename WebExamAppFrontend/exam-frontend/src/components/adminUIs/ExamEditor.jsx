@@ -59,7 +59,7 @@ class ExamEditor extends Component {
         else if(((untilDate-fromDate)/60000)<10)
             accepted = {value: false, message: "Time is too short, use an until date at least 10 minutes after "+this.FormatDate(exam.fromDate)};
         else if(fromDate<= rightNowDate)
-            accepted = {value: false, message: "Cannot use a past date for setting an upcomming exam! Use a starting date after "+rightNowDate.toDateString()+ " "+ rightNowDate.toTimeString()};
+            accepted = {value: false, message: "Cannot use a past date for setting an upcoming exam! Use a starting date after "+rightNowDate.toDateString()+ " "+ rightNowDate.toTimeString()};
         return accepted;
     }
     checkValidQuestions = (exam, accepted) => 

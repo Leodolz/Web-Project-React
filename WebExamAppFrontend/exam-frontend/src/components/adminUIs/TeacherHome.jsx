@@ -15,7 +15,7 @@ class TeacherHome extends Component {
             body : null,
         },
         pastExams: null,
-        commingExams: null,
+        comingExams: null,
         subAreas: [],
         students: null,
         done: false,
@@ -26,7 +26,7 @@ class TeacherHome extends Component {
         document.title = "Teacher Home";
         let userId = props.user.Id;
         this.FetchGenericTable('SubAreas/'+userId+'?action=GetSubAreas','subAreas');
-        this.FetchGenericTable('StudentExams/'+userId+'?time=future','commingExams');
+        this.FetchGenericTable('StudentExams/'+userId+'?time=future','comingExams');
         this.FetchGenericTable('StudentExams/'+userId+'?time=pastAdmin','pastExams');
         this.FetchGenericTable('Students?subAreaId='+userId+'&role=Student','students');
     }
@@ -161,14 +161,14 @@ class TeacherHome extends Component {
 
     GetTeacherHomeBody = () =>
     {
-        if(this.state.students == null || this.state.commingExams == null || this.state.pastExams == null)
+        if(this.state.students == null || this.state.comingExams == null || this.state.pastExams == null)
             return <h1>Loading..</h1>
         let pastExamsTable = this.SortByArea(this.state.pastExams);
         let pastExamsBody = this.GetTabBody(pastExamsTable,false, true);
-        let commingExamsTable = this.SortByArea(this.state.commingExams);
-        let commingExamsBody = this.GetTabBody(commingExamsTable,false, false);
-        commingExamsBody = (<>
-            {commingExamsBody}
+        let comingExamsTable = this.SortByArea(this.state.comingExams);
+        let comingExamsBody = this.GetTabBody(comingExamsTable,false, false);
+        comingExamsBody = (<>
+            {comingExamsBody}
             <button onClick={()=>window.location.assign('/admExam')}>Add new Exam</button>
         </>);
         let studentsTable = this.SortStudentsByArea(this.state.students);
@@ -176,7 +176,7 @@ class TeacherHome extends Component {
         let subAreasBody = <SubAreasTable table = {this.state.subAreas}/>;
         let allTabs = [
             {id: 0, title: "Past Exams", body: pastExamsBody},
-            {id: 1,title: "Comming Exams", body: commingExamsBody},
+            {id: 1,title: "Coming Exams", body: comingExamsBody},
             {id: 2,title: "Students", body: studentsBody},
             {id: 3, title: "Sub Areas", body: subAreasBody}
         ];

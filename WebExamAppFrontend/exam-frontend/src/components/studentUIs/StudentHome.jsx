@@ -76,12 +76,12 @@ class StudentHome extends Component {
             return(<h1>Loading Page...</h1>);
         let pastExamsTable = this.state.pastExams;
         let pastExamsBody = this.GetExamsBody(pastExamsTable,"past");
-        let commingExamsTable = this.state.futureExams;
-        let commingExamsBody = this.GetExamsBody(commingExamsTable,"future");
+        let comingExamsTable = this.state.futureExams;
+        let comingExamsBody = this.GetExamsBody(comingExamsTable,"future");
         let presentExams = this.GetExamsBody(this.state.presentExams,"present");
         let allTabs = [
             {id: 0, title: "Past Exams", body: pastExamsBody},
-            {id: 1,title: "Coming Exams", body: commingExamsBody},
+            {id: 1,title: "Coming Exams", body: comingExamsBody},
             {id: 2,title: "Present Exams", body: presentExams},
         ];
         let overlay = this.GetOverlayForm();
