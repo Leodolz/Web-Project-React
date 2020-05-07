@@ -53,7 +53,7 @@ class AreaEditor extends Component {
     {
         console.log(event.target.parentElement.title);
         this.fetchSubAreaById(event.target.parentElement.title);
-        
+         
     }
     fetchSubAreaById(id)
     {

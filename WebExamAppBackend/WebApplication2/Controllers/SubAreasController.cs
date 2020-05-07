@@ -50,7 +50,7 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
             RealAreaProxy.UpdateArea(result.parentAreaId);
-            EditSubAreaController.currentSubArea = AreaUtils.SubAreaToRefurbished(result,subAreaController,userController);
+            EditSubAreaController.currentSubArea = AreaUtils.SubAreaToRealSubArea(result,subAreaController,userController);
             EditSubAreaController.Editing = true;
             return Ok(result);
         }

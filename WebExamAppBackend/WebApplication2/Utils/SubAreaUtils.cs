@@ -45,20 +45,20 @@ namespace WebApplication2.Utils
             }
             return differentItems;
         }
-        public static SubArea NewSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
+        public static SubArea NewSubToSubArea(RealSubArea realSubArea, SubAreaController subAreaController)
         {
 
             //Assign students to subArea
             return new SubArea
             {
                 created = DateTime.Today,
-                Id = refurbishedSubArea.Id,
-                parentAreaId = refurbishedSubArea.parentId,
-                name = refurbishedSubArea.name
+                Id = realSubArea.Id,
+                parentAreaId = realSubArea.parentAreaId,
+                name = realSubArea.name
             };
 
         }
-        public static SubArea EditedSubToSubArea(RefurbishedSubArea refurbishedSubArea, SubAreaController subAreaController)
+        public static SubArea EditedSubToSubArea(RealSubArea refurbishedSubArea, SubAreaController subAreaController)
         {
             SubArea subArea = subAreaController.GetById(refurbishedSubArea.Id);
             subArea.name = refurbishedSubArea.name;

@@ -20,9 +20,9 @@ class SubAreaEditor extends Component {
     {
         let elementId = event.target.parentElement.id;
         let newArea = this.state.subArea;
-        let newarray = this.state.subArea.students.slice();
+        let newarray = this.state.subArea.studentsObj.slice();
         newarray = newarray.filter((value,index)=>{ return index!=elementId});
-        newArea.students = newarray;
+        newArea.studentsObj = newarray;
         this.setState({subArea:newArea});
     }
 
@@ -30,10 +30,10 @@ class SubAreaEditor extends Component {
     {
         let studentsList = [];
         let editButton = <button onClick= {this.studentEdit} className="edit">Edit</button>;
-        let students = this.state.subArea.students;
+        let students = this.state.subArea.studentsObj.slice();
         for(let i=0;i<students.length;i++)
         {
-            let student = (<li key={i} title="students" id={i}><span className="etag">{(i+1)+". "}</span>{students[i].full_name}{editButton}</li>);
+            let student = (<li key={i} title="studentsObj" id={i}><span className="etag">{(i+1)+". "}</span>{students[i].full_name}{editButton}</li>);
             studentsList.push(student);
         }
         return studentsList;
@@ -112,7 +112,7 @@ class SubAreaEditor extends Component {
     {
         if(this.state.overlayed.overlay)
         {
-            if(this.state.overlayed.formType == "students")
+            if(this.state.overlayed.formType == "studentsObj")
                 return this.GetStudentsOverlayForm();
             else
                 return this.GetTextOverlayForm();
@@ -207,7 +207,7 @@ class SubAreaEditor extends Component {
         this.setState({overlayed: {
             overlay: true,
             extras:extras,
-            formType: "students"
+            formType: "studentsObj"
         }});
     }
     getFirstCapitalized=(word) =>

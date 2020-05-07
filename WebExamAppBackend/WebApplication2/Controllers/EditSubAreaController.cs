@@ -17,7 +17,7 @@ namespace WebApplication2.Controllers
     public class EditSubAreaController : ApiController
     {
         public static bool Editing = false;
-        public static RefurbishedSubArea currentSubArea = null;
+        public static RealSubArea currentSubArea = null;
         public static int parentAreaId = 0; 
         private SubAreaController subAreaController = new SubAreaController();
 
@@ -34,20 +34,20 @@ namespace WebApplication2.Controllers
         public void Post(object refurbishedSubArea, bool edit)
         {
             JObject juser = refurbishedSubArea as JObject;
-            RefurbishedSubArea recievingSubArea = juser.ToObject<RefurbishedSubArea>();
+            RealSubArea recievingSubArea = juser.ToObject<RealSubArea>();
             SubArea subArea = new SubArea();
             if (edit == false)
             {
                 subArea = SubAreaUtils.NewSubToSubArea(recievingSubArea, subAreaController);
                 int subAreaId = subAreaController.AddSubArea(subArea);
-                int[] studentsIds = UserUtils.UserToUserIds(recievingSubArea.students).ToArray();
+                int[] studentsIds = UserUtils.UserToUserIds(recievingSubArea.studentsObj).ToArray();
                 SubAreaAssignUtils.AssignUsersToSubArea(studentsIds, subAreaController, subAreaId);
             }
             else
             {
                 subArea = SubAreaUtils.EditedSubToSubArea(recievingSubArea, subAreaController);
                 subAreaController.EditSubArea(recievingSubArea.Id, subArea);
-                ChangeSubAreaUsers(recievingSubArea.Id, recievingSubArea.students);
+                ChangeSubAreaUsers(recievingSubArea.Id, recievingSubArea.studentsObj);
             }
         }
 

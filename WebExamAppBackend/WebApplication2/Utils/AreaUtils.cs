@@ -29,13 +29,17 @@ namespace WebApplication2.Utils
         }
         public static RealSubArea SubAreaToRealSubArea(SubArea subArea, SubAreaController subAreaController, UserController userController)
         {
-            List<int> allStudents = subAreaController.GetAllStudentsIds(subArea.Id);
+            List<int> allStudentIds = subAreaController.GetAllStudentsIds(subArea.Id);
             List<string> allStudentNames = new List<string>();
-            foreach(int studentId in allStudents)
+            List<User> allStudents = new List<User>();
+            foreach(int studentId in allStudentIds)
             {
                 User user = userController.GetById(studentId);
-                if(user.role=="Student")
-                    allStudentNames.Add(user.full_name); 
+                if (user.role == "Student")
+                {
+                    allStudentNames.Add(user.username);
+                    allStudents.Add(user);
+                }
             }
             RealSubArea realSubArea = new RealSubArea
             {
@@ -43,29 +47,12 @@ namespace WebApplication2.Utils
                 name = subArea.name,
                 Id = subArea.Id,
                 created = subArea.created.ToShortDateString(),
-                students = allStudentNames.ToArray()
+                students = allStudentNames.ToArray(),
+                studentsObj = allStudents.ToArray(),
             };
             return realSubArea;
         }
-        public static RefurbishedSubArea SubAreaToRefurbished(SubArea subArea, SubAreaController subAreaController, UserController userController)
-        {
-            List<User> allStudents = new List<User>();
-            List<int> allStudentsIds = subAreaController.GetAllStudentsIds(subArea.Id);
-            foreach (int studentId in allStudentsIds)
-            {
-                User user = userController.GetById(studentId);
-                if(user.role=="Student")
-                    allStudents.Add(user); 
-            }
-            return new RefurbishedSubArea
-            {
-                Id = subArea.Id,
-                created = subArea.created.ToShortDateString(),
-                name = subArea.name,
-                students = allStudents.ToArray(),
-                parentId = subArea.parentAreaId
-            };
-        }
+        
         private static string[] allNonRepeatedStudents(List<RealSubArea> allrealSubAreas)
         {
             List<string> allStudents = new List<string>();

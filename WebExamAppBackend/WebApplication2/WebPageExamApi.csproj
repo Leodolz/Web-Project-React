@@ -249,7 +249,6 @@
     <Compile Include="Models\RealExam.cs" />
     <Compile Include="Models\RealStudent.cs" />
     <Compile Include="Models\RealSubArea.cs" />
-    <Compile Include="Models\RefurbishedSubArea.cs" />
     <Compile Include="Proxies\RealAreaProxy.cs" />
     <Compile Include="Proxies\IUserProxy.cs" />
     <Compile Include="Proxies\RealExamProxy.cs" />
