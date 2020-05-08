@@ -33,14 +33,16 @@ class AdminExamTable extends Component {
     }
     onSort(e, sortKey)
     {
-        const data = this.state.table.slice();
+        const table = this.state.table.slice();
         const currentSorted = sortKey;
-        data.sort((a,b)=>a[sortKey].localeCompare(b[sortKey]));
-        this.setState({table:data,
-            currentSorted});
-        let sortingTitles= this.state.sortingTitles;
-        let newSortingTitles = this.changeStates(sortingTitles,currentSorted);
-        this.setState({sortingTitles:newSortingTitles});
+        let oldSortingTitles= this.state.sortingTitles;
+        const sortingTitles = this.changeStates(oldSortingTitles,currentSorted);
+        table.sort((a,b)=>a[sortKey].localeCompare(b[sortKey]));
+        this.setState({
+            table,
+            currentSorted,
+            sortingTitles
+        });
     }
     changeStates(sortingTitles, currentSorted)
     {

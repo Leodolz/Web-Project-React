@@ -3,7 +3,15 @@ import React, { Component } from 'react';
 class StudentTable extends Component {
     state = 
     {
-        examTime: this.props.examTime
+        examTime: this.props.examTime,
+        table : this.props.table,
+        sortingTitles: 
+        {
+            title: "arrow down",
+            fromDate: "none",
+            untilDate: "none",
+        },
+        currentSorted: "title",
     }
 
     clickDetailsHandler = (event) =>
@@ -46,6 +54,29 @@ class StudentTable extends Component {
                 break;
         }
     }
+    onSort(e, sortKey)
+    {
+        const table = this.state.table.slice();
+        const currentSorted = sortKey;
+        let oldSortingTitles= this.state.sortingTitles;
+        const sortingTitles = this.changeStates(oldSortingTitles,currentSorted);
+        table.sort((a,b)=>a[sortKey].localeCompare(b[sortKey]));
+        this.setState({
+            table,
+            currentSorted,
+            sortingTitles
+        });
+    }
+    changeStates(sortingTitles, currentSorted)
+    {
+        for(let property in sortingTitles)
+        {
+            if(property == currentSorted)
+                sortingTitles[property] = "arrow down";
+            else sortingTitles[property] = "none";
+        }
+        return sortingTitles;
+    }
     renderTable(entries)
     {
         let table = [];
@@ -71,7 +102,7 @@ class StudentTable extends Component {
         return table;
     }
     render() { 
-        let tableBody = this.renderTable(this.props.table);
+        let tableBody = this.renderTable(this.state.table);
         let detailsEntry = <th>Details</th>;
         if(this.state.examTime == "future")
             detailsEntry = null;
@@ -80,10 +111,10 @@ class StudentTable extends Component {
                 <table>
                     <tbody>
                     <tr>
-                        <th>Title</th>
-                        <th>From</th>
-                        <th>Until</th>
-                        <th>Score</th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'title')}>Title <i className={this.state.sortingTitles.title}></i></th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'fromDate')}>From <i className={this.state.sortingTitles.fromDate}></i></th>
+                        <th className="tSortable" onClick = {e=>this.onSort(e, 'untilDate')}>Until <i className={this.state.sortingTitles.untilDate}></i></th>
+                        <th>Score </th>
                         {detailsEntry}
                     </tr>
                     {tableBody}
