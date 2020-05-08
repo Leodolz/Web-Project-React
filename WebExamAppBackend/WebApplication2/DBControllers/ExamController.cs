@@ -24,6 +24,7 @@ namespace WebApplication2.DBControllers
         public List<Exam> GetAllExams()
         {
             return examRepository.GetAll().ToList();
+            //return examRepository.GetAll().OrderBy(exam=>exam.fromDate).ToList();
         }
         public List<Exam> GetAllStudentFutureExams(int[] subAreaIds)
         {

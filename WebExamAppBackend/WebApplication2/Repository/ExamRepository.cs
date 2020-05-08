@@ -34,5 +34,6 @@ namespace WebApplication2.Repository
             return table.Where(exam => subAreaIds.Contains(exam.subAreaId) && exam.fromDate < DateTime.Now)
                 .Select(exam => exam).ToList();
         }
+
     }
 }

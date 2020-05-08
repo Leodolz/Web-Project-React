@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import userImg from '../images/userImage.png';
+import ImageUploader from './smallComponents/ImageUploader';
 
 class LoginForm extends Component {
     state = { contact: {}, username: '', display:null, user:null }
@@ -10,7 +11,7 @@ class LoginForm extends Component {
     }
     render() { 
         return (
-            <React.Fragment>
+            <>
                 <form id="StudentForm" onSubmit={this.handleSubmit}   >
                     <div className="imgContainter">
                         <img src={userImg} alt="Student" className="avatar"/>
@@ -26,8 +27,8 @@ class LoginForm extends Component {
                     </div>
                     
                 </form>
-                
-            </React.Fragment>
+                <ImageUploader />
+            </>
         );
     }
     handleChange =(event) =>

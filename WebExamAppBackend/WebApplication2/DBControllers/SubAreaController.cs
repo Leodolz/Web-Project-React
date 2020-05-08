@@ -5,8 +5,6 @@ using System.Web;
 using WebApplication2.Repository;
 using WebApplication2.DAL;
 using WebApplication2.Proxies;
-using WebApplication2.Models;
-
 namespace WebApplication2.DBControllers
 {
     public class SubAreaController
@@ -86,7 +84,9 @@ namespace WebApplication2.DBControllers
         public void AssignNewSubArea(SubAreaAssign assignment)
         {
             var allSubAreasAssignments = subAreaAssignRepository.GetAll();
-            int lastId = allSubAreasAssignments[allSubAreasAssignments.Count() - 1].Id;
+            int lastId = 0;
+            if (allSubAreasAssignments.Count()>0)
+                lastId = allSubAreasAssignments[allSubAreasAssignments.Count() - 1].Id;
             assignment.Id = lastId + 1;
             subAreaAssignRepository.Insert(assignment);
             subAreaAssignRepository.Save();

@@ -12,7 +12,10 @@ class TextOverlayForm extends Component {
         {
             list = this.props.list;
             okButton = <button type="button" onClick= {this.props.cancelEdit}>OK</button>;
-            saveOrAdd=(<button type="submit">Add</button>);
+            saveOrAdd=(
+            <>
+                <button type="submit">Add</button>
+            </>);
             submitAction=this.props.addOption;
         }
         else

@@ -156,6 +156,10 @@ class QuestionEditor extends Component {
         }
         return null;
     }
+    addImage = () =>
+    {
+
+    }
     GetOptionsOverlayedForm = () =>
     {
         let options = this.renderOptionsList(this.state.overlayed.extras.id);
