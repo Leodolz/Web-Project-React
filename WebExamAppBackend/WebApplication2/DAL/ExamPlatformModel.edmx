@@ -25,6 +25,15 @@
           <Property Name="untilDate" Type="datetime" Nullable="false" />
           <Property Name="staticQuestions" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="imgContext" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="imgData" Type="varbinary(max)" Nullable="false" />
+          <Property Name="contextId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="OptionAssign">
           <Key>
             <PropertyRef Name="Id" />
@@ -108,6 +117,7 @@
         <EntityContainer Name="Exam_DatabaseModelStoreContainer">
           <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OptionAssign" EntityType="Self.OptionAssign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="questionAssign" EntityType="Self.questionAssign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StaticQuestionAssign" EntityType="Self.StaticQuestionAssign" Schema="dbo" store:Type="Tables" />
@@ -141,6 +151,15 @@
           <Property Name="numberQuestions" Type="Int32" Nullable="false" />
           <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="staticQuestions" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="imgContext" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="imgData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="contextId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="OptionAssign">
           <Key>
@@ -222,9 +241,10 @@
           <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="Exam_DBPlatform4" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Exam_DBPltaform5" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Areas" EntityType="Self.Area" />
           <EntitySet Name="Exams" EntityType="Self.Exam" />
+          <EntitySet Name="Images" EntityType="Self.Image" />
           <EntitySet Name="OptionAssigns" EntityType="Self.OptionAssign" />
           <EntitySet Name="questionAssigns" EntityType="Self.questionAssign" />
           <EntitySet Name="StaticQuestionAssigns" EntityType="Self.StaticQuestionAssign" />
@@ -239,7 +259,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform4">
+        <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPltaform5">
           <EntitySetMapping Name="Areas">
             <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
               <MappingFragment StoreEntitySet="Areas">
@@ -259,6 +279,16 @@
                 <ScalarProperty Name="numberQuestions" ColumnName="numberQuestions" />
                 <ScalarProperty Name="untilDate" ColumnName="untilDate" />
                 <ScalarProperty Name="staticQuestions" ColumnName="staticQuestions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="Exam_DatabaseModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="imgContext" ColumnName="imgContext" />
+                <ScalarProperty Name="imgData" ColumnName="imgData" />
+                <ScalarProperty Name="contextId" ColumnName="contextId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -13,10 +13,10 @@ namespace WebApplication2.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Exam_DBPlatform4 : DbContext
+    public partial class Exam_DBPltaform5 : DbContext
     {
-        public Exam_DBPlatform4()
-            : base("name=Exam_DBPlatform4")
+        public Exam_DBPltaform5()
+            : base("name=Exam_DBPltaform5")
         {
         }
     
@@ -27,6 +27,7 @@ namespace WebApplication2.DAL
     
         public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<OptionAssign> OptionAssigns { get; set; }
         public virtual DbSet<questionAssign> questionAssigns { get; set; }
         public virtual DbSet<StaticQuestionAssign> StaticQuestionAssigns { get; set; }

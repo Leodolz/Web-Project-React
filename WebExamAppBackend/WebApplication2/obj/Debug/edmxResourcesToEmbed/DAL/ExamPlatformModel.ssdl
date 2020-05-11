@@ -20,6 +20,15 @@
     <Property Name="untilDate" Type="datetime" Nullable="false" />
     <Property Name="staticQuestions" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="imgContext" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="imgData" Type="varbinary(max)" Nullable="false" />
+    <Property Name="contextId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="OptionAssign">
     <Key>
       <PropertyRef Name="Id" />
@@ -103,6 +112,7 @@
   <EntityContainer Name="Exam_DatabaseModelStoreContainer">
     <EntitySet Name="Areas" EntityType="Self.Areas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OptionAssign" EntityType="Self.OptionAssign" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="questionAssign" EntityType="Self.questionAssign" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StaticQuestionAssign" EntityType="Self.StaticQuestionAssign" Schema="dbo" store:Type="Tables" />

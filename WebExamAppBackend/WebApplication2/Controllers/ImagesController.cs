@@ -1,36 +1,44 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using WebApplication2.DBControllers;
 
 namespace WebApplication2.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ImagesController : ApiController
     {
+        ImagesTableController imagesTableController = new ImagesTableController();
+        
         public async void Uploadfile()
         {
             try
             {
-                var fileuploadPath = "D:\\Leandro\\Training\\WebProjects\\WebExamApp\\Uploads";
-                var provider = new MultipartFormDataStreamProvider(fileuploadPath);
+                int.TryParse(HttpContext.Current.Request.Params["contextId"],out int contextId);
+                string option = HttpContext.Current.Request.Params["option"];
                 var content = new StreamContent(HttpContext.Current.Request.GetBufferlessInputStream(true));
                 byte[] recievingImage = await content.ReadAsByteArrayAsync();
-                System.Diagnostics.Debug.WriteLine(recievingImage.Length);
+                imagesTableController.AddImage(imagesTableController.NewImage(recievingImage, contextId, option));
+
             }
             catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
             }
+        }
+       
+        public IHttpActionResult Get(int id) 
+        {
+            var result = imagesTableController.GetById(id);
+            if (result != null)
+                return Ok(result);
+            else return NotFound();
         }
     }
 }

@@ -14,8 +14,8 @@ namespace WebApplication2.DBControllers
 
         public SubAreaController()
         {
-            subAreaRepository = new SubAreaRepository(new Exam_DBPlatform4());
-            subAreaAssignRepository = new SubAreaAssignRepository(new Exam_DBPlatform4());
+            subAreaRepository = new SubAreaRepository(new Exam_DBPltaform5());
+            subAreaAssignRepository = new SubAreaAssignRepository(new Exam_DBPltaform5());
         }
         public List<SubArea> GetAllSubAreas()
         {

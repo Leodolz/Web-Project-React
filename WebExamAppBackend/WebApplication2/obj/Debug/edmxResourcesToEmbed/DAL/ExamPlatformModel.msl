@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPlatform4">
+  <EntityContainerMapping StorageEntityContainer="Exam_DatabaseModelStoreContainer" CdmEntityContainer="Exam_DBPltaform5">
     <EntitySetMapping Name="Areas">
       <EntityTypeMapping TypeName="Exam_DatabaseModel.Area">
         <MappingFragment StoreEntitySet="Areas">
@@ -20,6 +20,16 @@
           <ScalarProperty Name="numberQuestions" ColumnName="numberQuestions" />
           <ScalarProperty Name="untilDate" ColumnName="untilDate" />
           <ScalarProperty Name="staticQuestions" ColumnName="staticQuestions" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="Exam_DatabaseModel.Image">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="imgContext" ColumnName="imgContext" />
+          <ScalarProperty Name="imgData" ColumnName="imgData" />
+          <ScalarProperty Name="contextId" ColumnName="contextId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
