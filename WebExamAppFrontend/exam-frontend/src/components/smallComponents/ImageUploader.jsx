@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Switch from './Switch';
 
 class ImageUploader extends Component {
     state =
@@ -6,6 +7,10 @@ class ImageUploader extends Component {
         file: '',
         imagePreviewUrl: '',
         fetchedImage : null,
+        option: this.props.option,
+        contextId: this.props.contextId,
+        selectImage: false,
+        changedValues: false,
     }
 
     constructor(props)
@@ -30,8 +35,8 @@ class ImageUploader extends Component {
     {
         event.preventDefault();
         console.log(this.state.file);
-        this.sendImageToApi(this.state.file,"any",1);
-        //this.props.GetImage(this.state.file);
+        const {option,contextId} = this.state;
+        this.sendImageToApi(this.state.file,option,contextId);
     }
     sendImageToApi(file,option, contextId)
     {
@@ -62,6 +67,11 @@ class ImageUploader extends Component {
         reader.readAsDataURL(file);
     }
 
+    handleToggle = (selectImage) =>
+    {
+        let changedValues = true;
+        this.setState({selectImage,changedValues});
+    }
 
     renderFetchedImage = () =>
     {
@@ -70,38 +80,64 @@ class ImageUploader extends Component {
         const Example = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} />
         return <Example data= {this.state.fetchedImage.imgData}/>
     }
-    render() 
+    GetImageBody =()=>
     {
-        let fetchedImage = this.renderFetchedImage();
-        let {imagePreviewUrl} = this.state;
+        if(this.state.selectImage==false)
+            return null;
+        const {imagePreviewUrl,fetchedImage} = this.state;
         let imagePreview = null;
-        if (imagePreviewUrl) 
+        if (imagePreviewUrl!='') 
         {
             imagePreview = (<img src={imagePreviewUrl} />);
         } 
+        else if(fetchedImage && imagePreviewUrl=='')
+        {
+            imagePreview = this.renderFetchedImage();
+        }
         else 
         {
             imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
         }
+        return(
+                <div className="previewComponent">
+                    <form onSubmit={(event) => this.handleSubmit(event)}>
+                    <input className="fileInput" 
+                        type="file" 
+                        onChange={(event)=>this.handleImageChange(event)} />
+                    <button 
+                        className="submitButton" 
+                        type="submit"
+                        >Save Image
+                        </button>
+                    </form>
+                    <div className="imgPreview">
+                    {imagePreview}
+                    </div>
+                </div>
+            );
+    }
+    componentDidUpdate()
+    {
+        if(this.state.changedValues)
+        {
+            this.props.reloadAccordions();
+            this.setState({changedValues:false});
+        }
+    }
+    render() 
+    {
+        const {selectImage} = this.state;
         return (
-          <div className="previewComponent">
-            <form onSubmit={(event) => this.handleSubmit(event)}>
-              <input className="fileInput" 
-                type="file" 
-                onChange={(event)=>this.handleImageChange(event)} />
-              <button 
-                className="submitButton" 
-                type="submit"
-                >Upload Image
-                </button>
-            </form>
-            <div className="imgPreview">
-              {imagePreview}
-            </div>
-            <div>
-                {fetchedImage}
-            </div>
-          </div>
+        <>
+            <Switch 
+                label={"Include image"}
+                isSelected={selectImage}
+                activeColor='#06D6A0'
+                id = {this.props.id}
+                handleToggle={(event)=>this.handleToggle(event)}
+            />
+            {this.GetImageBody()}
+        </>
         );
     }
 }

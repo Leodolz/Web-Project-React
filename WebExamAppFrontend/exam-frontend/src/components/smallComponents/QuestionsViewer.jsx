@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import Accordion from '../Accordion';
 import CustomCheckBoxes from './CustomCheckBoxes';
+import ImageUploader from './ImageUploader';
 
 class QuestionsViewer extends Component {
-    state = {  }
+    state = { 
+        lastSize: 0,
+     }
     render() 
     {
-        let accordions = this.GetQuestionsBody(this.props.questions); 
+        let accordions = this.GetQuestionsBody(this.props.questions);
         return (
             <Accordion accordions={accordions} />
           );
     }
-
+    reloadAccordion =(contentPane)=>
+    {
+        console.log(contentPane);
+        console.log(contentPane.offsetHeight);
+        let parentPane = contentPane.parentElement;
+        while(parentPane.parentElement)
+        {
+            parentPane.style.maxHeight = (contentPane.scrollHeight+parentPane.scrollHeight+15)+"px";
+            contentPane = parentPane;
+            parentPane = parentPane.parentElement;
+        }
+    }
     GetQuestionsBody = (questions) =>
     {
         let questionsList = [];
@@ -43,14 +57,18 @@ class QuestionsViewer extends Component {
             let container = 
             {
                 title: "Question "+(i+1),
-                body: (<React.Fragment>
-                     {chooseBox}
-                    <p id ={i} className = "questionTitle">
-                        {questions[i].title}
-                        {editButton}
-                        {closeButton}
-                    </p>
-                    {optionsList}
+                body: (
+                    <React.Fragment>
+                        <div id = {"Question "+(i+1)}>
+                        {chooseBox}
+                        <p id ={i} className = "questionTitle">
+                            {questions[i].title}
+                            {editButton}
+                            {closeButton}
+                        </p>
+                        <ImageUploader id={questions[i].questionId} reloadAccordions ={()=>{this.reloadAccordion(document.getElementById("Question "+(i+1)))}} option="question" contextId={questions[i].questionId}/>
+                        {optionsList}
+                        </div>
                     </React.Fragment>
                 )
             }
@@ -66,7 +84,11 @@ class QuestionsViewer extends Component {
                             {manageQuestions}
                         <hr/>
                         </>),
-                    multi: questionsList
+                    multi: questionsList,
+                    reload:{
+                        state: true,
+                        event: questionsList[0].body,
+                    }
                 },
             },
         ];
@@ -84,7 +106,7 @@ class QuestionsViewer extends Component {
             list.push(listElement);
         }
         list = this.renderAnswersList(question, list);
-        list.push(<li className= "questionTitle"><span className="boldText">Score: </span>{question.score}</li>)
+        list.push(<li className= "questionTitle" key={"Q"+question.questionId}><span className="boldText">Score: </span>{question.score}</li>)
         return list;
     }
     renderAnswersList =(question, list) =>

@@ -12,6 +12,7 @@ import './styles/settingsStyle.css'
 import './styles/radioButtonStyle.css'
 import './styles/takeExamStyle.css'
 import './styles/tabsStyle.css'
+import './styles/switchStyle.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

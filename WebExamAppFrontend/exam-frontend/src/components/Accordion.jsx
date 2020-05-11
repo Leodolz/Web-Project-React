@@ -30,7 +30,7 @@ class Accordion extends Component {
         return(
             <React.Fragment key={title}>
                 <button onClick={this.handleAccordion} className="accordion">{title}</button>
-                <div className = "panelAcc">
+                <div  className = "panelAcc">
                  {body}
                 </div>
             </React.Fragment>
@@ -57,6 +57,7 @@ class Accordion extends Component {
                 accordion= this.GetGenericAccordion(entries[i].title,entries[i].body);
             } 
             accordions.push(accordion);
+
         }
         return accordions;
     }
@@ -79,7 +80,6 @@ class Accordion extends Component {
         )
     }
     render() { 
-        
         let accordionsFromTop = this.renderAccordions(this.props.accordions);
         return (
             <React.Fragment>
