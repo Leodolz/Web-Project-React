@@ -25,20 +25,21 @@ namespace WebApplication2.Controllers
                 var content = new StreamContent(HttpContext.Current.Request.GetBufferlessInputStream(true));
                 byte[] recievingImage = await content.ReadAsByteArrayAsync();
                 imagesTableController.AddImage(imagesTableController.NewImage(recievingImage, contextId, option));
-
             }
             catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
             }
         }
-       
-        public IHttpActionResult Get(int id) 
+
+        public IHttpActionResult Get(int id)
         {
             var result = imagesTableController.GetById(id);
             if (result != null)
                 return Ok(result);
             else return NotFound();
         }
+
+        
     }
 }

@@ -21,7 +21,7 @@ class ImageUploader extends Component {
 
     FetchImage = () => 
     {
-        fetch('http://localhost:51061/api/Images/'+1)
+        fetch('http://localhost:51061/api/Images/'+this.props.contextId)
         .then(result=>result.json())
         .then((data)=>{
             this.setState({fetchedImage: data});
@@ -96,8 +96,12 @@ class ImageUploader extends Component {
         }
         else 
         {
-            imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+            imagePreview = (<div className="previewText">No image to display</div>);
         }
+        if(this.props.viewMode == true)
+            return (<div className="imgPreview">
+                {imagePreview}
+            </div>);
         return(
                 <div className="previewComponent">
                     <form onSubmit={(event) => this.handleSubmit(event)}>

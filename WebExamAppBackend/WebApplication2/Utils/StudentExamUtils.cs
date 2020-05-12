@@ -27,7 +27,7 @@ namespace WebApplication2.Utils
                 type = question.type,
                 title = question.title,
                 multiple = question.type == "Single" ? false : true,
-                options = OptionUtils.OptionsToStrings(allOptions),
+                options = OptionUtils.OptionsToRealOptions(allOptions),
                 studentAnswer = GetStudentAnswers(studentExamQuestion, optionAssignController),
                 answer = OptionUtils.OptionsToAnswers(allOptions),
                 studentScore = studentExamQuestion.score,

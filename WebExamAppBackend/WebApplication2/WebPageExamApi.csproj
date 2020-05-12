@@ -252,6 +252,7 @@
     <Compile Include="Models\RealExamQuestion.cs" />
     <Compile Include="Models\RealArea.cs" />
     <Compile Include="Models\RealExam.cs" />
+    <Compile Include="Models\RealOption.cs" />
     <Compile Include="Models\RealStudent.cs" />
     <Compile Include="Models\RealSubArea.cs" />
     <Compile Include="Proxies\RealAreaProxy.cs" />

@@ -58,9 +58,19 @@ class AnswerManager extends Component {
         this.props.getAnswer(this.state.answer);
         this.props.cancelEdit();
     }
+    optionObjectArrayToTextArray = (options) =>
+    {
+        let newArray = [];
+        for(let option of options)
+        {
+            newArray.push(option.title);
+        }
+        console.log(options);
+        return newArray;
+    }
 
     render() { 
-        let currentOptions = this.props.tempOptions.options;
+        let currentOptions = this.optionObjectArrayToTextArray(this.props.tempOptions.options);
         let checkBoxInputs = null;
         if(this.props.tempOptions.multiple)
         {

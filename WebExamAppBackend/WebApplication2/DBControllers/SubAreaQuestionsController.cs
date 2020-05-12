@@ -47,9 +47,9 @@ namespace WebApplication2.DBControllers
             }
             return allQuestionsIds;
         }
-        private void AssignOptionsToQuestion(int questionId, string[] options, string[] answers)
+        private void AssignOptionsToQuestion(int questionId, RealOption[] options, string[] answers)
         {
-            foreach (string option in options)
+            foreach (RealOption option in options)
             {
                 OptionAssign optionAssign = OptionUtils.OptionToOptionAssign(questionId, option, answers);
                 optionAssignController.AssignNewOption(optionAssign);

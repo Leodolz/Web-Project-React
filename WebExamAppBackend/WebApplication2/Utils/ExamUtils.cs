@@ -38,7 +38,7 @@ namespace WebApplication2.Utils
                 type = question.type,
                 title = question.title,
                 multiple = question.type=="Single"?false:true,
-                options = OptionUtils.OptionsToStrings(allOptions),
+                options = OptionUtils.OptionsToRealOptions(allOptions),
                 answer = OptionUtils.OptionsToAnswers(allOptions),
                 score = question.score,
                 questionId = question.Id,

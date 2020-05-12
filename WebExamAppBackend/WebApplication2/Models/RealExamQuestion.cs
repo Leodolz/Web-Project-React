@@ -9,7 +9,7 @@ namespace WebApplication2.Models
     {
         public string title { get; set; }
         public string type { get; set; }
-        public string[] options { get; set; } 
+        public RealOption[] options { get; set; } 
         public string[] answer { get; set; }
         public bool multiple { get; set; }
         public string[] studentAnswer { get; set; }
@@ -17,7 +17,6 @@ namespace WebApplication2.Models
         public int score { get; set; }
         public int questionId { get; set; }
         public int answerCount { get; set; }
-
         public RealExamQuestion()
         {
 

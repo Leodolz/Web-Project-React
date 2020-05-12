@@ -16,8 +16,6 @@ class QuestionsViewer extends Component {
     }
     reloadAccordion =(contentPane)=>
     {
-        console.log(contentPane);
-        console.log(contentPane.offsetHeight);
         let parentPane = contentPane.parentElement;
         while(parentPane.parentElement)
         {
@@ -49,6 +47,8 @@ class QuestionsViewer extends Component {
                     handleCheckAnswer = {this.props.handleCheckAnswer} 
                     title = {questions[i].questionId}
                     checkContained = {true}/>
+            
+            let imageUpload = <ImageUploader id={questions[i].questionId} viewMode={!this.props.editQuestion} reloadAccordions ={()=>{this.reloadAccordion(document.getElementById("Question "+(i+1)))}} option="question" contextId={questions[i].questionId}/>;
             let optionsList = (
                 <ul className = "myUL">
                     {this.renderOptionList(questions[i])}
@@ -66,7 +66,7 @@ class QuestionsViewer extends Component {
                             {editButton}
                             {closeButton}
                         </p>
-                        <ImageUploader id={questions[i].questionId} reloadAccordions ={()=>{this.reloadAccordion(document.getElementById("Question "+(i+1)))}} option="question" contextId={questions[i].questionId}/>
+                        {imageUpload}
                         {optionsList}
                         </div>
                     </React.Fragment>
@@ -85,10 +85,6 @@ class QuestionsViewer extends Component {
                         <hr/>
                         </>),
                     multi: questionsList,
-                    reload:{
-                        state: true,
-                        event: questionsList[0].body,
-                    }
                 },
             },
         ];
@@ -101,7 +97,7 @@ class QuestionsViewer extends Component {
         for(let i=0;i<question.optionElement.options.length;i++)
         {
             let listElement = (
-                <li className="optionElement" title = {question.optionElement.options[i]} key={"O"+i}><p>{(i+1)}. {question.optionElement.options[i]}</p></li>
+                <li className="optionElement" title = {question.optionElement.options[i].title} key={"O"+i}><p>{(i+1)}. {question.optionElement.options[i].title}</p></li>
             )
             list.push(listElement);
         }

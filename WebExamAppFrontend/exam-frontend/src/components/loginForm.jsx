@@ -27,7 +27,6 @@ class LoginForm extends Component {
                     </div>
                     
                 </form>
-                <ImageUploader />
             </>
         );
     }

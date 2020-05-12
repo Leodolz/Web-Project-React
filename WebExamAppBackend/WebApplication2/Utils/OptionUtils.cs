@@ -10,12 +10,16 @@ namespace WebApplication2.Utils
 {
     public static class OptionUtils
     {
-        public static string[] OptionsToStrings(List<OptionAssign> allOptions)
+        public static RealOption[] OptionsToRealOptions(List<OptionAssign> allOptions)
         {
-            List<string> options = new List<string>();
+            List<RealOption> options = new List<RealOption>();
             foreach (OptionAssign option in allOptions)
             {
-                options.Add(option.optionTitle);
+                options.Add(new RealOption
+                {
+                    title = option.optionTitle,
+                    optionId = option.Id,
+                });
             }
             return options.ToArray();
         }
@@ -29,15 +33,15 @@ namespace WebApplication2.Utils
             }
             return answers.ToArray();
         }
-        public static OptionAssign OptionToOptionAssign(int questionId, string option, string[] answers)
+        public static OptionAssign OptionToOptionAssign(int questionId, RealOption option, string[] answers)
         {
             byte[] answer = new byte[] { 0 };
-            if (answers.Contains(option))
+            if (answers.Contains(option.title))
                 answer[0] = 1;
             OptionAssign optionAssign = new OptionAssign
             {
                 questionId = questionId,
-                optionTitle = option,
+                optionTitle = option.title,
                 answer = answer,
             };
 

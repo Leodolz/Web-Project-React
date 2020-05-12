@@ -5,6 +5,7 @@ using System.Web;
 using WebApplication2.Repository;
 using WebApplication2.DAL;
 using WebApplication2.Utils;
+using WebApplication2.Models;
 
 namespace WebApplication2.DBControllers
 {
@@ -34,11 +35,11 @@ namespace WebApplication2.DBControllers
             optionAssignRepository.Insert(assignment);
             optionAssignRepository.Save();
         }
-        public void EditOptionsOfQuestion(int questionId, string[] options, string[] answers) 
+        public void EditOptionsOfQuestion(int questionId, RealOption[] options, string[] answers) 
         {
             List<OptionAssign> oldOptions = GetAllQuestionOptions(questionId);
             List<OptionAssign> newOptions = new List<OptionAssign>();
-            foreach (string option in options)
+            foreach (RealOption option in options)
             {
                 newOptions.Add(OptionUtils.OptionToOptionAssign(questionId, option, answers));
             }

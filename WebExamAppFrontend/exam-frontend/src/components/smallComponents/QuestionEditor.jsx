@@ -47,7 +47,7 @@ class QuestionEditor extends Component {
         event.preventDefault();
         let nestedExtras = this.state.nestedOverlayed.extras;
         let newOptions = this.state.tempOptions.options.slice();
-        newOptions[nestedExtras.id] = event.target.newValue.value;
+        newOptions[nestedExtras.id].title = event.target.newValue.value;
         let newTempOptions = this.state.tempOptions;
         newTempOptions.options = newOptions;
         this.setState({tempOptions:newTempOptions});
@@ -109,7 +109,7 @@ class QuestionEditor extends Component {
         {
             let listElement = (
             <React.Fragment key={"Option"+i}>
-                <li className="Option" title={optionsList[i]} id={i} key={"O"+i}><span className="etag">{(i+1)+". "}</span>{optionsList[i]}{closeButton}{editButton}</li> 
+                <li className="Option" title={optionsList[i].title} id={i} key={"O"+i}><span className="etag">{(i+1)+". "}</span>{optionsList[i].title}{closeButton}{editButton}</li> 
             </React.Fragment> 
             )
             list.push(listElement);
@@ -128,7 +128,8 @@ class QuestionEditor extends Component {
     {
         event.preventDefault();
         let newOptions  = this.state.tempOptions.options.slice();
-        newOptions.push(event.target.newValue.value);
+        let newOption = {title: event.target.newValue.value, optionId: 0}
+        newOptions.push(newOption);
         let answer = this.state.tempOptions.answer;
         this.setState({tempOptions:{
             questionId: this.state.tempOptions.questionId,
