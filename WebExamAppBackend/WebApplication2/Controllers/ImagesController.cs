@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using WebApplication2.DAL;
 using WebApplication2.DBControllers;
 
 namespace WebApplication2.Controllers
@@ -39,7 +40,26 @@ namespace WebApplication2.Controllers
                 return Ok(result);
             else return NotFound();
         }
+        public IHttpActionResult Get(int id, string context)
+        {
+            Image image;
+            switch(context)
+            {
+                case "question":
+                    image = imagesTableController.GetByQuestionId(id);
+                    break;
+                case "option":
+                    image = imagesTableController.GetByOptionId(id);
+                    break;
+                default:
+                    image = null;
+                    break;
+            }
+            if (image != null)
+                return Ok(image);
+            else return NotFound();
+        }
 
-        
+
     }
 }

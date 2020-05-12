@@ -16,18 +16,20 @@ class ImageUploader extends Component {
     constructor(props)
     {
         super(props);
+        if(props.viewMode == true)
+            this.state.selectImage = true;
         this.FetchImage();
     }
 
     FetchImage = () => 
     {
-        fetch('http://localhost:51061/api/Images/'+this.props.contextId)
+        console.log(this.props.contextId);
+        fetch('http://localhost:51061/api/Images/'+this.props.contextId
+        +'?context='+this.props.option)
         .then(result=>result.json())
         .then((data)=>{
             this.setState({fetchedImage: data});
         })
-        .catch((e)=>{
-            console.log(e)});
     }
     
     
@@ -96,28 +98,30 @@ class ImageUploader extends Component {
         }
         else 
         {
-            imagePreview = (<div className="previewText">No image to display</div>);
+            imagePreview = (<div className="previewText"></div>);
         }
         if(this.props.viewMode == true)
             return (<div className="imgPreview">
                 {imagePreview}
             </div>);
         return(
-                <div className="previewComponent">
-                    <form onSubmit={(event) => this.handleSubmit(event)}>
-                    <input className="fileInput" 
-                        type="file" 
-                        onChange={(event)=>this.handleImageChange(event)} />
-                    <button 
-                        className="submitButton" 
-                        type="submit"
-                        >Save Image
-                        </button>
-                    </form>
-                    <div className="imgPreview">
-                    {imagePreview}
+                <>
+                    <div className="previewComponent">
+                        <form onSubmit={(event) => this.handleSubmit(event)}>
+                        <input className="fileInput" 
+                            type="file" 
+                            onChange={(event)=>this.handleImageChange(event)} />
+                        <button 
+                            className="submitButton" 
+                            type="submit"
+                            >Save Image
+                            </button>
+                        </form>
+                        <div className="imgPreview">
+                        {imagePreview}
+                        </div>
                     </div>
-                </div>
+                </>
             );
     }
     componentDidUpdate()
@@ -131,15 +135,20 @@ class ImageUploader extends Component {
     render() 
     {
         const {selectImage} = this.state;
+        let switchButton = (
+            <Switch 
+                    label={"Include image"}
+                    isSelected={selectImage}
+                    activeColor='#06D6A0'
+                    id = {this.props.id}
+                    handleToggle={(event)=>this.handleToggle(event)}
+                />
+        );
+        if(this.props.viewMode == true)
+            switchButton = null;
         return (
         <>
-            <Switch 
-                label={"Include image"}
-                isSelected={selectImage}
-                activeColor='#06D6A0'
-                id = {this.props.id}
-                handleToggle={(event)=>this.handleToggle(event)}
-            />
+            {switchButton}
             {this.GetImageBody()}
         </>
         );

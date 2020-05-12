@@ -18,6 +18,7 @@ namespace WebApplication2.Models
         public int questionId { get; set; }
         public int answerCount { get; set; }
         public bool edited { get; set; }
+        public bool showImage { get; set; }
         public RealExamQuestion()
         {
 

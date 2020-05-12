@@ -6,7 +6,14 @@ import ImageUploader from './ImageUploader';
 class QuestionsViewer extends Component {
     state = { 
         lastSize: 0,
+        viewMode: true
      }
+    constructor(props)
+    {
+        super(props);
+        if(this.props.editQuestion)
+            this.state.viewMode = false;
+    }
     render() 
     {
         let accordions = this.GetQuestionsBody(this.props.questions);
@@ -47,11 +54,9 @@ class QuestionsViewer extends Component {
                     handleCheckAnswer = {this.props.handleCheckAnswer} 
                     title = {questions[i].questionId}
                     checkContained = {true}/>
-            
-            let imageUpload = <ImageUploader id={questions[i].questionId} viewMode={!this.props.editQuestion} reloadAccordions ={()=>{this.reloadAccordion(document.getElementById("Question "+(i+1)))}} option="question" contextId={questions[i].questionId}/>;
             let optionsList = (
                 <ul className = "myUL">
-                    {this.renderOptionList(questions[i])}
+                    {this.renderOptionList(questions[i],i)}
                 </ul>
                 );
             let container = 
@@ -66,7 +71,7 @@ class QuestionsViewer extends Component {
                             {editButton}
                             {closeButton}
                         </p>
-                        {imageUpload}
+                        <ImageUploader id={questions[i].questionId} viewMode={this.state.viewMode} reloadAccordions ={()=>{this.reloadAccordion(document.getElementById("Question "+(i+1)))}} option="question" contextId={questions[i].questionId}/>
                         {optionsList}
                         </div>
                     </React.Fragment>
@@ -90,14 +95,19 @@ class QuestionsViewer extends Component {
         ];
     }
     
-    renderOptionList = (question) => 
+    renderOptionList = (question,count) => 
     {
+        const {viewMode} = this.state;
         let list = [];
+        let options = question.optionElement.options;
         list.push(<li key={"Options"+question.questionId} className= "questionTitle"><p>Options:</p></li>);
-        for(let i=0;i<question.optionElement.options.length;i++)
+        for(let i=0;i<options.length;i++)
         {
             let listElement = (
-                <li className="optionElement" title = {question.optionElement.options[i].title} key={"O"+i}><p>{(i+1)}. {question.optionElement.options[i].title}</p></li>
+                <>
+                    <li className="optionElement" title = {options[i].title} key={"O"+i}><p>{(i+1)}. {options[i].title}</p></li>
+                    <ImageUploader id={options[i].optionId} viewMode={this.state.viewMode} reloadAccordions ={(event)=>this.reloadAccordion(document.getElementById("Question "+(count+1)))} option="option" contextId={options[i].optionId}/>
+                </>
             )
             list.push(listElement);
         }
