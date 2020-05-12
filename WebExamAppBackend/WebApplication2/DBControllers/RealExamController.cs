@@ -145,7 +145,7 @@ namespace WebApplication2.DBControllers
             List<StaticQuestionAssign> oldQuestions = questionAssignController.GetAllStaticInExam(examId);
             List<int> deletedQuestionsIds = QuestionUtils.DeleteMissingStaticQuestions(oldQuestions, newQuestions.ToList());
             questionAssignController.DeleteStaticQuestions(deletedQuestionsIds);
-            List<RealExamQuestion> newQuestionAssignments = QuestionUtils.FilterAndConvertQuestions(newQuestions, remainedQuestions.ToArray());
+            List<RealExamQuestion> newQuestionAssignments = QuestionUtils.FilterQuestions(newQuestions, remainedQuestions.ToArray());
             AssignStaticQuestionsToExam(examId,newQuestionAssignments.ToArray());
         }
 

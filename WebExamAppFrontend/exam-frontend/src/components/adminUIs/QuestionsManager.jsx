@@ -91,13 +91,19 @@ class QuestionsManager extends Component {
 
     getEditedQuestion = (newQuestion) =>
     {
-        let newList = this.state.questions;
-        newList[this.state.editingId] = newQuestion;
-        this.setState({questions:newList});
-        this.setState({overlayed: {
-            overlay: false,
-            extras:null
-        }});
+        if(window.confirm("Are you sure you want to edit this question?"))
+        {
+            let newList = this.state.questions;
+            newList[this.state.editingId] = newQuestion;
+            this.setState({
+                questions:newList,
+                overlayed: 
+                {
+                    overlay: false,
+                    extras:null
+                }
+            });
+        }
     }
     
 
@@ -128,6 +134,15 @@ class QuestionsManager extends Component {
             <div className="overlayedHome">
                 <QuestionEditor getNewQuestion={this.getNewQuestion}  findItemsInArray={this.findItemsInArray} DeleteComponentInArray={this.DeleteComponentInArray}
                 preDefQuestion={extras.value} editing={true} getEditedQuestion={this.getEditedQuestion}/>
+                <button onClick={()=>{
+                    this.setState({
+                        overlayed: 
+                        {
+                            overlay: false,
+                            extras:null
+                        }
+                    })
+                    }}>Cancel</button>
             </div>
             );
     }

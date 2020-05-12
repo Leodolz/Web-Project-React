@@ -32,7 +32,7 @@ namespace WebApplication2.Utils
             }
             return remainingQuestions;
         }
-        public static List<RealExamQuestion> FilterAndConvertQuestions (RealExamQuestion[] allRealQuestions, RealExamQuestion[] unWishedQuestions)
+        public static List<RealExamQuestion> FilterQuestions (RealExamQuestion[] allRealQuestions, RealExamQuestion[] unWishedQuestions)
         {
             List<RealExamQuestion> filteredQuestions = new List<RealExamQuestion>();
             foreach(RealExamQuestion question in allRealQuestions)
@@ -53,13 +53,14 @@ namespace WebApplication2.Utils
             }
             return deletedQuestionsIds;
         }
-        public static List<int> DeleteMissingQuestions(List<questionAssign> oldQuestions, List<RealExamQuestion> actualQuestions)
+        public static List<int> DeleteMissingQuestions(List<questionAssign> oldQuestions, List<RealExamQuestion> actualQuestions, List<RealExamQuestion> noNoList)
         {
             List<int> actualQuestionsIds = GetRealQuestionsIds(actualQuestions);
+            List<int> unDeleteableIds = GetRealQuestionsIds(noNoList);
             List<int> deletedQuestionsIds = new List<int>();
             foreach (questionAssign listElement in oldQuestions)
             {
-                if (!actualQuestionsIds.Contains(listElement.Id))
+                if (!actualQuestionsIds.Contains(listElement.Id) && !unDeleteableIds.Contains(listElement.Id))
                     deletedQuestionsIds.Add(listElement.Id);
             }
             return deletedQuestionsIds;

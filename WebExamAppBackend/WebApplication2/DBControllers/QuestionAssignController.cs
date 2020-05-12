@@ -44,6 +44,10 @@ namespace WebApplication2.DBControllers
             }
             return randomQuestions;
         }
+        public bool IsQuestionAssigned(int questionId)
+        {
+            return staticQuestionRepository.IsQuestionAssigned(questionId);
+        }
         public List<questionAssign> GetAllSubAreaQuestions(int subAreaId)
         {
             return questionAssignRepository.GetAllQuestionAssignments(subAreaId);

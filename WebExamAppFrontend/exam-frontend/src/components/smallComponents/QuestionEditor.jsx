@@ -238,7 +238,8 @@ class QuestionEditor extends Component {
         {
             optionElement: this.state.tempOptions,
             title: event.target.question.value,
-            score: parseInt(event.target.score.value)
+            score: parseInt(event.target.score.value),
+            edited: true
         };
         this.props.getEditedQuestion(newQuestion);
         document.getElementById("admExmForm").reset();

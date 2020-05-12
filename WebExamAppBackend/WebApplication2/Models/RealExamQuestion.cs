@@ -17,6 +17,7 @@ namespace WebApplication2.Models
         public int score { get; set; }
         public int questionId { get; set; }
         public int answerCount { get; set; }
+        public bool edited { get; set; }
         public RealExamQuestion()
         {
 

@@ -28,5 +28,10 @@ namespace WebApplication2.Repository
             return table.FirstOrDefault(assignment => assignment.examId == examId &&
             assignment.questionId == questionId);
         }
+        public bool IsQuestionAssigned(int questionId)
+        {
+            return table.Where(assignment => assignment.questionId == questionId)
+                .Select(assignment => assignment.Id).ToArray().Length > 0;
+        }
     }
 }

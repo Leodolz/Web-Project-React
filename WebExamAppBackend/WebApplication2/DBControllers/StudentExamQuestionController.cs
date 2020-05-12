@@ -20,7 +20,10 @@ namespace WebApplication2.DBControllers
         {
             return studentExamQuestionRepository.GetByModelQuestionIdAndStudentId(questionId, studentExamId);
         }
-
+        public bool QuestionInAnyExam(int questionId)
+        {
+            return studentExamQuestionRepository.QuestionInAnyExam(questionId);
+        }
         public List<int> GetAllExamQuestions(int studentExamId)
         {
             return studentExamQuestionRepository.GetAllQuestionsInExam(studentExamId);
