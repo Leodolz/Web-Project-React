@@ -15,7 +15,6 @@ class ImageUploader extends Component {
 
     constructor(props)
     {
-        console.log("Created image!");
         super(props);
         if(props.viewMode == true)
             this.state.selectImage = true;

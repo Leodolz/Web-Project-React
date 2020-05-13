@@ -7,7 +7,6 @@ class ImagePreview extends Component {
 
     constructor(props)
     {
-        console.log("Created image preview!");
         super(props);
         this.FetchImage();
       }

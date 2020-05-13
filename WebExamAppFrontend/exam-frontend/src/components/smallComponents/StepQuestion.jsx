@@ -75,15 +75,15 @@ class StepQuestion extends Component {
                         option="option"
                         contextId={optionsArray[i].optionId}/>;
             elements.push(
-                <>
+                <React.Fragment key={"OPI"+i}>
                     <li key={"OP"+i}>
-                        <>
+                        <React.Fragment key ={"OPImage"+i}>
                         {optionsArray[i].title}
                         <br/>
                         {imagePreview}
-                        </>
+                        </React.Fragment>
                     </li>
-                </>
+                </React.Fragment>
             )
         }
         return elements;
@@ -97,7 +97,6 @@ class StepQuestion extends Component {
     }
 
     render() { 
-        console.log(this.props.changedStep);
         let currentOptions = this.renderOptions(this.state.question.options);
         if(this.props.changedStep)
         {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import StepQuestion from './StepQuestion';
 import CustomTimer from './CustomTimer';
 import ImageUploader from './ImageUploader';
+import ImagePreview from './ImagePreview';
 class MasterQuestion extends Component {
     state = 
     {
@@ -49,7 +50,7 @@ class MasterQuestion extends Component {
 
     }
     
-    componentWillMount()
+    componentDidMount()
     {
         onbeforeunload = e => {
             let context = this;
@@ -64,10 +65,6 @@ class MasterQuestion extends Component {
             }));
             return;
         }
-    }
-    componentDidUpate()
-    {
-        
     }
     GetAllAnswers()
     {
@@ -227,10 +224,6 @@ class MasterQuestion extends Component {
     {
         this.submitStudentExam();
     }
-    refreshStep = () =>
-    {
-        //this.setState({changedStep: false});
-    }
     componentDidUpdate = () =>
     {
         if(this.state.changedStep)
@@ -242,13 +235,10 @@ class MasterQuestion extends Component {
     render()
     {
         let overlay = this.GetOverlayForm();
-        console.log("rendered!");
         const {hours,minutes,seconds} = this.state;
         let currentTimer = <CustomTimer hours={hours} minutes={minutes} seconds={seconds} stopTimer={this.stopTimer}/>
         let image =(
-            <ImageUploader 
-            viewMode={true} 
-            reloadAccordions ={()=>{console.log("reloading")}} 
+            <ImagePreview 
             option="question"
             contextId={this.state.questions[this.state.currentStep-1].questionId}
             />
@@ -268,7 +258,6 @@ class MasterQuestion extends Component {
                     SetAnswer = {this.SetAnswer}
                     question = {this.state.questions[this.state.currentStep-1]}
                     changedStep = {this.state.changedStep}
-                    refreshStep = {this.refreshStep}
                     image = {image}
                 />
                 {this.markButton}
