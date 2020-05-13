@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AnswerManager from './AnswerManager';
+import ImagePreview from './ImagePreview';
 import ImageUploader from './ImageUploader';
 
 class StepQuestion extends Component {
@@ -11,6 +12,7 @@ class StepQuestion extends Component {
             overlay: false,
             extras : null,
         },
+        changedStep: this.props.changedStep
       }
     
     handleEdit = (event) =>
@@ -62,19 +64,19 @@ class StepQuestion extends Component {
     renderOptions = (optionsArray) =>
     {
         let elements = [];
+        
         for(let i=0; i<optionsArray.length; i++)
         {
-
+            let imagePreview =  <ImagePreview  
+                        option="option"
+                        contextId={optionsArray[i].optionId}/>;
             elements.push(
                 <>
                     <li key={"OP"+i}>
                         <>
                         {optionsArray[i].title}
                         <br/>
-                        <ImageUploader 
-                        viewMode={true} 
-                        option="option"
-                        contextId={optionsArray[i].optionId}/>
+                        {imagePreview}
                         </>
                     </li>
                 </>
@@ -91,9 +93,16 @@ class StepQuestion extends Component {
     }
 
     render() { 
-        let currentOptions = this.renderOptions(this.props.question.options);
-        let question = this.props.question;
-        let image = this.props.currentImage;
+        console.log(this.props.changedStep);
+        let currentOptions = this.renderOptions(this.state.question.options);
+        if(this.props.changedStep)
+        {
+            this.props.refreshStep();
+            currentOptions = null;
+            this.setState({question: this.props.question});
+        }
+        
+        let question = this.state.question;
         let answerBody = this.GetListedBody(question.answer);
         let overlay = null;
         if(this.state.overlayed.overlay)
@@ -104,7 +113,7 @@ class StepQuestion extends Component {
                 className="MasterExamQuestion">
                     {(this.props.step+1)+". "+question.title}
                 </p>
-                {image}
+                {this.props.image}
                 <br/>
                 <p>Options:</p>
                 <ul className="myUL">

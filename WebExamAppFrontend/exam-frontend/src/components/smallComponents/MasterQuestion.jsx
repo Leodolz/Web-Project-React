@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import StepQuestion from './StepQuestion';
-import ImageUploader from './ImageUploader';
 import CustomTimer from './CustomTimer';
+import ImageUploader from './ImageUploader';
 class MasterQuestion extends Component {
     state = 
     {
@@ -227,6 +227,10 @@ class MasterQuestion extends Component {
     {
         this.submitStudentExam();
     }
+    refreshStep = () =>
+    {
+        this.setState({changedStep: false});
+    }
 
     render()
     {
@@ -234,7 +238,7 @@ class MasterQuestion extends Component {
         console.log("rendered!");
         const {hours,minutes,seconds} = this.state;
         let currentTimer = <CustomTimer hours={hours} minutes={minutes} seconds={seconds} stopTimer={this.stopTimer}/>
-        let currentImage =(
+        let image =(
             <ImageUploader 
             viewMode={true} 
             reloadAccordions ={()=>{console.log("reloading")}} 
@@ -244,11 +248,8 @@ class MasterQuestion extends Component {
         );
         if(this.state.changedStep)
         {
-            console.log("Changed step!");
-            currentImage = null;
-            this.setState({changedStep:false});
+            image = null;
         }
-        
         return(
             <>
                 <span className="questionCount">Question {this.state.currentStep}/{this.state.questions.length}</span>
@@ -259,7 +260,9 @@ class MasterQuestion extends Component {
                     step={(this.state.currentStep-1)}
                     SetAnswer = {this.SetAnswer}
                     question = {this.state.questions[this.state.currentStep-1]}
-                    currentImage = {currentImage}
+                    changedStep = {this.state.changedStep}
+                    refreshStep = {this.refreshStep}
+                    image = {image}
                 />
                 {this.markButton}
                 <br/>

@@ -9,8 +9,6 @@ class ImagePreview extends Component {
     {
         console.log("Created image preview!");
         super(props);
-        if(props.viewMode == true)
-            this.state.selectImage = true;
         this.FetchImage();
       }
 
