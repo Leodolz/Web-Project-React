@@ -35,7 +35,6 @@ class TakeExam extends Component {
                 );
             else
             {
-                //localStorage.setItem("DoneExams",null);
                 let doneExams = localStorage.getItem("DoneExams").split(",");
                 if(doneExams == null)
                     doneExams = [];
@@ -63,8 +62,6 @@ class TakeExam extends Component {
                     );
                 }
             }
-            //<StudentExamTaker studentId={this.state.user.Id} exam={exam}/>
-            //<MasterQuestion studentId={this.state.user.Id} exam={exam}/>
         }
         return (
             <React.Fragment>

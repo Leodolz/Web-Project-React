@@ -29,10 +29,11 @@ class SubAreaEditor extends Component {
     renderStudents = () =>
     {
         let studentsList = [];
-        let editButton = <button onClick= {this.studentEdit} className="edit">Edit</button>;
+        
         let students = this.state.subArea.studentsObj.slice();
         for(let i=0;i<students.length;i++)
         {
+            let editButton = <button title={students[i].Id} onClick= {this.studentEdit} className="edit">Edit</button>;
             let student = (<li key={i} title="studentsObj" id={i}><span className="etag">{(i+1)+". "}</span>{students[i].full_name}{editButton}</li>);
             studentsList.push(student);
         }
@@ -56,10 +57,19 @@ class SubAreaEditor extends Component {
             )
         return studentAttributes;
     }
-    studentEdit = () =>
+    studentEdit = (event) =>
     {
-        //Request For SubArea
+        this.fetchStudentById(event.target.title);
         window.location.assign('/admStudent');
+    }
+    fetchStudentById(id)
+    {
+        fetch('http://localhost:51061/api/Students/'+id)
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
     }
     showActive = (event)=>
     {

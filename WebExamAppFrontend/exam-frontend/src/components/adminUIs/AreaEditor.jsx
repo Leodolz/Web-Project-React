@@ -37,7 +37,6 @@ class AreaEditor extends Component {
         let studentAttributes = (
         <React.Fragment key={"Student"}>
             <li id="Sname" title={area.name}><span className="etag">Name:</span> {area.name}{editButton}</li> 
-            
             <h3>Sub-Areas: </h3>
             <ul className="myUL">
                 {this.renderSubAreas()}
@@ -122,14 +121,14 @@ class AreaEditor extends Component {
     render() {  
         let overlay = this.GetOverlayForm();
         return (
-            <React.Fragment>
+            <>
                 <ul className="myUL">
                     {this.renderArea()}
                     <br/>
                     <button onClick={this.showActive}>Save Changes</button>
                 </ul>
                 {overlay}
-            </React.Fragment>
+            </>
           );
     }
     handleAddArea = (event) =>

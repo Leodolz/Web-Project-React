@@ -70,9 +70,10 @@ class ExamEditor extends Component {
     }
     checkEmptyFields = (exam, accepted) =>
     {
-        if(exam.title == null || exam.fromDate == null 
-            || exam.untilDate == null || exam.subAreaId == 0 ||
-            exam.subAreaId == null || exam.numberQuestions == 0 )
+        const {title,fromDate,untilDate,subAreaId,numberQuestions} = exam;
+        if(title == null || fromDate == null 
+            || untilDate == null || subAreaId == 0 ||
+            subAreaId == null || numberQuestions == 0 )
             accepted = {value: false, message: "You need to fill ALL fields!"};
         return accepted;
     }

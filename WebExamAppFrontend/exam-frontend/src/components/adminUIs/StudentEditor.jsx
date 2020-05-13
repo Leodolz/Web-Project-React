@@ -19,8 +19,8 @@ class StudentEditor extends Component {
     {
         super(props);
         document.title = "Student Editor";
-        this.FetchAllAreas();
-        this.FetchAllUsernames();
+        this.FetchGenericField("Areas?strings=true","allAreas");
+        this.FetchGenericField("Users","allUsernames")
     }
     renderStudent = () => 
     {
@@ -100,38 +100,16 @@ class StudentEditor extends Component {
             extras:null
         }})
     }
-    FetchAllAreas = () => 
+    FetchGenericField = (apiUrl, field) =>
     {
-        fetch('http://localhost:51061/api/Areas?strings=true')
+        fetch('http://localhost:51061/api/'+apiUrl)
         .then(result=>result.json())
         .then((data)=>{
-            this.setState({allAreas: data});
+            this.setState({[field]: data});
         })
         .catch((e)=>{
             console.log(e)});
     }
-    FetchAllUsernames = () => 
-    {
-        fetch('http://localhost:51061/api/Users')
-        .then(result=>result.json())
-        .then((data)=>{
-            this.setState({allUsernames: data});
-        })
-        .catch((e)=>{
-            console.log(e)});
-    }
-    FetchStudentSubAreas = ()=>
-    {
-        fetch('http://localhost:51061/api/SubAreas?studentAreas='+this.state.student.areas.join(","))
-        .then(result=>result.json())
-        .then((data)=>{
-            this.setState({studentSubAreas: data});
-        })
-        .catch((e)=>{
-            console.log(e)});
-        this.setState({loadingSubAreas: true});
-    }
-  
     GetOverlayForm = () =>
     {
         if(this.state.overlayed.overlay)
@@ -158,12 +136,6 @@ class StudentEditor extends Component {
         let areas = newStudent[type];
         if(event.target.checked)
         {
-            /*
-            if(areas.length == 1 && newStudent.role == "Teacher")
-            {
-                alert("Only 1 area admitted per teacher");
-                return;
-            }*/
             areas.push(event.target.value);
         }
         else
@@ -175,7 +147,10 @@ class StudentEditor extends Component {
         newStudent[type]=areas;
         this.setState({student:newStudent});
         if(type=="areas" && this.state.student.areas[0]!=null && this.state.allAreas[0]!=null )
-            this.FetchStudentSubAreas();
+        {
+            this.FetchGenericField('SubAreas?studentAreas='+this.state.student.areas.join(","),"studentSubAreas");
+            this.setState({loadingSubAreas: true});
+        }
     }
 
     GetAreasOverlayForm = () =>
@@ -211,7 +186,10 @@ class StudentEditor extends Component {
 
     render() {  
         if(this.state.allAreas[0]!=null && !this.props.new && this.state.loadingSubAreas==false)
-            this.FetchStudentSubAreas();
+        {
+            this.FetchGenericField('SubAreas?studentAreas='+this.state.student.areas.join(","),"studentSubAreas");
+            this.setState({loadingSubAreas: true});
+        }
         let overlay = this.GetOverlayForm();
         return (
             <React.Fragment>
