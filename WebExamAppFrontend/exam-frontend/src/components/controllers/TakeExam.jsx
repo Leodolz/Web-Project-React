@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
-import StudentExamTaker from '../studentUIs/StudentExamTaker';
 import MasterQuestion from '../smallComponents/MasterQuestion';
 
 class TakeExam extends Component {
