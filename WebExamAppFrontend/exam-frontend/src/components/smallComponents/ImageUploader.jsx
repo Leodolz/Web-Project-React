@@ -15,21 +15,22 @@ class ImageUploader extends Component {
 
     constructor(props)
     {
+        console.log("Created image!");
         super(props);
         if(props.viewMode == true)
             this.state.selectImage = true;
+
         this.FetchImage();
     }
 
     FetchImage = () => 
     {
-        console.log(this.props.contextId);
         fetch('http://localhost:51061/api/Images/'+this.props.contextId
         +'?context='+this.props.option)
-        .then(result=>result.json())
+        .then(result=> result.json())
         .then((data)=>{
             this.setState({fetchedImage: data});
-        })
+        }).catch(()=>{})
     }
     
     

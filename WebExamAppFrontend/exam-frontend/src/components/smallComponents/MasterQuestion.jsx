@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import StepQuestion from './StepQuestion';
+import ImageUploader from './ImageUploader';
+import CustomTimer from './CustomTimer';
 class MasterQuestion extends Component {
     state = 
     {
@@ -19,7 +21,10 @@ class MasterQuestion extends Component {
             extras : null,
             formType: "Start",
         },
+        changedStep: false,
     }
+
+    
     constructor(props)
     {
         super(props);
@@ -34,13 +39,14 @@ class MasterQuestion extends Component {
                 let markedQuestionsObj = JSON.parse(marked);
                 this.state.markedQuestions = markedQuestionsObj.questions;
             }
-            this.StartTimer();
         }
         else
         {
             this.state.overlayed.overlay = true;
             sessionStorage.setItem('SubmitedExam',"");
         }
+        
+
     }
     
     componentWillMount()
@@ -59,7 +65,10 @@ class MasterQuestion extends Component {
             return;
         }
     }
-
+    componentDidUpate()
+    {
+        
+    }
     GetAllAnswers()
     {
         let answers =[];
@@ -77,37 +86,6 @@ class MasterQuestion extends Component {
             questions[i].answer = answers[i];
         }
         return questions;
-    }
-    StartTimer = () =>
-    {
-        this.myInterval = setInterval(()=>
-        {
-            const{seconds,minutes,hours} = this.state;
-            if (seconds > 0) {
-                this.setState(({ seconds }) => ({
-                  seconds: seconds - 1
-                }))
-              }
-            else 
-            {
-                if (minutes === 0) 
-                {
-                    if(hours === 0)
-                        clearInterval(this.myInterval);
-                    else
-                        this.setState(({ hours }) => ({
-                            hours: hours - 1,
-                            minutes: 59,
-                            seconds: 59
-                        }))                  
-                }
-                else   
-                    this.setState(({ minutes }) => ({
-                        minutes: minutes - 1,
-                        seconds: 59
-                    }));
-            }
-        },1000);
     }
     GetStartOverlayForm = () =>
     {
@@ -136,7 +114,6 @@ class MasterQuestion extends Component {
                             extras : null,
                             formType: "MarkedQuestions",
                         }});
-                        this.StartTimer();
                     }
                     }>I Agree</button>
                 </div>
@@ -246,18 +223,33 @@ class MasterQuestion extends Component {
         exam.examElements = exam.questions;
         return exam;
     }
+    stopTimer = () =>
+    {
+        this.submitStudentExam();
+    }
 
-      render()
-      {
-          let overlay = this.GetOverlayForm();
-          const {hours,minutes,seconds} = this.state;
-          let currentTimer =  <span className="examTimer">Time left: {hours}:{minutes<10?`0${minutes}`:minutes}:{seconds<10?`0${seconds}`:seconds}</span>;
-          if(hours < 1 && minutes < 1 && seconds < 1)
-          {
-             this.submitStudentExam();
-          }
-            //Replace for the action of submitting exam
-          return(
+    render()
+    {
+        let overlay = this.GetOverlayForm();
+        console.log("rendered!");
+        const {hours,minutes,seconds} = this.state;
+        let currentTimer = <CustomTimer hours={hours} minutes={minutes} seconds={seconds} stopTimer={this.stopTimer}/>
+        let currentImage =(
+            <ImageUploader 
+            viewMode={true} 
+            reloadAccordions ={()=>{console.log("reloading")}} 
+            option="question"
+            contextId={this.state.questions[this.state.currentStep-1].questionId}
+            />
+        );
+        if(this.state.changedStep)
+        {
+            console.log("Changed step!");
+            currentImage = null;
+            this.setState({changedStep:false});
+        }
+        
+        return(
             <>
                 <span className="questionCount">Question {this.state.currentStep}/{this.state.questions.length}</span>
                 {currentTimer}
@@ -267,6 +259,7 @@ class MasterQuestion extends Component {
                     step={(this.state.currentStep-1)}
                     SetAnswer = {this.SetAnswer}
                     question = {this.state.questions[this.state.currentStep-1]}
+                    currentImage = {currentImage}
                 />
                 {this.markButton}
                 <br/>
@@ -275,8 +268,8 @@ class MasterQuestion extends Component {
                 {overlay}
                 
             </>
-          );
-      }
+        );
+    }
     changeStep = (forward) =>
     {
         let currentStep = this.state.currentStep
@@ -293,7 +286,8 @@ class MasterQuestion extends Component {
                 currentStep = this.state.questions.length;
         }
         this.setState({
-          currentStep: currentStep
+          currentStep: currentStep,
+          changedStep: true,
         });
         this.forceUpdate();
     }

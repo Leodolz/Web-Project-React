@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AnswerManager from './AnswerManager';
+import ImageUploader from './ImageUploader';
 
 class StepQuestion extends Component {
     state = {
@@ -57,6 +58,31 @@ class StepQuestion extends Component {
        this.props.SetAnswer(this.props.step,answer);
     }
 
+
+    renderOptions = (optionsArray) =>
+    {
+        let elements = [];
+        for(let i=0; i<optionsArray.length; i++)
+        {
+
+            elements.push(
+                <>
+                    <li key={"OP"+i}>
+                        <>
+                        {optionsArray[i].title}
+                        <br/>
+                        <ImageUploader 
+                        viewMode={true} 
+                        option="option"
+                        contextId={optionsArray[i].optionId}/>
+                        </>
+                    </li>
+                </>
+            )
+        }
+        return elements;
+    }
+
     GetAnswerOverlayForm = () =>
     {
         return <AnswerManager cancelEdit={this.cancelEdit} getAnswer={this.GetAnswer}
@@ -65,7 +91,10 @@ class StepQuestion extends Component {
     }
 
     render() { 
-        let answerBody = this.GetListedBody(this.props.question.answer);
+        let currentOptions = this.renderOptions(this.props.question.options);
+        let question = this.props.question;
+        let image = this.props.currentImage;
+        let answerBody = this.GetListedBody(question.answer);
         let overlay = null;
         if(this.state.overlayed.overlay)
             overlay = this.GetAnswerOverlayForm();
@@ -73,16 +102,22 @@ class StepQuestion extends Component {
             <div className="examStepQuestion">
                 <p title={this.props.question.title} 
                 className="MasterExamQuestion">
-                    {(this.props.step+1)+". "+this.props.question.title}
+                    {(this.props.step+1)+". "+question.title}
                 </p>
+                {image}
                 <br/>
-                <p title={this.props.question.answer}
+                <p>Options:</p>
+                <ul className="myUL">
+                {currentOptions}
+                </ul>
+                <br/>
+                <p title={question.answer}
                 className="MasterExamAnswer"><span>Your answer:</span> </p>
                 <br/>
+                
                 {answerBody}
-
                 <button 
-                    title={this.props.question.answerCount}
+                    title={question.answerCount}
                     onClick = {this.handleEdit}>
                         Select Answer
                 </button>
