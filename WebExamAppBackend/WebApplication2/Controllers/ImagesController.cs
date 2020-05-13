@@ -57,7 +57,7 @@ namespace WebApplication2.Controllers
             }
             if (image != null)
                 return Ok(image);
-            else return NotFound();
+            else return Ok();
         }
 
 

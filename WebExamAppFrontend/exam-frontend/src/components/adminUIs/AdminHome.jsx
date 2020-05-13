@@ -76,6 +76,15 @@ class AdminHome extends Component {
             </React.Fragment>
             );
     }
+    handleAddStudent = (event) =>
+    {
+        let extras = {placeholder: "Available Students:"};
+        this.setState({overlayed: {
+            overlay: true,
+            extras:extras,
+            formType: "studentsObj"
+        }});
+    }
     GetUser = (user) =>
     {
         this.setState({user:user});
@@ -125,16 +134,6 @@ class AdminHome extends Component {
         event.preventDefault();
         this.fetchSubAreaById(event.target.title);
         window.location.assign("/admSubAreas");
-    }
-    fetchSubAreaById(id)
-    {
-        fetch('http://localhost:51061/api/SubAreas/'+id+
-            '?action=SetParentArea')
-        .then(result=>result.json())
-        .then((data)=>{
-
-        })
-        .catch(console.log);
     }
     fetchAreaById(id)
     {

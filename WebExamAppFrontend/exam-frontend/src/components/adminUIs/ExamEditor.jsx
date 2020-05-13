@@ -28,7 +28,7 @@ class ExamEditor extends Component {
         if(!props.new)
         {
             this.FetchSubAreaQuestions(props.exam.subAreaId);
-        }
+        } 
     }
     FetchAvailableSubAreas = (userId) =>
     {

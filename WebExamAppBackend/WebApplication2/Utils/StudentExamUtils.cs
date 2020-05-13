@@ -15,6 +15,8 @@ namespace WebApplication2.Utils
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
             foreach (questionAssign question in allQuestions)
             {
+                if (question == null)
+                    continue;
                 StudentQuestionTable studentExamQuestion = studentExamQuestionController.GetByModelQuestionId(question.Id,studentExamId);
                 allExamElements.Add(GetExamElement(question, optionAssignController.GetAllQuestionOptions(question.Id), studentExamQuestion, optionAssignController));
             }
