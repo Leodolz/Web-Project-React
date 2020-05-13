@@ -229,7 +229,14 @@ class MasterQuestion extends Component {
     }
     refreshStep = () =>
     {
-        this.setState({changedStep: false});
+        //this.setState({changedStep: false});
+    }
+    componentDidUpdate = () =>
+    {
+        if(this.state.changedStep)
+        {
+            this.setState({changedStep: false});
+        }
     }
 
     render()

@@ -12,7 +12,7 @@ class StepQuestion extends Component {
             overlay: false,
             extras : null,
         },
-        changedStep: this.props.changedStep
+        changedStep: this.props.changedStep,
       }
     
     handleEdit = (event) =>
@@ -60,7 +60,11 @@ class StepQuestion extends Component {
        this.props.SetAnswer(this.props.step,answer);
     }
 
-
+    componentDidUpdate =() =>
+    {
+        if(this.props.changedStep)
+            this.setState({question: this.props.question});
+    }
     renderOptions = (optionsArray) =>
     {
         let elements = [];
@@ -97,9 +101,7 @@ class StepQuestion extends Component {
         let currentOptions = this.renderOptions(this.state.question.options);
         if(this.props.changedStep)
         {
-            this.props.refreshStep();
-            currentOptions = null;
-            this.setState({question: this.props.question});
+            currentOptions = null;   
         }
         
         let question = this.state.question;
