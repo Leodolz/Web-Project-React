@@ -18,7 +18,7 @@ class QuestionsViewer extends Component {
     {
         let accordions = this.GetQuestionsBody(this.props.questions);
         return (
-            <Accordion accordions={accordions} />
+            <Accordion accordions={accordions} /> 
           );
     }
     reloadAccordion =(contentPane)=>
