@@ -12,13 +12,16 @@ class App extends Component{
     {
         event.preventDefault();
         let id = event.target.id.value;
-        fetch('http://localhost:63466/api/Student/'+id)
-        .then(result=>result.json())
+        fetch('http://localhost:44304/api/Students/'+id) //for ASP Core 
+        //fetch('http://localhost:63466/api/Student/'+id) //for ASP NET Framework
+        .then(result=> result.json())
+        //.then(result=>result.text()) When you are sending just a string in ASP Net Core
         .then((data)=>{
+          console.log(data);
             this.setState({student: data})
             console.log(this.state.student);
         })
-        .catch(this.handleSearchCatch);
+        .catch(e=>console.log(e));
     }
   
   handleRegister = (event) =>
@@ -26,7 +29,8 @@ class App extends Component{
     event.preventDefault();
     let studentName = event.target.name.value;
     let studentAge = event.target.age.value;
-      fetch('http://localhost:63466/api/Student',
+      fetch('http://localhost:44304/api/Students', //For NET Core
+      //fetch('http://localhost:63466/api/Student', //For NET Framework
       {
           method: 'POST',
           headers:{
@@ -39,6 +43,7 @@ class App extends Component{
               age: studentAge
           })
       })
+      .catch(e=>alert(e));
     alert("Registered new student");
   }
   handleSearchCatch = ()=>

@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  simpleloginregisterbackend:
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiUrl=http://localhost:44304
+    ports:
+      - "44304:80"
+    networks: 
+      - bothnet
+
+  frontend:
+    #environment:
+    #  - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    networks: 
+      - bothnet
+    depends_on: 
+      - simpleloginregisterbackend
+    command: npm start
+networks:
+  bothnet:
+    driver: bridge

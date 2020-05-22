@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1022
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLoginRegisterBackend", "SimpleLoginRegisterBackend\SimpleLoginRegisterBackend.csproj", "{21C9A21A-562D-4396-8A51-E4FD463DCFC2}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{69E5BEEB-98C0-405F-A2EE-54A30DF59066}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{21C9A21A-562D-4396-8A51-E4FD463DCFC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21C9A21A-562D-4396-8A51-E4FD463DCFC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21C9A21A-562D-4396-8A51-E4FD463DCFC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69E5BEEB-98C0-405F-A2EE-54A30DF59066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69E5BEEB-98C0-405F-A2EE-54A30DF59066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69E5BEEB-98C0-405F-A2EE-54A30DF59066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69E5BEEB-98C0-405F-A2EE-54A30DF59066}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

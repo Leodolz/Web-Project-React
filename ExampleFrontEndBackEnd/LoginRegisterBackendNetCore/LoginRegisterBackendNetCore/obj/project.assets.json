@@ -12600,7 +12600,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\leandro.hurtado\\.nuget\\packages\\": {},
+    "C:\\Users\\Assuresoft\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -12609,14 +12609,14 @@
       "projectUniqueName": "D:\\Leandro\\Training\\WebProjects\\WebExamApp\\ExampleFrontEndBackEnd\\LoginRegisterBackendNetCore\\LoginRegisterBackendNetCore\\LoginRegisterBackendNetCore.csproj",
       "projectName": "LoginRegisterBackendNetCore",
       "projectPath": "D:\\Leandro\\Training\\WebProjects\\WebExamApp\\ExampleFrontEndBackEnd\\LoginRegisterBackendNetCore\\LoginRegisterBackendNetCore\\LoginRegisterBackendNetCore.csproj",
-      "packagesPath": "C:\\Users\\leandro.hurtado\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Assuresoft\\.nuget\\packages\\",
       "outputPath": "D:\\Leandro\\Training\\WebProjects\\WebExamApp\\ExampleFrontEndBackEnd\\LoginRegisterBackendNetCore\\LoginRegisterBackendNetCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\leandro.hurtado\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Assuresoft\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
