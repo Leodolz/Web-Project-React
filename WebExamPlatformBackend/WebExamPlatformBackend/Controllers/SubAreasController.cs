@@ -42,7 +42,7 @@ namespace WebExamPlatformBackend.Controllers
             return SubAreaUtils.GetSubAreasStrings(finalSubAreas);
         }
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult Get(int id)
         {
             System.Diagnostics.Debug.WriteLine("Recieved GET with value = " + id);
             var result = subAreaController.GetById(id);
@@ -59,7 +59,7 @@ namespace WebExamPlatformBackend.Controllers
             return Ok(result);
         }
         [HttpGet("{id}&action={act}")]
-        public IActionResult Get(int id, string act)
+        public ActionResult Get(int id, string act)
         {
             if (act.Equals("SetParentArea"))
             {

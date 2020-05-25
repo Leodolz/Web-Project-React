@@ -25,7 +25,7 @@ namespace WebExamPlatformBackend.Controllers
         private DBControllers.StudentExamController studentExamController = new DBControllers.StudentExamController();
         // GET: api/StudentExam
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult Get()
         {
             if (currentExam != null)
             {

@@ -20,7 +20,7 @@ namespace WebExamPlatformBackend.Controllers
 
         // GET: api/Images/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult Get(int id)
         {
             var result = imagesTableController.GetById(id);
             if (result != null)
@@ -28,7 +28,7 @@ namespace WebExamPlatformBackend.Controllers
             else return NotFound();
         }
         [HttpGet("{id}&context={context}")]
-        public IActionResult Get(int id, string context)
+        public ActionResult Get(int id, string context)
         {
             Image image;
             switch (context)
@@ -48,30 +48,24 @@ namespace WebExamPlatformBackend.Controllers
             else return Ok();
         }
         [HttpPost("contextId={contextId}&option={option}")]
-        public void Post([FromBody] byte[] image, [FromRoute] int contextId, [FromRoute] string option)
-        {
-            System.Diagnostics.Debug.WriteLine("Image size is:" + image.Length);
-            System.Diagnostics.Debug.WriteLine("Context is:" + contextId);
-            System.Diagnostics.Debug.WriteLine("Option is:" + option);
-            System.Diagnostics.Debug.WriteLine(HttpContext.Request.Path + " AND " + HttpContext.Request.PathBase);
-        }
-        /*
-         public async void Uploadfile()
+        public async Task<ActionResult> Uploadfile(int contextId, string option)
          {
-             
-             /*
-             try
-             {
-                   var content = new StreamContent(HttpContext.Request.Body);
-                   byte[] recievingImage = await content.ReadAsByteArrayAsync();
-                   imagesTableController.AddImage(imagesTableController.NewImage(recievingImage, contextId, option));
-             }
-             catch (Exception e)
-             {
-                 System.Diagnostics.Debug.WriteLine(e.Message);
-             }*//*
-          }
-         */
+            try
+            {
+                var content = new StreamContent(HttpContext.Request.Body);
+                byte[] recievingImage = await content.ReadAsByteArrayAsync();
+                System.Diagnostics.Debug.WriteLine(recievingImage.Length);
+                imagesTableController.AddImage(imagesTableController.NewImage(recievingImage, contextId, option));
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("CUSTOM ERROR:");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return NotFound();
+            }
+         }
+        
         /*public async void Uploadfile()
         {
             

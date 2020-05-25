@@ -33,7 +33,7 @@ namespace WebExamPlatformBackend.Controllers
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id) //This method does NOT differentiate between any role
+        public ActionResult Get(int id) //This method does NOT differentiate between any role
         {
             var result = studentTeacherProxy.GetStudent(id);
             if (result == null)

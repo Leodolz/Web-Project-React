@@ -28,7 +28,7 @@ namespace WebExamPlatformBackend.Controllers
 
         // GET: api/Users/5
         [HttpGet("username={username}&password={password}")]
-        public IActionResult Get(string username, string password)
+        public ActionResult Get(string username, string password)
         {
             var result = userProxy.GetUser(username);
             if (result == null || result.password.Trim() != password.Trim())
@@ -55,7 +55,7 @@ namespace WebExamPlatformBackend.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             if (id < 1)
                 return BadRequest("Not a valid Id");

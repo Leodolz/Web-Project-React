@@ -19,7 +19,7 @@ namespace WebExamPlatformBackend.Controllers
         private RealExamController realExamController = new RealExamController();
         private RealExamProxy studentExamProxy = new RealExamProxy();
         // GET: api/StudentExams
-        [HttpGet("id={id}&time={time}")]
+        [HttpGet("{id}&time={time}")]
         public RealExam[] Get(int id, string time)
         {
             StudentExamController.currentExam = null;
@@ -40,7 +40,7 @@ namespace WebExamPlatformBackend.Controllers
 
         // GET: api/StudentExams/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult Get(int id)
         {
             var result = studentExamProxy.GetStudentExam(id);
             if (result == null)

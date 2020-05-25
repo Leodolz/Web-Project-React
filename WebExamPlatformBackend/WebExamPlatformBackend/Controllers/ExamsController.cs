@@ -28,8 +28,8 @@ namespace WebExamPlatformBackend.Controllers
         }
 
         // GET: api/Exams/5
-        [HttpGet("id={id}&student={student}")]
-        public IActionResult Get(int id, bool student)
+        [HttpGet("{id}&student={student}")]
+        public ActionResult Get(int id, bool student)
         {
             if (student == false)
             {

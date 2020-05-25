@@ -45,7 +45,7 @@ namespace WebExamPlatformBackend.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult Get(int id)
         {
             
             var result = areasProxy.GetArea(id);
@@ -53,11 +53,13 @@ namespace WebExamPlatformBackend.Controllers
             {
                 EditAreaController.currentArea = null;
                 EditAreaController.Editing = false;
+                System.Diagnostics.Debug.WriteLine("Editing: " + EditAreaController.Editing);
                 return NotFound();
             }
             RealAreaProxy.UpdateArea(result);
             EditAreaController.currentArea = result;
             EditAreaController.Editing = true;
+            System.Diagnostics.Debug.WriteLine("Editing: " + EditAreaController.Editing);
             return Ok(result);
         }
 

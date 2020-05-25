@@ -25,7 +25,7 @@ namespace WebExamPlatformBackend.Controllers
 
         // GET: api/SubAreaQuestions/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult Get(int id)
         {
             return Ok(subAreaQuestionsController.GetAllSubAreaQuestions(id));
         }

@@ -196,7 +196,7 @@ class MasterQuestion extends Component {
         else doneExams = doneExams.split(",");
         doneExams.push(this.props.exam.id);
         localStorage.setItem('DoneExams',doneExams.join(','));
-        fetch(API_URL+'StudentExam/code=submit',
+        fetch(API_URL+'StudentExam',
             {
                 method: 'POST',
                 headers:{

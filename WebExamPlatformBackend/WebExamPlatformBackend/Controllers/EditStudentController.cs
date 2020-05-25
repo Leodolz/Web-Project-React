@@ -17,8 +17,8 @@ namespace WebExamPlatformBackend.Controllers
     [EnableCors("AllowOrigin")]
     public class EditStudentController : Controller
     {
-        public static bool Editing = false;
-        public static RealStudent currentStudent = null;
+        public static bool Editing { get; set; } = false;
+        public static RealStudent currentStudent { get; set; } = null;
         private RealStudentController studentController = new RealStudentController();
         // GET: api/EditStudent
         [HttpGet]

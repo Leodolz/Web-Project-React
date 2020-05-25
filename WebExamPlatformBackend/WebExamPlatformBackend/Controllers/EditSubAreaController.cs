@@ -20,11 +20,11 @@ namespace WebExamPlatformBackend.Controllers
     {
         public static bool Editing = false;
         public static RealSubArea currentSubArea = null;
-        public static int parentAreaId = 0;
+        public static int parentAreaId { get; set; } = 0 ;
         private SubAreaController subAreaController = new SubAreaController();
         // GET: api/EditSubArea
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult Get()
         {
             if (Editing)
                 return Ok(currentSubArea);

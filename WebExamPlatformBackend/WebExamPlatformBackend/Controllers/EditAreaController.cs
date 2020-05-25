@@ -17,12 +17,12 @@ namespace WebExamPlatformBackend.Controllers
     [EnableCors("AllowOrigin")]
     public class EditAreaController : Controller
     {
-        public static bool Editing = false;
-        public static RealArea currentArea = null;
+        public static bool Editing { get; set; }
+        public static RealArea currentArea { get; set; }
         private AreaController areaController = new AreaController();
         // GET: api/EditArea
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet()]
+        public ActionResult Get()
         {
             if (Editing)
                 return Ok(currentArea);
@@ -37,7 +37,7 @@ namespace WebExamPlatformBackend.Controllers
             Area recievingArea = juser.ToObject<Area>();
             if (edit == false)
             {
-                recievingArea.created = DateTime.Today;
+                recievingArea.created = DateTime.Today; 
                 areaController.AddArea(recievingArea);
             }
             else
