@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
 import SubAreaEditor from '../adminUIs/SubAreaEditor';
+import {API_URL} from '../Globals';
 
 class AddEditSubAreas extends Component {
     state={
@@ -10,15 +11,17 @@ class AddEditSubAreas extends Component {
     }
     FetchSubArea = () =>
     {
-        fetch('http://localhost:51061/api/EditSubArea')
+        fetch(API_URL+'EditSubArea')
         .then(result=>result.json())
         .then((data)=>{
             if(data.name)
             {
                 this.setState({subarea: data});
+                console.log("with name: "+data);
             }
             else 
             {
+                console.log(data);
                 this.setState({subarea: this.GetEmptySubArea(data)});
                 this.setState({new:true});
             }
@@ -32,8 +35,9 @@ class AddEditSubAreas extends Component {
         return {
             name: null,
             students: [],
+            studentsObj: [],
             Id: 0,
-            parentId: parentAreaId
+            parentAreaId: parentAreaId
         };
     }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import userImg from '../images/userImage.png';
 import ImageUploader from './smallComponents/ImageUploader';
+import {API_URL} from './Globals';
 
 class LoginForm extends Component {
     state = { contact: {}, username: '', display:null, user:null }
@@ -44,7 +45,7 @@ class LoginForm extends Component {
         Promise.resolve(this.sha256(password)).then(function(value)
         {
             let encrypted = value;
-            fetch('http://localhost:51061/api/Users?username='
+            fetch(API_URL+'Users/username='
             +username+'&password='+encrypted)
             .then(result=>result.json())
             .then((data)=>{

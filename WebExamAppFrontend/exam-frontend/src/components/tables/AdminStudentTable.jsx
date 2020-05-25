@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {API_URL} from '../Globals';
 
 class AdminStudentTable extends Component {
     state = {  }
@@ -10,7 +11,7 @@ class AdminStudentTable extends Component {
     }
     fetchStudentById(id)
     {
-        fetch('http://localhost:51061/api/Students/'+id)
+        fetch(API_URL+'Students/'+id)
         .then(result=>result.json())
         .then((data)=>{
 
@@ -24,7 +25,7 @@ class AdminStudentTable extends Component {
     }
     DeleteStudent = (id) =>
     {
-        fetch('http://localhost:51061/api/Users/'+id,
+        fetch(API_URL+'Users/'+id,
             {
                 method: 'DELETE',
             })
@@ -46,10 +47,10 @@ class AdminStudentTable extends Component {
             if(!this.props.teacher)
             {
                 children.push(<td key={"Edit"+i}>
-                    <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                    <p title={entries[i].id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
                 </td>)
                  children.push(<td key={"Delete"+i}>
-                 <p title={entries[i].Id} className="tDelete" onClick={this.clickDeleteHandler}>Delete</p>
+                 <p title={entries[i].id} className="tDelete" onClick={this.clickDeleteHandler}>Delete</p>
              </td>)
             }
             table.push(<tr key={"group"+i}>{children}</tr>);

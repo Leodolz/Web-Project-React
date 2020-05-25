@@ -3,6 +3,7 @@ import StepQuestion from './StepQuestion';
 import CustomTimer from './CustomTimer';
 import ImageUploader from './ImageUploader';
 import ImagePreview from './ImagePreview';
+import {API_URL} from '../Globals';
 class MasterQuestion extends Component {
     state = 
     {
@@ -193,9 +194,9 @@ class MasterQuestion extends Component {
             doneExams = [];
         }
         else doneExams = doneExams.split(",");
-        doneExams.push(this.props.exam.Id);
+        doneExams.push(this.props.exam.id);
         localStorage.setItem('DoneExams',doneExams.join(','));
-        fetch('http://localhost:51061/api/StudentExam?code=submit',
+        fetch(API_URL+'StudentExam/code=submit',
             {
                 method: 'POST',
                 headers:{
@@ -203,7 +204,7 @@ class MasterQuestion extends Component {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    Id: realExam.Id,
+                    Id: realExam.id,
                     title: realExam.title,
                     fromDate: realExam.fromDate,
                     subAreaId: realExam.subAreaId,

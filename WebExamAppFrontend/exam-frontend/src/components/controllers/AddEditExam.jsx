@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ExamEditor from '../adminUIs/ExamEditor';
 import MainPage from './UserController';
+import {API_URL} from '../Globals';
 
 class ExamEdit extends Component {
     state={
@@ -28,7 +29,7 @@ class ExamEdit extends Component {
     }
     FetchExam = () =>
     {
-        fetch('http://localhost:51061/api/EditExam')
+        fetch(API_URL+'EditExam')
         .then(result=>result.json())
         .then((data)=>{
             this.setState({exam: data});
@@ -75,7 +76,7 @@ class ExamEdit extends Component {
             body = (
                 <React.Fragment >
                 <h1 className="Editor">Exam editor</h1>
-                <ExamEditor exam = {this.RefurbishExam(this.state.exam)} new = {this.state.new} userId={this.state.user.Id}/>
+                <ExamEditor exam = {this.RefurbishExam(this.state.exam)} new = {this.state.new} userId={this.state.user.id}/>
                 </React.Fragment>
             );
         }

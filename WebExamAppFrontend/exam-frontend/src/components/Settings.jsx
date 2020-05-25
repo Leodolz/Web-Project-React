@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './controllers/UserController';
 import Accordion from './Accordion';
-
+import {API_URL} from './Globals';
 class UserSettings extends Component {
     state = {
         oldPassword: "",
@@ -28,7 +28,7 @@ class UserSettings extends Component {
     fetchOldPassword = (userId) =>
     {
         let context = this;
-        fetch('http://localhost:51061/api/PwdChange/'+userId)
+        fetch(API_URL+'PwdChange/'+userId)
         .then(result=>result.json())
         .then((data)=>{
             context.setState({oldPassword: data});
@@ -71,7 +71,7 @@ class UserSettings extends Component {
                 Promise.resolve(context.sha256(newPassword)).then(function(value)
                 {
 
-                    fetch('http://localhost:51061/api/PwdChange',
+                    fetch(API_URL+'PwdChange',
                     {
                         method: 'POST',
                         headers:{

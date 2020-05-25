@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
 import AreaEditor from '../adminUIs/AreaEditor';
+import {API_URL} from '../Globals';
 class AddEditAreas extends Component {
     state={
         user:null,
@@ -11,7 +12,7 @@ class AddEditAreas extends Component {
 
     FetchArea = () =>
     {
-        fetch('http://localhost:51061/api/EditArea')
+        fetch(API_URL+'EditArea')
         .then(result=>result.json())
         .then((data)=>{
             this.setState({area: data});

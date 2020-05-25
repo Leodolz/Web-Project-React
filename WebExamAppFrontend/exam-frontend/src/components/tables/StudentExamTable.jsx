@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {API_URL} from '../Globals';
 
 class StudentTable extends Component {
     state = 
@@ -20,7 +21,7 @@ class StudentTable extends Component {
     }
     fetchPastExamById(id)
     {
-        fetch('http://localhost:51061/api/StudentExams/'+id)
+        fetch(API_URL+'StudentExams/'+id)
         .then(result=>result.json())
         .then((data)=>{
 
@@ -30,8 +31,8 @@ class StudentTable extends Component {
     }
     fetchExamById(id)
     {
-        fetch('http://localhost:51061/api/Exams/'+id+
-            "?student=true")
+        fetch(API_URL+'Exams/'+id+
+            "&student=true")
         .then(result=>result.json())
         .then((data)=>{
 
@@ -87,7 +88,7 @@ class StudentTable extends Component {
         for(let i=0;i<entries.length;i++)
         {
             let detailsEntry = (<td key={"details"+i}>
-            <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
+            <p title={entries[i].id} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
             </td>);
             if(this.state.examTime == "future")
                 detailsEntry = null;

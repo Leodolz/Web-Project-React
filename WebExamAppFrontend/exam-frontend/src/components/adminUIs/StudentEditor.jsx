@@ -1,6 +1,7 @@
 import React, { Component } from 'react'; 
 import CustomCheckBoxes from '../smallComponents/CustomCheckBoxes';
 import TextOverlayForm from '../smallComponents/TextOverlayForm';
+import {API_URL} from '../Globals';
 class StudentEditor extends Component {
     state = {
         student: this.props.student,
@@ -19,7 +20,7 @@ class StudentEditor extends Component {
     {
         super(props);
         document.title = "Student Editor";
-        this.FetchGenericField("Areas?strings=true","allAreas");
+        this.FetchGenericField("Areas/strings=true","allAreas");
         this.FetchGenericField("Users","allUsernames")
     }
     renderStudent = () => 
@@ -58,7 +59,7 @@ class StudentEditor extends Component {
         let student = this.state.student;
         let baseConditions = (student.name && student.username && student.email);
         let adminConditions = (baseConditions && student.role=="Admin");
-        let normalConditions = (baseConditions && student.subareas.length>1);
+        let normalConditions = (baseConditions && student.subareas.length>0);
         if(!normalConditions && !adminConditions)
             alert("You need to fill all fields");
         else if(this.state.allUsernames.find(value=>value==student.username) && this.props.new)
@@ -68,7 +69,7 @@ class StudentEditor extends Component {
             let edit = 'true';
             if(this.props.new)
                 edit='false';
-            fetch('http://localhost:51061/api/EditStudent?edit='+edit,
+            fetch(API_URL+'EditStudent/edit='+edit,
             {
                 method: 'POST',
                 headers:{
@@ -76,7 +77,7 @@ class StudentEditor extends Component {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    Id: student.Id,
+                    Id: student.id,
                     name: student.name,
                     email: student.email,
                     username: student.username,
@@ -102,7 +103,7 @@ class StudentEditor extends Component {
     }
     FetchGenericField = (apiUrl, field) =>
     {
-        fetch('http://localhost:51061/api/'+apiUrl)
+        fetch(API_URL+apiUrl)
         .then(result=>result.json())
         .then((data)=>{
             this.setState({[field]: data});
@@ -148,7 +149,7 @@ class StudentEditor extends Component {
         this.setState({student:newStudent});
         if(type=="areas" && this.state.student.areas[0]!=null && this.state.allAreas[0]!=null )
         {
-            this.FetchGenericField('SubAreas?studentAreas='+this.state.student.areas.join(","),"studentSubAreas");
+            this.FetchGenericField('SubAreas/studentAreas='+this.state.student.areas.join(","),"studentSubAreas");
             this.setState({loadingSubAreas: true});
         }
     }
@@ -187,7 +188,7 @@ class StudentEditor extends Component {
     render() {  
         if(this.state.allAreas[0]!=null && !this.props.new && this.state.loadingSubAreas==false)
         {
-            this.FetchGenericField('SubAreas?studentAreas='+this.state.student.areas.join(","),"studentSubAreas");
+            this.FetchGenericField('SubAreas/studentAreas='+this.state.student.areas.join(","),"studentSubAreas");
             this.setState({loadingSubAreas: true});
         }
         let overlay = this.GetOverlayForm();

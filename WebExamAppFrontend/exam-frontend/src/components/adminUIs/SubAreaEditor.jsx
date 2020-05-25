@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; 
-
+import {API_URL} from '../Globals';
 class SubAreaEditor extends Component {
     state = {
         subArea: this.props.subArea,
@@ -33,7 +33,7 @@ class SubAreaEditor extends Component {
         let students = this.state.subArea.studentsObj.slice();
         for(let i=0;i<students.length;i++)
         {
-            let editButton = <button title={students[i].Id} onClick= {this.studentEdit} className="edit">Edit</button>;
+            let editButton = <button title={students[i].id} onClick= {this.studentEdit} className="edit">Edit</button>;
             let student = (<li key={i} title="studentsObj" id={i}><span className="etag">{(i+1)+". "}</span>{students[i].full_name}{editButton}</li>);
             studentsList.push(student);
         }
@@ -64,7 +64,7 @@ class SubAreaEditor extends Component {
     }
     fetchStudentById(id)
     {
-        fetch('http://localhost:51061/api/Students/'+id)
+        fetch(API_URL+'Students/'+id)
         .then(result=>result.json())
         .then((data)=>{
 
@@ -83,7 +83,7 @@ class SubAreaEditor extends Component {
         {
             edit= 'false';
         }
-        fetch('http://localhost:51061/api/EditSubArea?edit='+edit,
+        fetch(API_URL+'EditSubArea/edit='+edit,
         {
             method: 'POST',
             headers:{
@@ -106,7 +106,7 @@ class SubAreaEditor extends Component {
     FetchAllStudents =()=>
     {
         let context = this;
-        fetch('http://localhost:51061/api/Students?subAreaId=0&role=Student')
+        fetch(API_URL+'Students/subAreaId=0&role=Student')
         .then(result=>result.json())
         .then((data)=>{
             context.setState({allStudents: data});

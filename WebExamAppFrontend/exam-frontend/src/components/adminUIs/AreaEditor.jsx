@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {API_URL} from '../Globals';
 
 class AreaEditor extends Component {
     state = {
@@ -24,7 +25,7 @@ class AreaEditor extends Component {
         let subAreas = this.state.area.subareas;
         for(let i=0;i<subAreas.length;i++)
         {
-            let subArea = (<li key={i} title={subAreas[i].Id} id={i}><span className="etag">{(i+1)+". "}</span>{subAreas[i].name}{editButton}</li>);
+            let subArea = (<li key={i} title={subAreas[i].id} id={i}><span className="etag">{(i+1)+". "}</span>{subAreas[i].name}{editButton}</li>);
             subAreasList.push(subArea);
         }
         return subAreasList;
@@ -56,7 +57,7 @@ class AreaEditor extends Component {
     }
     fetchSubAreaById(id)
     {
-        fetch('http://localhost:51061/api/SubAreas/'+id)
+        fetch(API_URL+'SubAreas/'+id)
         .then(result=>result.json())
         .then((data)=>{
             window.location.assign('/admSubAreas');
@@ -73,7 +74,7 @@ class AreaEditor extends Component {
         let edit = 'true';
         if(this.props.new)
             edit= 'false';
-        fetch('http://localhost:51061/api/EditArea?edit='+edit,
+        fetch(API_URL+'EditArea/edit='+edit,
         {
             method: 'POST',
             headers:{
@@ -81,7 +82,7 @@ class AreaEditor extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                Id: this.state.area.Id,
+                Id: this.state.area.id,
                 name: this.state.area.name
             })
         }).catch((e)=>{alert("Error, couldn't add or edit student")});

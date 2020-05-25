@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Switch from './Switch';
+import {API_URL} from '../Globals';
 
 class ImageUploader extends Component {
     state =
@@ -24,8 +25,8 @@ class ImageUploader extends Component {
 
     FetchImage = () => 
     {
-        fetch('http://localhost:51061/api/Images/'+this.props.contextId
-        +'?context='+this.props.option)
+        fetch(API_URL+'Images/'+this.props.contextId
+        +'&context='+this.props.option)
         .then(result=> result.json())
         .then((data)=>{
             this.setState({fetchedImage: data});
@@ -45,7 +46,8 @@ class ImageUploader extends Component {
         let params = new URLSearchParams();
         params.append('contextId',contextId);
         params.append('option',option)
-        fetch('http://localhost:51061/api/Images?'+params.toString(),
+        console.log(API_URL+'Images/'+params.toString());
+        fetch(API_URL+'Images/'+params.toString(),
             {
                 method: 'POST',
                 body : file,

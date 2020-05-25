@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Accordion from '../Accordion';
 import StudentTable from '../tables/StudentExamTable'
 import HorizontalTabs from '../HorizontalTabs';
+import {API_URL} from '../Globals';
 
 class StudentHome extends Component {
     state=
@@ -20,15 +21,15 @@ class StudentHome extends Component {
     {
         super(props);
         document.title = "Student Home";
-        let userId = props.user.Id;
-        this.FetchGenericTable('StudentExams/'+userId+'?time=future','futureExams');
-        this.FetchGenericTable('StudentExams/'+userId+'?time=present','presentExams');
-        this.FetchGenericTable('StudentExams/'+userId+'?time=past','pastExams');
+        let userId = props.user.id;
+        this.FetchGenericTable('StudentExams/'+userId+'&time=future','futureExams');
+        this.FetchGenericTable('StudentExams/'+userId+'&time=present','presentExams');
+        this.FetchGenericTable('StudentExams/'+userId+'&time=past','pastExams');
     }
     FetchGenericTable = (url,stateVariable) =>
     {
         let context = this;
-        fetch('http://localhost:51061/api/'+url)
+        fetch(API_URL+url)
         .then(result=>result.json())
         .then((data)=>{
             let sortedData = context.SortByArea(data);

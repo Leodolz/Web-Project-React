@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
 import MasterQuestion from '../smallComponents/MasterQuestion';
+import {API_URL} from '../Globals';
 
 class TakeExam extends Component {
     state={
@@ -37,7 +38,7 @@ class TakeExam extends Component {
                 let doneExams = localStorage.getItem("DoneExams").split(",");
                 if(doneExams == null)
                     doneExams = [];
-                if(doneExams.find(examItem=>examItem == exam.Id))
+                if(doneExams.find(examItem=>examItem == exam.id))
                 {
                     body=(
                     <>
@@ -56,7 +57,7 @@ class TakeExam extends Component {
                     body = (
                         <React.Fragment >
                         <h1 className="Editor">{exam.title}</h1>
-                        <MasterQuestion studentId={this.state.user.Id} exam={exam} hours={hours} minutes= {minutes} seconds={seconds}/>
+                        <MasterQuestion studentId={this.state.user.id} exam={exam} hours={hours} minutes= {minutes} seconds={seconds}/>
                         </React.Fragment>
                     );
                 }
@@ -74,7 +75,7 @@ class TakeExam extends Component {
     }
     FetchExam = () =>
     {
-        fetch('http://localhost:51061/api/StudentExam')
+        fetch(API_URL+'StudentExam')
         .then(result=>result.json())
         .then((data)=>{
             let exam = this.RefurbishExam(data);

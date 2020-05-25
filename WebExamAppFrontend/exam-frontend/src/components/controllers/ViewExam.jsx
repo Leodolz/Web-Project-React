@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
 import StudentExamViewer from '../studentUIs/StudentExamViewer';
+import {API_URL} from '../Globals';
 class ViewExam extends Component {
     state={
         user:null,
@@ -50,7 +51,7 @@ class ViewExam extends Component {
     }
     FetchExam = () =>
     {
-        fetch('http://localhost:51061/api/StudentExam/')
+        fetch(API_URL+'StudentExam/')
         .then(result=>result.json())
         .then((data)=>{
             let exam = this.RefurbishExam(data);

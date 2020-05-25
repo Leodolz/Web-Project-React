@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {API_URL} from '../Globals';
 
 class AreasTable extends Component {
     state = {  }
@@ -14,7 +15,7 @@ class AreasTable extends Component {
     }
     fetchSubAreaById(id)
     {
-        fetch('http://localhost:51061/api/SubAreas/'+id)
+        fetch(API_URL+'SubAreas/'+id)
         .then(result=>result.json())
         .then((data)=>{
 
@@ -40,10 +41,10 @@ class AreasTable extends Component {
                 <p title={entries[i].students.join(",")} className="tDetails" onClick={this.clickStudentsHandler}>View Students</p>
             </td>);
             children.push(<td key={"Edit"+i}>
-                <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
+                <p title={entries[i].id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>
             </td>);
             children.push(<td key={entries[i].name+" Questions "+i}>
-                <p title={entries[i].Id} className="tDetails" onClick={this.clickManageHandler}>Manage</p>
+                <p title={entries[i].id} className="tDetails" onClick={this.clickManageHandler}>Manage</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }
@@ -59,7 +60,7 @@ class AreasTable extends Component {
             children.push(<td key={"name"+i}>{entries[i].name}</td>)
             children.push(<td key={"created"+i}>{entries[i].created}</td>)
             children.push(<td key={entries[i].name+" Questions "+i}>
-                <p title={entries[i].Id} className="tDetails" onClick={this.clickManageHandler}>Manage</p>
+                <p title={entries[i].id} className="tDetails" onClick={this.clickManageHandler}>Manage</p>
             </td>)
             table.push(<tr key={"group"+i}>{children}</tr>);
         }

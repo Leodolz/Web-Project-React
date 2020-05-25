@@ -4,6 +4,7 @@ import AdminExamTable from '../tables/AdminExamTable'
 import AdminStudentTable from '../tables/AdminStudentTable'
 import SubAreasTable from '../tables/SubAreasTable'
 import HorizontalTabs from '../HorizontalTabs';
+import {API_URL} from '../Globals';
 
 class AdminHome extends Component {
     state=
@@ -25,8 +26,8 @@ class AdminHome extends Component {
         document.title = "Admin Home";
         this.FetchGenericTable("Areas","areas");
         this.FetchGenericTable("Exams","exams");
-        this.FetchGenericTable("Students?subAreaId=0&role=Student","students");
-        this.FetchGenericTable("Students?subAreaId=0&role=Teacher","teachers");
+        this.FetchGenericTable("Students/subAreaId=0&role=Student","students");
+        this.FetchGenericTable("Students/subAreaId=0&role=Teacher","teachers");
         this.FetchAdmins();
     }
     cancelEdit = (event) =>
@@ -93,7 +94,7 @@ class AdminHome extends Component {
     FetchGenericTable = (url,stateVariable) =>
     {
         let context = this;
-        fetch('http://localhost:51061/api/'+url)
+        fetch(API_URL+url)
         .then(result=>result.json())
         .then((data)=>{
             context.setState({[stateVariable]: data});
@@ -115,7 +116,7 @@ class AdminHome extends Component {
     FetchAdmins = ()=>
     {
         let context = this;
-        fetch('http://localhost:51061/api/Students?'
+        fetch(API_URL+'Students/'
         +'subAreaId=0&role=Admin')
         .then(result=>result.json())
         .then((data)=>{
@@ -131,13 +132,22 @@ class AdminHome extends Component {
 
     AddSubArea = (event) =>
     {
-        event.preventDefault();
         this.fetchSubAreaById(event.target.title);
         window.location.assign("/admSubAreas");
     }
+    fetchSubAreaById(id)
+    {
+        fetch(API_URL+'SubAreas/'+id+"&action=SetParentArea")
+        .then(result=>result.json())
+        .then((data)=>{
+
+        })
+        .catch(console.log);
+    }
+
     fetchAreaById(id)
     {
-        fetch('http://localhost:51061/api/Areas/'+id)
+        fetch(API_URL+'Areas/'+id)
         .then(result=>result.json())
         .then((data)=>{
 
@@ -214,10 +224,10 @@ class AdminHome extends Component {
                     <React.Fragment>
                     <p title={areasTable[i].name}>Created at {areasTable[i].created} 
                         <button title={areasTable[i].students.join(",")} className="neighboorOptions" onClick={this.showStudentsArea}>View Students</button>
-                        <button title={areasTable[i].Id} onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button>
+                        <button title={areasTable[i].id} onClick={this.GoEditArea} className="neighboorOptions">Edit Area</button>
                     </p>
                     <SubAreasTable table = {areasTable[i].subareas} showStudentsArea={this.showStudentsArea} admin={true}/>
-                    <button title={areasTable[i].Id} onClick={this.AddSubArea}>Add Sub-Area</button>
+                    <button title={areasTable[i].id} onClick={this.AddSubArea}>Add Sub-Area</button>
                     </React.Fragment>
                 )
             }

@@ -4,6 +4,7 @@ import AdminExamTable from '../tables/AdminExamTable'
 import AdminStudentTable from '../tables/AdminStudentTable'
 import SubAreasTable from '../tables/SubAreasTable'
 import HorizontalTabs from '../HorizontalTabs';
+import {API_URL} from '../Globals';
 
 class TeacherHome extends Component {
     state=
@@ -24,11 +25,11 @@ class TeacherHome extends Component {
     {
         super(props);
         document.title = "Teacher Home";
-        let userId = props.user.Id;
-        this.FetchGenericTable('SubAreas/'+userId+'?action=GetSubAreas','subAreas');
-        this.FetchGenericTable('StudentExams/'+userId+'?time=future','comingExams');
-        this.FetchGenericTable('StudentExams/'+userId+'?time=pastAdmin','pastExams');
-        this.FetchGenericTable('Students?subAreaId='+userId+'&role=Student','students');
+        let userId = props.user.id;
+        this.FetchGenericTable('SubAreas/'+userId+'&action=GetSubAreas','subAreas');
+        this.FetchGenericTable('StudentExams/'+userId+'&time=future','comingExams');
+        this.FetchGenericTable('StudentExams/'+userId+'&time=pastAdmin','pastExams');
+        this.FetchGenericTable('Students/subAreaId='+userId+'&role=Student','students');
     }
     cancelEdit = (event) =>
     {
@@ -65,7 +66,7 @@ class TeacherHome extends Component {
     FetchGenericTable = (url,stateVariable) =>
     {
         let context = this;
-        fetch('http://localhost:51061/api/'+url)
+        fetch(API_URL+url)
         .then(result=>result.json())
         .then((data)=>{
             

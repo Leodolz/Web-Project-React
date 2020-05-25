@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {API_URL} from '../Globals';
 class ImagePreview extends Component {
     state = {
         fetchedImage : null,
@@ -21,8 +21,8 @@ class ImagePreview extends Component {
 
     FetchImage = () => 
     {
-        fetch('http://localhost:51061/api/Images/'+this.props.contextId
-        +'?context='+this.props.option)
+        fetch(API_URL+'Images/'+this.props.contextId
+        +'&context='+this.props.option)
         .then(result=> result.json())
         .then((data)=>{
             this.setState({fetchedImage: data});

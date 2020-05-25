@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {API_URL} from '../Globals';
 
 class AdminExamTable extends Component {
     state = {
@@ -23,8 +24,8 @@ class AdminExamTable extends Component {
 
     fetchExamById(id)
     {
-        fetch('http://localhost:51061/api/Exams/'+id+
-            "?student=false")
+        fetch(API_URL+'Exams/'+id+
+            "&student=false")
         .then(result=>result.json())
         .then((data)=>{
 
@@ -60,9 +61,9 @@ class AdminExamTable extends Component {
         for(let i=0;i<entries.length;i++)
         {
             let children = [];
-            let detailsEntry = <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>;
+            let detailsEntry = <p title={entries[i].id} className="tDetails" onClick={this.clickDetailsHandler}>Edit</p>;
             if(this.props.past)
-            detailsEntry =  <p title={entries[i].Id} className="tDetails" onClick={this.clickDetailsHandler}>Copy new</p>;
+            detailsEntry =  <p title={entries[i].id} className="tDetails" onClick={this.clickDetailsHandler}>Copy new</p>;
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
             children.push(<td key={"fromDate"+i}>{entries[i].fromDate}</td>)
             children.push(<td key={"untilDate"+i}>{entries[i].untilDate}</td>)

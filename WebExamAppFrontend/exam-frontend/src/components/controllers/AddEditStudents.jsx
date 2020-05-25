@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './UserController';
 import StudentEditor from '../adminUIs/StudentEditor'
+import {API_URL} from '../Globals';
 
 class AddEditStudents extends Component {
     state={
@@ -10,7 +11,7 @@ class AddEditStudents extends Component {
     }
     FetchStudent = () =>
     {
-        fetch('http://localhost:51061/api/EditStudent')
+        fetch(API_URL+'EditStudent')
         .then(result=>result.json())
         .then((data)=>{
             this.setState({student: data});

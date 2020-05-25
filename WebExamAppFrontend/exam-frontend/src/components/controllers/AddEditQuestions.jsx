@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import QuestionsManager from '../adminUIs/QuestionsManager';
 import MainPage from './UserController';
+import {API_URL} from '../Globals';
 
 class AddEditQuestions extends Component {
     state={
@@ -18,7 +19,7 @@ class AddEditQuestions extends Component {
     {
         let subAreaId = sessionStorage.getItem('CurrentSubArea');
         let context = this;
-        fetch('http://localhost:51061/api/SubAreaQuestions/'+subAreaId)
+        fetch(API_URL+'SubAreaQuestions/'+subAreaId)
         .then(result=>result.json())
         .then((data)=>{
             let realQuestions = context.RefurbishQuestions(data);

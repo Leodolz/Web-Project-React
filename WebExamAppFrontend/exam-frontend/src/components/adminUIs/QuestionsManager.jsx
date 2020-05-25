@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import QuestionEditor from '../smallComponents/QuestionEditor';
 import QuestionsViewer from '../smallComponents/QuestionsViewer';
+import {API_URL} from '../Globals';
 
 class QuestionsManager extends Component {
     state = {
@@ -19,7 +20,7 @@ class QuestionsManager extends Component {
         let edit = 'true';
         if(this.props.new)
             edit='false';
-        fetch('http://localhost:51061/api/SubAreaQuestions?edit='+edit+"&subAreaId="+this.state.subAreaId,
+        fetch(API_URL+'SubAreaQuestions/edit='+edit+"&subAreaId="+this.state.subAreaId,
             {
                 method: 'POST',
                 headers:{

@@ -3,7 +3,7 @@ import TextOverlayForm from '../smallComponents/TextOverlayForm';
 import SelectBox from '../smallComponents/SelectBox';
 import QuestionEditor from '../smallComponents/QuestionEditor';
 import QuestionsViewer from '../smallComponents/QuestionsViewer';
-
+import {API_URL} from '../Globals';
 
 class ExamEditor extends Component {
     state = {
@@ -32,8 +32,8 @@ class ExamEditor extends Component {
     }
     FetchAvailableSubAreas = (userId) =>
     {
-        fetch('http://localhost:51061/api/SubAreas/'+userId+
-        '?action=GetSubAreas')
+        fetch(API_URL+'SubAreas/'+userId+
+        '&action=GetSubAreas')
         .then(result=>result.json())
         .then((data)=>{
             this.setState({availableSubAreas: data});
@@ -92,7 +92,7 @@ class ExamEditor extends Component {
         let edit = 'true';
             if(this.props.new)
                 edit='false';
-        fetch('http://localhost:51061/api/EditExam?edit='+edit,
+        fetch(API_URL+'EditExam/edit='+edit,
             {
                 method: 'POST',
                 headers:{
@@ -100,7 +100,7 @@ class ExamEditor extends Component {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    Id: realExam.Id,
+                    Id: realExam.id,
                     title: realExam.title,
                     fromDate: realExam.fromDate,
                     subAreaId: realExam.subAreaId,
@@ -152,7 +152,7 @@ class ExamEditor extends Component {
         let availableSubAreas = this.state.availableSubAreas;
         for(let i=0; i<availableSubAreas.length;i++)
         {
-            areasBody.push(<option key={"SA"+(i+1)} title={availableSubAreas[i].name} value={availableSubAreas[i].Id}>{availableSubAreas[i].name}</option>);
+            areasBody.push(<option key={"SA"+(i+1)} title={availableSubAreas[i].name} value={availableSubAreas[i].id}>{availableSubAreas[i].name}</option>);
         }
        
         return areasBody;
@@ -162,7 +162,7 @@ class ExamEditor extends Component {
         event.preventDefault();
         let exam = this.state.exam;
         let availableSubAreas = this.state.availableSubAreas;
-        let subarea = availableSubAreas.find(item=>item.Id == event.target.value);
+        let subarea = availableSubAreas.find(item=>item.id == event.target.value);
         let changedSubArea = exam.subAreaId == parseInt(event.target.value);
         exam.subarea = subarea.name;
         exam.subAreaId = parseInt(event.target.value);
@@ -383,7 +383,7 @@ class ExamEditor extends Component {
     FetchSubAreaQuestions = (subAreaId) =>
     {
         let context = this;
-        fetch('http://localhost:51061/api/SubAreaQuestions/'+subAreaId)
+        fetch(API_URL+'SubAreaQuestions/'+subAreaId)
         .then(result=>result.json())
         .then((data)=>{
             let realQuestions = context.RefurbishQuestions(data);
