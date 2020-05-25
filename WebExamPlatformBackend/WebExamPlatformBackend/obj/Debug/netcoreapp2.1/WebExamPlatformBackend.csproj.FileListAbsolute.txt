@@ -1,0 +1,15 @@
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.csproj.CoreCompileInputs.cache
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.AssemblyInfoInputs.cache
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.AssemblyInfo.cs
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\bin\Debug\netcoreapp2.1\WebExamPlatformBackend.deps.json
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\bin\Debug\netcoreapp2.1\WebExamPlatformBackend.runtimeconfig.json
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\bin\Debug\netcoreapp2.1\WebExamPlatformBackend.runtimeconfig.dev.json
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\bin\Debug\netcoreapp2.1\WebExamPlatformBackend.dll
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.csprojAssemblyReference.cache
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.RazorAssemblyInfo.cache
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.RazorAssemblyInfo.cs
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.RazorTargetAssemblyInfo.cache
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\bin\Debug\netcoreapp2.1\WebExamPlatformBackend.pdb
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.dll
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\WebExamPlatformBackend.pdb
+D:\Leandro\Training\WebProjects\WebExamApp\WebExamPlatformBackend\WebExamPlatformBackend\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
