@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  webexamplatformbackend:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiUrl=http://localhost:60746
+    ports:
+      - "60746:80"
+    depends_on: 
+      - db-server
+    networks:
+      - bothnet 
+    volumes: 
+      - ./WebExamPlatformBackend/WebExamPlatformBackend/AppData:/app/data
+  
+  db-server:
+    environment: 
+      - MSSQL_TCP_PORT=1433
+#      - MSSQL_DATABASE=ExamPlatformDB
+#      - attach_dbs="[{'dbName':'ExamPlatformDB','dbFiles':['var/opt/sqlserver/ExamPlatformDB.mdf','var/opt/sqlserver/ExamPlatformDB_log.ldf']}]"
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=User_123
+#      - DBUrl=http://localhost:1433
+    volumes: 
+      - ./WebExamPlatformBackend/WebExamPlatformBackend/AppData:/var/opt/sqlserver
+
+    ports:
+      - "1400:1433"
+    networks: 
+      - bothnet
+    restart: always
+  webexamplatfomfrontend:
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    networks: 
+      - bothnet
+    depends_on: 
+      - webexamplatformbackend
+    command: npm start
+networks:
+  bothnet:
+    driver: bridge
+#volumes:
+#  mssql-server-linux-data:
+    #build:
+    #  context: .
+    #  dockerfile: WebExamPlatformBackend/Dockerfile
