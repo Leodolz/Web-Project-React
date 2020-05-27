@@ -11,7 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-//using WebExamPlatformBackend.DAL;
+using WebExamPlatformBackend.DAL;
+using System.Data.SqlClient;
 
 namespace WebExamPlatformBackend
 {
@@ -33,6 +34,9 @@ namespace WebExamPlatformBackend
                 //c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()); For any source
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddTransient<System.Data.IDbConnection>(sp => new SqlConnection("Server=db-server;attachdbfilename=" + (Environment.CurrentDirectory) + "\\AppData\\ExamPlatformDB.mdf;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework;User=sa;Password=MyPassword001;"));
+            //services.AddDbContext<ExamPlatformDBContext> (options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));    
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

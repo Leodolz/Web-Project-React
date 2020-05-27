@@ -4,10 +4,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>4d4eb8f2-27d5-476e-a055-3841d4a7e75d</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AppData\" />
+    <Folder Include="ADL2\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

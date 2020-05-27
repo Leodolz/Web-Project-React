@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  webexamplatformbackend:
+    image: ${DOCKER_REGISTRY-}webexamplatformbackend
+    build:
+      context: .
+      dockerfile: WebExamPlatformBackend/Dockerfile
