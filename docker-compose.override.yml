@@ -2,12 +2,11 @@ version: '3.4'
 
 services:
   webexamplatformbackend:
-    image: webexamplatformbackend:latest
+    image: leodolz/webexamplatformbackend:latest
     container_name: "backend"
   webexamplatfomfrontend:
-    image: leodolzwebexamfrontend:latest
+    image: leodolz/webexamfrontend:latest
     container_name: "frontend"  
   db-server:
-    image: second-database:latest
-    #    image: examapidb:latest
+    image: leodolz/webexamplatformdb:latest
     container_name: db-server

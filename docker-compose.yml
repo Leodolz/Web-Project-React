@@ -11,20 +11,11 @@ services:
       - db-server
     networks:
       - bothnet 
-    volumes: 
-      - ./WebExamPlatformBackend/WebExamPlatformBackend/AppData:/app/data
-  
   db-server:
     environment: 
       - MSSQL_TCP_PORT=1433
-#      - MSSQL_DATABASE=ExamPlatformDB
-#      - attach_dbs="[{'dbName':'ExamPlatformDB','dbFiles':['var/opt/sqlserver/ExamPlatformDB.mdf','var/opt/sqlserver/ExamPlatformDB_log.ldf']}]"
       - ACCEPT_EULA=Y
       - SA_PASSWORD=User_123
-#      - DBUrl=http://localhost:1433
-    volumes: 
-      - ./WebExamPlatformBackend/WebExamPlatformBackend/AppData:/var/opt/sqlserver
-
     ports:
       - "1400:1433"
     networks: 
@@ -42,8 +33,3 @@ services:
 networks:
   bothnet:
     driver: bridge
-#volumes:
-#  mssql-server-linux-data:
-    #build:
-    #  context: .
-    #  dockerfile: WebExamPlatformBackend/Dockerfile
