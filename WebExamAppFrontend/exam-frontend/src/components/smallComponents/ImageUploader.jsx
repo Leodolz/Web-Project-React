@@ -37,15 +37,23 @@ class ImageUploader extends Component {
     handleSubmit(event) 
     {
         event.preventDefault();
+        let replaced = false;
+        const {fetchedImage, imagePreviewUrl} = this.state;
         console.log(this.state.file);
         const {option,contextId} = this.state;
-        this.sendImageToApi(this.state.file,option,contextId);
+        if(imagePreviewUrl!='')
+        {
+            if(fetchedImage)
+                replaced=true;
+        this.sendImageToApi(this.state.file,option,contextId,replaced);
+        }
     }
-    sendImageToApi(file,option, contextId)
+    sendImageToApi(file,option, contextId, edit)
     {
         let params = new URLSearchParams();
         params.append('contextId',contextId);
-        params.append('option',option)
+        params.append('option',option);
+        params.append('edit',edit);
         console.log(API_URL+'Images/'+params.toString());
         fetch(API_URL+'Images/'+params.toString(),
             {

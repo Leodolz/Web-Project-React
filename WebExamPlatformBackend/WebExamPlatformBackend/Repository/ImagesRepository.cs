@@ -23,5 +23,10 @@ namespace WebExamPlatformBackend.Repository
             return table.FirstOrDefault(image => image.imgContext == "option" &&
                image.contextId == optionId);
         }
+        public Image GetByContext(string context, int contextId)
+        {
+            return table.FirstOrDefault(image => image.imgContext == context &&
+                image.contextId == contextId);
+        }
     }
 }

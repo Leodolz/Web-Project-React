@@ -30,8 +30,8 @@ namespace WebExamPlatformBackend.Controllers
         [HttpGet("{id}&context={context}")]
         public ActionResult Get(int id, string context)
         {
-            Image image;
-            switch (context)
+            Image image = imagesTableController.GetByContext(context,id);
+            /*switch (context)
             {
                 case "question":
                     image = imagesTableController.GetByQuestionId(id);
@@ -42,20 +42,23 @@ namespace WebExamPlatformBackend.Controllers
                 default:
                     image = null;
                     break;
-            }
+            }*/
             if (image != null)
                 return Ok(image);
             else return Ok();
         }
-        [HttpPost("contextId={contextId}&option={option}")]
-        public async Task<ActionResult> Uploadfile(int contextId, string option)
+        [HttpPost("contextId={contextId}&option={option}&edit={edit}")]
+        public async Task<ActionResult> Uploadfile(int contextId, string option, bool edit)
          {
             try
             {
                 var content = new StreamContent(HttpContext.Request.Body);
                 byte[] recievingImage = await content.ReadAsByteArrayAsync();
                 System.Diagnostics.Debug.WriteLine(recievingImage.Length);
-                imagesTableController.AddImage(imagesTableController.NewImage(recievingImage, contextId, option));
+                if (edit)
+                    imagesTableController.EditImage(option, contextId, recievingImage);
+                else
+                    imagesTableController.AddImage(imagesTableController.NewImage(recievingImage, contextId, option));
                 return Ok();
             }
             catch (Exception e)
@@ -66,21 +69,6 @@ namespace WebExamPlatformBackend.Controllers
             }
          }
         
-        /*public async void Uploadfile()
-        {
-            
-            try
-            {
-                int.TryParse(HttpContext.Items["contextId"], out int contextId);
-                string option = HttpContext.Current.Request.Params["option"];
-                var content = new StreamContent(HttpContext.Current.Request.GetBufferlessInputStream(true));
-                byte[] recievingImage = await content.ReadAsByteArrayAsync();
-                imagesTableController.AddImage(imagesTableController.NewImage(recievingImage, contextId, option));
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-        }*/
+        
     }
 }

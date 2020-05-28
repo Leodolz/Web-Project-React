@@ -32,6 +32,10 @@ namespace WebExamPlatformBackend.DBControllers
         {
             return imagesRepository.GetByOptionId(optionId);
         }
+        public Image GetByContext(string context, int contextId)
+        {
+            return imagesRepository.GetByContext(context, contextId);
+        }
 
         public int AddImage(Image model)
         {
@@ -43,6 +47,17 @@ namespace WebExamPlatformBackend.DBControllers
             imagesRepository.Insert(model);
             imagesRepository.Save();
             return model.Id;
+        }
+        public void EditImage(string imageContext, int contextId,byte[] newImage)
+        {
+            Image model = imagesRepository.GetByContext(imageContext,contextId);
+            model.imgData = newImage;
+            EditArea(model);
+        }
+        private void EditArea(Image model)
+        {
+            imagesRepository.Update(model);
+            imagesRepository.Save();
         }
 
         public void DeleteImage(int imageId)
