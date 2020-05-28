@@ -31,18 +31,6 @@ namespace WebExamPlatformBackend.Controllers
         public ActionResult Get(int id, string context)
         {
             Image image = imagesTableController.GetByContext(context,id);
-            /*switch (context)
-            {
-                case "question":
-                    image = imagesTableController.GetByQuestionId(id);
-                    break;
-                case "option":
-                    image = imagesTableController.GetByOptionId(id);
-                    break;
-                default:
-                    image = null;
-                    break;
-            }*/
             if (image != null)
                 return Ok(image);
             else return Ok();

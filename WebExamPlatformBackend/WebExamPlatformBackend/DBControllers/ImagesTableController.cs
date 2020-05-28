@@ -24,14 +24,6 @@ namespace WebExamPlatformBackend.DBControllers
                 imgContext = context
             };
         }
-        public Image GetByQuestionId(int questionId)
-        {
-            return imagesRepository.GetByQuestionId(questionId);
-        }
-        public Image GetByOptionId(int optionId)
-        {
-            return imagesRepository.GetByOptionId(optionId);
-        }
         public Image GetByContext(string context, int contextId)
         {
             return imagesRepository.GetByContext(context, contextId);
