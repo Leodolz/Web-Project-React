@@ -238,7 +238,11 @@ class AdminHome extends Component {
     }
     GetAdminBody = () =>
     {
-        let areasBody = this.GetAreasAccordions();
+        let areasBody = 
+        <>
+            <Accordion accordions ={this.GetAreasAccordions()}/>
+            <button onClick={()=>window.location.assign('./admAreas')}>Add Area</button>
+        </>
         let examsBody = 
             <>
                 <AdminExamTable table = {this.state.exams}/>
@@ -264,7 +268,7 @@ class AdminHome extends Component {
             {id: 0, title: "Exams", body: examsBody},
             {id: 1,title: "Students", body: studentsBody},
             {id: 2,title: "Teachers", body: teachersBody},
-            {id: 3,title: "Areas", body: <Accordion accordions ={areasBody}/>},
+            {id: 3,title: "Areas", body: areasBody},
         ];
         return (
             <HorizontalTabs allTabs= {allTabs} default={0}/>

@@ -36,6 +36,7 @@ class AddEditSubAreas extends Component {
             name: null,
             students: [],
             studentsObj: [],
+            teachersObj: [],
             Id: 0,
             parentAreaId: parentAreaId
         };
