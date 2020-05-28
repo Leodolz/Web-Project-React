@@ -34,8 +34,20 @@ class SubAreaEditor extends Component {
         for(let i=0;i<students.length;i++)
         {
             let editButton = <button title={students[i].id} onClick= {this.studentEdit} className="edit">Edit</button>;
-            let student = (<li key={i} title="studentsObj" id={i}><span className="etag">{(i+1)+". "}</span>{students[i].full_name}{editButton}</li>);
+            let student = (<li key={"st"+i} title="studentsObj" id={"st"+i}><span className="etag">{(i+1)+". "}</span>{students[i].full_name}{editButton}</li>);
             studentsList.push(student);
+        }
+        return studentsList;
+    }
+    renderTeachers = () =>
+    {
+        let studentsList = [];
+        
+        let teachers = this.state.subArea.teachersObj.slice();
+        for(let i=0;i<teachers.length;i++)
+        {
+            let teacher = (<li key={"tch"+i} title="teachersObj" id={"tch"+i}><span className="etag">{(i+1)+". "}</span>{teachers[i].full_name}</li>);
+            studentsList.push(teacher);
         }
         return studentsList;
     }
@@ -47,10 +59,14 @@ class SubAreaEditor extends Component {
         let studentAttributes = (
         <React.Fragment key={"Student"}>
             <li id="Sname" title={subArea.name}><span className="etag">Name:</span> {subArea.name}{editButton}</li> 
+            <h3>Teacher(s):</h3>
+            <ul className="myUL">
+                {this.renderTeachers()}
+            </ul>
             <h3>Students: </h3>
             <ul className="myUL">
                 {this.renderStudents()}
-                <button onClick={this.handleAddStudent}>Manage Existing</button>
+                <button onClick={this.handleAddStudent}>Manage Existing Students</button>
             </ul>
             <hr/>
         </React.Fragment> 

@@ -10,6 +10,7 @@ using WebExamPlatformBackend.DAL;
 using WebExamPlatformBackend.DBControllers;
 using WebExamPlatformBackend.Models;
 using WebExamPlatformBackend.Utils;
+using WebExamPlatformBackend.Proxies;
 
 namespace WebExamPlatformBackend.Controllers
 {
@@ -49,7 +50,10 @@ namespace WebExamPlatformBackend.Controllers
             {
                 subArea = SubAreaUtils.EditedSubToSubArea(recievingSubArea, subAreaController);
                 subAreaController.EditSubArea(recievingSubArea.Id, subArea);
-                ChangeSubAreaUsers(recievingSubArea.Id, recievingSubArea.studentsObj);
+                UserController userController = new UserController();
+                //StudentTeacherProxy.UpdateFromSubArea(recievingSubArea.Id);
+                //RealAreaProxy.UpdateFromSubArea(recievingSubArea.Id, subAreaController);
+                ChangeSubAreaUsers(recievingSubArea.Id, recievingSubArea.studentsObj, recievingSubArea.teachersObj);
             }
         }
 
@@ -64,10 +68,14 @@ namespace WebExamPlatformBackend.Controllers
         public void Delete(int id)
         {
         }
-        private void ChangeSubAreaUsers(int subAreaId, User[] actualUsers)
+        private void ChangeSubAreaUsers(int subAreaId, User[] actualStudents, User[] actualTeachers)
         {
             List<int> oldSubAreaUsers = subAreaController.GetAllStudentsIds(subAreaId);
-            List<int> actualUsersIds = UserUtils.UserToUserIds(actualUsers);
+            foreach(int userId in oldSubAreaUsers)
+            {
+                StudentTeacherProxy.UpdateStudent(userId);
+            }
+            List<int> actualUsersIds = UserUtils.UserToUserIds(actualStudents.Concat(actualTeachers).ToArray());
             List<int> usersToAssign = UserUtils.OneWayCompareUsers(actualUsersIds, oldSubAreaUsers);
             List<int> usersToDelete = UserUtils.OneWayCompareUsers(oldSubAreaUsers, actualUsersIds);
             SubAreaAssignUtils.AssignUsersToSubArea(usersToAssign.ToArray(), subAreaController, subAreaId);

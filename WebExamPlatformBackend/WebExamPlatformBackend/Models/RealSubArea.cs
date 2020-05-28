@@ -14,5 +14,6 @@ namespace WebExamPlatformBackend.Models
         public string[] students { get; set; }
         public User[] studentsObj { get; set; }
         public int parentAreaId { get; set; }
+        public User[] teachersObj { get; set; }
     }
 }

@@ -71,7 +71,7 @@ class QuestionsViewer extends Component {
                             {editButton}
                             {closeButton}
                         </p>
-                        <ImageUploader id={questions[i].questionId} viewMode={this.state.viewMode} reloadAccordions ={()=>{this.reloadAccordion(document.getElementById("Question "+(i+1)))}} option="question" contextId={questions[i].questionId}/>
+                        <ImageUploader id={"Q"+questions[i].questionId} viewMode={this.state.viewMode} reloadAccordions ={()=>{this.reloadAccordion(document.getElementById("Question "+(i+1)))}} option="question" contextId={questions[i].questionId}/>
                         {optionsList}
                         </div>
                     </React.Fragment>
@@ -106,7 +106,7 @@ class QuestionsViewer extends Component {
             let listElement = (
                 <>
                     <li className="optionElement" title = {options[i].title} key={"O"+i}><p>{(i+1)}. {options[i].title}</p></li>
-                    <ImageUploader id={options[i].optionId} viewMode={viewMode} reloadAccordions ={(event)=>this.reloadAccordion(document.getElementById("Question "+(count+1)))} option="option" contextId={options[i].optionId}/>
+                    <ImageUploader id={"O"+options[i].optionId} viewMode={viewMode} reloadAccordions ={(event)=>this.reloadAccordion(document.getElementById("Question "+(count+1)))} option="option" contextId={options[i].optionId}/>
                 </>
             )
             list.push(listElement);

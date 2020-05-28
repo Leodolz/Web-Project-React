@@ -19,6 +19,7 @@ namespace WebExamPlatformBackend.DBControllers
         {
             return userRepository.GetAllUserNames();
         }
+      
         public int AddUser(User model)
         {
             var allUsers = userRepository.GetAll();

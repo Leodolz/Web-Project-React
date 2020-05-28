@@ -33,12 +33,8 @@ namespace WebExamPlatformBackend.DAL
             {
                 System.Diagnostics.Debug.WriteLine("PRINTING DIR");
                 System.Diagnostics.Debug.WriteLine(Environment.CurrentDirectory);
-                //Filename=var/opt/sqlserver/ExamPlatformDB.mdf;
-                optionsBuilder.UseSqlServer("Server=db-server;Database=ExamPlatformDB;User Id=sa;Password=User_123;multipleactiveresultsets=True");
-                //optionsBuilder.UseSqlServer("Server=db-server;Database=ExamPlatformDB;multipleactiveresultsets=True;connect timeout=30;User Id=sa;Password=MyPassword001;");//application name=EntityFramework;Password=MyPassword001;");
-                //optionsBuilder.UseSqlServer("Server=db-server;attachdbfilename=" + (Environment.CurrentDirectory) + "/WebExamPlatformBackend/AppData/ExamPlatformDB.mdf; ;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework;User=sa;Password=MyPassword001;");
-                //optionsBuilder.UseSqlServer("Server=db-server;attachdbfilename=" + (Environment.CurrentDirectory) + "\\AppData\\ExamPlatformDB.mdf;integrated security=True;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework;User=sa;Password=MyPassword001;");
-                //optionsBuilder.UseSqlServer("data source=(LocalDB)\\MSSQLLocalDB;attachdbfilename="+ (Environment.CurrentDirectory) + "\\AppData\\ExamPlatformDB.mdf;integrated security=True;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework");
+                //optionsBuilder.UseSqlServer("Server=db-server;Database=ExamPlatformDB;User Id=sa;Password=User_123;multipleactiveresultsets=True"); //For using with docker
+                optionsBuilder.UseSqlServer("data source=(LocalDB)\\MSSQLLocalDB;attachdbfilename="+ (Environment.CurrentDirectory) + "\\AppData\\ExamPlatformDB.mdf;integrated security=True;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework");
 
             }
         }

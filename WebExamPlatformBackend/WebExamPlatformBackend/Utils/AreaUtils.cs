@@ -32,6 +32,7 @@ namespace WebExamPlatformBackend.Utils
             List<int> allStudentIds = subAreaController.GetAllStudentsIds(subArea.Id);
             List<string> allStudentNames = new List<string>();
             List<User> allStudents = new List<User>();
+            List<User> allTeachers = new List<User>();
             foreach (int studentId in allStudentIds)
             {
                 User user = userController.GetById(studentId);
@@ -40,6 +41,8 @@ namespace WebExamPlatformBackend.Utils
                     allStudentNames.Add(user.username);
                     allStudents.Add(user);
                 }
+                else if (user.role == "Teacher")
+                    allTeachers.Add(user);
             }
             RealSubArea realSubArea = new RealSubArea
             {
@@ -49,6 +52,7 @@ namespace WebExamPlatformBackend.Utils
                 created = subArea.created.ToShortDateString(),
                 students = allStudentNames.ToArray(),
                 studentsObj = allStudents.ToArray(),
+                teachersObj = allTeachers.ToArray(),
             };
             return realSubArea;
         }

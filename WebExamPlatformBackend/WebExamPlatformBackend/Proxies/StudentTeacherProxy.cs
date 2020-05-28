@@ -35,5 +35,6 @@ namespace WebExamPlatformBackend.Proxies
         {
             teacherStudentsCache.RemoveAll(student => student.Id == studentId);
         }
+        
     }
 }
