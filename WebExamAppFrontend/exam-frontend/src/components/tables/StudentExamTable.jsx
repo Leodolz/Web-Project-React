@@ -41,7 +41,7 @@ class StudentTable extends Component {
     }
     GetExamByName = (id) =>
     {
-        switch(this.state.examTime)
+        switch(this.props.examTime)
         {
             case "present":
                 this.fetchExamById(id);
@@ -57,7 +57,7 @@ class StudentTable extends Component {
     }
     onSort(e, sortKey)
     {
-        const table = this.state.table.slice();
+        const table = this.props.table.slice();
         const currentSorted = sortKey;
         let oldSortingTitles= this.state.sortingTitles;
         const sortingTitles = this.changeStates(oldSortingTitles,currentSorted);
@@ -82,7 +82,7 @@ class StudentTable extends Component {
     {
         let table = [];
         let details = "Details";
-        if(this.state.examTime == "present")
+        if(this.props.examTime == "present")
             details = "Take Exam";
         
         for(let i=0;i<entries.length;i++)
@@ -90,7 +90,7 @@ class StudentTable extends Component {
             let detailsEntry = (<td key={"details"+i}>
             <p title={entries[i].id} className="tDetails" onClick={this.clickDetailsHandler}>{details}</p>
             </td>);
-            if(this.state.examTime == "future")
+            if(this.props.examTime == "future")
                 detailsEntry = null;
             let children = [];
             children.push(<td key={"title"+i}>{entries[i].title}</td>)
@@ -103,9 +103,9 @@ class StudentTable extends Component {
         return table;
     }
     render() { 
-        let tableBody = this.renderTable(this.state.table);
+        let tableBody = this.renderTable(this.props.table);
         let detailsEntry = <th>Details</th>;
-        if(this.state.examTime == "future")
+        if(this.props.examTime == "future")
             detailsEntry = null;
         return ( 
             <div className="overflow-x:auto">
@@ -125,5 +125,5 @@ class StudentTable extends Component {
          );
     }
 }
- 
+  
 export default StudentTable;
