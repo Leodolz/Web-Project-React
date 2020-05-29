@@ -90,6 +90,7 @@ class TakeExam extends Component {
     RefurbishExam = (exam)=>
     {
         exam.questions = exam.examElements;
+        console.log(exam);
         return exam;
     }
     

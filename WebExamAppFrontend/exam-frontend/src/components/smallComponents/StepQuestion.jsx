@@ -35,6 +35,8 @@ class StepQuestion extends Component {
 
     GetListedBody(array)
     {
+        if(array == null)
+            array = [];
         let listedBody = [];
         for(let i=0; i<array.length; i++)
         {

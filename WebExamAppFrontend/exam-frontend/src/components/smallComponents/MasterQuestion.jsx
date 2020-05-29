@@ -30,6 +30,7 @@ class MasterQuestion extends Component {
     constructor(props)
     {
         super(props);
+        console.log(this.props.exam);
         let quest = localStorage.getItem('CurrentQuestions');
         let marked = localStorage.getItem('MarkedQuestions');
         if(quest!=null)
@@ -155,7 +156,8 @@ class MasterQuestion extends Component {
     GoToQuestion =(event)=>
     {
         event.preventDefault();
-        this.setState({currentStep: event.target.title});
+        this.setState({currentStep: event.target.title,
+            changedStep: true});
         this.setState({overlayed: {
             overlay: false,
             formType: "",
@@ -237,6 +239,12 @@ class MasterQuestion extends Component {
     {
         let overlay = this.GetOverlayForm();
         const {hours,minutes,seconds} = this.state;
+        if(this.state.questions[0] == null)
+            return(
+                <>
+                    <h1>Loading exam...</h1>
+                </>
+            );
         let currentTimer = <CustomTimer hours={hours} minutes={minutes} seconds={seconds} stopTimer={this.stopTimer}/>
         let image =(
             <ImagePreview 
@@ -289,7 +297,6 @@ class MasterQuestion extends Component {
           currentStep: currentStep,
           changedStep: true,
         });
-        this.forceUpdate();
     }
 
     get prevButton()

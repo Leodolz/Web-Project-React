@@ -51,6 +51,7 @@ namespace WebExamPlatformBackend.Utils
             List<RealExamQuestion> allExamElements = new List<RealExamQuestion>();
             foreach (QuestionAssign question in allQuestions)
             {
+                System.Diagnostics.Debug.WriteLine("ExamQuestion: " + question.Id);
                 allExamElements.Add(GetQuestionElement(question, optionAssignController.GetAllQuestionOptions(question.Id)));
             }
             return allExamElements.ToArray();

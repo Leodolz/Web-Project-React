@@ -106,10 +106,12 @@ namespace WebExamPlatformBackend.DBControllers
         public RealExam GetStaticExamModel(Exam exam)
         {
             List<QuestionAssign> allExamQuestions = questionAssignController.GetAllExamQuestions(exam.Id);
+            RealExam realExam = GetRealExam(exam, allExamQuestions);
             return GetRealExam(exam, allExamQuestions);
         }
         private RealExam GetRealExam(Exam exam, List<QuestionAssign> allExamQuestions)
         {
+            System.Diagnostics.Debug.WriteLine("Getting exam: " + exam.title);
             RealExamQuestion[] questions = ExamUtils.GetAllQuestionElements(allExamQuestions, optionAssignController);
             return ExamUtils.ExamToRealExam(exam, questions, new SubAreaController(), new AreaController());
         }

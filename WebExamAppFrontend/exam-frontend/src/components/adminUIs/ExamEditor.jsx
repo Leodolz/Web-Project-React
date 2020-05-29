@@ -91,7 +91,7 @@ class ExamEditor extends Component {
         }
         let edit = 'true';
             if(this.props.new)
-                edit='false';
+                edit='false'; 
         fetch(API_URL+'EditExam/edit='+edit,
             {
                 method: 'POST',

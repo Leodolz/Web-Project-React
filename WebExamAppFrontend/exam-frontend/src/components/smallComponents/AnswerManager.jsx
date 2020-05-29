@@ -79,7 +79,7 @@ class AnswerManager extends Component {
         }
         else
         {
-            let currentAnswer  = this.props.tempOptions.answer[0];
+            let currentAnswer  = this.props.tempOptions.answer;
             checkBoxInputs = (<CustomRadioButtons handleChangeRadioAnswer = {this.handleChangeRadioAnswer} answer = {currentAnswer} generalArray={currentOptions} />);
         }
         return (

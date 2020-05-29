@@ -31,8 +31,8 @@ namespace WebExamPlatformBackend.DAL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                System.Diagnostics.Debug.WriteLine("PRINTING DIR");
-                System.Diagnostics.Debug.WriteLine(Environment.CurrentDirectory);
+                /*System.Diagnostics.Debug.WriteLine("PRINTING DIR");
+                System.Diagnostics.Debug.WriteLine(Environment.CurrentDirectory);*/
                 //optionsBuilder.UseSqlServer("Server=db-server;Database=ExamPlatformDB;User Id=sa;Password=User_123;multipleactiveresultsets=True"); //For using with docker
                 optionsBuilder.UseSqlServer("data source=(LocalDB)\\MSSQLLocalDB;attachdbfilename="+ (Environment.CurrentDirectory) + "\\AppData\\ExamPlatformDB.mdf;integrated security=True;multipleactiveresultsets=True;connect timeout=30;application name=EntityFramework");
 

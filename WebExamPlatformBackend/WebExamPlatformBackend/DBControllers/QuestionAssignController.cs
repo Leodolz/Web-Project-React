@@ -27,7 +27,9 @@ namespace WebExamPlatformBackend.DBControllers
         public int AssignNewStaticQuestion(StaticQuestionAssign assignment)
         {
             var allQuestionAssignments = staticQuestionRepository.GetAll();
-            int lastId = allQuestionAssignments[allQuestionAssignments.Count() - 1].Id;
+            int lastId = 0;
+            if (allQuestionAssignments.Count() > 0)
+                lastId = allQuestionAssignments[allQuestionAssignments.Count() - 1].Id;
             assignment.Id = lastId + 1;
             staticQuestionRepository.Insert(assignment);
             staticQuestionRepository.Save();

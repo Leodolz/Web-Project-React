@@ -30,7 +30,7 @@ namespace WebExamPlatformBackend.Controllers
         // GET: api/Exams/5
         [HttpGet("{id}&student={student}")]
         public ActionResult Get(int id, bool student)
-        {
+        { 
             if (student == false)
             {
                 var result = realExamProxy.GetRealExam(id);
@@ -42,6 +42,11 @@ namespace WebExamPlatformBackend.Controllers
                 }
                 RealExamProxy.UpdateRealExam(result.Id);
                 EditExamController.currentExam = result;
+                /*
+                foreach(RealExamQuestion realExamQuestion in result.examElements)
+                {
+                    realExamQuestion.answer = new string[] { };
+                }*/
                 EditExamController.Editing = true;
                 return Ok(result);
             }
