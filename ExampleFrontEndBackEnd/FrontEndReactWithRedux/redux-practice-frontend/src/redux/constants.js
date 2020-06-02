@@ -1,0 +1,12 @@
+export const GET_USER = "GET_USER";
+export const GET_ARRAY = "GET_ARRAY";
+export const POST_OBJECT = "POST_OBJECT";
+export const POST_FINISHED = "POST_FINISHED";
+export const REGISTER_USER = "REGISTER_USER";
+export const SINGLE_DATA_LOADED ="SINGLE_DATA_LOADED";
+export const PLURAL_DATA_LOADED ="PLURAL_DATA_LOADED";
+export const API_ERRORED = "API_ERRORED";
+export const API_ADRESS = "http://localhost:63466/api/";
+export const ADD_TODO = "ADD_TODO";
+export const DELETE_TODO = "DELETE_TODO"
+export const FOUND_BAD_WORD = "FOUND_BAD_WORD";
