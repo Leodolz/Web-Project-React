@@ -3,10 +3,8 @@ version: '3.4'
 services:
   simpleloginregisterbackend:
     image: aspnetcoreprojectexample:latest
-    container_name: "backend"
-#    ports:
-#      - "8000"
+    container_name: "example_backend"
   frontend:
     image: frontendexample:latest
-    container_name: "frontend"
+    container_name: "example_frontend"
 

@@ -38,14 +38,14 @@ namespace SimpleLoginRegisterBackend.Controllers
         }
 
         // POST api/values
-        public void Post(object student)
+        public IHttpActionResult Post(object student)
         {
             JObject jstudent = student as JObject;
             Student realStudent = jstudent.ToObject<Student>();
             System.Diagnostics.Debug.WriteLine("Recieved Student: " + realStudent.name);
             realStudent.ID = SavedStudents.Count + 1;
             SavedStudents.Add(realStudent);
-            
+            return Ok();
         }
 
         // PUT api/values/5
