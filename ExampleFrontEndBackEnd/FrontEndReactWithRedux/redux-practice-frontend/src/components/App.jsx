@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import UserGetter from './small_components/UserGetter';
 import UserPoster from './small_components/UserPoster';
-import TodoList from './small_components/TodoList';
+import TodoList from './small_components/TodoList.tsx';
 
 class App extends Component{
 
@@ -13,7 +13,7 @@ state = {}
           <UserGetter />
           <br/>
           <UserPoster />
-          <TodoList/>
+          <TodoList />
         </>
     );
     }

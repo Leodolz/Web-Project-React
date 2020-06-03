@@ -2,15 +2,30 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {addTodo,deleteTodo} from '../../redux/actions';
 
-class TodoList extends Component {
+interface IFromProps{
+    addTodo: Function;
+    todos: Array<Itodo>;
+    deleteTodo: Function;
+}
+
+interface Itodo{
+    readonly id: number;
+    text: string;
+}
+
+class TodoList extends Component<IFromProps> {
     state = 
     {
         addTodoInput: '',
     }
+    refs:{
+        [string:string]:any;
+        inputAdd: {value: string};
+    }
 
-    handleSubmitAdd = (event) =>
+    handleSubmitAdd = (event: React.FormEvent<HTMLFormElement>) =>
     {
-        let input = event.target.addTodo.value;
+        let input = this.refs.inputAdd.value;
         event.preventDefault()
         if (!input.trim()) {
             return
@@ -27,12 +42,12 @@ class TodoList extends Component {
                 <form
                 onSubmit={this.handleSubmitAdd}
                 >
-                    <input placeholder="New Todo" type="text" name="addTodo" ref="inputAdd"/>
+                    <input placeholder="New Todo" type="text" ref="inputAdd"/>
                     <button type="submit">Add Todo</button>
                 </form>
                 <ul>
                     {todos.map(todo=>
-                        <li id={todo.id} key={"todo"+todo.id}>{todo.text}
+                        <li id={""+todo.id} key={"todo"+todo.id}>{todo.text}
                         <button className="delete" onClick={()=>deleteTodo(todo.id)}>X</button></li>
                     )}
                 </ul>
@@ -41,7 +56,7 @@ class TodoList extends Component {
     }
 }
 
-function mapStateToProps(state)
+function mapStateToProps(state: { todos: Array<Itodo>; })
 {
     return{
         todos: state.todos,
@@ -50,8 +65,8 @@ function mapStateToProps(state)
 
 const mapDispatchToProps = dispatch=>
 ({
-    deleteTodo: id=> dispatch(deleteTodo(id)),
-    addTodo: id => dispatch(addTodo(id))
+    deleteTodo: (id: number)=> dispatch(deleteTodo(id)),
+    addTodo: (id:number) => dispatch(addTodo(id))
 })
  
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList); 

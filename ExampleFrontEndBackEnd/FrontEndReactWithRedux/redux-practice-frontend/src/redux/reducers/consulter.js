@@ -5,7 +5,7 @@ const consulter = (state= [], action) =>
     switch(action.type)
     {
         case SINGLE_DATA_LOADED:
-            return [action.payload];
+            return action.payload;
         case API_ERRORED:
             return state.concat(action.payload);
         case PLURAL_DATA_LOADED:
