@@ -4,13 +4,13 @@ import {addTodo,deleteTodo} from '../../redux/actions';
 
 interface IFromProps{
     addTodo: Function;
-    todos: Array<Itodo>;
+    todos: Array<Itodo<string>>;
     deleteTodo: Function;
 }
 
-interface Itodo{
+interface Itodo<T extends string|number>{
     readonly id: number;
-    text: string;
+    text: T;
 }
 
 class TodoList extends Component<IFromProps> {
@@ -56,14 +56,14 @@ class TodoList extends Component<IFromProps> {
     }
 }
 
-function mapStateToProps(state: { todos: Array<Itodo>; })
+function mapStateToProps(state: { todos: Readonly<Array<Itodo<string>>>; })
 {
     return{
         todos: state.todos,
     };
 }
 
-const mapDispatchToProps = dispatch=>
+const mapDispatchToProps = (dispatch)=>
 ({
     deleteTodo: (id: number)=> dispatch(deleteTodo(id)),
     addTodo: (id:number) => dispatch(addTodo(id))
